@@ -76,7 +76,7 @@
             </div>
             <div class="col-md-3">
                 <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary flex-fill">
+                    <button type="submit" class="btn btn-primary text-white flex-fill">
                         <i class="fas fa-filter me-2"></i>Filtrer
                     </button>
                     @if($search || $niveau || $objectif || $duree)
@@ -312,7 +312,7 @@
 
 <!-- Call-to-action pour les visiteurs -->
 @guest
-    <section class="py-5 bg-gradient-primary text-white">
+    <section class="py-5 bg-primary text-white">
         <div class="container-lg text-center">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
@@ -334,7 +334,7 @@
     </section>
 @else
     @if(!auth()->user()->hasRole('user') && !auth()->user()->hasRole('editor') && !auth()->user()->hasRole('admin'))
-        <section class="py-5 bg-gradient-primary text-white">
+        <section class="py-5 bg-primary text-white">
             <div class="container-lg text-center">
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
@@ -370,7 +370,7 @@
                         </a>
                     </div>
                     <div class="col-md-4">
-                        <a href="{{ route('public.index') }}" class="btn btn-outline-info btn-lg w-100">
+                        <a href="{{ route('posts.public.index') }}" class="btn btn-outline-info btn-lg w-100">
                             <i class="fas fa-newspaper me-2"></i>Articles & conseils
                         </a>
                     </div>
@@ -383,9 +383,7 @@
 
 @push('styles')
 <style>
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
+
 
 .bg-gradient-secondary {
     background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);

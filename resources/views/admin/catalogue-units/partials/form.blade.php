@@ -3,7 +3,7 @@
 <div class="row g-4">
     <div class="col-lg-8">
         <div class="card border-0 shadow-sm">
-            <div class="card-header bg-gradient-primary text-white p-4">
+            <div class="card-header bg-primary text-white p-4">
                 <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Informations de l'Unité</h5>
             </div>
             <div class="card-body p-4">
@@ -35,7 +35,7 @@
 
         <!-- Section des contenus multiples -->
         <div class="card border-0 shadow-sm mt-4">
-            <div class="card-header bg-gradient-info text-white p-4">
+            <div class="card-header bg-info text-white p-4">
                 <div class="d-flex justify-content-between align-items-center">
                     <h6 class="mb-0"><i class="fas fa-list me-2"></i>Contenus de l'unité</h6>
                     <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#addContentsModal">
@@ -82,7 +82,7 @@
 
     <div class="col-lg-4">
         <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-gradient-success text-white p-4">
+            <div class="card-header bg-success text-white p-4">
                 <h6 class="mb-0"><i class="fas fa-cog me-2"></i>Paramètres</h6>
             </div>
             <div class="card-body p-4">
@@ -161,7 +161,7 @@
 <div class="modal fade" id="addContentsModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-gradient-primary text-white">
+            <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title">
                     <i class="fas fa-plus-circle me-2"></i>Ajouter des contenus
                 </h5>
@@ -244,15 +244,11 @@
 
 @push('styles')
 <style>
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
+
 .bg-gradient-info {
     background: linear-gradient(135deg, #0dcaf0 0%, #0891b2 100%);
 }
-.bg-gradient-success {
-    background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-}
+
 .content-item-display {
     background-color: #f8f9fa;
     transition: all 0.3s ease;

@@ -80,17 +80,17 @@
                                 <i class="fas fa-arrow-up me-2"></i>Choisir Un Accès illimité
                             </a>
                             <a href="https://buy.stripe.com/6oUeVd9R478716NgIvgnK00"
-                                class="btn btn-light"
+                                class="btn bg-warning text-white p-2"
                                 target="_blank">
                                 <i class="fas fa-lock-open me-2"></i>3 mois (45€)
                             </a>
                             <a href="https://buy.stripe.com/dRm28r5AOfEDaHn0JxgnK02"
-                            class="btn btn-light"
+                            class="btn bg-warning text-white p-2"
                             target="_blank">
                             <i class="fas fa-credit-card me-2"></i>12 mois (96€)
                         </a>
                         <a href="https://buy.stripe.com/6oU9AT7IW8cbeXD1NBgnK01"
-                            class="btn btn-light"
+                            class="btn bg-warning text-white p-2"
                             target="_blank">
                             <i class="fas fa-credit-card me-2"></i>6 mois (66€)
                         </a> *Paiement unique
@@ -260,7 +260,7 @@
         'description' => 'Découvrez nos derniers articles et conseils',
         'icon' => 'fas fa-newspaper',
         'color' => 'info',
-        'route' => route('public.index')
+        'route' => route('posts.public.index')
         ],
         [
         'title' => 'Outils Calculateurs',
@@ -522,7 +522,7 @@
                     <h5 class="mb-0">
                         Articles
                     </h5>
-                    <a href="{{ route('public.index') }}" class="btn btn-lg btn-light d-flex align-items-center px-4">
+                    <a href="{{ route('posts.public.index') }}" class="btn btn-lg btn-light d-flex align-items-center px-4">
                         <i class="fas fa-water me-1"></i> + Dossiers
                     </a>
                 </div>
@@ -558,7 +558,7 @@
                             {{ $article->category->name ?? 'Non catégorisé' }}
                         </span>
                         <h6 class="card-title mb-2">
-                            <a href="{{ route('public.show', $article) }}"
+                            <a href="{{ route('posts.public.show', $article) }}"
                                 class="text-decoration-none text-dark">
                                 {!! Str::limit($article->name, 50) !!}
                             </a>

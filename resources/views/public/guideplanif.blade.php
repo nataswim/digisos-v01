@@ -5,7 +5,7 @@
 @section('content')
 
 <!-- Hero Section -->
-<section class="bg-gradient-primary text-white py-5">
+<section class="bg-primary text-white py-5">
     <div class="container-lg">
         <div class="row align-items-center">
             <div class="col-lg-7 mb-4 mb-lg-0">
@@ -1682,7 +1682,7 @@
         <!-- Règles d'or -->
         <div class="row g-4">
             <div class="col-12">
-                <div class="card bg-gradient-success text-white shadow-lg">
+                <div class="card bg-success text-white shadow-lg">
                     <div class="card-body p-4">
                         <h3 class="h4 mb-4"><i class="fas fa-star me-2"></i>Les 5 règles d'or</h3>
                         <div class="row g-3">
@@ -1903,7 +1903,7 @@
 
 
 <!-- CTA Final -->
-<section class="py-5 bg-gradient-primary text-white">
+<section class="py-5 bg-primary text-white">
     <div class="container-lg">
         <div class="text-center">
             <i class="fas fa-calendar-check fa-3x mb-4"></i>
@@ -2005,7 +2005,7 @@
 
 
 <!--  Section -->
-<section class="bg-gradient-primary text-white py-5">
+<section class="bg-primary text-white py-5">
     <div class="container-lg">
         <div class="row align-items-center">
 
@@ -2026,13 +2026,9 @@
 
 @push('styles')
 <style>
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
 
-.bg-gradient-success {
-    background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-}
+
+
 
 .hover-lift {
     transition: all 0.3s ease;

@@ -91,7 +91,7 @@
                                 @if($plan->image)
                                     <img src="{{ $plan->image }}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="">
                                 @else
-                                    <div class="card-img-top bg-gradient-primary d-flex align-items-center justify-content-center" style="height: 200px;">
+                                    <div class="card-img-top bg-primary d-flex align-items-center justify-content-center" style="height: 200px;">
                                         <i class="fas fa-calendar-alt fa-3x text-white opacity-50"></i>
                                     </div>
                                 @endif
@@ -171,7 +171,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="d-flex gap-2">
-                                <button type="submit" class="btn btn-primary flex-fill">
+                                <button type="submit" class="btn btn-primary text-white flex-fill">
                                     <i class="fas fa-search me-2"></i>Rechercher
                                 </button>
                                 @if(request()->hasAny(['search', 'niveau', 'objectif']))
@@ -275,9 +275,7 @@
 
 @push('styles')
 <style>
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
+
 
 .card:hover {
     transform: translateY(-2px);

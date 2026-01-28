@@ -218,9 +218,7 @@
     box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
 }
 
-.bg-gradient-info {
-    background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
-}
+
 
 /* Responsive pour mobile */
 @media (max-width: 767px) {

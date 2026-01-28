@@ -43,7 +43,7 @@
                     <div class="row g-3 mb-4">
                         @if($seance->duree_estimee_minutes)
                             <div class="col-md-3">
-                                <div class="bg-primary bg-opacity-10 rounded p-3 text-center">
+                                <div class="bg-info bg-opacity-10 rounded p-3 text-center">
                                     <h4 class="fw-bold text-primary mb-1">{{ $seance->duree_estimee_formattee }}</h4>
                                     <small class="text-muted">Durée estimée</small>
                                 </div>

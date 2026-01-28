@@ -286,7 +286,7 @@ public function categories()
         ->orderBy('name', 'asc')
         ->get();
 
-    return view('public.categories.index', compact('categories'));
+    return view('public.index', compact('categories'));
 }
 
 

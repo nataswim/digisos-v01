@@ -8,7 +8,7 @@
         <!-- Contenu principal -->
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-gradient-primary text-white p-4">
+                <div class="card-header bg-primary text-white p-4">
                     <div class="d-flex align-items-center justify-content-between">
                         <h5 class="mb-0">
                             <i class="fas fa-folder me-2"></i>{{ $exerciceCategory->name }}
@@ -109,7 +109,7 @@
         <div class="col-lg-4">
             <!-- Statistiques -->
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-gradient-success text-white p-3">
+                <div class="card-header bg-success text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-chart-bar me-2"></i>Statistiques
                     </h6>
@@ -123,7 +123,7 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="bg-primary bg-opacity-10 rounded p-3">
+                            <div class="bg-info bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-primary mb-1">{{ $exerciceCategory->exercices_count ?? 0 }}</h4>
                                 <small class="text-muted">Exercices</small>
                             </div>
@@ -140,7 +140,7 @@
 
             <!-- Historique -->
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-gradient-secondary text-white p-3">
+                <div class="card-header bg-secondary text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-clock me-2"></i>Historique
                     </h6>
@@ -241,13 +241,9 @@
     padding-left: 1.5rem;
 }
 
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
 
-.bg-gradient-success {
-    background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-}
+
+
 
 .bg-gradient-secondary {
     background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);

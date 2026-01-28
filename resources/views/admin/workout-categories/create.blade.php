@@ -13,7 +13,7 @@
             <!-- Contenu principal -->
             <div class="col-lg-8">
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-gradient-info text-white p-4">
+                    <div class="card-header bg-info text-white p-4">
                         <h5 class="mb-0">Informations de la catégorie</h5>
                     </div>
                     <div class="card-body p-4">
@@ -61,7 +61,7 @@
             <div class="col-lg-4">
                 <!-- Section -->
                 <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-header bg-gradient-primary text-white p-4">
+                    <div class="card-header bg-primary text-white p-4">
                         <h6 class="mb-0">
                             <i class="fas fa-layer-group me-2"></i>Section
                         </h6>
@@ -87,7 +87,7 @@
 
                 <!-- Statut -->
                 <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-header bg-gradient-success text-white p-4">
+                    <div class="card-header bg-success text-white p-4">
                         <h6 class="mb-0">
                             <i class="fas fa-toggle-on me-2"></i>Statut et organisation
                         </h6>
@@ -171,15 +171,5 @@ document.addEventListener('DOMContentLoaded', function() {
 @endpush
 
 @push('styles')
-<style>
-.bg-gradient-info {
-    background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
-}
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
-.bg-gradient-success {
-    background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-}
-</style>
+
 @endpush

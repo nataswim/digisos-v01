@@ -66,7 +66,7 @@
                                      style="height: 220px; object-fit: cover;"
                                      alt="{{ $exercice->titre }}">
                             @else
-                                <div class="card-img-top bg-gradient-primary d-flex align-items-center justify-content-center" 
+                                <div class="card-img-top bg-primary d-flex align-items-center justify-content-center" 
                                      style="height: 220px;">
                                     <i class="fas fa-running fa-4x text-white opacity-50"></i>
                                 </div>
@@ -126,10 +126,10 @@
 <section class="py-4 bg-primary ">
     <div class="container">
         <div class="d-flex flex-wrap justify-content-center gap-3">
-            <a href="{{ route('exercices.category', $category) }}" class="btn btn-light">
+            <a href="{{ route('exercices.category', $category) }}" class="btn bg-warning text-white p-2">
                 <i class="fas fa-arrow-left me-2"></i>Retour à {{ $category->name }}
             </a>
-            <a href="{{ route('exercices.index') }}" class="btn btn-light">
+            <a href="{{ route('exercices.index') }}" class="btn bg-warning text-white p-2">
                 <i class="fas fa-th me-2"></i>Toutes les catégories
             </a>
         </div>
@@ -159,8 +159,6 @@
     box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
 }
 
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
+
 </style>
 @endpush

@@ -59,7 +59,7 @@
                 <h2 class="h3 fw-bold mb-4">1. Introduction</h2>
                 <p class="mb-4">
                     La présente politique de cookies et de traitement des données personnelles décrit la manière dont 
-                    Nataswim (ci-après "nous", "notre", "nos") collecte, utilise et partage les informations, y compris 
+                    DIGITALSOS (ci-après "nous", "notre", "nos") collecte, utilise et partage les informations, y compris 
                     vos données personnelles, lorsque vous utilisez notre site web.
                 </p>
                 <p class="mb-5">

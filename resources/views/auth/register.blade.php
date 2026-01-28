@@ -7,19 +7,7 @@
             <div class="col-lg-8 col-md-10">
                 <div class="card border-0 shadow-lg">
                     <div class="card-body p-5">
-                        <!-- Logo et titre -->
-                        <div class="text-center mb-4">
-                            <div class="text-center">
-                                <div class="position-relative d-inline-block bg-white rounded-circle">
-                                    <a href="{{ route('public.categories.index') }}"> <img src="{{ asset('assets/images/team/nataswim_app_logo_2.png') }}"
-                                            alt="nataswim application pour tous"
-                                            class="img-fluid"
-                                            style="max-width: 200px;height: auto;box-shadow: 0 0 40px rgba(255,255,255,.8),0 0 10px #fff;border-radius: 100%;"></a>
-                                </div>
-                            </div>
-                            <h2 class="fw-bold">Inscription</h2>
-                            <p class="text-muted">Votre adresse e-mail doit être valide pour confirmer votre inscription. Votre mot de passe est strictement confidentiel : nous ne le stockons jamais en clair et n’y avons pas accès. Vos données sont protégées et chiffrées.</p>
-                        </div>
+                        
 
                         <form method="POST" action="{{ route('register') }}" id="registerForm">
                             @csrf
@@ -436,36 +424,10 @@
 </div>
 
 
-<section class="py-5 text-center">
-    <!-- Bandeau Prix -->
-    <div class="alert alert-warning border-0 shadow-sm text-center">
-        <div class="row align-items-center">
-            <div class="col mx-auto">
-                <p class="mb-3">
-                    <strong>Pour les inscriptions premium de groupes, clubs ou centres de formation, veuillez <a href="{{ route('contact') }}">
-                            Nous contacter <i class="fas fa-envelope me-2"></i> </a>.</strong>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="alert alert-success border-0 shadow-sm text-center">
-        <div class="row align-items-center">
-            <div class="col mx-auto">
-                <p class="mb-3">
-                    Si vous avez déjà participé à nos <strong>camps, stages, formations ou webinaires, </strong> veuillez valider votre compte sur la plateforme. Les liens d'accès vous ont été envoyés suite à votre inscription.
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
 
 
 
 
-
-
-
-<!-- Script pour gérer le champ "Autre" et la bio -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Gestion du champ "Autre" pour la bio

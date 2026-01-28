@@ -1,12 +1,9 @@
-<nav class="navbar navbar-expand-lg" style="border-left: 20px solid #f9f5f4;border-right: 20px solid #f9f5f4;background-color: #fff !important;border-bottom: 20px solid #4ccac6;border-top: 20px solid #4ccac6;">
+<nav class="navbar navbar-expand-lg" style="border-left: 20px solid #ffffff;border-right: 20px solid #ffffff;border-bottom: 10px solid #63d0c7;border-top: 10px solid #63d0c7;background-image: linear-gradient(197deg, rgb(255 255 255) 85%, rgb(99, 208, 199) 0px);background-attachment: scroll;background-position: bottom;">
+    
+
 
     <div class="container-lg">
-        <!-- Logo -->
-        <a class="navbar-brand d-flex align-items-center" href="{{ route('admin.dashboard') }}">
-            <img src="{{ asset('assets/images/team/nataswim_app_logo_4.png') }}"
-                alt="nataswim"
-                style="height: 50px; width: auto;">
-        </a>
+
 
         <!-- Bouton burger pour mobile -->
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,33 +14,28 @@
         <div class="collapse navbar-collapse" id="mainNavbar">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-                <!-- Médias -->
+                <!-- Dashboard -->
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.media.*') && !request()->routeIs('admin.media.categories') ? 'active fw-bold text-primary' : '' }}" href="{{ route('admin.media.index') }}">
-                        Images
-                        @php $mediaCount = App\Models\Media::count(); @endphp
-                        @if($mediaCount > 0)
-                        <span class="badge bg-success ms-1">{{ $mediaCount }}</span>
-                        @endif
+                    <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active fw-bold text-primary' : '' }}" href="{{ route('admin.dashboard') }}">
+                        <i class="fas fa-home me-1"></i>Dashboard
                     </a>
                 </li>
 
                 <!-- Articles (dropdown) -->
                 <li class="nav-item dropdown">
-                    @php $articlesActive = request()->routeIs('admin.posts.*', 'admin.categories.*', 'admin.tags.*', 'admin.aitext.*'); @endphp
+                    @php $articlesActive = request()->routeIs('admin.posts.*', 'admin.categories.*', 'admin.tags.*'); @endphp
                     <a class="nav-link dropdown-toggle {{ $articlesActive ? 'active fw-bold text-primary' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        
                         Articles
                     </a>
                     <ul class="dropdown-menu">
                         <li>
                             <a class="dropdown-item {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}" href="{{ route('admin.posts.index') }}">
-                                <i class="fas fa-list fa-fw me-2"></i>Liste
+                                <i class="fas fa-newspaper fa-fw me-2"></i>Liste
                                 <span class="badge bg-info ms-2">{{ App\Models\Post::count() }}</span>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.categories.*') && !request()->routeIs('admin.fiches-categories.*') && !request()->routeIs('admin.workout-categories.*') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}">
+                            <a class="dropdown-item {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}">
                                 <i class="fas fa-folder-open fa-fw me-2"></i>Catégories
                             </a>
                         </li>
@@ -52,28 +44,19 @@
                                 <i class="fas fa-tags fa-fw me-2"></i>Tags
                             </a>
                         </li>
-                        @if(auth()->user()->hasRole('admin'))
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.aitext.*') ? 'active' : '' }}" href="{{ route('admin.aitext.settings') }}">
-                                <i class="fas fa-robot fa-fw me-2"></i>AI Text Optimizer
-                            </a>
-                        </li>
-                        @endif
                     </ul>
                 </li>
 
                 <!-- Fiches (dropdown) -->
                 <li class="nav-item dropdown">
-                    @php $fichesActive = request()->routeIs('admin.fiches.*', 'admin.fiches-categories.*'); @endphp
+                    @php $fichesActive = request()->routeIs('admin.fiches.*', 'admin.fiches-categories.*', 'admin.fiches-sous-categories.*'); @endphp
                     <a class="nav-link dropdown-toggle {{ $fichesActive ? 'active fw-bold text-primary' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        
                         Fiches
                     </a>
                     <ul class="dropdown-menu">
                         <li>
                             <a class="dropdown-item {{ request()->routeIs('admin.fiches.index', 'admin.fiches.create', 'admin.fiches.edit', 'admin.fiches.show') ? 'active' : '' }}" href="{{ route('admin.fiches.index') }}">
-                                <i class="fas fa-list-alt fa-fw me-2"></i>Fiches
+                                <i class="fas fa-file-alt fa-fw me-2"></i>Fiches
                                 @php $fichesCount = App\Models\Fiche::count(); @endphp
                                 @if($fichesCount > 0)
                                 <span class="badge bg-success ms-2">{{ $fichesCount }}</span>
@@ -89,8 +72,8 @@
                                 @endif
                             </a>
                         </li>
- <li>
-                            <a  class="dropdown-item {{ request()->routeIs('admin.fiches-categories.*') ? 'active' : '' }}" href="{{ route('admin.fiches-sous-categories.index') }}">
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('admin.fiches-sous-categories.*') ? 'active' : '' }}" href="{{ route('admin.fiches-sous-categories.index') }}">
                                 <i class="fas fa-folder-tree fa-fw me-2"></i>Sous-catégories
                                 @php $fichesSousCategoriesCount = App\Models\FichesSousCategory::count(); @endphp
                                 @if($fichesSousCategoriesCount > 0)
@@ -98,8 +81,6 @@
                                 @endif
                             </a>
                         </li>
-
-
                     </ul>
                 </li>
 
@@ -107,13 +88,12 @@
                 <li class="nav-item dropdown">
                     @php $videosActive = request()->routeIs('admin.videos.*', 'admin.video-categories.*'); @endphp
                     <a class="nav-link dropdown-toggle {{ $videosActive ? 'active fw-bold text-primary' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        
                         Vidéos
                     </a>
                     <ul class="dropdown-menu">
                         <li>
                             <a class="dropdown-item {{ request()->routeIs('admin.videos.index', 'admin.videos.create', 'admin.videos.edit', 'admin.videos.show') ? 'active' : '' }}" href="{{ route('admin.videos.index') }}">
-                                <i class="fas fa-play-circle fa-fw me-2"></i>Vidéos
+                                <i class="fas fa-video fa-fw me-2"></i>Vidéos
                                 @php $videosCount = App\Models\Video::count(); @endphp
                                 @if($videosCount > 0)
                                 <span class="badge bg-danger ms-2">{{ $videosCount }}</span>
@@ -132,109 +112,73 @@
                     </ul>
                 </li>
 
-                <!-- Workouts (dropdown) -->
+                <!-- Téléchargements (dropdown) -->
                 <li class="nav-item dropdown">
-                    @php $workoutsActive = request()->routeIs('admin.workouts.*', 'admin.workout-categories.*', 'admin.workout-sections.*'); @endphp
-                    <a class="nav-link dropdown-toggle {{ $workoutsActive ? 'active fw-bold text-primary' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Workouts
+                    @php $downloadsActive = request()->routeIs('admin.downloadables.*', 'admin.download-categories.*'); @endphp
+                    <a class="nav-link dropdown-toggle {{ $downloadsActive ? 'active fw-bold text-primary' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Téléchargements
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.workouts.*') ? 'active' : '' }}" href="{{ route('admin.workouts.index') }}">
-                                <i class="fas fa-running fa-fw me-2"></i>Séances
+                            <a class="dropdown-item {{ request()->routeIs('admin.downloadables.*') ? 'active' : '' }}" href="{{ route('admin.downloadables.index') }}">
+                                <i class="fas fa-download fa-fw me-2"></i>Téléchargements
+                                @php $downloadablesCount = App\Models\Downloadable::count(); @endphp
+                                @if($downloadablesCount > 0)
+                                <span class="badge bg-success ms-2">{{ $downloadablesCount }}</span>
+                                @endif
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.workout-categories.*') ? 'active' : '' }}" href="{{ route('admin.workout-categories.index') }}">
+                            <a class="dropdown-item {{ request()->routeIs('admin.download-categories.*') ? 'active' : '' }}" href="{{ route('admin.download-categories.index') }}">
                                 <i class="fas fa-folder fa-fw me-2"></i>Catégories
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.workout-sections.*') ? 'active' : '' }}" href="{{ route('admin.workout-sections.index') }}">
-                                <i class="fas fa-th-large fa-fw me-2"></i>Sections
                             </a>
                         </li>
                     </ul>
                 </li>
 
-                <!-- Exercices (dropdown) -->
+                <!-- Médias (dropdown) -->
                 <li class="nav-item dropdown">
-                    @php $exercicesActive = request()->routeIs('admin.training.exercices.*', 'admin.exercice-categories.*', 'admin.exercice-sous-categories.*'); @endphp
-                    <a class="nav-link dropdown-toggle {{ $exercicesActive ? 'active fw-bold text-primary' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-Exercices
+                    @php $mediaActive = request()->routeIs('admin.media.*'); @endphp
+                    <a class="nav-link dropdown-toggle {{ $mediaActive ? 'active fw-bold text-primary' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Médias
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.training.exercices.*') ? 'active' : '' }}" href="{{ route('admin.training.exercices.index') }}">
-                                <i class="fas fa-list fa-fw me-2"></i>Exercices
+                            <a class="dropdown-item {{ request()->routeIs('admin.media.index') ? 'active' : '' }}" href="{{ route('admin.media.index') }}">
+                                <i class="fas fa-images fa-fw me-2"></i>Images
+                                @php $mediaCount = App\Models\Media::count(); @endphp
+                                @if($mediaCount > 0)
+                                <span class="badge bg-success ms-2">{{ $mediaCount }}</span>
+                                @endif
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.exercice-categories.*') ? 'active' : '' }}" href="{{ route('admin.exercice-categories.index') }}">
+                            <a class="dropdown-item {{ request()->routeIs('admin.media.categories') ? 'active' : '' }}" href="{{ route('admin.media.categories') }}">
                                 <i class="fas fa-folder fa-fw me-2"></i>Catégories
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.exercice-sous-categories.*') ? 'active' : '' }}" href="{{ route('admin.exercice-sous-categories.index') }}">
-                                <i class="fas fa-folder-tree fa-fw me-2"></i>Sous-catégories
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <!-- Planification (dropdown) -->
-                <li class="nav-item dropdown">
-                    @php $planificationActive = request()->routeIs('admin.training.plans.*', 'admin.training.cycles.*', 'admin.training.seances.*', 'admin.training.series.*'); @endphp
-                    <a class="nav-link dropdown-toggle {{ $planificationActive ? 'active fw-bold text-primary' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Planification
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.training.plans.*') ? 'active' : '' }}" href="{{ route('admin.training.plans.index') }}">
-                                <i class="fas fa-clipboard-list fa-fw me-2"></i>Plans
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.training.cycles.*') ? 'active' : '' }}" href="{{ route('admin.training.cycles.index') }}">
-                                <i class="fas fa-recycle fa-fw me-2"></i>Cycles
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.training.seances.*') ? 'active' : '' }}" href="{{ route('admin.training.seances.index') }}">
-                                <i class="fas fa-clock fa-fw me-2"></i>Séances
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.training.series.*') ? 'active' : '' }}" href="{{ route('admin.training.series.index') }}">
-                                <i class="fas fa-layer-group fa-fw me-2"></i>Séries
                             </a>
                         </li>
                     </ul>
                 </li>
 
                 <!-- Utilisateurs (dropdown) -->
-                @if(auth()->user()->hasRole('admin'))
                 <li class="nav-item dropdown">
-                    @php $adminUsersActive = request()->routeIs('admin.users.*', 'admin.roles.*', 'admin.permissions.*', 'admin.payments.*'); @endphp
-                    <a class="nav-link dropdown-toggle {{ $adminUsersActive ? 'active fw-bold text-primary' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Membres
+                    @php $usersActive = request()->routeIs('admin.users.*', 'admin.roles.*', 'admin.permissions.*'); @endphp
+                    <a class="nav-link dropdown-toggle {{ $usersActive ? 'active fw-bold text-primary' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Utilisateurs
                     </a>
                     <ul class="dropdown-menu">
                         <li>
                             <a class="dropdown-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">
                                 <i class="fas fa-users fa-fw me-2"></i>Utilisateurs
+                                @php $usersCount = App\Models\User::count(); @endphp
+                                @if($usersCount > 0)
+                                <span class="badge bg-primary ms-2">{{ $usersCount }}</span>
+                                @endif
                             </a>
                         </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.payments.*') ? 'active' : '' }}" href="{{ route('admin.payments.index') }}">
-                                <i class="fas fa-credit-card fa-fw me-2"></i>Paiements
-                            </a>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><h6 class="dropdown-header">Accès & Sécurité</h6></li>
                         <li>
                             <a class="dropdown-item {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}" href="{{ route('admin.roles.index') }}">
-                                <i class="fas fa-user-shield fa-fw me-2"></i>Rôles
+                                <i class="fas fa-user-tag fa-fw me-2"></i>Rôles
                             </a>
                         </li>
                         <li>
@@ -244,85 +188,27 @@ Exercices
                         </li>
                     </ul>
                 </li>
-                @endif
 
-                <!-- eBooks (dropdown) -->
+                <!-- Système (dropdown) -->
                 <li class="nav-item dropdown">
-                    @php $ebooksActive = request()->routeIs('admin.downloadables.*', 'admin.download-categories.*', 'admin.ebook-files.*'); @endphp
-                    <a class="nav-link dropdown-toggle {{ $ebooksActive ? 'active fw-bold text-primary' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-
-                        eBooks
+                    @php $systemActive = request()->routeIs('admin.sitemap.*', 'admin.settings.*'); @endphp
+                    <a class="nav-link dropdown-toggle {{ $systemActive ? 'active fw-bold text-primary' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Système
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.downloadables.*') ? 'active' : '' }}" href="{{ route('admin.downloadables.index') }}">
-                                <i class="fas fa-download fa-fw me-2"></i>Téléchargements
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.download-categories.*') ? 'active' : '' }}" href="{{ route('admin.download-categories.index') }}">
-                                <i class="fas fa-folder fa-fw me-2"></i>Catégories
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.ebook-files.*') ? 'active' : '' }}" href="{{ route('admin.ebook-files.index') }}">
-                                <i class="fas fa-file-archive fa-fw me-2"></i>Fichiers eBook
+                            <a class="dropdown-item {{ request()->routeIs('admin.sitemap.*') ? 'active' : '' }}" href="{{ route('admin.sitemap.index') }}">
+                                <i class="fas fa-sitemap fa-fw me-2"></i>Sitemap
                             </a>
                         </li>
                     </ul>
                 </li>
 
-                <!-- Catalogue (dropdown) - VERSION APRÈS CORRECTION WEB.PHP -->
-                <li class="nav-item dropdown">
-                    @php $catalogueActive = request()->routeIs('admin.catalogue-sections.*', 'admin.catalogue-modules.*', 'admin.catalogue-units.*'); @endphp
-                    <a class="nav-link dropdown-toggle {{ $catalogueActive ? 'active fw-bold text-primary' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-
-                        Formation
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.catalogue-sections.*') ? 'active' : '' }}" href="{{ route('admin.catalogue-sections.index') }}">
-                                <i class="fas fa-layer-group fa-fw me-2"></i>Sections
-                                @php $sectionsCount = App\Models\CatalogueSection::count(); @endphp
-                                @if($sectionsCount > 0)
-                                <span class="badge bg-primary ms-2">{{ $sectionsCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.catalogue-modules.*') ? 'active' : '' }}" href="{{ route('admin.catalogue-modules.index') }}">
-                                <i class="fas fa-book-open fa-fw me-2"></i>Modules
-                                @php $modulesCount = App\Models\CatalogueModule::count(); @endphp
-                                @if($modulesCount > 0)
-                                <span class="badge bg-success ms-2">{{ $modulesCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.catalogue-units.*') ? 'active' : '' }}" href="{{ route('admin.catalogue-units.index') }}">
-                                <i class="fas fa-puzzle-piece fa-fw me-2"></i>Unités
-                                @php $unitsCount = App\Models\CatalogueUnit::count(); @endphp
-                                @if($unitsCount > 0)
-                                <span class="badge bg-info ms-2">{{ $unitsCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <a class="dropdown-item" href="{{ route('public.catalogue.index') }}" target="_blank">
-                                <i class="fas fa-external-link-alt fa-fw me-2"></i>Voir le catalogue public
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                
             </ul>
 
             <!-- Actions utilisateur (droite) -->
             <div class="d-flex align-items-center gap-2">
 
-                
                 <!-- Notifications -->
                 <div class="dropdown">
                     <button class="btn btn-outline-secondary btn-sm position-relative rounded-circle" 
@@ -357,7 +243,7 @@ Exercices
                 
                 <!-- Menu utilisateur -->
                 <div class="dropdown">
-                    <button class="btn btn-outline-primary btn-sm dropdown-toggle d-flex align-items-center" 
+                    <button class="btn btn-danger text-white btn-sm dropdown-toggle d-flex align-items-center" 
                             data-bs-toggle="dropdown">
                         <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" 
                              style="width: 28px; height: 28px; font-size: 12px;">
@@ -368,13 +254,13 @@ Exercices
                     
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
-                            <a class="dropdown-item" href="{{ route('admin.profile.show') }}">
+                            <a class="dropdown-item" href="{{ route('profile.edit') }}">
                                 <i class="fas fa-user me-2"></i>Mon profil
                             </a>
                         </li>
                         <li>
                             <a class="dropdown-item" href="{{ route('home') }}">
-                                <i class="fas fa-water me-2"></i>Voir le site
+                                <i class="fas fa-home me-2"></i>Voir le site
                             </a>
                         </li>
                         <li><hr class="dropdown-divider"></li>

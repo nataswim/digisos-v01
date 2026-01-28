@@ -10,7 +10,7 @@
         <!-- Contenu principal -->
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-gradient-primary text-white p-4">
+                <div class="card-header bg-primary text-white p-4">
                     <div class="d-flex align-items-center justify-content-between">
                         <h5 class="mb-0">
                             <i class="fas fa-layer-group me-2"></i>{{ $catalogueSection->name }}
@@ -77,7 +77,7 @@
         <!-- Sidebar -->
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-gradient-info text-white p-3">
+                <div class="card-header bg-info text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-info-circle me-2"></i>Informations
                     </h6>
@@ -144,12 +144,5 @@
 @endsection
 
 @push('styles')
-<style>
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
-.bg-gradient-info {
-    background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
-}
-</style>
+
 @endpush

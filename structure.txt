@@ -1,5 +1,5 @@
+// tree -L 8 -I 'vendor|node_modules|storage|bootstrap/cache' > structure.txt
 .
-├── 0 rename postcss.config.js
 ├── app
 │   ├── Console
 │   │   └── Commands
@@ -8,8 +8,8 @@
 │   │       └── GenerateSitemap.php
 │   ├── Http
 │   │   ├── Controllers
+│   │   │   ├── AITextController.php
 │   │   │   ├── Admin
-│   │   │   │   ├── CatalogueModuleController.php
 │   │   │   │   ├── CatalogueSectionController.php
 │   │   │   │   ├── CatalogueUnitController.php
 │   │   │   │   ├── CycleController.php
@@ -24,7 +24,6 @@
 │   │   │   │   ├── VideoCategoryController.php
 │   │   │   │   ├── VideoController.php
 │   │   │   │   └── VideoLibraryController.php
-│   │   │   ├── AITextController.php
 │   │   │   ├── AnatomyController.php
 │   │   │   ├── Auth
 │   │   │   │   ├── AuthenticatedSessionController.php
@@ -34,13 +33,14 @@
 │   │   │   │   ├── NewPasswordController.php
 │   │   │   │   ├── PasswordController.php
 │   │   │   │   ├── PasswordResetLinkController.php
+│   │   │   │   ├── RegisteredUserController copy.php
 │   │   │   │   ├── RegisteredUserController.php
 │   │   │   │   └── VerifyEmailController.php
 │   │   │   ├── CatalogueController.php
 │   │   │   ├── CategoryController.php
 │   │   │   ├── Controller.php
-│   │   │   ├── DownloadableController.php
 │   │   │   ├── DownloadCategoryController.php
+│   │   │   ├── DownloadableController.php
 │   │   │   ├── EbookController.php
 │   │   │   ├── EbookFileController.php
 │   │   │   ├── EquipementController.php
@@ -54,12 +54,14 @@
 │   │   │   ├── PlanPublicController.php
 │   │   │   ├── PostController.php
 │   │   │   ├── ProfileController.php
+│   │   │   ├── PublicController copy.php
 │   │   │   ├── PublicController.php
 │   │   │   ├── PublicController0.php
 │   │   │   ├── PublicFicheController.php
 │   │   │   ├── PublicVideoController.php
 │   │   │   ├── PublicWorkoutController.php
 │   │   │   ├── RoleController.php
+│   │   │   ├── SearchController.php
 │   │   │   ├── TagController.php
 │   │   │   ├── ToolController.php
 │   │   │   ├── User
@@ -74,15 +76,16 @@
 │   │       ├── AddMultipleCatalogueUnitContentsRequest.php
 │   │       ├── AssignPlanRequest.php
 │   │       ├── Auth
-│   │       │   └── LoginRequest.php
+│   │       │   ├── LoginRequest.php
+│   │       │   └── RegisterRequest.php
 │   │       ├── BulkMediaActionRequest.php
 │   │       ├── ProfileUpdateRequest.php
 │   │       ├── StoreCatalogueModuleRequest.php
 │   │       ├── StoreCatalogueSectionRequest.php
 │   │       ├── StoreCatalogueUnitRequest.php
 │   │       ├── StoreCategoryRequest.php
-│   │       ├── StoreDownloadableRequest.php
 │   │       ├── StoreDownloadCategoryRequest.php
+│   │       ├── StoreDownloadableRequest.php
 │   │       ├── StoreExerciceRequest.php
 │   │       ├── StoreFicheRequest.php
 │   │       ├── StoreMediaCategoryRequest.php
@@ -104,8 +107,8 @@
 │   │       ├── UpdateCatalogueSectionRequest.php
 │   │       ├── UpdateCatalogueUnitRequest.php
 │   │       ├── UpdateCategoryRequest.php
-│   │       ├── UpdateDownloadableRequest.php
 │   │       ├── UpdateDownloadCategoryRequest.php
+│   │       ├── UpdateDownloadableRequest.php
 │   │       ├── UpdateExerciceRequest.php
 │   │       ├── UpdateFicheRequest.php
 │   │       ├── UpdatePermissionRequest.php
@@ -123,51 +126,30 @@
 │   ├── Mail
 │   │   └── ContactFormMail.php
 │   ├── Models
-│   │   ├── CatalogueModule.php
-│   │   ├── CatalogueSection.php
-│   │   ├── CatalogueUnit.php
-│   │   ├── CatalogueUnitContent.php
 │   │   ├── Category.php
-│   │   ├── Cycle.php
-│   │   ├── Downloadable.php
 │   │   ├── DownloadCategory.php
 │   │   ├── DownloadLog.php
+│   │   ├── Downloadable.php
 │   │   ├── EbookFile.php
-│   │   ├── Event.php
-│   │   ├── EventLinkable.php
-│   │   ├── Exercice.php
-│   │   ├── ExerciceCategory.php
-│   │   ├── ExerciceSousCategory.php
 │   │   ├── Fiche.php
 │   │   ├── FichesCategory.php
 │   │   ├── FichesSousCategory.php
 │   │   ├── Media.php
 │   │   ├── MediaCategory.php
-│   │   ├── Notebook.php
-│   │   ├── NotebookItem.php
-│   │   ├── Payment.php
 │   │   ├── Permission.php
-│   │   ├── Plan.php
 │   │   ├── Post.php
 │   │   ├── Role.php
-│   │   ├── Seance.php
-│   │   ├── Serie.php
 │   │   ├── Setting.php
 │   │   ├── SitemapUrl.php
 │   │   ├── Tag.php
 │   │   ├── Taggable.php
 │   │   ├── User.php
-│   │   ├── UserPlan.php
 │   │   ├── Video.php
-│   │   ├── VideoCategory.php
-│   │   ├── Workout.php
-│   │   ├── WorkoutCategory.php
-│   │   └── WorkoutSection.php
+│   │   └── VideoCategory.php
 │   ├── Providers
 │   │   └── AppServiceProvider.php
 │   ├── Services
 │   │   ├── AITextService.php
-│   │   ├── DataEsService.php
 │   │   ├── SitemapService.php
 │   │   └── VideoService.php
 │   └── View
@@ -178,10 +160,7 @@
 ├── bootstrap
 │   ├── app.php
 │   ├── cache
-│   │   ├── config.php
-│   │   ├── events.php
 │   │   ├── packages.php
-│   │   ├── routes-v7.php
 │   │   └── services.php
 │   └── providers.php
 ├── composer.json
@@ -202,7 +181,6 @@
 │   ├── session.php
 │   └── stripe.php
 ├── database
-│   ├── database.sqlite
 │   ├── factories
 │   │   └── UserFactory.php
 │   ├── migrations
@@ -220,27 +198,12 @@
 │   │   ├── 2025_09_19_132446_add_visibility_to_posts_table.php
 │   │   ├── 2025_09_20_123309_create_media_categories_table.php
 │   │   ├── 2025_09_20_123340_create_media_table.php
-│   │   ├── 2025_09_23_100256_payments_table.php
 │   │   ├── 2025_09_24_072502_create_download_categories_table.php
 │   │   ├── 2025_09_24_072510_create_downloadables_table.php
 │   │   ├── 2025_09_24_072627_create_download_logs_table.php
-│   │   ├── 2025_09_27_174537_create_exercises_table.php
-│   │   ├── 2025_09_27_174641_create_series_table.php
-│   │   ├── 2025_09_27_174716_create_seances_table.php
-│   │   ├── 2025_09_27_175032_create_cycles_table.php
-│   │   ├── 2025_09_27_175032_create_plans_table.php
-│   │   ├── 2025_09_27_175032_create_seance_series_table.php
-│   │   ├── 2025_09_27_175033_create_cycle_seances_table.php
-│   │   ├── 2025_09_27_175034_create_plan_cycles_table.php
-│   │   ├── 2025_09_27_175035_create_user_plans_table.php
 │   │   ├── 2025_09_29_114611_fiches_categories_table.php
 │   │   ├── 2025_09_29_114636_fiches_table.php
 │   │   ├── 2025_09_29_114710_fiches_fiches_category_table.php
-│   │   ├── 2025_10_01_174510_create_workout_sections_table.php
-│   │   ├── 2025_10_01_174511_create_workout_categories_table.php
-│   │   ├── 2025_10_01_174512_create_workouts_table.php
-│   │   ├── 2025_10_01_174513_create_workout_workout_category_table.php
-│   │   ├── 2025_10_02_095204_create_notebooks_tables.php
 │   │   ├── 2025_10_06_083551_create_settings_table.php
 │   │   ├── 2025_10_06_124307_update_settings_for_multiple_api_keys.php
 │   │   ├── 2025_10_10_130158_create_sitemap_urls_table.php
@@ -250,24 +213,7 @@
 │   │   ├── 2025_10_13_140759_create_videos_table.php
 │   │   ├── 2025_10_13_140809_create_category_video_table.php
 │   │   ├── 2025_10_17_171428_create_fiches_sous_categories_table.php
-│   │   ├── 2025_10_17_171540_add_sous_category_to_fiches_table.php
-│   │   ├── 2025_10_20_112903_make_training_fields_nullable.php
-│   │   ├── 2025_10_20_130103_create_exercice_categories_table.php
-│   │   ├── 2025_10_20_130329_create_exercice_sous_categories_table.php
-│   │   ├── 2025_10_20_130408_add_categories_to_exercices_table.php
-│   │   ├── 2025_10_21_095907_create_exercice_exercice_category_table.php
-│   │   ├── 2025_10_21_095954_create_exercice_exercice_sous_category_table.php
-│   │   ├── 2025_10_21_145413_migrate_existing_exercice_categories_data.php
-│   │   ├── 2025_10_21_150000_remove_old_category_columns_from_exercices_table.php
-│   │   ├── 2025_10_22_071336_add_sort_order_to_exercice_sous_categories_table.php
-│   │   ├── 2025_10_28_110930_create_events_table.php
-│   │   ├── 2025_10_28_171238_create_event_linkables_table.php
-│   │   ├── 2025_10_28_171250_remove_old_linkable_from_events.php
-│   │   ├── 2025_11_11_095849_create_catalogue_sections_table.php
-│   │   ├── 2025_11_11_095858_create_catalogue_modules_table.php
-│   │   ├── 2025_11_11_095907_create_catalogue_units_table.php
-│   │   ├── 2025_11_12_093754_create_catalogue_unit_contents_table.php
-│   │   └── 2025_11_12_093754_migrate_existing_unit_contents.php
+│   │   └── 2025_10_17_171540_add_sous_category_to_fiches_table.php
 │   └── seeders
 │       ├── CategoriesTableSeeder.php
 │       ├── DatabaseSeeder.php
@@ -279,24 +225,16 @@
 │       ├── SpatiePermissionSeeder.php
 │       ├── TaggablesTableSeeder.php
 │       ├── TagsTableSeeder.php
-│       ├── UsersTableSeeder.php
-│       ├── WorkoutAeroBaseSeeder.php
-│       ├── WorkoutAvanceSeeder.php
-│       ├── WorkoutBaseSeeder.php
-│       ├── WorkoutBatchSeeder.php
-│       ├── WorkoutIntermediaireSeeder.php
-│       ├── WorkoutMultiFormeSeeder.php
-│       ├── WorkoutSeuilSeeder.php
-│       └── WorkoutVitesseSeeder.php
+│       └── UsersTableSeeder.php
 ├── package-lock.json
 ├── package.json
 ├── phpunit.xml
-├── proplemes.md
-├── proposition.txt
 ├── public
 │   ├── assets
 │   │   └── images
 │   │       └── team
+│   │           ├── MUSCULATION_NATASWIM.mp4
+│   │           ├── anatomie.mp4
 │   │           ├── auteur-coach-hassan-el-haouat-nataswim-0.png
 │   │           ├── auteur-coach-hassan-el-haouat-nataswim-1.png
 │   │           ├── auteur-coach-hassan-el-haouat-nataswim-10.png
@@ -315,14 +253,13 @@
 │   │           ├── auteur-coach-hassan-el-haouat-nataswim-7.png
 │   │           ├── auteur-coach-hassan-el-haouat-nataswim-8.png
 │   │           ├── auteur-coach-hassan-el-haouat-nataswim-9.png
+│   │           ├── centre_aquasport_nataswim.mp4
+│   │           ├── ebooks.mp4
+│   │           ├── fitness-nataswim-courir.mp4
 │   │           ├── guide-utilisation.jpg
+│   │           ├── lac.mp4
 │   │           ├── med_Hassan_EL_HAOUAT.png
 │   │           ├── mode-emploi-nataswim.jpg
-│   │           ├── nataswim_app_logo_0.png
-│   │           ├── nataswim_app_logo_1.png
-│   │           ├── nataswim_app_logo_2.png
-│   │           ├── nataswim_app_logo_3.png
-│   │           ├── nataswim_app_logo_4.png
 │   │           ├── nataswim-application-banner-0.jpg
 │   │           ├── nataswim-application-banner-1.jpg
 │   │           ├── nataswim-application-banner-10.jpg
@@ -342,6 +279,11 @@
 │   │           ├── nataswim-application-banner-7.jpg
 │   │           ├── nataswim-application-banner-8.jpg
 │   │           ├── nataswim-application-banner-9.jpg
+│   │           ├── nataswim-logo0.png
+│   │           ├── nataswim-logo1.png
+│   │           ├── nataswim-logo2.png
+│   │           ├── nataswim-logo3.png
+│   │           ├── nataswim-logo4.png
 │   │           ├── nataswim-pays-monde-centre.png
 │   │           ├── nataswim-sport-net-systemes-0.jpg
 │   │           ├── nataswim-sport-net-systemes-1.jpg
@@ -355,18 +297,26 @@
 │   │           ├── nataswim-sport-net-systemes-7.jpg
 │   │           ├── nataswim-sport-net-systemes-8.jpg
 │   │           ├── nataswim-sport-net-systemes-9.jpg
+│   │           ├── nataswim-sport-net-systemes-irfc-0.jpg
+│   │           ├── nataswim-sport-net-systemes-irfc-1.jpg
+│   │           ├── nataswim-sport-net-systemes-irfc-2.jpg
+│   │           ├── nataswim-sport-training-0.mp4
+│   │           ├── nataswim-sport-training-1.mp4
+│   │           ├── nataswim-sport-training-2.mp4
+│   │           ├── nataswim-sport-training-3.mp4
+│   │           ├── nataswim-sport-training-4.mp4
+│   │           ├── nataswim-sport-training-5.mp4
 │   │           ├── nataswim.mp4
+│   │           ├── nataswim_app_logo_0.png
+│   │           ├── nataswim_app_logo_1.png
+│   │           ├── nataswim_app_logo_2.png
+│   │           ├── nataswim_app_logo_3.png
+│   │           ├── nataswim_app_logo_4.png
 │   │           └── quel-est-votre-style-sport.jpg
-│   ├── build
-│   │   ├── assets
-│   │   │   ├── app-CXDpL9bK.js
-│   │   │   └── app-DdjZHIVf.css
-│   │   └── manifest.json
 │   ├── css
 │   │   ├── admin-footer.css
 │   │   ├── admin-nav-horizontal.css
 │   │   ├── app.css
-│   │   ├── calendar.css
 │   │   ├── media-manager.css
 │   │   ├── media-selector.css
 │   │   ├── quill-advanced.css
@@ -374,29 +324,22 @@
 │   ├── favicon.ico
 │   ├── favicon02.ico
 │   ├── images
-│   │   ├── anatomy-back-0.svg
-│   │   ├── anatomy-back-1.svg
-│   │   ├── anatomy-back.svg
-│   │   ├── anatomy-front-0.svg
-│   │   ├── anatomy-front-1.svg
-│   │   ├── anatomy-front.svg
 │   │   └── test.svg
 │   ├── index.php
 │   ├── js
 │   │   ├── app.js
 │   │   ├── app.js.LICENSE.txt
-│   │   ├── calendar-create.js
 │   │   ├── ebook-file-selector.js
 │   │   ├── media-manager.js
 │   │   ├── media-selector.js
 │   │   ├── quill-advanced.js
 │   │   ├── quill-ai-optimizer.js
+│   │   ├── quill-video-manager.js
 │   │   ├── social-share.js
 │   │   └── video-library-selector.js
 │   ├── mix-manifest.json
 │   ├── robots.txt
 │   ├── sitemap.xml
-│   ├── storage -> /Users/mac/bidaya2025/storage/app/public
 │   └── webfonts
 │       ├── fa-brands-400.ttf
 │       ├── fa-brands-400.woff2
@@ -406,8 +349,6 @@
 │       ├── fa-solid-900.woff2
 │       ├── fa-v4compatibility.ttf
 │       └── fa-v4compatibility.woff2
-├── README_deploy.md
-├── README.md
 ├── resources
 │   ├── css
 │   │   ├── app.css
@@ -628,13 +569,12 @@
 │       │       ├── partials
 │       │       │   └── form.blade.php
 │       │       └── show.blade.php
-│       ├── anatomy
-│       │   ├── index.blade copy.php
-│       │   └── index.blade.php
 │       ├── auth
 │       │   ├── confirm-password.blade.php
 │       │   ├── forgot-password.blade.php
 │       │   ├── login.blade.php
+│       │   ├── register.blade copy 2.php
+│       │   ├── register.blade copy.php
 │       │   ├── register.blade.php
 │       │   ├── reset-password.blade.php
 │       │   └── verify-email.blade.php
@@ -662,8 +602,6 @@
 │       ├── dashboard.blade.php
 │       ├── emails
 │       │   └── contact.blade.php
-│       ├── equipements
-│       │   └── index.blade.php
 │       ├── errors
 │       │   ├── 404.blade.php
 │       │   └── 500.blade.php
@@ -702,6 +640,7 @@
 │       │   ├── categories
 │       │   │   └── index.blade.php
 │       │   ├── category.blade.php
+│       │   ├── contact.blade copy.php
 │       │   ├── contact.blade.php
 │       │   ├── cookies.blade.php
 │       │   ├── ebook
@@ -723,14 +662,18 @@
 │       │   ├── guide.blade.php
 │       │   ├── guidecarnet.blade.php
 │       │   ├── guideplanif.blade.php
+│       │   ├── home.blade copy.php
 │       │   ├── home.blade.php
 │       │   ├── home.blade0.php
 │       │   ├── index.blade.php
 │       │   ├── legal.blade.php
+│       │   ├── partials
+│       │   │   └── search-form.blade.php
 │       │   ├── plans
 │       │   │   └── index.blade.php
 │       │   ├── pricing.blade.php
 │       │   ├── privacy.blade.php
+│       │   ├── search.blade.php
 │       │   ├── show.blade.php
 │       │   ├── tools
 │       │   │   ├── bmi-calculator.blade.php
@@ -801,298 +744,9 @@
 ├── routes
 │   ├── auth.php
 │   ├── console.php
+│   ├── web-source-fonctionnelle.php
 │   └── web.php
-├── storage
-│   ├── app
-│   │   ├── ebooks
-│   │   ├── private
-│   │   │   ├── downloads
-│   │   │   │   ├── 1758713314_drills-intro.pdf
-│   │   │   │   └── 1758725593_drills-back.pdf
-│   │   │   ├── ebooks
-│   │   │   │   ├── 2025-10-13_08-38-47_d3zjlAkW.pdf
-│   │   │   │   └── 2025-10-13_12-49-03_AbAChC0s.pdf
-│   │   │   └── media
-│   │   │       └── video
-│   │   │           ├── 2154
-│   │   │           │   └── 32.mp4
-│   │   │           └── 99.mp4
-│   │   └── public
-│   │       ├── media
-│   │       │   ├── 2025-09-20_13-09-28_0TNccq5S.png
-│   │       │   ├── 2025-09-20_13-09-28_2zno3cHg.png
-│   │       │   ├── 2025-09-20_13-09-28_CKMq5pnT.png
-│   │       │   ├── 2025-09-20_13-09-28_Estp6jae.png
-│   │       │   ├── 2025-09-20_13-09-28_xkf1KgsT.png
-│   │       │   ├── 2025-09-21_09-42-28_1jPbfjjG.jpg
-│   │       │   ├── 2025-09-21_09-42-28_1OFOpqkS.jpg
-│   │       │   ├── 2025-09-21_09-42-28_71Ajcxqy.jpg
-│   │       │   ├── 2025-09-21_09-42-28_aV8li60Q.jpg
-│   │       │   ├── 2025-09-21_09-42-28_czOGm1uP.jpg
-│   │       │   ├── 2025-09-21_09-42-28_ETSLAodr.jpg
-│   │       │   ├── 2025-09-21_09-42-28_hxFDxXsR.jpg
-│   │       │   ├── 2025-09-21_09-42-28_Ilp3ajQG.jpg
-│   │       │   ├── 2025-09-21_09-42-28_kLbCT2n8.jpg
-│   │       │   ├── 2025-09-21_09-42-28_LtoUv4dp.jpg
-│   │       │   ├── 2025-09-21_09-42-28_LxN5PnVa.jpg
-│   │       │   ├── 2025-09-21_09-42-28_P4cA1JYL.jpg
-│   │       │   ├── 2025-09-21_09-42-28_POaW46GE.jpg
-│   │       │   ├── 2025-09-21_09-42-28_sNi70p9W.jpg
-│   │       │   ├── 2025-09-21_09-42-28_VbuE1t9u.jpg
-│   │       │   ├── 2025-09-21_09-42-28_XdUlm1r0.jpg
-│   │       │   ├── 2025-09-21_09-42-45_0izh1fEg.jpg
-│   │       │   ├── 2025-09-21_09-42-45_2X9UJFbr.jpg
-│   │       │   ├── 2025-09-21_09-42-45_9neegMq4.jpg
-│   │       │   ├── 2025-09-21_09-42-45_A5Xyp5qC.jpg
-│   │       │   ├── 2025-09-21_09-42-45_D4QhuffI.jpg
-│   │       │   ├── 2025-09-21_09-42-45_E2Wb8vok.jpg
-│   │       │   ├── 2025-09-21_09-42-45_Eh9ZPGh0.jpg
-│   │       │   ├── 2025-09-21_09-42-45_iDBQwbfg.jpg
-│   │       │   ├── 2025-09-21_09-42-45_JT92E4jt.jpg
-│   │       │   ├── 2025-09-21_09-42-45_juhJKjg2.jpg
-│   │       │   ├── 2025-09-21_09-42-45_NCTIjFSF.jpg
-│   │       │   ├── 2025-09-21_09-42-45_PGiaZvbG.jpg
-│   │       │   ├── 2025-09-21_09-42-45_QGh3uAA2.jpg
-│   │       │   ├── 2025-09-21_09-42-45_R3YJ2WIl.jpg
-│   │       │   ├── 2025-09-21_09-42-45_wB6bWbU9.jpg
-│   │       │   ├── 2025-09-21_09-42-45_XbokPZYa.jpg
-│   │       │   ├── 2025-09-21_09-42-57_48oFNbCl.jpg
-│   │       │   ├── 2025-09-21_09-42-57_8ap14K6w.jpg
-│   │       │   ├── 2025-09-21_09-42-57_8fc0KNGg.jpg
-│   │       │   ├── 2025-09-21_09-42-57_elsWti0Z.jpg
-│   │       │   ├── 2025-09-21_09-42-57_gTNZ8glo.jpg
-│   │       │   ├── 2025-09-21_09-42-57_lRVWyqdL.jpg
-│   │       │   ├── 2025-09-21_09-42-57_mccSzVW6.jpg
-│   │       │   ├── 2025-09-21_09-42-57_rvDp5j0I.jpg
-│   │       │   ├── 2025-09-21_09-42-57_rZPSDPv5.jpg
-│   │       │   ├── 2025-09-21_09-42-57_SHkVDkEV.jpg
-│   │       │   ├── 2025-09-21_09-42-57_TWmiu8G3.jpg
-│   │       │   ├── 2025-09-21_09-42-57_v82U10Th.jpg
-│   │       │   ├── 2025-09-21_09-42-57_VPJSsXVk.jpg
-│   │       │   ├── 2025-09-21_09-42-57_XEoB4PBj.jpg
-│   │       │   ├── 2025-09-21_09-42-57_xy8dBY79.jpg
-│   │       │   ├── 2025-09-21_09-42-57_Zeo5O99D.jpg
-│   │       │   ├── 2025-09-21_09-43-13_1IY8lcTy.jpg
-│   │       │   ├── 2025-09-21_09-43-13_3Im6AQDp.jpg
-│   │       │   ├── 2025-09-21_09-43-13_6EcPW1xA.jpg
-│   │       │   ├── 2025-09-21_09-43-13_a6s05muA.jpg
-│   │       │   ├── 2025-09-21_09-43-13_DOSjMFBx.jpg
-│   │       │   ├── 2025-09-21_09-43-13_FGubzMMp.jpg
-│   │       │   ├── 2025-09-21_09-43-13_GjDVCJWB.jpg
-│   │       │   ├── 2025-09-21_09-43-13_iPdOsFOs.jpg
-│   │       │   ├── 2025-09-21_09-43-13_IYE6q2Kp.jpg
-│   │       │   ├── 2025-09-21_09-43-13_KhQq9Z6f.jpg
-│   │       │   ├── 2025-09-21_09-43-13_n4QJbjug.jpg
-│   │       │   ├── 2025-09-21_09-43-13_ozSqcV3y.jpg
-│   │       │   ├── 2025-09-21_09-43-13_R7fBa7Dy.jpg
-│   │       │   ├── 2025-09-21_09-43-13_TSEUOuvg.jpg
-│   │       │   ├── 2025-09-21_09-43-13_xhQ3OHPG.jpg
-│   │       │   ├── 2025-09-21_09-43-13_Xr2q8bQg.jpg
-│   │       │   ├── 2025-09-21_09-43-28_0i3TBh7Y.jpg
-│   │       │   ├── 2025-09-21_09-43-28_18IvrMyM.jpg
-│   │       │   ├── 2025-09-21_09-43-28_8OoCWbKJ.jpg
-│   │       │   ├── 2025-09-21_09-43-28_AQuSMsPC.jpg
-│   │       │   ├── 2025-09-21_09-43-28_CzeYVqSB.jpg
-│   │       │   ├── 2025-09-21_09-43-28_exiisk4A.jpg
-│   │       │   ├── 2025-09-21_09-43-28_fr6VFSz3.jpg
-│   │       │   ├── 2025-09-21_09-43-28_Hi06oesj.jpg
-│   │       │   ├── 2025-09-21_09-43-28_IKlLJeod.jpg
-│   │       │   ├── 2025-09-21_09-43-28_kMZN7EKF.jpg
-│   │       │   ├── 2025-09-21_09-43-28_LCQXDc3V.jpg
-│   │       │   ├── 2025-09-21_09-43-28_LDujaf0Y.jpg
-│   │       │   ├── 2025-09-21_09-43-28_LElI6SQl.jpg
-│   │       │   ├── 2025-09-21_09-43-28_lme8QVkJ.jpg
-│   │       │   ├── 2025-09-21_09-43-28_qkhfVD8k.jpg
-│   │       │   ├── 2025-09-21_09-43-28_Xf60l5jk.jpg
-│   │       │   ├── 2025-09-21_09-43-43_3uwMgj0V.jpg
-│   │       │   ├── 2025-09-21_09-43-43_6MCfD7hd.jpg
-│   │       │   ├── 2025-09-21_09-43-43_8eeIFAW9.jpg
-│   │       │   ├── 2025-09-21_09-43-43_8Vj8hJ1V.jpg
-│   │       │   ├── 2025-09-21_09-43-43_d34m69Im.jpg
-│   │       │   ├── 2025-09-21_09-43-43_JqFgSfQl.jpg
-│   │       │   ├── 2025-09-21_09-43-43_L7LJHFEW.jpg
-│   │       │   ├── 2025-09-21_09-43-43_lykkKOfL.jpg
-│   │       │   ├── 2025-09-21_09-43-43_oG4zITVb.jpg
-│   │       │   ├── 2025-09-21_09-43-43_veKJRikx.jpg
-│   │       │   ├── 2025-09-21_09-43-43_vnOhAGSk.jpg
-│   │       │   ├── 2025-09-21_09-43-43_XypHNtYN.jpg
-│   │       │   ├── 2025-09-21_09-43-43_YTDVjqVS.jpg
-│   │       │   ├── 2025-09-21_09-43-43_YYicIX16.jpg
-│   │       │   ├── 2025-09-21_09-43-43_zKHVfxDZ.jpg
-│   │       │   ├── 2025-09-21_09-43-43_zlLdHnhE.jpg
-│   │       │   ├── 2025-09-21_09-43-57_EkmzBZWO.jpg
-│   │       │   ├── 2025-09-21_09-43-57_EuswBPDo.jpg
-│   │       │   ├── 2025-09-21_09-43-57_FU30rb5a.jpg
-│   │       │   ├── 2025-09-21_09-43-57_lgFEFH2v.jpg
-│   │       │   ├── 2025-09-21_09-43-57_PTueHalp.jpg
-│   │       │   ├── 2025-09-21_09-43-57_QKLFnXkW.jpg
-│   │       │   ├── 2025-09-21_09-43-57_R7RqCDE0.jpg
-│   │       │   ├── 2025-09-21_09-43-57_VRSp12QP.jpg
-│   │       │   ├── 2025-09-21_09-43-57_xDxsfWSs.jpg
-│   │       │   ├── 2025-09-21_09-43-58_dLCqPuoi.jpg
-│   │       │   ├── 2025-09-21_09-43-58_giCYk6L7.jpg
-│   │       │   ├── 2025-09-21_09-43-58_kw1w9ktQ.jpg
-│   │       │   ├── 2025-09-21_09-43-58_MNLSjDz8.jpg
-│   │       │   ├── 2025-09-21_09-43-58_rizfb5iG.jpg
-│   │       │   ├── 2025-09-21_09-43-58_uoeLB8OH.jpg
-│   │       │   ├── 2025-09-21_09-43-58_xcpe85vb.jpg
-│   │       │   ├── 2025-09-21_09-44-18_9sOkUWI4.jpg
-│   │       │   ├── 2025-09-21_09-44-18_aXtX2RsB.jpg
-│   │       │   ├── 2025-09-21_09-44-18_DjwThBci.jpg
-│   │       │   ├── 2025-09-21_09-44-18_mxZy1dPt.jpg
-│   │       │   ├── 2025-09-21_09-44-18_Nmj0caca.jpg
-│   │       │   ├── 2025-09-21_09-44-18_u7bBpLVy.jpg
-│   │       │   ├── 2025-09-21_09-44-18_yjsRVo9S.jpg
-│   │       │   ├── 2025-09-27_19-48-42_rqWCeZyT.png
-│   │       │   ├── 2025-10-01_08-50-57_zce3Rv7S.png
-│   │       │   ├── 2025-10-03_12-35-35_5iD5dikn.jpg
-│   │       │   ├── 2025-10-03_12-35-35_5UtSpbFk.jpg
-│   │       │   ├── 2025-10-03_12-35-35_7HuBowVK.jpg
-│   │       │   ├── 2025-10-03_12-35-35_A8eTg9Wp.jpg
-│   │       │   ├── 2025-10-03_12-35-35_A9Qwhd64.jpg
-│   │       │   ├── 2025-10-03_12-35-35_b3Ltg6Tk.jpg
-│   │       │   ├── 2025-10-03_12-35-35_bLPbB58j.jpg
-│   │       │   ├── 2025-10-03_12-35-35_dNZnbkqO.jpg
-│   │       │   ├── 2025-10-03_12-35-35_eaMuHh8W.jpg
-│   │       │   ├── 2025-10-03_12-35-35_en76ZWrk.jpg
-│   │       │   ├── 2025-10-03_12-35-35_lSvwlGDC.jpg
-│   │       │   ├── 2025-10-03_12-35-35_Mjy2K7tF.jpg
-│   │       │   ├── 2025-10-03_12-35-35_QX58VYvN.jpg
-│   │       │   ├── 2025-10-03_12-35-35_SKsUUXnL.jpg
-│   │       │   ├── 2025-10-03_12-35-35_tea5tMC2.jpg
-│   │       │   ├── 2025-10-03_12-35-35_tr27o3OH.jpg
-│   │       │   ├── 2025-10-03_12-35-35_VCa2nzid.jpg
-│   │       │   ├── 2025-10-03_12-35-35_W2Imspz6.jpg
-│   │       │   ├── 2025-10-03_12-35-35_WmmKP0ak.jpg
-│   │       │   └── 2025-10-03_12-35-35_YXkArzQ6.jpg
-│   │       └── videos
-│   │           ├── 32_1761847889.mp4
-│   │           ├── 32_1761848191.mp4
-│   │           ├── 32_1761848247.mp4
-│   │           ├── 32_1761848711.mp4
-│   │           ├── 99_1761847766.mp4
-│   │           ├── 99_1761847801.mp4
-│   │           ├── 99_1761847802.mp4
-│   │           ├── 99_1761847803.mp4
-│   │           ├── 99_1761847805.mp4
-│   │           ├── 99_1761847806.mp4
-│   │           ├── 99_1761848226.mp4
-│   │           ├── 99_1761848235.mp4
-│   │           ├── 99_1761848242.mp4
-│   │           ├── 99_1761848268.mp4
-│   │           ├── 99_1761848298.mp4
-│   │           ├── 99_1761848316.mp4
-│   │           ├── 99_1761848583.mp4
-│   │           ├── 99_1761848605.mp4
-│   │           ├── 99_1761848630.mp4
-│   │           ├── 99_1761849020.mp4
-│   │           ├── 99_1761849029.mp4
-│   │           ├── 99_1761849043.mp4
-│   │           ├── 99_1761852359.mp4
-│   │           └── 99_1762025624.mp4
-│   ├── debugbar
-│   │   ├── 01KAEE83C2P3MJMYAWQS0P85A9.json
-│   │   ├── 01KAEE8684321EDFW6X25KP9NB.json
-│   │   ├── 01KAEE88S6RT9P60Z4V4M8CYCY.json
-│   │   ├── 01KAEE8AQM6T6FB7ZN8V6SFMGN.json
-│   │   ├── 01KAEEFDFC9J4VG1HP6V4E1VJE.json
-│   │   ├── 01KAEEFH31QAR6S7R6A2EWWW2H.json
-│   │   ├── 01KAEEFVCHBVDZZ2ZPGEX48JWT.json
-│   │   ├── 01KAEEFVD8E22J3YFTG97WDT0A.json
-│   │   ├── 01KAEEFVF69G73ESY5DG8T58E4.json
-│   │   ├── 01KAEEFZN75BTYFYXDRB7KD858.json
-│   │   ├── 01KAEEG6BX1CDRT5ET81R377B4.json
-│   │   ├── 01KAEEG6J8D8P04QJH8QE14ZW3.json
-│   │   ├── 01KAEEGD7X532F0GRDPKZPX6JQ.json
-│   │   ├── 01KAEEGD9E8HN21RM697PM2K88.json
-│   │   ├── 01KAEEGGEFQCVP80E7ZNCC0Z3V.json
-│   │   ├── 01KAEEGGK8P3XW1ET5D25T01ZE.json
-│   │   ├── 01KAEEGQVF2K5DABH4Q0JN7YKS.json
-│   │   ├── 01KAEEGQWXWA07FN3HS50Q6ZST.json
-│   │   ├── 01KAEEGTWHHVY80RH4YMZNMQ4R.json
-│   │   ├── 01KAEEGV17AN1NHF5BV5NAG0XS.json
-│   │   ├── 01KAEEH033RGBKT8EBXPTAZQA3.json
-│   │   ├── 01KAEEH04JV32T6YBV0ANQX0W2.json
-│   │   ├── 01KAEEH6V01T639TB99VVEPC35.json
-│   │   ├── 01KAEEH8V33TYKMPJ0X2BCT74X.json
-│   │   ├── 01KAEEHCP3K4NARTG5V9HNBS5X.json
-│   │   ├── 01KAEEHGE9W2AV1DG5J8E660JC.json
-│   │   ├── 01KAEEHGFGMPP4GFYKR5TZY90F.json
-│   │   ├── 01KAEEHJFXAQDDDDPACWJ4J8M9.json
-│   │   ├── 01KAEEHN6NW5KJ08H8HTVX120R.json
-│   │   ├── 01KAEEHTDQ99Z5ZQZF3Y6KXT3Y.json
-│   │   ├── 01KAEEHWSFYWX4X350PWEDFKMP.json
-│   │   ├── 01KAEEJ4F5NNNXSXY4F6K3QPFM.json
-│   │   ├── 01KAEEJXDBXESZQ8Z6X4AYNSBC.json
-│   │   ├── 01KAEEK5T7BD8DM054HQJM6145.json
-│   │   ├── 01KAEEK5TSB8MHBH4R6WN749RF.json
-│   │   ├── 01KAEEK5VVTPJ1AY7Y78TWWT2C.json
-│   │   ├── 01KAEEKB91EZ052GYS8WV8NWRQ.json
-│   │   ├── 01KAEEKD35K3HNRYJ5XGSCKC1K.json
-│   │   ├── 01KAEEKFF24QJXMYTMVBCWS1Z3.json
-│   │   ├── 01KAEEKKKBANPWTT0D839D72PM.json
-│   │   ├── 01KAEEKTNQ81CF1F78J6ER2M0G.json
-│   │   ├── 01KAEEKTPRBX32CWBNDR2615XX.json
-│   │   ├── 01KAEEKWN95QS9M1GJGDCVJKJB.json
-│   │   ├── 01KAEEM04PE2CS3HJ314CM8CYE.json
-│   │   ├── 01KAEEM5K3YCX3QW6D363Q956X.json
-│   │   ├── 01KAEEMAJ1QDN4N93KXDR214CH.json
-│   │   ├── 01KAEF26EKHBDNF3E5HMXRZPC7.json
-│   │   ├── 01KAEF28YVJVR6JKH8ZBBQK16C.json
-│   │   ├── 01KAEF2CFZ67RFXQWFZQAZY6J4.json
-│   │   ├── 01KAEF2HM7XN7FREWH82YJPMBJ.json
-│   │   ├── 01KAEF2K3E8A6AHDDM4SN8M7Y0.json
-│   │   ├── 01KAEF2MVDSN88EVEHYMQA0WXX.json
-│   │   ├── 01KAEF2SPHCRSHC4QVEA0PN5ZJ.json
-│   │   ├── 01KAEF2W4PF1GF2BZ8C26KEQ7H.json
-│   │   ├── 01KAEHVSCENE1VN7RPBKCN5KVQ.json
-│   │   └── 01KAEHVX1R4FRTFB614YAMA0WX.json
-│   ├── framework
-│   │   ├── cache
-│   │   │   └── data
-│   │   ├── sessions
-│   │   ├── testing
-│   │   └── views
-│   │       ├── 015c7d2192a0357fd05b7028e697db44.php
-│   │       ├── 0746b7af08b0ee3d08d5487e043b38d6.php
-│   │       ├── 128cec93abf06ae7a201d2b5e2cfc8d0.php
-│   │       ├── 12e895bdf251127dfbabaca25675bb4c.php
-│   │       ├── 181a1a2d4477b4a4654d1adb88520956.php
-│   │       ├── 30b09ed48e4b006fa712fdfbb9b89c2d.php
-│   │       ├── 38fe76254fac0df22c8f785088234864.php
-│   │       ├── 3a6e16405e8df2b53c44353b0a1c6985.php
-│   │       ├── 4aeda47b3bceab7a7e9efe283dd5074b.php
-│   │       ├── 57b1fed827ead2bb69348466718b208d.php
-│   │       ├── 5f4c7fca34b9d700e7bdfd1c284ca35e.php
-│   │       ├── 716274a108bd5cc5270f416043231dbe.php
-│   │       ├── 73cc041f69bdb070262f47f1a500a7f3.php
-│   │       ├── 7ca6a3453ed62b80ac4db5a35b7573a7.php
-│   │       ├── 83c586b77f43bce33db1c0990e303e1e.php
-│   │       ├── 85801cb25a5c49f16d4f935002abae7a.php
-│   │       ├── 98201b2ff8bde6a4fa7788e7495bdd56.php
-│   │       ├── 9b7fd1edb6c57a8dba1a817e8a7998db.php
-│   │       ├── a821415fbc9ac303bd42199cb302bfbf.php
-│   │       ├── aad9eae675ecfe22b12a604354bf618a.php
-│   │       ├── bb3775c99b1cf7a8d092644c31b29c66.php
-│   │       ├── c0efb37d9241acb08f987b2399083784.php
-│   │       ├── c54d1e39b517e2e455f621b5e35d38a3.php
-│   │       ├── c9f4305a297edaf8df6cfa891c9b5d8c.php
-│   │       ├── e22ee7872bbaf95bb1ade2322fa272e3.php
-│   │       ├── e79a40e216faad5b7d254a9835a15fc9.php
-│   │       ├── ec0c8a3dbbf06c312031daf21cabd5fa.php
-│   │       ├── f6bc9f1aee28648060407b12929d0ec8.php
-│   │       ├── f81c672b64053b162f08f3ec69eb7283.php
-│   │       ├── f9a99ca2444b9806f6ff85b0e2633099.php
-│   │       └── ff5c445bc66847e36f306e58ff8751ae.php
-│   ├── logs
-│   │   └── laravel.log
-│   └── media
-│       └── video
-│           ├── competitions
-│           ├── formations
-│           └── techniques
 ├── structure.txt
-├── structure0.txt
 ├── tests
 │   ├── Feature
 │   │   ├── Auth
@@ -1110,4 +764,4 @@
 ├── vite.config.js
 └── webpack.mix.js
 
-156 directories, 955 files
+127 directories, 637 files

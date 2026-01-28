@@ -9,7 +9,7 @@
     <div class="row g-4">
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-gradient-primary text-white p-4">
+                <div class="card-header bg-primary text-white p-4">
                     <div class="d-flex align-items-center">
                         <i class="fas {{ $ebookFile->icon }} fa-2x me-3"></i>
                         <div>
@@ -151,7 +151,7 @@
         <!-- Sidebar Actions -->
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-gradient-secondary text-white p-3">
+                <div class="card-header bg-secondary text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-cog me-2"></i>Actions
                     </h6>
@@ -183,7 +183,7 @@
             
             <!-- Statistiques -->
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-gradient-info text-white p-3">
+                <div class="card-header bg-info text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-chart-bar me-2"></i>Statistiques
                     </h6>
@@ -191,7 +191,7 @@
                 <div class="card-body p-3">
                     <div class="row g-3 text-center">
                         <div class="col-6">
-                            <div class="bg-primary bg-opacity-10 rounded p-3">
+                            <div class="bg-info bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-primary mb-1">{{ $ebookFile->downloadables->count() }}</h4>
                                 <small class="text-muted">Utilisations</small>
                             </div>
@@ -212,14 +212,10 @@
 
 @push('styles')
 <style>
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
+
 .bg-gradient-secondary {
     background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
 }
-.bg-gradient-info {
-    background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
-}
+
 </style>
 @endpush

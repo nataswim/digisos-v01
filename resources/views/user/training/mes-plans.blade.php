@@ -147,7 +147,7 @@
                         <div class="card-footer bg-white border-top-0 p-3">
                             <div class="d-flex gap-2">
                                 <a href="{{ route('user.training.show', $plan) }}" 
-                                   class="btn btn-primary flex-fill">
+                                   class="btn btn-primary text-white flex-fill">
                                     <i class="fas fa-eye me-2"></i>Voir le plan
                                 </a>
                                 @if($plan->pivot->statut === 'en_cours' || $plan->pivot->statut === 'non_commence')

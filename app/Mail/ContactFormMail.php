@@ -31,7 +31,7 @@ class ContactFormMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: '[Nataswim] ' . $this->getSubjectLabel(),
+            subject: '[DIGITALSOS] ' . $this->getSubjectLabel(),
             replyTo: [$this->contactData['email']]
         );
     }

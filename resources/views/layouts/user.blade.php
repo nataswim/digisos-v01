@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title') - Espace Utilisateur</title>
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,10 +14,9 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     @stack('styles')
 </head>
-<body class="bg-light">
+<body style="background-color: #fafaf5;">
     @include('layouts.partials.user-header')
     
-    <!-- Messages Flash -->
     @if(session('success') || session('error') || session('warning'))
         <div class="container-lg">
             @if(session('success'))

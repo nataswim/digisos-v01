@@ -13,7 +13,7 @@
             <!-- Contenu principal -->
             <div class="col-lg-8">
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-gradient-primary text-white p-4">
+                    <div class="card-header bg-primary text-white p-4">
                         <h5 class="mb-0">
                             <i class="fas fa-video me-2"></i>Informations de la vidéo
                         </h5>
@@ -291,7 +291,7 @@
             <div class="col-lg-4">
                 <!-- Publication -->
                 <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-header bg-gradient-success text-white p-4">
+                    <div class="card-header bg-success text-white p-4">
                         <h6 class="mb-0">
                             <i class="fas fa-calendar me-2"></i>Publication
                         </h6>
@@ -360,7 +360,7 @@
 
                 <!-- Catégories -->
                 <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-header bg-gradient-warning text-white p-4">
+                    <div class="card-header bg-warning text-white p-4">
                         <h6 class="mb-0">
                             <i class="fas fa-folder me-2"></i>Catégories
                         </h6>
@@ -391,7 +391,7 @@
 
                 <!-- Thumbnail -->
                 <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-header bg-gradient-info text-white p-4">
+                    <div class="card-header bg-info text-white p-4">
                         <h6 class="mb-0">
                             <i class="fas fa-image me-2"></i>Miniature
                         </h6>
@@ -461,21 +461,13 @@
         transition: all 0.2s ease;
     }
 
-    .bg-gradient-primary {
-        background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-    }
+    
 
-    .bg-gradient-success {
-        background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-    }
+    
 
-    .bg-gradient-info {
-        background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
-    }
+    
 
-    .bg-gradient-warning {
-        background: linear-gradient(135deg, #f59e0b 0%, #10b981 100%);
-    }
+    
 
     /* Styles Quill personnalisés */
     #toolbar-description {

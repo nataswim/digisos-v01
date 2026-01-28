@@ -10,7 +10,7 @@
         <!-- Liste des tags -->
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-gradient-warning text-white p-4">
+                <div class="card-header bg-warning text-white p-4">
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <h5 class="mb-1">
@@ -18,7 +18,7 @@
                             </h5>
                             <small class="opacity-75">{{ $tags->total() ?? $tags->count() }} tag(s) au total</small>
                         </div>
-                        <a href="{{ route('admin.tags.create') }}" class="btn btn-light">
+                        <a href="{{ route('admin.tags.create') }}" class="btn bg-warning text-white p-2">
                             <i class="fas fa-plus me-2"></i>Nouveau tag
                         </a>
                     </div>
@@ -51,7 +51,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="d-flex gap-2">
-                                <button type="submit" class="btn btn-primary flex-fill">
+                                <button type="submit" class="btn btn-primary text-white flex-fill">
                                     <i class="fas fa-filter me-2"></i>Filtrer
                                 </button>
                                 @if(request('search') || request('group'))
@@ -130,7 +130,7 @@
                                                         </li>
                                                         <li>
                                                             <a class="dropdown-item d-flex align-items-center" 
-                                                               href="{{ route('public.index', ['tag' => $tag->slug]) }}" 
+                                                               href="{{ route('posts.public.tag', $tag) }}" 
                                                                target="_blank">
                                                                 <i class="fas fa-external-link-alt me-2 text-success"></i>Voir sur le site
                                                             </a>
@@ -193,7 +193,7 @@
         <div class="col-lg-4">
             <!-- Statistiques -->
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-gradient-primary text-white p-3">
+                <div class="card-header bg-primary text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-chart-bar me-2"></i>Statistiques
                     </h6>
@@ -209,7 +209,7 @@
                     
                     <div class="row g-3 text-center">
                         <div class="col-6">
-                            <div class="bg-primary bg-opacity-10 rounded p-3">
+                            <div class="bg-info bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-primary mb-1">{{ $totalTags }}</h4>
                                 <small class="text-muted">Total tags</small>
                             </div>
@@ -221,7 +221,7 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="bg-warning bg-opacity-10 rounded p-3">
+                            <div class="bg-success bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-warning mb-1">{{ $unusedTags }}</h4>
                                 <small class="text-muted">Non utilises</small>
                             </div>
@@ -238,7 +238,7 @@
 
             <!-- Tags populaires -->
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-gradient-success text-white p-3">
+                <div class="card-header bg-success text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-fire me-2"></i>Tags populaires
                     </h6>
@@ -268,7 +268,7 @@
 
             <!-- Actions rapides -->
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-gradient-info text-white p-3">
+                <div class="card-header bg-info text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-tools me-2"></i>Actions rapides
                     </h6>
@@ -296,17 +296,11 @@
 
 @push('styles')
 <style>
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
 
-.bg-gradient-success {
-    background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-}
 
-.bg-gradient-info {
-    background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
-}
+
+
+
 
 .bg-gradient-warning {
     background: linear-gradient(135deg, #f59e0b 0%, #10b981 100%);

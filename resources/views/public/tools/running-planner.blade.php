@@ -1238,7 +1238,7 @@
             <h2 class="fw-bold mb-0">
                 <i class="fas fa-water text-primary me-2"></i>Dernieres Publications
             </h2>
-            <a href="{{ route('public.index') }}" class="btn btn-outline-primary">
+            <a href="{{ route('posts.public.index') }}" class="btn btn-outline-primary">
                 Tous les articles <i class="fas fa-angle-right ms-1"></i>
             </a>
         </div>
@@ -1288,7 +1288,7 @@
                                     <i class="fas fa-calendar me-1"></i>
                                     {{ $post->published_at->format('d/m/Y') }}
                                 </small>
-                                <a href="{{ route('public.show', $post) }}" class="btn btn-sm btn-outline-primary">
+                                <a href="{{ route('posts.public.show', $post) }}" class="btn btn-sm btn-outline-primary">
                                     Lire la suite
                                 </a>
                             </div>

@@ -6,7 +6,7 @@
 
 <!-- Hero Section -->
 
-<section class="bg-gradient-primary text-white py-5">
+<section class="bg-primary text-white py-5">
     <div class="container-lg">
         <div class="row align-items-center">
             <div class="col-lg-7 mb-4 mb-lg-0">
@@ -441,17 +441,13 @@
 @endsection
 @push('styles')
 <style>
-    .bg-gradient-primary {
-        background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-    }
+    
 
     .bg-gradient-light {
         background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
     }
 
-    .bg-gradient-success {
-        background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-    }
+    
 
     .hover-lift {
         transition: all 0.3s ease;

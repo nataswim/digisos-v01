@@ -13,7 +13,7 @@
                     </h5>
                     <small class="opacity-75">{{ $cycles->total() ?? $cycles->count() }} cycle(s) au total</small>
                 </div>
-                <a href="{{ route('admin.training.cycles.create') }}" class="btn btn-light">
+                <a href="{{ route('admin.training.cycles.create') }}" class="btn bg-warning text-white p-2">
                     <i class="fas fa-plus me-2"></i>Nouveau cycle
                 </a>
             </div>

@@ -48,7 +48,7 @@
                     <div class="row g-3 mb-4">
                         @if($plan->duree_semaines)
                             <div class="col-md-3">
-                                <div class="bg-primary bg-opacity-10 rounded p-3 text-center">
+                                <div class="bg-info bg-opacity-10 rounded p-3 text-center">
                                     <h4 class="fw-bold text-primary mb-1">{{ $plan->duree_semaines }}</h4>
                                     <small class="text-muted">Semaines</small>
                                 </div>
@@ -67,7 +67,7 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="bg-warning bg-opacity-10 rounded p-3 text-center">
+                            <div class="bg-success bg-opacity-10 rounded p-3 text-center">
                                 <h4 class="fw-bold text-warning mb-1">{{ $plan->users->count() }}</h4>
                                 <small class="text-muted">Utilisateurs</small>
                             </div>

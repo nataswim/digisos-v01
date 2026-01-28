@@ -10,7 +10,7 @@
         <!-- Informations principales -->
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-gradient-warning text-white p-4">
+                <div class="card-header bg-warning text-white p-4">
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center">
                             <div class="me-3">
@@ -235,7 +235,7 @@
         <div class="col-lg-4">
             <!-- Informations generales -->
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-gradient-info text-white p-3">
+                <div class="card-header bg-info text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-water me-2"></i>Informations
                     </h6>
@@ -280,7 +280,7 @@
                 
                 @if($similarTags->count() > 0)
                     <div class="card border-0 shadow-sm mb-4">
-                        <div class="card-header bg-gradient-secondary text-white p-3">
+                        <div class="card-header bg-secondary text-white p-3">
                             <h6 class="mb-0">
                                 <i class="fas fa-tags me-2"></i>Tags similaires
                             </h6>
@@ -302,7 +302,7 @@
 
             <!-- Historique -->
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-gradient-primary text-white p-3">
+                <div class="card-header bg-primary text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-clock me-2"></i>Historique
                     </h6>
@@ -338,7 +338,7 @@
                         <a href="{{ route('admin.tags.edit', $tag) }}" class="btn btn-warning">
                             <i class="fas fa-edit me-2"></i>Modifier
                         </a>
-                        <a href="{{ route('public.index', ['tag' => $tag->slug]) }}" target="_blank" class="btn btn-outline-info">
+                        <a href="{{ route('posts.public.tag', $tag) }}" target="_blank" class="btn btn-outline-info">
                             <i class="fas fa-external-link-alt me-2"></i>Voir sur le site
                         </a>
                         <a href="{{ route('admin.tags.index') }}" class="btn btn-outline-secondary">
@@ -365,17 +365,11 @@
 
 @push('styles')
 <style>
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
 
-.bg-gradient-success {
-    background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-}
 
-.bg-gradient-info {
-    background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
-}
+
+
+
 
 .bg-gradient-warning {
     background: linear-gradient(135deg, #f59e0b 0%, #10b981 100%);

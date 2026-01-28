@@ -13,7 +13,7 @@
                     </h5>
                     <small class="opacity-75">{{ $series->total() ?? $series->count() }} série(s) au total</small>
                 </div>
-                <a href="{{ route('admin.training.series.create') }}" class="btn btn-light">
+                <a href="{{ route('admin.training.series.create') }}" class="btn bg-warning text-white p-2">
                     <i class="fas fa-plus me-2"></i>Nouvelle série
                 </a>
             </div>

@@ -10,7 +10,7 @@
         <!-- Contenu principal -->
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-gradient-primary text-white p-4">
+                <div class="card-header bg-primary text-white p-4">
                     <div class="d-flex align-items-center justify-content-between">
                         <h5 class="mb-0">
                             <i class="fas fa-file-alt me-2"></i>{{ $fiche->title }}
@@ -120,7 +120,7 @@
         <div class="col-lg-4">
             <!-- Statut et publication -->
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-gradient-success text-white p-3">
+                <div class="card-header bg-success text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-info-circle me-2"></i>Informations de publication
                     </h6>
@@ -157,7 +157,7 @@
             <!-- Catégorie et Sous-catégorie -->
             @if($fiche->category || $fiche->sousCategory)
                 <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-header bg-gradient-info text-white p-3">
+                    <div class="card-header bg-info text-white p-3">
                         <h6 class="mb-0">
                             <i class="fas fa-folder me-2"></i>Classification
                         </h6>
@@ -218,7 +218,7 @@
 
             <!-- Auteur et dates -->
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-gradient-secondary text-white p-3">
+                <div class="card-header bg-secondary text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-clock me-2"></i>Historique
                     </h6>
@@ -382,17 +382,11 @@
     font-weight: 600;
 }
 
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
 
-.bg-gradient-success {
-    background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-}
 
-.bg-gradient-info {
-    background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
-}
+
+
+
 
 .bg-gradient-secondary {
     background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);

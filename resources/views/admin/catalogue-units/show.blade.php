@@ -8,7 +8,7 @@
     <div class="row g-4">
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-gradient-primary text-white p-4">
+                <div class="card-header bg-primary text-white p-4">
                     <h5 class="mb-0">
                         <i class="fas fa-file-alt me-2"></i>{{ $catalogueUnit->title }}
                     </h5>
@@ -53,7 +53,7 @@
 
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-gradient-info text-white p-3">
+                <div class="card-header bg-info text-white p-3">
                     <h6 class="mb-0"><i class="fas fa-info-circle me-2"></i>Informations</h6>
                 </div>
                 <div class="card-body p-3">

@@ -10,7 +10,7 @@
         <!-- Contenu principal -->
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-gradient-primary text-white p-4">
+                <div class="card-header bg-primary text-white p-4">
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center">
                             <i class="fas fa-water fa-2x me-3"></i>
@@ -137,7 +137,7 @@
             <!-- Statistiques de telechargement -->
             @if($recentDownloads->count() > 0)
                 <div class="card border-0 shadow-sm mt-4">
-                    <div class="card-header bg-gradient-info text-white p-4">
+                    <div class="card-header bg-info text-white p-4">
                         <h6 class="mb-0">
                             <i class="fas fa-chart-line me-2"></i>Telechargements recents
                         </h6>
@@ -202,7 +202,7 @@
         <div class="col-lg-4">
             <!-- Statistiques -->
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-gradient-success text-white p-3">
+                <div class="card-header bg-success text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-chart-bar me-2"></i>Statistiques
                     </h6>
@@ -210,7 +210,7 @@
                 <div class="card-body p-3">
                     <div class="row g-3 text-center">
                         <div class="col-6">
-                            <div class="bg-primary bg-opacity-10 rounded p-3">
+                            <div class="bg-info bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-primary mb-1">{{ number_format($downloadable->download_count) }}</h4>
                                 <small class="text-muted">Total</small>
                             </div>
@@ -222,7 +222,7 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="bg-warning bg-opacity-10 rounded p-3">
+                            <div class="bg-success bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-warning mb-1">{{ $downloadStats['this_week'] }}</h4>
                                 <small class="text-muted">Cette semaine</small>
                             </div>
@@ -240,7 +240,7 @@
             <!-- Categorie -->
             @if($downloadable->category)
                 <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-header bg-gradient-info text-white p-3">
+                    <div class="card-header bg-info text-white p-3">
                         <h6 class="mb-0">
                             <i class="fas fa-folder me-2"></i>Categorie
                         </h6>
@@ -268,7 +268,7 @@
 
             <!-- Permissions -->
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-gradient-warning text-white p-3">
+                <div class="card-header bg-warning text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-shield-alt me-2"></i>Permissions d'acces
                     </h6>
@@ -288,7 +288,7 @@
                                 <small class="text-muted">Reserve aux non-connectes</small>
                             </div>
                         @else
-                            <div class="bg-warning bg-opacity-10 rounded p-3">
+                            <div class="bg-success bg-opacity-10 rounded p-3">
                                 <i class="fas fa-user fa-2x text-warning mb-2"></i>
                                 <h6 class="fw-bold text-warning">Membre</h6>
                                 <small class="text-muted">Reserve aux utilisateurs connectes</small>
@@ -300,7 +300,7 @@
 
             <!-- Historique -->
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-gradient-secondary text-white p-3">
+                <div class="card-header bg-secondary text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-clock me-2"></i>Historique
                     </h6>
@@ -402,17 +402,11 @@
     padding-left: 1.5rem;
 }
 
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
 
-.bg-gradient-success {
-    background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-}
 
-.bg-gradient-info {
-    background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
-}
+
+
+
 
 .bg-gradient-warning {
     background: linear-gradient(135deg, #f59e0b 0%, #10b981 100%);

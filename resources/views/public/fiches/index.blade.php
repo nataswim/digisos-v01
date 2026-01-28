@@ -21,9 +21,9 @@
         <div class="row align-items-center">
             <div class="col-lg mb-2 mb-lg-0">
                 <div class="d-flex align-items-center mb-3">
-                    <a href="{{ route('public.categories.index') }}" style=" color: #fff; text-decoration: none; ">
+                    <a href="{{ route('posts.public.index') }}" style=" color: #fff; text-decoration: none; ">
                     
-                    <h1 class="display-4 fw-bold mb-0 shadow-lg border-0" style="text-shadow: 2px 2px 4px rgb(3 64 71);background-color: #00acc0;padding: 10px;border-radius: 10px;"> <i class="fas fa-file-alt me-3"></i>Fiches Thématique</h1>
+                    <h1 class="display-4 fw-bold mb-0 shadow-lg border-0" style="text-shadow: 2px 2px 4px rgb(3 64 71);background-color: #63d0c7;padding: 10px;border-radius: 10px;"> <i class="fas fa-file-alt me-3"></i>Fiches Thématique</h1>
                     </a>
                 </div>
 
@@ -54,7 +54,7 @@
                                  class="card-img-top" 
                                  alt="{{ $fiche->title }}">
                         @else
-                            <div class="card-img-top bg-gradient-primary d-flex align-items-center justify-content-center" 
+                            <div class="card-img-top bg-primary d-flex align-items-center justify-content-center" 
                                  style="height: 220px;">
                                 <i class="fas fa-file-alt fa-4x text-white opacity-50"></i>
                             </div>
@@ -258,9 +258,7 @@
     box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
 }
 
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
+
 
 .badge {
     font-size: 0.75rem;

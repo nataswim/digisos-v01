@@ -3,7 +3,7 @@
     $chiffre2 = mt_rand(79, 123);
 @endphp
 
-<footer class="text-light" style="border-left: 20px solid #0f5c78;border-right: 20px solid #0f5c78;background-color: #0f5c78 !important;border-bottom: 20px solid #f9f5f4;border-top: 20px solid #f9f5f4;">
+<footer class="text-light" style="background-color: #4794b9 !important;border-top: 20px solid #f9f5f4;margin-top: 50px;border-left: 20px solid #63d0c7;border-right: 20px solid #63d0c7;border-bottom: 20px solid #f9f5f4;">
 
     <!-- statistiques  -->
     <div class="w-100 text-center py-3">
@@ -76,7 +76,7 @@
                 <div class="col-lg-3 col-md-6">
                     <ul class="list-unstyled">
                         <li class="mb-2">
-                            <a href="{{ route('public.index') }}" class="text-light opacity-75 text-decoration-none hover-opacity-100">
+                            <a href="{{ route('posts.public.index') }}" class="text-light opacity-75 text-decoration-none hover-opacity-100">
                                 <i class="fas fa-newspaper me-2"></i>Articles & Dossiers
                             </a>
                         </li>

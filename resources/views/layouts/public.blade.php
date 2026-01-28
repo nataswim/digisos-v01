@@ -5,14 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
-    {{-- Title --}}
     <title>@yield('title', 'Accueil') - {{ config('app.name') }}</title>
     
-    {{-- SEO Meta --}}
     <meta name="description" content="@yield('meta_description', 'Plateforme complète d\'entraînement sportif avec programmes, exercices, outils de calcul et ressources pour tous niveaux')">
     <meta name="keywords" content="@yield('meta_keywords', 'entraînement sportif, natation, musculation, plans d\'entraînement, exercices, outils calcul, performance sportive')">
     
-    {{-- Open Graph / Facebook Meta Tags --}}
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:site_name" content="{{ config('app.name') }}">
     <meta property="og:title" content="@yield('og_title', 'Sport Net Systèmes - Plateforme d\'entraînement sportif')">
@@ -26,49 +23,29 @@
     <meta property="og:locale" content="fr_FR">
     <meta property="fb:pages" content="Sports.Ressources">
     
-    {{-- Twitter Card Meta Tags --}}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="@yield('twitter_title', 'Sport Net Systèmes - Plateforme d\'entraînement sportif')">
     <meta name="twitter:description" content="@yield('twitter_description', 'Plateforme complète d\'entraînement sportif avec programmes et outils')">
     <meta name="twitter:image" content="@yield('twitter_image', asset('assets/images/team/nataswim-application-banner-4.jpg'))">
     <meta name="twitter:image:alt" content="@yield('twitter_image_alt', 'Sport Net Systèmes')">
     
-    {{-- Canonical URL --}}
     <link rel="canonical" href="@yield('canonical', url()->current())">
-    
-    {{-- Favicon --}}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     
-    {{-- Preconnect fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    {{-- Styles --}}
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    
-        {{-- CSS Social Share --}}
     <link rel="stylesheet" href="{{ asset('css/social-share.css') }}">
 
+    <meta name="msvalidate.01" content="8D79868FFCAC25E19818E1971977FC3F" />
+
     @stack('styles')
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RDDF8VW92G"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-RDDF8VW92G');
-</script>
-
-<meta name="msvalidate.01" content="8D79868FFCAC25E19818E1971977FC3F" />
-
-
 </head>
 <body class="bg-light">
     @include('layouts.partials.public-header')
     
-    {{-- Messages Flash --}}
     @if(session('success') || session('error') || session('warning'))
         <div class="container-fluid">
             @if(session('success'))
@@ -98,14 +75,19 @@
     
     @include('layouts.partials.public-footer')
     
-    {{-- Scripts --}}
     <script src="{{ mix('js/app.js') }}"></script>
-    {{-- Bandeau de partage social --}}
-    @include('layouts.partials.social-share')
     
-    {{-- JS Social Share --}}
+    @include('layouts.partials.social-share')
     <script src="{{ asset('js/social-share.js') }}"></script>
     
     @stack('scripts')
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RDDF8VW92G"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RDDF8VW92G');
+    </script>
 </body>
 </html>

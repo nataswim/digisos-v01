@@ -21,9 +21,9 @@
         <div class="row align-items-center">
             <div class="col-lg mb-2 mb-lg-0">
                 <div class="d-flex align-items-center mb-3">
-                    <a href="{{ route('public.categories.index') }}" style=" color: #fff; text-decoration: none; ">
+                    <a href="{{ route('posts.public.index') }}" style=" color: #fff; text-decoration: none; ">
                     
-                    <h1 class="display-4 fw-bold mb-0 shadow-lg border-0" style="text-shadow: 2px 2px 4px rgb(3 64 71);background-color: #00acc0;padding: 10px;border-radius: 10px;"> <i class="fas fa-file-alt me-3"></i>Bibliothèque d'exercices</h1>
+                    <h1 class="display-4 fw-bold mb-0 shadow-lg border-0" style="text-shadow: 2px 2px 4px rgb(3 64 71);background-color: #63d0c7;padding: 10px;border-radius: 10px;"> <i class="fas fa-file-alt me-3"></i>Bibliothèque d'exercices</h1>
                     </a>
                 </div>
 
@@ -312,7 +312,7 @@
                 </div>
 
                 <div class="col-lg text-center mt-4">
-                    <a href="{{ route('public.categories.index') }}">
+                    <a href="{{ route('posts.public.index') }}">
                         <img src="{{ asset('assets/images/team/nataswim-sport-net-systemes-6.jpg') }}"
                             alt="Guide Nataswim"
                             class="img-fluid rounded-4"

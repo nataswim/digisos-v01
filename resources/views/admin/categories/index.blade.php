@@ -7,7 +7,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="card border-0 shadow-sm">
-        <div class="card-header bg-gradient-info text-white p-4">
+        <div class="card-header bg-info text-white p-4">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
                     <h5 class="mb-1">
@@ -15,7 +15,7 @@
                     </h5>
                     <small class="opacity-75">{{ $categories->total() }} categorie(s) au total</small>
                 </div>
-                <a href="{{ route('admin.categories.create') }}" class="btn btn-light">
+                <a href="{{ route('admin.categories.create') }}" class="btn bg-warning text-white p-2">
                     <i class="fas fa-plus me-2"></i>Nouvelle categorie
                 </a>
             </div>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary flex-fill">
+                        <button type="submit" class="btn btn-primary text-white flex-fill">
                             <i class="fas fa-filter me-2"></i>Filtrer
                         </button>
                         @if(request('search') || request('status') || request('group'))
@@ -107,7 +107,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="d-flex align-items-center">
-                            <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                            <div class="bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
                                 <i class="fas fa-layer-group text-primary"></i>
                             </div>
                             <div>
@@ -243,11 +243,12 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item d-flex align-items-center" 
-                                               href="{{ route('public.index', ['category' => $category->slug]) }}" 
-                                               target="_blank">
-                                                <i class="fas fa-external-link-alt me-2 text-success"></i>Voir sur le site
-                                            </a>
+                                           <a class="dropdown-item d-flex align-items-center" 
+   href="{{ route('posts.public.category', $category) }}" 
+   target="_blank">
+    <i class="fas fa-external-link-alt me-2 text-success"></i>Voir sur le site
+</a>
+
                                         </li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li>
@@ -311,9 +312,7 @@
 
 @push('styles')
 <style>
-.bg-gradient-info {
-    background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
-}
+
 
 .table th a:hover {
     color: #0ea5e9 !important;

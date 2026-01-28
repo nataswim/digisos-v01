@@ -1,23 +1,43 @@
-/* Footer Admin - Style professionnel */
-
-.admin-footer {
-    margin-top: auto;
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
-    background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%);
+/* ========================================
+   STRUCTURE STICKY FOOTER
+   ======================================== */
+html, body {
+    height: 100%;
 }
 
-/* En-têtes de sections */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-wrapper {
+    flex: 1 0 auto;
+}
+
+.admin-footer {
+    flex-shrink: 0;
+    margin-top: auto;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+    background-color: #e9f8f3;
+    background-image: linear-gradient(45deg, #e9f7fa 85%, #ffffff 0);
+    background-position: top;
+    background-attachment: fixed;
+}
+
+/* ========================================
+   FOOTER ADMIN - STYLE PROFESSIONNEL
+   ======================================== */
+
 .footer-heading {
-    font-size: 0.95rem;
+font-size: 0.95rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border-bottom: 2px solid var(--primary-color, #0066cc);
-    padding-bottom: 0.5rem;
+    color: #ee8033;
     display: inline-block;
 }
 
-/* Liens du footer */
 .footer-links {
     margin: 0;
     padding: 0;
@@ -54,7 +74,6 @@
     opacity: 1;
 }
 
-/* Icône de lien externe */
 .footer-link .fa-external-link-alt {
     font-size: 0.7rem;
     opacity: 0.5;
@@ -65,7 +84,6 @@
     opacity: 1;
 }
 
-/* Boutons de ressources */
 .admin-footer .btn-sm {
     font-size: 0.85rem;
     padding: 0.375rem 0.75rem;
@@ -130,14 +148,12 @@
     box-shadow: 0 4px 8px rgba(52, 58, 64, 0.2);
 }
 
-/* Badges métadonnées */
 .footer-meta .badge {
     font-size: 0.8rem;
     padding: 0.4rem 0.7rem;
     font-weight: 500;
 }
 
-/* Liens légaux */
 .footer-legal {
     font-size: 0.85rem;
 }
@@ -152,17 +168,14 @@
     text-decoration: underline;
 }
 
-/* Copyright */
 .admin-footer p {
     line-height: 1.6;
 }
 
-/* Séparateurs */
 .admin-footer .border-top {
     border-color: #dee2e6 !important;
 }
 
-/* Responsive */
 @media (max-width: 991.98px) {
     .admin-footer {
         text-align: center;
@@ -202,7 +215,6 @@
     }
 }
 
-/* Animation au chargement */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -218,26 +230,22 @@
     animation: fadeInUp 0.5s ease-out;
 }
 
-/* Effet au survol des colonnes */
 .admin-footer .col-lg-3:hover .footer-heading {
     color: var(--primary-color, #0066cc);
     transition: color 0.3s;
 }
 
-/* Style pour les icônes Font Awesome */
 .admin-footer .fas,
 .admin-footer .fab {
     width: 1.2em;
     text-align: center;
 }
 
-/* Amélioration de la lisibilité */
 .admin-footer strong {
     font-weight: 600;
     color: #2c3e50;
 }
 
-/* Effet de survol sur les badges */
 .footer-meta .badge {
     transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -247,12 +255,10 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Style pour les séparateurs de liens légaux */
 .footer-legal span {
     opacity: 0.3;
 }
 
-/* Container fluid padding pour footer */
 .admin-footer .container-fluid {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -265,12 +271,10 @@
     }
 }
 
-/* Bouton "Voir le site" mise en évidence */
 .admin-footer .btn-outline-primary {
     font-weight: 500;
 }
 
-/* Ajustement des espacements */
 .admin-footer .row {
     margin-left: -0.75rem;
     margin-right: -0.75rem;
@@ -281,7 +285,6 @@
     padding-right: 0.75rem;
 }
 
-/* Dark mode support (optionnel) */
 @media (prefers-color-scheme: dark) {
     .admin-footer {
         background: linear-gradient(to bottom, #2c3e50 0%, #34495e 100%);

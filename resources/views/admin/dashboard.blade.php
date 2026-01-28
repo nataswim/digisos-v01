@@ -136,7 +136,7 @@
                 </div>
                 <div class="card-body p-4">
                     <div class="d-grid gap-3">
-                        <a href="{{ route('admin.posts.create') }}" class="btn btn-sm btn-warning d-flex align-items-center">
+                        <a href="{{ route('admin.posts.create') }}" class="btn card-header bg-primary text-white p-3 d-flex align-items-center">
                             <i class="fas fa-plus me-2"></i>
                             <div class="text-start">
                                 <div class="fw-semibold">Nouvel article</div>
@@ -144,7 +144,7 @@
                             </div>
                         </a>
                         
-                        <a href="{{ route('admin.categories.create') }}" class="btn btn-sm btn-warning d-flex align-items-center">
+                        <a href="{{ route('admin.categories.create') }}" class="btn card-header bg-primary text-white p-3 d-flex align-items-center">
                             <i class="fas fa-folder-plus me-2"></i>
                             <div class="text-start">
                                 <div class="fw-semibold">Nouvelle categorie</div>
@@ -152,7 +152,7 @@
                             </div>
                         </a>
                         
-                        <a href="{{ route('admin.users.create') }}" class="btn btn-sm btn-warning d-flex align-items-center">
+                        <a href="{{ route('admin.users.create') }}" class="btn card-header bg-primary text-white p-3 d-flex align-items-center">
                             <i class="fas fa-user-plus me-2"></i>
                             <div class="text-start">
                                 <div class="fw-semibold">Nouvel utilisateur</div>

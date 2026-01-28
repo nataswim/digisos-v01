@@ -84,7 +84,7 @@
     </div>
     
     <div class="footer">
-        <p>Ce message a été envoyé depuis le formulaire de contact de Nataswim</p>
+        <p>Ce message a été envoyé depuis le formulaire de contact</p>
         <p>Date : {{ now()->format('d/m/Y à H:i') }}</p>
     </div>
 </body>

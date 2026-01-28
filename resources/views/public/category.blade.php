@@ -19,7 +19,7 @@
                             </a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('public.categories.index') }}" class="text-white text-decoration-none">
+                            <a href="{{ route('posts.public.index') }}" class="text-white text-decoration-none">
                                 Catégories
                             </a>
                         </li>
@@ -88,7 +88,7 @@
                             <!-- Contenu -->
                             <div class="card-body">
                                 <h3 class="card-title h5 mb-3">
-                                    <a href="{{ route('public.show', $post->slug) }}" 
+                                    <a href="{{ route('posts.public.show', $post->slug) }}" 
                                        class="text-decoration-none text-dark">
                                         {{ $post->name }}
                                     </a>
@@ -107,7 +107,7 @@
                                     <i class="fas fa-calendar me-1"></i>
                                     {{ $post->published_at->format('d/m/Y') }}
                                 </small>
-                                <a href="{{ route('public.show', $post->slug) }}" 
+                                <a href="{{ route('posts.public.show', $post->slug) }}" 
                                    class="btn btn-sm btn-outline-primary">
                                     Lire
                                 </a>
@@ -133,7 +133,7 @@
                 <i class="fas fa-file-alt fa-3x text-muted mb-3 opacity-25"></i>
                 <h3 class="text-muted">Aucun article dans cette catégorie</h3>
                 <p class="text-muted mb-4">Revenez bientôt pour découvrir du nouveau contenu !</p>
-                <a href="{{ route('public.categories.index') }}" class="btn btn-outline-primary">
+                <a href="{{ route('posts.public.index') }}" class="btn btn-outline-primary">
                     <i class="fas fa-arrow-left me-2"></i>Voir toutes les catégories
                 </a>
             </div>

@@ -10,7 +10,7 @@
         <!-- Liste des rôles -->
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-gradient-primary text-white p-4">
+                <div class="card-header bg-primary text-white p-4">
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <h5 class="mb-1">
@@ -18,7 +18,7 @@
                             </h5>
                             <small class="opacity-75">{{ $roles->count() }} rôle(s) configure(s)</small>
                         </div>
-                        <a href="{{ route('admin.roles.create') }}" class="btn btn-light">
+                        <a href="{{ route('admin.roles.create') }}" class="btn bg-warning text-white p-2">
                             <i class="fas fa-plus me-2"></i>Nouveau rôle
                         </a>
                     </div>
@@ -170,7 +170,7 @@
         <div class="col-lg-4">
             <!-- Statistiques -->
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-gradient-success text-white p-3">
+                <div class="card-header bg-success text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-chart-pie me-2"></i>Repartition des utilisateurs
                     </h6>
@@ -226,7 +226,7 @@
 
             <!-- Permissions systeme -->
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-gradient-warning text-white p-3">
+                <div class="card-header bg-warning text-white p-3">
                     <div class="d-flex align-items-center justify-content-between">
                         <h6 class="mb-0">
                             <i class="fas fa-key me-2"></i>Permissions systeme
@@ -273,7 +273,7 @@
 
             <!-- Actions rapides -->
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-gradient-info text-white p-3">
+                <div class="card-header bg-info text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-tools me-2"></i>Actions rapides
                     </h6>
@@ -333,21 +333,15 @@
 
 @push('styles')
 <style>
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
 
-.bg-gradient-success {
-    background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-}
+
+
 
 .bg-gradient-warning {
     background: linear-gradient(135deg, #f59e0b 0%, #10b981 100%);
 }
 
-.bg-gradient-info {
-    background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
-}
+
 
 .hover-bg:hover {
     background-color: #f8f9fa;

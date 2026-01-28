@@ -79,7 +79,7 @@
                 <div class="card border-0 shadow-sm overflow-hidden">
                     <div class="ratio ratio-4x3">
                         <iframe 
-                            title="Localisation Nataswim" 
+                            title="Localisation DIGITALSOS" 
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1176.5239436813358!2d-0.25712794780144704!3d46.63821066641348!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48076dc9d435764f%3A0xa7eaa3369cacbf3e!2sMycreanet%20DIGITAL%20SERVICES%20-%20AGENCE%20WEB%20HUMAINE%20ET%20RESPONSABLE%20-%20CONSULTANT%20E%20COMMERCE!5e0!3m2!1sfr!2sfr!4v1741162976443!5m2!1sfr!2sfr" 
                             style="border: 0;" 
                             allowfullscreen 

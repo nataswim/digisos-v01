@@ -100,7 +100,7 @@
                                      style="height: 220px; object-fit: cover;"
                                      alt="{{ $exercice->titre }}">
                             @else
-                                <div class="card-img-top bg-gradient-primary d-flex align-items-center justify-content-center" 
+                                <div class="card-img-top bg-primary d-flex align-items-center justify-content-center" 
                                      style="height: 220px;">
                                     <i class="fas fa-running fa-4x text-white opacity-50"></i>
                                 </div>
@@ -193,8 +193,6 @@
     box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
 }
 
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
+
 </style>
 @endpush

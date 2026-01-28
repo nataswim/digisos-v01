@@ -11,12 +11,12 @@
 <div class="container-lg">
     <div class="container-lg">
         <div class="row align-items-center">
-            <div class="col-lg-7 mb-2 mb-lg-0" style=" background-color: #f9f5f4; color: #00acc0; padding: 20px 0px; border-radius: 10px; ">
+            <div class="col-lg-7 mb-2 mb-lg-0" style=" background-color: #f9f5f4; color: #63d0c7; padding: 20px 0px; border-radius: 10px; ">
                 <h1 class="display-5 fw-bold mb-3">Chronometre Avec Analyse Performance</h1>
                 <p>Chronometre haute precision pour natation avec analyse en temps reel, metriques avancees et graphiques de performance.</p>
             </div>
             <div class="col-lg-5 text-center">
-                <a href="{{ route('public.categories.index') }}">
+                <a href="{{ route('posts.public.index') }}">
                     <img src="{{ asset('assets/images/team/nataswim-application-banner-5.jpg') }}"
                         alt="Guide Nataswim"
                         class="img-fluid rounded-4"
@@ -644,7 +644,7 @@
             <h2 class="fw-bold mb-0">
                 <i class="fas fa-water text-primary me-2"></i>Dernieres Publications
             </h2>
-            <a href="{{ route('public.index') }}" class="btn btn-outline-primary">
+            <a href="{{ route('posts.public.index') }}" class="btn btn-outline-primary">
                 Tous les articles <i class="fas fa-angle-right ms-1"></i>
             </a>
         </div>
@@ -694,7 +694,7 @@
                                     <i class="fas fa-calendar me-1"></i>
                                     {{ $post->published_at->format('d/m/Y') }}
                                 </small>
-                                <a href="{{ route('public.show', $post) }}" class="btn btn-sm btn-outline-primary">
+                                <a href="{{ route('posts.public.show', $post) }}" class="btn btn-sm btn-outline-primary">
                                     Lire la suite
                                 </a>
                             </div>

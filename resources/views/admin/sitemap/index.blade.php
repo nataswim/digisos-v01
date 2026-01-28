@@ -7,16 +7,16 @@
 @section('content')
 <div class="container-fluid">
     {{-- En-tête avec actions --}}
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex bg-primary justify-content-between align-items-center text-white mb-4 p-4">
         <div>
             <h2><i class="fas fa-sitemap me-2"></i>Gestion du Sitemap</h2>
             <small class="text-muted">{{ $urls->total() ?? $urls->count() }} URL(s) au total</small>
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#discoverModal">
+            <button type="button" class="btn bg-warning text-white p-2" data-bs-toggle="modal" data-bs-target="#discoverModal">
                 <i class="fas fa-search me-2"></i>Découvrir
             </button>
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#generateModal">
+            <button type="button" class="btn bg-warning text-white p-2" data-bs-toggle="modal" data-bs-target="#generateModal">
                 <i class="fas fa-rocket me-2"></i>Générer
             </button>
         </div>
@@ -100,14 +100,14 @@
         <!-- Répartition par type -->
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-gradient-primary text-white p-3">
+                <div class="card-header bg-primary text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-layer-group me-2"></i>Répartition par type
                     </h6>
                 </div>
                 <div class="card-body p-3">
                     @php
-                        $total = $statistics['total_urls'] ?? 1;
+                        $total = max(1, $statistics['total_urls'] ?? 0);
                     @endphp
                     
                     <div class="mb-3">
@@ -155,7 +155,7 @@
         <!-- Répartition par source -->
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-gradient-info text-white p-3">
+                <div class="card-header bg-info text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-sitemap me-2"></i>Répartition par source
                     </h6>
@@ -206,7 +206,7 @@
         <!-- Actions et Liens -->
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm mb-3">
-                <div class="card-header bg-gradient-success text-white p-3">
+                <div class="card-header bg-success text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-tools me-2"></i>Actions rapides
                     </h6>
@@ -227,7 +227,7 @@
             </div>
 
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-gradient-warning text-white p-3">
+                <div class="card-header bg-warning text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-link me-2"></i>Liens SEO
                     </h6>
@@ -253,7 +253,7 @@
     <div class="row">
         <div class="col-12">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-gradient-primary text-white p-4">
+                <div class="card-header bg-primary text-white p-4">
                     <h5 class="mb-0">
                         <i class="fas fa-list me-2"></i>Liste des URLs
                     </h5>
@@ -302,7 +302,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="d-flex gap-1">
-                                <button type="submit" class="btn btn-primary flex-fill">
+                                <button type="submit" class="btn btn-primary text-white flex-fill">
                                     <i class="fas fa-filter me-2"></i>Filtrer
                                 </button>
                                 @if(request()->hasAny(['search', 'type', 'approved', 'source']))
@@ -612,17 +612,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 @push('styles')
 <style>
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
 
-.bg-gradient-success {
-    background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-}
 
-.bg-gradient-info {
-    background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
-}
+
+
+
 
 .bg-gradient-warning {
     background: linear-gradient(135deg, #f59e0b 0%, #10b981 100%);

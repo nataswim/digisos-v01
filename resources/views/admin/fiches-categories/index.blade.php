@@ -7,7 +7,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="card border-0 shadow-sm">
-        <div class="card-header bg-gradient-info text-white p-4">
+        <div class="card-header bg-info text-white p-4">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
                     <h5 class="mb-1">
@@ -15,7 +15,7 @@
                     </h5>
                     <small class="opacity-75">{{ $categories->total() }} catégorie(s) au total</small>
                 </div>
-                <a href="{{ route('admin.fiches-categories.create') }}" class="btn btn-light">
+                <a href="{{ route('admin.fiches-categories.create') }}" class="btn bg-warning text-white p-2">
                     <i class="fas fa-plus me-2"></i>Nouvelle catégorie
                 </a>
             </div>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary flex-fill">
+                        <button type="submit" class="btn btn-primary text-white flex-fill">
                             <i class="fas fa-filter me-2"></i>Filtrer
                         </button>
                         @if(request('search'))
@@ -268,9 +268,7 @@
 
 @push('styles')
 <style>
-.bg-gradient-info {
-    background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
-}
+
 
 .dropdown-menu {
     border: 0;

@@ -5,7 +5,7 @@
 @section('content')
 
 <!-- Hero Section -->
-<section class="bg-gradient-primary text-white py-5">
+<section class="bg-primary text-white py-5">
     <div class="container-lg">
         <div class="row align-items-center">
             <div class="col-lg-7 mb-4 mb-lg-0">
@@ -1095,7 +1095,7 @@
         <!-- Idées de carnets -->
         <div class="row">
             <div class="col-12">
-                <div class="card bg-gradient-primary text-white shadow-lg">
+                <div class="card bg-primary text-white shadow-lg">
                     <div class="card-body p-4">
                         <h3 class="h4 mb-4"><i class="fas fa-lightbulb me-2"></i>💡 Idées de carnets utiles</h3>
                         <div class="row g-3">
@@ -1582,7 +1582,7 @@
 </section>
 
 <!--  Section -->
-<section class="bg-gradient-primary text-white py-5">
+<section class="bg-primary text-white py-5">
     <div class="container-lg">
         <div class="row align-items-center">
 
@@ -1604,9 +1604,7 @@
 
 @push('styles')
 <style>
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
+
 
 .hover-lift {
     transition: all 0.3s ease;

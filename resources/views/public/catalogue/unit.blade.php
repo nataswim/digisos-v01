@@ -179,9 +179,7 @@
 }
 
 /* Dégradé pour l'en-tête */
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
+
 
 /* Items de contenu */
 .content-item {

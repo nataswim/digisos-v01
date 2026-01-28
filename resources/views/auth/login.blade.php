@@ -8,19 +8,6 @@
             <div class="col-lg-5 col-md-7">
                 <div class="card border-0 shadow-lg">
                     <div class="card-body p-5">
-                        <!-- Logo -->
-                        <div class="text-center mb-4">
-                             <div class="text-center">
-                                <div class="position-relative d-inline-block bg-white rounded-circle">
-                                    <a href="{{ route('public.categories.index') }}"> <img src="{{ asset('assets/images/team/nataswim_app_logo_2.png') }}"
-                                            alt="nataswim application pour tous"
-                                            class="img-fluid"
-                                            style="max-width: 200px;height: auto;box-shadow: 0 0 40px rgba(255,255,255,.8),0 0 10px #fff;border-radius: 100%;"></a>
-                                </div>
-                            </div>
-                            <p class="text-muted">Connectez-vous A votre compte</p>
-                        </div>
-
                         <!-- Session Status -->
                         <x-auth-session-status class="mb-4" :status="session('status')" />
 
@@ -84,27 +71,19 @@
 
                             <!-- Submit Button -->
                             <div class="d-grid mb-4">
-                                <button type="submit" class="btn btn-primary btn-lg">
+                                <button type="submit" class="btn btn-warning btn-lg">
                                     <i class="fas fa-sign-in-alt me-2"></i>Se connecter
                                 </button>
                             </div>
 
                             <!-- Register Link -->
                             <div class="text-center">
-                                <span class="text-muted">Pas encore de compte ?</span>
                                 <a href="{{ route('register') }}" class="text-decoration-none fw-semibold">
                                     Creer un compte
                                 </a>
                             </div>
                         </form>
                     </div>
-                </div>
-
-                <!-- Retour accueil -->
-                <div class="text-center mt-4">
-                    <a href="{{ route('home') }}" class="text-muted text-decoration-none">
-                        <i class="fas fa-arrow-left me-2"></i>Retour A l'accueil
-                    </a>
                 </div>
             </div>
         </div>

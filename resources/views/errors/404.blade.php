@@ -20,7 +20,7 @@
                         <a href="{{ route('home') }}" class="btn btn-primary">
                             <i class="fas fa-home me-2"></i>Retour A l'accueil
                         </a>
-                        <a href="{{ route('public.index') }}" class="btn btn-outline-primary">
+                        <a href="{{ route('posts.public.index') }}" class="btn btn-outline-primary">
                             <i class="fas fa-water me-2"></i>Voir les articles
                         </a>
                     </div>
@@ -37,7 +37,7 @@
                                 ->get();
                         @endphp
                         @foreach($popularPosts as $post)
-                            <a href="{{ route('public.show', $post) }}" class="list-group-item list-group-item-action border-0 px-0">
+                            <a href="{{ route('posts.public.show', $post) }}" class="list-group-item list-group-item-action border-0 px-0">
                                 <div class="d-flex align-items-center">
                                     <div class="bg-primary bg-opacity-10 rounded me-3" style="width: 40px; height: 40px;">
                                         <div class="d-flex align-items-center justify-content-center h-100">

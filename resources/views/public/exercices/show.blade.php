@@ -331,7 +331,7 @@
                 </a>
             </div>
             <div class="col-md-4">
-                <a href="{{ route('public.index') }}" class="btn btn-outline-info btn-lg w-100">
+                <a href="{{ route('posts.public.index') }}" class="btn btn-outline-info btn-lg w-100">
                     <i class="fas fa-book me-2"></i>Articles & conseils
                 </a>
             </div>

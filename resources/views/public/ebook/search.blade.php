@@ -253,7 +253,7 @@
                                                  style="height: 100%; object-fit: cover;"
                                                  alt="{{ $downloadable->title }}">
                                         @else
-                                            <div class="card-img-top bg-gradient-secondary d-flex align-items-center justify-content-center" 
+                                            <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" 
                                                  style="height: 200px;">
                                                 <i class="fas fa-file-{{ $downloadable->format === 'pdf' ? 'pdf' : ($downloadable->format === 'mp4' ? 'video' : 'alt') }} fa-3x text-white"></i>
                                             </div>

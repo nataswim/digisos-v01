@@ -10,7 +10,7 @@
         <!-- Liste des exercices - Pleine largeur -->
         <div class="col-12">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-gradient-primary text-white p-4">
+                <div class="card-header bg-primary text-white p-4">
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <h5 class="mb-1">
@@ -29,7 +29,7 @@
                                 <span id="selected-count">0</span> sélectionné(s)
                             </button>
                             
-                            <a href="{{ route('admin.training.exercices.create') }}" class="btn btn-light">
+                            <a href="{{ route('admin.training.exercices.create') }}" class="btn bg-warning text-white p-2">
                                 <i class="fas fa-plus me-2"></i>Nouvel exercice
                             </a>
                         </div>
@@ -53,7 +53,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="d-flex gap-1">
-                                <button type="submit" class="btn btn-primary flex-fill">
+                                <button type="submit" class="btn btn-primary text-white flex-fill">
                                     <i class="fas fa-search me-2"></i>Rechercher
                                 </button>
                                 @if(request('search'))
@@ -279,7 +279,7 @@
         <div class="col-lg-6">
             <!-- Statistiques générales -->
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-gradient-success text-white p-3">
+                <div class="card-header bg-success text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-chart-bar me-2"></i>Statistiques
                     </h6>
@@ -294,7 +294,7 @@
 
                     <div class="row g-3 text-center">
                         <div class="col-6">
-                            <div class="bg-primary bg-opacity-10 rounded p-3">
+                            <div class="bg-info bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-primary mb-1">{{ $totalExercices }}</h4>
                                 <small class="text-muted">Total</small>
                             </div>
@@ -306,7 +306,7 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="bg-warning bg-opacity-10 rounded p-3">
+                            <div class="bg-success bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-warning mb-1">{{ $forceExercices }}</h4>
                                 <small class="text-muted">Force</small>
                             </div>
@@ -325,7 +325,7 @@
         <div class="col-lg-6">
             <!-- Actions rapides -->
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-gradient-warning text-white p-3">
+                <div class="card-header bg-warning text-white p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-tools me-2"></i>Actions rapides
                     </h6>
@@ -450,25 +450,15 @@
 
 @push('styles')
 <style>
-    .bg-gradient-primary {
-        background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-    }
+    
 
-    .bg-gradient-success {
-        background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-    }
+    
 
-    .bg-gradient-info {
-        background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
-    }
+    
 
-    .bg-gradient-warning {
-        background: linear-gradient(135deg, #f59e0b 0%, #10b981 100%);
-    }
+    
 
-    .hover-bg:hover {
-        background-color: #f8f9fa;
-    }
+    
 
     .dropdown-menu {
         border: 0;

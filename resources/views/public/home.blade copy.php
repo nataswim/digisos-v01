@@ -23,7 +23,7 @@
                 
     <div class="text-center">
         <div class="position-relative d-inline-block bg-white rounded-circle">
-           <a href="{{ route('public.categories.index') }}"> <img src="{{ asset('assets/images/team/nataswim_app_logo_2.png') }}" 
+           <a href="{{ route('public.index') }}"> <img src="{{ asset('assets/images/team/nataswim_app_logo_2.png') }}" 
                  alt="nataswim application pour tous" 
                  class="img-fluid" 
                  style="max-width: 200px;height: auto;box-shadow: 0 0 40px rgba(255,255,255,.8),0 0 10px #fff;border-radius: 100%;"></a>

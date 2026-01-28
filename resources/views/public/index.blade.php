@@ -21,9 +21,9 @@
         <div class="row align-items-center">
             <div class="col-lg mb-2 mb-lg-0">
                 <div class="d-flex align-items-center mb-3">
-                    <a href="{{ route('public.categories.index') }}" style=" color: #fff; text-decoration: none; ">
+                    <a href="{{ route('posts.public.index') }}" style=" color: #fff; text-decoration: none; ">
                     
-                    <h1 class="display-4 fw-bold mb-0 shadow-lg border-0" style="text-shadow: 2px 2px 4px rgb(3 64 71);background-color: #00acc0;padding: 10px;border-radius: 10px;"> <i class="fas fa-newspaper me-3"></i>Articles & Dossiers</h1>
+                    <h1 class="display-4 fw-bold mb-0 shadow-lg border-0" style="text-shadow: 2px 2px 4px rgb(3 64 71);background-color: #63d0c7;padding: 10px;border-radius: 10px;"> <i class="fas fa-newspaper me-3"></i>Articles & Dossiers</h1>
                     </a>
                 </div>
 
@@ -77,11 +77,11 @@
             @endif
             <div class="col-md-3">
                 <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary flex-fill">
+                    <button type="submit" class="btn btn-primary text-white flex-fill">
                         <i class="fas fa-filter me-2"></i>Filtrer
                     </button>
                     @if($search || $category || ($tag ?? ''))
-                    <a href="{{ route('public.index') }}" class="btn btn-outline-secondary">
+                    <a href="{{ route('posts.public.index') }}" class="btn btn-outline-secondary">
                         <i class="fas fa-times"></i>
                     </a>
                     @endif
@@ -169,7 +169,7 @@
 
                         <!-- Titre -->
                         <h5 class="card-title mb-3">
-                            <a href="{{ route('public.show', $post) }}"
+                            <a href="{{ route('posts.public.show', $post) }}"
                                 class="text-decoration-none text-dark stretched-link">
                                 {{ $post->name }}
                             </a>
@@ -236,7 +236,7 @@
                 @endif
             </p>
             @if($search || $category || ($tag ?? ''))
-            <a href="{{ route('public.index') }}" class="btn btn-primary">
+            <a href="{{ route('posts.public.index') }}" class="btn btn-primary">
                 <i class="fas fa-arrow-left me-2"></i>Voir tous les articles
             </a>
             @endif
@@ -283,7 +283,7 @@
                     <div class="card-body d-flex flex-column">
                         <!-- Nom de la catégorie -->
                         <h3 class="card-title h5 mb-3">
-                            <a href="{{ route('public.category', $category->slug) }}"
+                            <a href="{{ route('posts.public.category', $category) }}"
                                 class="text-decoration-none text-dark stretched-link">
                                 {{ $category->name }}
                             </a>
@@ -329,9 +329,7 @@
 
 @push('styles')
 <style>
-    .bg-gradient-primary {
-        background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-    }
+    
 
     .bg-gradient-secondary {
         background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);

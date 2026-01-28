@@ -45,13 +45,13 @@
 }
 
 .navbar-nav .nav-link:hover {
-    color: var(--primary-color) !important;
-    background-color: rgba(0, 102, 204, 0.05);
+    color: #378094 !important;
+    background-color: #bce6e3;
 }
 
 .navbar-nav .nav-link.active {
-    color: var(--primary-color) !important;
-    background-color: rgba(0, 102, 204, 0.1);
+color: #378094 !important;
+    background-color: #fbfbf5;
 }
 
 /* Effet de soulignement au survol */
@@ -141,12 +141,12 @@
 
 .btn-outline-secondary:hover {
     background-color: var(--text-dark);
-    border-color: var(--text-dark);
+    border-color: #63d1c8;
 }
 
 .btn-outline-primary:hover {
     background-color: var(--primary-color);
-    border-color: var(--primary-color);
+    border-color: #63d1c8;
 }
 
 /* Champ de recherche */

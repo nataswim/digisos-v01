@@ -9,7 +9,7 @@
         <!-- Liste des contenus -->
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-gradient-primary text-white p-4">
+                <div class="card-header bg-primary text-white p-4">
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <h5 class="mb-1">
@@ -17,7 +17,7 @@
                             </h5>
                             <small class="opacity-75">{{ $catalogueUnit->title }}</small>
                         </div>
-                        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addMultipleContentsModal">
+                        <button class="btn bg-warning text-white p-2" data-bs-toggle="modal" data-bs-target="#addMultipleContentsModal">
                             <i class="fas fa-plus me-2"></i>Ajouter des contenus
                         </button>
                     </div>
@@ -116,7 +116,7 @@
         <!-- Sidebar infos -->
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-gradient-info text-white p-3">
+                <div class="card-header bg-info text-white p-3">
                     <h6 class="mb-0"><i class="fas fa-info-circle me-2"></i>Informations</h6>
                 </div>
                 <div class="card-body p-3">
@@ -165,7 +165,7 @@
         <div class="modal-content">
             <form method="POST" action="{{ route('admin.catalogue-units.add-multiple-contents', $catalogueUnit) }}" id="addMultipleContentsForm">
                 @csrf
-                <div class="modal-header bg-gradient-primary text-white">
+                <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title">
                         <i class="fas fa-plus-circle me-2"></i>Ajouter des contenus
                     </h5>
@@ -253,9 +253,7 @@
 
 @push('styles')
 <style>
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
+
 .bg-gradient-info {
     background: linear-gradient(135deg, #0dcaf0 0%, #0891b2 100%);
 }

@@ -4,7 +4,7 @@
     <!-- Contenu principal -->
     <div class="col-lg-8">
         <div class="card border-0 shadow-sm">
-            <div class="card-header bg-gradient-primary text-white p-4">
+            <div class="card-header bg-primary text-white p-4">
                 <h5 class="mb-0">
                     <i class="fas fa-user-shield me-2"></i>Informations du rôle
                 </h5>
@@ -191,7 +191,7 @@
     <div class="col-lg-4">
         <!-- Parametres du rôle -->
         <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-gradient-success text-white p-4">
+            <div class="card-header bg-success text-white p-4">
                 <h6 class="mb-0">
                     <i class="fas fa-cog me-2"></i>Parametres
                 </h6>
@@ -232,7 +232,7 @@
         <!-- Statistiques (en edition) -->
         @if(isset($role) && $role->exists)
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-gradient-info text-white p-4">
+                <div class="card-header bg-info text-white p-4">
                     <h6 class="mb-0">
                         <i class="fas fa-chart-bar me-2"></i>Statistiques
                     </h6>
@@ -240,7 +240,7 @@
                 <div class="card-body p-4">
                     <div class="row g-3 text-center">
                         <div class="col-6">
-                            <div class="bg-primary bg-opacity-10 rounded p-3">
+                            <div class="bg-info bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-primary mb-1">{{ $role->users()->count() }}</h4>
                                 <small class="text-muted">Utilisateurs</small>
                             </div>
@@ -267,7 +267,7 @@
 
         <!-- Aperçu des permissions selectionnees -->
         <div class="card border-0 shadow-sm">
-            <div class="card-header bg-gradient-warning text-white p-4">
+            <div class="card-header bg-warning text-white p-4">
                 <h6 class="mb-0">
                     <i class="fas fa-eye me-2"></i>Permissions selectionnees
                 </h6>
@@ -303,17 +303,11 @@
 
 @push('styles')
 <style>
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
 
-.bg-gradient-success {
-    background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-}
 
-.bg-gradient-info {
-    background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
-}
+
+
+
 
 .bg-gradient-warning {
     background: linear-gradient(135deg, #f59e0b 0%, #10b981 100%);

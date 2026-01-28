@@ -141,7 +141,7 @@
                                      style="height: 200px; object-fit: cover;"
                                      alt="{{ $download->title }}">
                             @else
-                                <div class="card-img-top bg-gradient-primary d-flex align-items-center justify-content-center" 
+                                <div class="card-img-top bg-primary d-flex align-items-center justify-content-center" 
                                      style="height: 200px;">
                                     <i class="fas fa-file-{{ $download->format === 'pdf' ? 'pdf' : ($download->format === 'mp4' ? 'video' : 'alt') }} fa-3x text-white"></i>
                                 </div>
@@ -315,40 +315,6 @@
     </div>
 </section>
 @endif
-
-<!-- Section CTA -->
-<section class="py-5 bg-primary text-white">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-8">
-                <h3 class="fw-bold mb-3">Acceder a plus de contenus ?</h3>
-                <p class="mb-0">
-                    Creez votre compte pour acceder A notre bibliotheque complete de ressources exclusives 
-                    et recevoir les nouveautes en avant-premiere.
-                </p>
-            </div>
-            <div class="col-lg-4 text-center">
-                @guest
-                    <div class="d-grid gap-2">
-                        <a href="{{ route('register') }}" class="btn btn-light btn-lg">
-                            <i class="fas fa-user-plus me-2"></i>Creer un compte
-                        </a>
-                        <a href="{{ route('login') }}" class="btn btn-outline-light">
-                            <i class="fas fa-sign-in-alt me-2"></i>Se connecter
-                        </a>
-                    </div>
-                @else
-                    <div class="text-center">
-                        <p class="mb-2">Bienvenue {{ auth()->user()->name }} !</p>
-                        <a href="{{ route('user.dashboard') }}" class="btn btn-light">
-                            <i class="fas fa-water me-2"></i>Mon espace
-                        </a>
-                    </div>
-                @endguest
-            </div>
-        </div>
-    </div>
-</section>
 @endsection
 
 @push('scripts')

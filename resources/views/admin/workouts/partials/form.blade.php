@@ -4,7 +4,7 @@
     <!-- Contenu principal -->
     <div class="col-lg-8">
         <div class="card border-0 shadow-sm">
-            <div class="card-header bg-gradient-warning text-white p-4">
+            <div class="card-header bg-warning text-white p-4">
                 <h5 class="mb-0">
                     <i class="fas fa-edit me-2"></i>Contenu du workout
                 </h5>
@@ -109,7 +109,7 @@
     <div class="col-lg-4">
         <!-- Catégories et numéros d'ordre -->
         <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-gradient-primary text-white p-4">
+            <div class="card-header bg-primary text-white p-4">
                 <h6 class="mb-0">
                     <i class="fas fa-folder me-2"></i>Catégories et ordre
                 </h6>
@@ -208,9 +208,7 @@
     background: linear-gradient(135deg, #f59e0b 0%, #10b981 100%);
 }
 
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-}
+
 
 .category-item {
     border-left: 3px solid transparent;

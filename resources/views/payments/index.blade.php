@@ -445,17 +445,13 @@
 @endsection
 @push('styles')
 <style>
-    .bg-gradient-primary {
-        background: linear-gradient(135deg, #0ea5e9 0%, #0f172a 100%);
-    }
+    
 
     .bg-gradient-light {
         background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
     }
 
-    .bg-gradient-success {
-        background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-    }
+    
 
     .hover-lift {
         transition: all 0.3s ease;

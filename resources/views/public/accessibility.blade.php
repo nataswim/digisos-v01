@@ -14,7 +14,7 @@
                     Déclaration d'Accessibilité
                 </h1>
                 <p class="lead mb-0">
-                    Chez Nataswim, nous nous engageons à rendre notre site web accessible à tous les utilisateurs, 
+                    Chez DIGITALSOS, nous nous engageons à rendre notre site web accessible à tous les utilisateurs, 
                     quelles que soient leurs capacités ou leur situation de handicap.
                 </p>
             </div>

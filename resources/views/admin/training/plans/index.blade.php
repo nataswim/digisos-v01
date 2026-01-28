@@ -15,7 +15,7 @@
                             </h5>
                             <small class="opacity-75">{{ $plans->total() ?? $plans->count() }} plan(s) au total</small>
                         </div>
-                        <a href="{{ route('admin.training.plans.create') }}" class="btn btn-light">
+                        <a href="{{ route('admin.training.plans.create') }}" class="btn bg-warning text-white p-2">
                             <i class="fas fa-plus me-2"></i>Nouveau plan
                         </a>
                     </div>
@@ -34,7 +34,7 @@
         </div>
         <div class="col-md-4">
             <div class="d-flex gap-1">
-                <button type="submit" class="btn btn-primary flex-fill">
+                <button type="submit" class="btn btn-primary text-white flex-fill">
                     <i class="fas fa-search me-2"></i>Rechercher
                 </button>
                 @if(request('search'))
@@ -210,7 +210,7 @@
                     
                     <div class="row g-3 text-center">
                         <div class="col-6">
-                            <div class="bg-primary bg-opacity-10 rounded p-3">
+                            <div class="bg-info bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-primary mb-1">{{ $totalPlans }}</h4>
                                 <small class="text-muted">Total</small>
                             </div>
@@ -228,7 +228,7 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="bg-warning bg-opacity-10 rounded p-3">
+                            <div class="bg-success bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-warning mb-1">{{ $featuredPlans }}</h4>
                                 <small class="text-muted">À la une</small>
                             </div>

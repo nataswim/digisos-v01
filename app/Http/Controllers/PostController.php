@@ -436,4 +436,95 @@ class PostController extends Controller
         
         return redirect()->back()->with('success', $message);
     }
+
+// ========== MÉTHODES PUBLIQUES ==========
+
+    /**
+     * Liste des posts publics
+     */
+    
+    
+    
+    
+public function indexPublic(Request $request)
+{
+    $search = $request->input('search');
+    $category = $request->input('category'); // Renommer de categoryId à category
+    
+    $query = Post::with(['category', 'tags'])
+        ->visibleTo(auth()->user())
+        ->orderBy('published_at', 'desc');
+
+    if ($search) {
+        $query->where(function($q) use ($search) {
+            $q->where('name', 'like', "%{$search}%")
+              ->orWhere('intro', 'like', "%{$search}%");
+        });
+    }
+
+    if ($category) {
+        $query->where('category_id', $category);
+    }
+
+    $posts = $query->paginate(12);
+    $categories = Category::whereHas('posts', function($q) {
+        $q->visibleTo(auth()->user());
+    })->orderBy('name')->get();
+
+    return view('public.index', compact('posts', 'categories', 'search', 'category'));
+}
+
+    /**
+     * Affichage d'un post public
+     */
+    public function showPublic(Post $post)
+    {
+        // Incrémenter vues
+        $post->increment('hits');
+        
+        // Charger relations
+        $post->load(['category', 'tags']);
+        
+        // Vérifier visibilité
+        $contentVisible = $post->isContentVisibleTo(auth()->user());
+        
+        // Posts récents
+        $recentPosts = Post::with(['category'])
+            ->visibleTo(auth()->user())
+            ->where('id', '!=', $post->id)
+            ->orderBy('published_at', 'desc')
+            ->limit(6)
+            ->get();
+
+        return view('public.show', compact('post', 'contentVisible', 'recentPosts'));
+    }
+
+    /**
+     * Posts par catégorie
+     */
+    public function byCategory(Category $category)
+    {
+        $posts = Post::with(['category', 'tags'])
+            ->where('category_id', $category->id)
+            ->visibleTo(auth()->user())
+            ->orderBy('published_at', 'desc')
+            ->paginate(12);
+
+        return view('public.category', compact('category', 'posts'));
+    }
+
+    /**
+     * Posts par tag
+     */
+    public function byTag(Tag $tag)
+    {
+        $posts = $tag->posts()
+            ->with(['category', 'tags'])
+            ->visibleTo(auth()->user())
+            ->orderBy('published_at', 'desc')
+            ->paginate(12);
+
+        return view('public.tag', compact('tag', 'posts'));
+    }
+
 }

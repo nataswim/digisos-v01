@@ -215,7 +215,7 @@
                         <!-- Carte Google Maps -->
                         <div class="ratio ratio-16x9">
                             <iframe 
-                                title="Localisation Nataswim - 46 Rte de la Pyramide, 75012 Paris" 
+                                title="Localisation DIGITALSOS - 46 Rte de la Pyramide, 75012 Paris" 
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2625.8583384719945!2d2.404621!3d48.843611!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e6729d8cf8e8c9%3A0x1234567890abcdef!2s46%20Route%20de%20la%20Pyramide%2C%2075012%20Paris!5e0!3m2!1sfr!2sfr!4v1733049600000!5m2!1sfr!2sfr" 
                                 style="border: 0;" 
                                 allowfullscreen 

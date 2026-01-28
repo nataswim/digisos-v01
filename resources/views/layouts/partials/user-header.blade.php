@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg shadow-sm sticky-top" style="border-left: 20px solid #f9f5f4;border-right: 20px solid #f9f5f4;background-color: #fff !important;border-bottom: 20px solid #4ccac6;border-top: 20px solid #4ccac6;">
+<nav class="navbar navbar-expand-lg shadow-sm sticky-top" style="border-left: 20px solid #ffffff;border-right: 20px solid #ffffff;border-bottom: 10px solid #63d0c7;border-top: 10px solid #63d0c7;background-color: #ffffff;">
     <div class="container-lg">
         <!-- Logo -->
         <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}" target="_blank" rel="noopener noreferrer">
@@ -42,7 +42,7 @@
                             <i class="fas fa-newspaper me-1"></i>Articles & Fiches
                         </li>
                         <li>
-                            <a class="dropdown-item py-2" href="{{ route('public.index') }}">
+                            <a class="dropdown-item py-2" href="{{ route('posts.public.index') }}">
                                 <i class="fas fa-newspaper text-info me-2"></i>Articles dossiers
                             </a>
                         </li>

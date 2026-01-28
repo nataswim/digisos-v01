@@ -66,7 +66,7 @@
                                 <div class="card-body">
                                     <!-- Nom de la catégorie -->
                                     <h3 class="card-title h4 mb-3">
-                                        <a href="{{ route('public.category', $category->slug) }}" 
+                                        <a href="{{ route('posts.public.category', $category) }}" 
                                            class="text-decoration-none text-dark category-link">
                                             {{ $category->name }}
                                         </a>
@@ -97,7 +97,7 @@
                                             <ul class="list-unstyled small mb-0 recent-posts-list">
                                                 @foreach($category->posts->take(3) as $post)
                                                     <li class="mb-2">
-                                                        <a href="{{ route('public.show', $post) }}" 
+                                                        <a href="{{ route('posts.public.show', $post) }}" 
                                                            class="text-decoration-none text-dark post-link">
                                                             <i class="fas fa-chevron-right text-primary me-1 small"></i>
                                                             {{ Str::limit($post->name, 45) }}
@@ -118,7 +118,7 @@
                             <!-- Bouton à droite -->
                             <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
                                 <div class="p-3 w-100">
-                                    <a href="{{ route('public.category', $category->slug) }}" 
+                                    <a href="{{ route('posts.public.category', $category) }}" 
                                        class="btn btn-outline-primary w-100 btn-category">
                                         <i class="fas fa-arrow-right me-2"></i>
                                         <span class="d-none d-lg-inline">Voir ce dossier</span>
@@ -146,7 +146,7 @@
     <div class="container-lg text-center">
         <h2 class="h4 mb-4">Vous cherchez un sujet en particulier ?</h2>
         <p class="mb-4 text-muted">Que vous soyez un athlète cherchant à optimiser votre préparation physique ou un passionné souhaitant simplement progresser, l'entraînement est la clé de la réussite dans le sport. Notre plateforme se spécialise dans les programmes structurés pour atteindre vos objectifs. Découvrez nos stratégies spécifiques pour le Triathlon, où l'enchaînement de la natation, du vélo et de la course requiert une endurance et une musculation ciblées. Explorez nos dossiers détaillés sur les meilleures techniques de nage, les séances de renforcement musculaire pour prévenir les blessures, et les plans de préparation physique générale pour garantir des performances durables. Maîtrisez chaque discipline et transformez votre potentiel athlétique.</p>
-        <a href="{{ route('public.index') }}" class="btn btn-primary btn-lg">
+        <a href="{{ route('posts.public.index') }}" class="btn btn-primary btn-lg">
             <i class="fas fa-search me-2"></i>Parcourir 
         </a>
     </div>

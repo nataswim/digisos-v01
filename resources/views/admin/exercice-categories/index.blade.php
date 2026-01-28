@@ -15,7 +15,7 @@
                             </h5>
                             <small class="opacity-75">{{ $categories->total() }} catégorie(s) au total</small>
                         </div>
-                        <a href="{{ route('admin.exercice-categories.create') }}" class="btn btn-light">
+                        <a href="{{ route('admin.exercice-categories.create') }}" class="btn bg-warning text-white p-2">
                             <i class="fas fa-plus me-2"></i>Nouvelle catégorie
                         </a>
                     </div>
@@ -33,7 +33,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="d-flex gap-1">
-                                <button type="submit" class="btn btn-primary flex-fill">
+                                <button type="submit" class="btn btn-primary text-white flex-fill">
                                     <i class="fas fa-search me-2"></i>Rechercher
                                 </button>
                                 @if($search)
@@ -170,7 +170,7 @@
                 <div class="card-body p-3">
                     <div class="row g-3 text-center">
                         <div class="col-6">
-                            <div class="bg-primary bg-opacity-10 rounded p-3">
+                            <div class="bg-info bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-primary mb-1">{{ $stats['total'] }}</h4>
                                 <small class="text-muted">Total</small>
                             </div>
