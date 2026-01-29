@@ -1,30 +1,18 @@
-// tree -L 8 -I 'vendor|node_modules|storage|bootstrap/cache' > structure.txt
 .
+├── README.md
 ├── app
 │   ├── Console
 │   │   └── Commands
-│   │       ├── ExploreDataEsCommand.php
 │   │       ├── GenerateCategorySlugs.php
 │   │       └── GenerateSitemap.php
 │   ├── Http
 │   │   ├── Controllers
 │   │   │   ├── AITextController.php
 │   │   │   ├── Admin
-│   │   │   │   ├── CatalogueSectionController.php
-│   │   │   │   ├── CatalogueUnitController.php
-│   │   │   │   ├── CycleController.php
-│   │   │   │   ├── ExerciceCategoryController.php
-│   │   │   │   ├── ExerciceController.php
-│   │   │   │   ├── ExerciceSousCategoryController.php
-│   │   │   │   ├── PaymentController.php
-│   │   │   │   ├── PlanController.php
-│   │   │   │   ├── SeanceController.php
-│   │   │   │   ├── SerieController.php
 │   │   │   │   ├── SitemapController.php
 │   │   │   │   ├── VideoCategoryController.php
 │   │   │   │   ├── VideoController.php
 │   │   │   │   └── VideoLibraryController.php
-│   │   │   ├── AnatomyController.php
 │   │   │   ├── Auth
 │   │   │   │   ├── AuthenticatedSessionController.php
 │   │   │   │   ├── ConfirmablePasswordController.php
@@ -33,96 +21,60 @@
 │   │   │   │   ├── NewPasswordController.php
 │   │   │   │   ├── PasswordController.php
 │   │   │   │   ├── PasswordResetLinkController.php
-│   │   │   │   ├── RegisteredUserController copy.php
 │   │   │   │   ├── RegisteredUserController.php
 │   │   │   │   └── VerifyEmailController.php
-│   │   │   ├── CatalogueController.php
 │   │   │   ├── CategoryController.php
 │   │   │   ├── Controller.php
 │   │   │   ├── DownloadCategoryController.php
 │   │   │   ├── DownloadableController.php
 │   │   │   ├── EbookController.php
 │   │   │   ├── EbookFileController.php
-│   │   │   ├── EquipementController.php
-│   │   │   ├── ExercicePublicController.php
 │   │   │   ├── FicheController.php
 │   │   │   ├── FichesCategoryController.php
 │   │   │   ├── FichesSousCategoryController.php
 │   │   │   ├── MediaController.php
-│   │   │   ├── PaymentController.php
 │   │   │   ├── PermissionController.php
-│   │   │   ├── PlanPublicController.php
 │   │   │   ├── PostController.php
 │   │   │   ├── ProfileController.php
-│   │   │   ├── PublicController copy.php
 │   │   │   ├── PublicController.php
-│   │   │   ├── PublicController0.php
 │   │   │   ├── PublicFicheController.php
 │   │   │   ├── PublicVideoController.php
-│   │   │   ├── PublicWorkoutController.php
 │   │   │   ├── RoleController.php
 │   │   │   ├── SearchController.php
 │   │   │   ├── TagController.php
-│   │   │   ├── ToolController.php
 │   │   │   ├── User
-│   │   │   │   ├── CalendarController.php
-│   │   │   │   ├── NotebookController.php
-│   │   │   │   └── TrainingController.php
-│   │   │   ├── UserController.php
-│   │   │   ├── WorkoutCategoryController.php
-│   │   │   ├── WorkoutController.php
-│   │   │   └── WorkoutSectionController.php
+│   │   │   └── UserController.php
 │   │   └── Requests
-│   │       ├── AddMultipleCatalogueUnitContentsRequest.php
-│   │       ├── AssignPlanRequest.php
 │   │       ├── Auth
 │   │       │   ├── LoginRequest.php
 │   │       │   └── RegisterRequest.php
 │   │       ├── BulkMediaActionRequest.php
 │   │       ├── ProfileUpdateRequest.php
-│   │       ├── StoreCatalogueModuleRequest.php
-│   │       ├── StoreCatalogueSectionRequest.php
-│   │       ├── StoreCatalogueUnitRequest.php
 │   │       ├── StoreCategoryRequest.php
 │   │       ├── StoreDownloadCategoryRequest.php
 │   │       ├── StoreDownloadableRequest.php
-│   │       ├── StoreExerciceRequest.php
 │   │       ├── StoreFicheRequest.php
 │   │       ├── StoreMediaCategoryRequest.php
 │   │       ├── StoreMediaRequest.php
 │   │       ├── StorePermissionRequest.php
-│   │       ├── StorePlanRequest.php
 │   │       ├── StorePostRequest.php
 │   │       ├── StoreRoleRequest.php
-│   │       ├── StoreSeanceRequest.php
-│   │       ├── StoreSerieRequest.php
 │   │       ├── StoreTagRequest.php
 │   │       ├── StoreUserRequest.php
 │   │       ├── StoreVideoCategoryRequest.php
 │   │       ├── StoreVideoRequest.php
-│   │       ├── StoreWorkoutCategoryRequest.php
-│   │       ├── StoreWorkoutRequest.php
-│   │       ├── StoreWorkoutSectionRequest.php
-│   │       ├── UpdateCatalogueModuleRequest.php
-│   │       ├── UpdateCatalogueSectionRequest.php
-│   │       ├── UpdateCatalogueUnitRequest.php
 │   │       ├── UpdateCategoryRequest.php
 │   │       ├── UpdateDownloadCategoryRequest.php
 │   │       ├── UpdateDownloadableRequest.php
-│   │       ├── UpdateExerciceRequest.php
 │   │       ├── UpdateFicheRequest.php
 │   │       ├── UpdatePermissionRequest.php
 │   │       ├── UpdatePostRequest.php
 │   │       ├── UpdateProfileRequest.php
 │   │       ├── UpdateRoleRequest.php
-│   │       ├── UpdateSeanceRequest.php
 │   │       ├── UpdateTagRequest.php
 │   │       ├── UpdateUserRequest.php
 │   │       ├── UpdateVideoCategoryRequest.php
-│   │       ├── UpdateVideoRequest.php
-│   │       ├── UpdateWorkoutCategoryRequest.php
-│   │       ├── UpdateWorkoutRequest.php
-│   │       └── UpdateWorkoutSectionRequest.php
+│   │       └── UpdateVideoRequest.php
 │   ├── Mail
 │   │   └── ContactFormMail.php
 │   ├── Models
@@ -163,6 +115,7 @@
 │   │   ├── packages.php
 │   │   └── services.php
 │   └── providers.php
+├── cleanup_css.sh
 ├── composer.json
 ├── composer.lock
 ├── config
@@ -178,8 +131,7 @@
 │   ├── mail.php
 │   ├── queue.php
 │   ├── services.php
-│   ├── session.php
-│   └── stripe.php
+│   └── session.php
 ├── database
 │   ├── factories
 │   │   └── UserFactory.php
@@ -350,9 +302,6 @@
 │       ├── fa-v4compatibility.ttf
 │       └── fa-v4compatibility.woff2
 ├── resources
-│   ├── css
-│   │   ├── app.css
-│   │   └── media-manager.css
 │   ├── js
 │   │   ├── admin.js
 │   │   ├── app.js
@@ -365,30 +314,6 @@
 │       ├── admin
 │       │   ├── aitext
 │       │   │   └── settings.blade.php
-│       │   ├── catalogue-modules
-│       │   │   ├── create.blade.php
-│       │   │   ├── edit.blade.php
-│       │   │   ├── index.blade.php
-│       │   │   ├── partials
-│       │   │   │   └── form.blade.php
-│       │   │   └── show.blade.php
-│       │   ├── catalogue-sections
-│       │   │   ├── create.blade.php
-│       │   │   ├── edit.blade.php
-│       │   │   ├── index.blade.php
-│       │   │   ├── partials
-│       │   │   │   └── form.blade.php
-│       │   │   └── show.blade.php
-│       │   ├── catalogue-units
-│       │   │   ├── contents.blade.php
-│       │   │   ├── create.blade.php
-│       │   │   ├── edit.blade.php
-│       │   │   ├── index.blade.php
-│       │   │   ├── partials
-│       │   │   │   ├── content-item-display.blade.php
-│       │   │   │   ├── content-item.blade.php
-│       │   │   │   └── form.blade.php
-│       │   │   └── show.blade.php
 │       │   ├── categories
 │       │   │   ├── create.blade.php
 │       │   │   ├── edit.blade.php
@@ -396,6 +321,7 @@
 │       │   │   ├── partials
 │       │   │   │   └── form.blade.php
 │       │   │   └── show.blade.php
+│       │   ├── dashboard.blade.php
 │       │   ├── download-categories
 │       │   │   ├── create.blade.php
 │       │   │   ├── edit.blade.php
@@ -415,20 +341,6 @@
 │       │   │   ├── index.blade.php
 │       │   │   ├── modals
 │       │   │   │   └── upload.blade.php
-│       │   │   └── show.blade.php
-│       │   ├── exercice-categories
-│       │   │   ├── create.blade.php
-│       │   │   ├── edit.blade.php
-│       │   │   ├── index.blade.php
-│       │   │   ├── partials
-│       │   │   │   └── form.blade.php
-│       │   │   └── show.blade.php
-│       │   ├── exercice-sous-categories
-│       │   │   ├── create.blade.php
-│       │   │   ├── edit.blade.php
-│       │   │   ├── index.blade.php
-│       │   │   ├── partials
-│       │   │   │   └── form.blade.php
 │       │   │   └── show.blade.php
 │       │   ├── fiches
 │       │   │   ├── create.blade.php
@@ -455,8 +367,6 @@
 │       │   │   │   ├── details.blade.php
 │       │   │   │   └── upload.blade.php
 │       │   │   └── show.blade.php
-│       │   ├── payments
-│       │   │   └── index.blade.php
 │       │   ├── permissions
 │       │   │   ├── create.blade.php
 │       │   │   ├── edit.blade.php
@@ -497,44 +407,6 @@
 │       │   │   ├── partials
 │       │   │   │   └── form.blade.php
 │       │   │   └── show.blade.php
-│       │   ├── training
-│       │   │   ├── cycles
-│       │   │   │   ├── create.blade.php
-│       │   │   │   ├── edit.blade.php
-│       │   │   │   ├── index.blade.php
-│       │   │   │   ├── partials
-│       │   │   │   │   └── form.blade.php
-│       │   │   │   └── show.blade.php
-│       │   │   ├── exercices
-│       │   │   │   ├── create.blade.php
-│       │   │   │   ├── edit.blade.php
-│       │   │   │   ├── index.blade.php
-│       │   │   │   ├── partials
-│       │   │   │   │   ├── bulk-categories-form.blade.php
-│       │   │   │   │   └── form.blade.php
-│       │   │   │   └── show.blade.php
-│       │   │   ├── plans
-│       │   │   │   ├── assignations.blade.php
-│       │   │   │   ├── create.blade.php
-│       │   │   │   ├── edit.blade.php
-│       │   │   │   ├── index.blade.php
-│       │   │   │   ├── partials
-│       │   │   │   │   └── form.blade.php
-│       │   │   │   └── show.blade.php
-│       │   │   ├── seances
-│       │   │   │   ├── create.blade.php
-│       │   │   │   ├── edit.blade.php
-│       │   │   │   ├── index.blade.php
-│       │   │   │   ├── partials
-│       │   │   │   │   └── form.blade.php
-│       │   │   │   └── show.blade.php
-│       │   │   └── series
-│       │   │       ├── create.blade.php
-│       │   │       ├── edit.blade.php
-│       │   │       ├── index.blade.php
-│       │   │       ├── partials
-│       │   │       │   └── form.blade.php
-│       │   │       └── show.blade.php
 │       │   ├── users
 │       │   │   ├── create.blade.php
 │       │   │   ├── edit.blade.php
@@ -547,46 +419,25 @@
 │       │   │   ├── create.blade.php
 │       │   │   ├── edit.blade.php
 │       │   │   └── index.blade.php
-│       │   ├── videos
-│       │   │   ├── create.blade.php
-│       │   │   ├── edit.blade.php
-│       │   │   ├── index.blade.php
-│       │   │   └── show.blade.php
-│       │   ├── workout-categories
-│       │   │   ├── create.blade.php
-│       │   │   ├── edit.blade.php
-│       │   │   ├── index.blade.php
-│       │   │   └── show.blade.php
-│       │   ├── workout-sections
-│       │   │   ├── create.blade.php
-│       │   │   ├── edit.blade.php
-│       │   │   ├── index.blade.php
-│       │   │   └── show.blade.php
-│       │   └── workouts
+│       │   └── videos
 │       │       ├── create.blade.php
 │       │       ├── edit.blade.php
 │       │       ├── index.blade.php
-│       │       ├── partials
-│       │       │   └── form.blade.php
 │       │       └── show.blade.php
 │       ├── auth
 │       │   ├── confirm-password.blade.php
 │       │   ├── forgot-password.blade.php
 │       │   ├── login.blade.php
-│       │   ├── register.blade copy 2.php
-│       │   ├── register.blade copy.php
 │       │   ├── register.blade.php
 │       │   ├── reset-password.blade.php
 │       │   └── verify-email.blade.php
 │       ├── components
-│       │   ├── add-to-notebook-button.blade.php
 │       │   ├── admin
 │       │   │   ├── data-table.blade.php
 │       │   │   ├── page-header.blade.php
 │       │   │   └── stats-card.blade.php
 │       │   ├── application-logo.blade.php
 │       │   ├── auth-session-status.blade.php
-│       │   ├── calendar-badge.blade.php
 │       │   ├── danger-button.blade.php
 │       │   ├── dropdown-link.blade.php
 │       │   ├── dropdown.blade.php
@@ -632,15 +483,6 @@
 │       ├── public
 │       │   ├── about.blade.php
 │       │   ├── accessibility.blade.php
-│       │   ├── catalogue
-│       │   │   ├── index.blade.php
-│       │   │   ├── module.blade.php
-│       │   │   ├── section.blade.php
-│       │   │   └── unit.blade.php
-│       │   ├── categories
-│       │   │   └── index.blade.php
-│       │   ├── category.blade.php
-│       │   ├── contact.blade copy.php
 │       │   ├── contact.blade.php
 │       │   ├── cookies.blade.php
 │       │   ├── ebook
@@ -648,11 +490,6 @@
 │       │   │   ├── index.blade.php
 │       │   │   ├── search.blade.php
 │       │   │   └── show.blade.php
-│       │   ├── exercices
-│       │   │   ├── category.blade.php
-│       │   │   ├── index.blade.php
-│       │   │   ├── show.blade.php
-│       │   │   └── sous-category.blade.php
 │       │   ├── features.blade.php
 │       │   ├── fiches
 │       │   │   ├── category.blade.php
@@ -660,91 +497,25 @@
 │       │   │   ├── show.blade.php
 │       │   │   └── sous-category.blade.php
 │       │   ├── guide.blade.php
-│       │   ├── guidecarnet.blade.php
-│       │   ├── guideplanif.blade.php
-│       │   ├── home.blade copy.php
 │       │   ├── home.blade.php
-│       │   ├── home.blade0.php
-│       │   ├── index.blade.php
 │       │   ├── legal.blade.php
 │       │   ├── partials
 │       │   │   └── search-form.blade.php
-│       │   ├── plans
-│       │   │   └── index.blade.php
 │       │   ├── pricing.blade.php
 │       │   ├── privacy.blade.php
 │       │   ├── search.blade.php
-│       │   ├── show.blade.php
-│       │   ├── tools
-│       │   │   ├── bmi-calculator.blade.php
-│       │   │   ├── calculateur-calories.blade.php
-│       │   │   ├── calculateur-fitness.blade.php
-│       │   │   ├── calculateur-hydratation.blade.php
-│       │   │   ├── calculateur-tdee.blade.php
-│       │   │   ├── calculateur-vnc.blade.php
-│       │   │   ├── carte-interactive.blade.php
-│       │   │   ├── categories
-│       │   │   │   ├── aquatic-sports.blade.php
-│       │   │   │   ├── cardiac-performance.blade.php
-│       │   │   │   ├── development-tools.blade.php
-│       │   │   │   ├── health-body-composition.blade.php
-│       │   │   │   ├── nutrition-energy.blade.php
-│       │   │   │   ├── practical-tools.blade.php
-│       │   │   │   ├── running-endurance.blade.php
-│       │   │   │   └── strength-training.blade.php
-│       │   │   ├── chronometre-natation.blade.php
-│       │   │   ├── chronometre-pro.blade.php
-│       │   │   ├── coherence-cardiaque.blade.php
-│       │   │   ├── convertisseur-kcal-macros.blade.php
-│       │   │   ├── efficacite-technique-natation.blade.php
-│       │   │   ├── index.blade.php
-│       │   │   ├── masse-grasse.blade.php
-│       │   │   ├── onermcalculator.blade.php
-│       │   │   ├── planificateur-natation.blade.php
-│       │   │   ├── planificateur-triathlon.blade.php
-│       │   │   ├── predicteur-natation.blade.php
-│       │   │   ├── running-planner.blade.php
-│       │   │   └── zones-cardiaques.blade.php
-│       │   ├── videos
-│       │   │   ├── category.blade.php
-│       │   │   ├── index.blade.php
-│       │   │   └── show.blade.php
-│       │   └── workouts
+│       │   └── videos
 │       │       ├── category.blade.php
 │       │       ├── index.blade.php
-│       │       ├── section.blade.php
 │       │       └── show.blade.php
 │       ├── user
-│       │   ├── calendar
-│       │   │   ├── create.blade.php
-│       │   │   ├── edit.blade.php
-│       │   │   ├── index.blade.php
-│       │   │   ├── partials
-│       │   │   │   ├── complete-modal.blade.php
-│       │   │   │   ├── create-modal.blade.php
-│       │   │   │   └── edit-modal.blade.php
-│       │   │   └── show.blade.php
 │       │   ├── dashboard.blade.php
-│       │   ├── index.blade.php
-│       │   ├── notebooks
-│       │   │   ├── index.blade.php
-│       │   │   ├── pdf.blade.php
-│       │   │   └── show.blade.php
-│       │   ├── profile
-│       │   │   └── edit.blade.php
-│       │   ├── show.blade.php
-│       │   └── training
-│       │       ├── cycle.blade.php
-│       │       ├── exercice.blade.php
-│       │       ├── index.blade.php
-│       │       ├── mes-plans.blade.php
-│       │       ├── seance.blade.php
-│       │       └── show.blade.php
+│       │   └── profile
+│       │       └── edit.blade.php
 │       └── welcome.blade.php
 ├── routes
 │   ├── auth.php
 │   ├── console.php
-│   ├── web-source-fonctionnelle.php
 │   └── web.php
 ├── structure.txt
 ├── tests
@@ -764,4 +535,4 @@
 ├── vite.config.js
 └── webpack.mix.js
 
-127 directories, 637 files
+89 directories, 447 files
