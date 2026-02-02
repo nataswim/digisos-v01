@@ -8,7 +8,6 @@
 @section('og_type', 'article')
 @section('og_title', $fiche->title)
 @section('og_description', strip_tags($fiche->short_description))
-@section('og_url', route('public.fiches.show', [$category, $fiche]))
 @if($fiche->image)
     @section('og_image', $fiche->image)
     @section('og_image_alt', $fiche->title)
@@ -98,7 +97,7 @@
                             
                             <span class="d-flex align-items-center">
                                 <i class="fas fa-eye me-1"></i>
-                                1{{ number_format($fiche->views_count) }} vue{{ $fiche->views_count > 1 ? 's' : '' }}
+                                1{{ number_format($fiche->views_count ?? 0) }} vue{{ $fiche->views_count > 1 ? 's' : '' }}
                             </span>
                             
                             <span class="d-flex align-items-center">
@@ -106,12 +105,7 @@
                                 {{ $fiche->published_at?->format('d M Y') ?? $fiche->created_at->format('d M Y') }}
                             </span>
                         
-                        
-                        <div class="mt-3">
-            <x-add-to-notebook-button 
-                content-type="fiches" 
-                :content-id="$fiche->id" 
-            />
+                 
                         
                         </div>
                     </div>
@@ -184,38 +178,7 @@
     </div>
 @endif
 
-                <!-- Card 4: Fiches associées -->
-                @if($relatedFiches->count() > 0)
-                    <div class="card border-0 shadow-sm mb-4">
-                        <div class="card-body p-4">
-                            <div class="row g-4">
-                                @foreach($relatedFiches as $related)
-                                    <div class="col-md-4">
-                                        <div class="card h-100 border">
-                                            @if($related->image)
-                                                <img src="{{ $related->image }}" 
-                                                     class="card-img-top" 
-                                                     style="height: 180px; object-fit: cover;"
-                                                     alt="{{ $related->title }}">
-                                            @else
-                                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
-                                                     style="height: 180px;">
-                                                    <i class="fas fa-file-alt fa-2x text-muted"></i>
-                                                </div>
-                                            @endif
-                                            
-                                            <div class="card-body p-3">
-                                                <h6 class="card-title">{!! Str::limit($related->title, 60) !!}</h6>
-                                                <a href="{{ route('public.fiches.show', [$category, $related]) }}" 
-                                                   class="stretched-link"></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                @endif
+                
 
                 <!-- Card 5: Informations de la fiche -->
                 <div class="border-0 mb-4">
@@ -243,7 +206,7 @@
                                     <span class="text-muted">
                                         <i class="fas fa-eye me-1"></i>Nombre de vues:
                                     </span>
-                                    <strong>1{{ number_format($fiche->views_count) }}</strong>
+                                    <strong>1{{ number_format($fiche->views_count ?? 0) }}</strong>
                                 </div>
                             </div>
                             @if($fiche->creator)

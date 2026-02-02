@@ -11,7 +11,8 @@
         @include('admin.fiches.partials.form', [
             'submitLabel' => 'Mettre à jour la fiche',
             'fiche' => $fiche,
-            'categories' => $categories
+            'categories' => $categories,
+            'sousCategories' => $sousCategories
         ])
     </form>
 </div>

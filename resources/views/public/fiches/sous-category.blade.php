@@ -98,9 +98,9 @@
                                 
                                 <div class="d-flex align-items-center justify-content-between mt-3 pt-3 border-top">
                                     <small class="text-muted">
-                                        <i class="fas fa-eye me-1"></i>55{{ number_format($fiche->views_count) }} Lectures
+                                        <i class="fas fa-eye me-1"></i>{{ number_format($fiche->views_count ?? 0) }} Lectures
                                     </small>
-                                    <a href="{{ route('public.fiches.show', [$category, $fiche]) }}" 
+                                    <a href="{{ route('public.fiches.show', [$category, $sousCategory, $fiche]) }}" 
                                        class="btn btn-sm btn-primary">
                                         Lire <i class="fas fa-arrow-right ms-1"></i>
                                     </a>

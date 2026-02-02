@@ -1,14 +1,427 @@
-// Variables Bootstrap personnalisées
-@import 'variables';
+/**
+ * ============================================================================
+ * APP.SCSS - DIGITAL'SOS CMS
+ * ============================================================================
+ * Fichier principal SCSS qui importe tous les composants
+ * Méthode M2PC : Matériel | Planning | Personnel | Contenu
+ * Charte aquatique Digital'SOS
+ * Version : Laravel 12 | Bootstrap 5 | Laravel Mix
+ * ============================================================================
+ */
 
-// Bootstrap
+/* ============================================================================
+   FONTS
+   ============================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&display=swap');
+
+/* ============================================================================
+   ABSTRACTS (Variables & Mixins)
+   ============================================================================
+   ⚠️ IMPORTANT : À importer en PREMIER
+   ============================================================================ */
+
+@import 'abstracts/variables-colors';  // Couleurs centralisées ⭐ NOUVEAU
+@import 'abstracts/variables';         // Variables existantes (spacing, typo)
+@import 'abstracts/mixins';            // Mixins réutilisables ⭐ NOUVEAU
+
+/* ============================================================================
+   VENDORS (Bootstrap, Font Awesome)
+   ============================================================================ */
+
 @import '~bootstrap/scss/bootstrap';
 
-// CoreUI pour l'admin
-@import '~@coreui/coreui/scss/coreui';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/brands';
 
-// FontAwesome
-@import "~@fortawesome/fontawesome-free/css/all.css";
+/* ============================================================================
+   THEMES
+   ============================================================================ */
 
-// Styles personnalisés
-@import 'custom';
+@import 'themes/aquatic';  // Thème aquatique Digital'SOS ⭐ NOUVEAU
+
+/* ============================================================================
+   LAYOUT (Structure de page)
+   ============================================================================ */
+
+@import 'layout/admin-nav-horizontal';  // Navigation admin ♻️ CONVERTI
+@import 'layout/admin-footer';          // Footer admin ♻️ CONVERTI
+
+/* ============================================================================
+   COMPONENTS (Composants UI)
+   ============================================================================ */
+
+@import 'components/components';       // Composants Bootstrap personnalisés
+@import 'components/media-manager';    // Gestionnaire de médias ♻️ CONVERTI
+@import 'components/media-selector';   // Sélecteur de médias ♻️ CONVERTI
+@import 'components/quill-advanced';   // Éditeur Quill ♻️ CONVERTI
+@import 'components/social-share';     // Partage social ♻️ CONVERTI
+
+/* ============================================================================
+   UTILITIES (Classes utilitaires)
+   ============================================================================ */
+
+@import 'utilities/utilities';  // Classes utilitaires
+
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
+
+@import 'animations/animations';  // Animations et effets
+
+/* ============================================================================
+   GLOBAL OVERRIDES & FIXES
+   ============================================================================ */
+
+/**
+ * Reset de base
+ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/**
+ * Amélioration du rendu des polices
+ */
+*,
+*::before,
+*::after {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/**
+ * Scroll fluide
+ */
+html {
+    scroll-behavior: smooth;
+    height: 100%;
+}
+
+/**
+ * Body par défaut
+ */
+body {
+    font-family: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: $bg-body;
+    color: $text-primary;
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/**
+ * Container principal
+ */
+main {
+    flex: 1;
+}
+
+/**
+ * Liens par défaut
+ */
+a {
+    color: $color-primary;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    
+    &:hover {
+        color: $color-primary-dark;
+    }
+}
+
+/**
+ * Focus visible pour l'accessibilité
+ */
+*:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+}
+
+/**
+ * Sélection de texte personnalisée
+ */
+::selection {
+    background-color: $color-primary;
+    color: $color-white;
+}
+
+::-moz-selection {
+    background-color: $color-primary;
+    color: $color-white;
+}
+
+/**
+ * Scrollbar personnalisée (Webkit)
+ */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: $color-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $color-gray-400;
+    border-radius: 50px;
+    
+    &:hover {
+        background: $color-primary;
+    }
+}
+
+/**
+ * Images responsives par défaut
+ */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/**
+ * Titres
+ */
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: $color-dark;
+    line-height: 1.25;
+}
+
+h1 { font-size: 2.25rem; }
+h2 { font-size: 1.875rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.125rem; }
+h6 { font-size: 1rem; }
+
+/**
+ * Paragraphes
+ */
+p {
+    margin-bottom: 1rem;
+    line-height: 1.75;
+}
+
+/**
+ * Listes
+ */
+ul, ol {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+}
+
+/**
+ * Code
+ */
+code {
+    font-family: 'Fira Code', 'Courier New', monospace;
+    background-color: $color-gray-100;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+}
+
+pre {
+    background-color: $color-dark;
+    color: $color-white;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    overflow-x: auto;
+    
+    code {
+        background-color: transparent;
+        padding: 0;
+        color: inherit;
+    }
+}
+
+/**
+ * Tableaux
+ */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/**
+ * Boutons reset
+ */
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+/**
+ * Inputs reset
+ */
+input,
+textarea,
+select {
+    font-family: inherit;
+}
+
+/* ============================================================================
+   LAYOUT HELPERS
+   ============================================================================ */
+
+.container-fluid {
+    width: 100%;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.container {
+    @extend .container-fluid;
+    max-width: 1140px;
+}
+
+.section {
+    padding: 3rem 0;
+    
+    @include desktop {
+        padding: 4rem 0;
+    }
+    
+    @include desktop-lg {
+        padding: 5rem 0;
+    }
+}
+
+.section-sm {
+    padding: 2rem 0;
+    
+    @include desktop {
+        padding: 3rem 0;
+    }
+}
+
+/* ============================================================================
+   PRINT STYLES
+   ============================================================================ */
+
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+    
+    .no-print,
+    .admin-header,
+    .admin-footer,
+    nav,
+    .admin-nav,
+    .admin-actions,
+    .btn,
+    .admin-mobile-menu,
+    .admin-mobile-overlay {
+        display: none !important;
+    }
+    
+    main {
+        padding-top: 0;
+    }
+    
+    a {
+        color: black;
+        text-decoration: underline;
+    }
+    
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+    
+    img {
+        max-width: 100%;
+        page-break-inside: avoid;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        page-break-after: avoid;
+    }
+}
+
+/* ============================================================================
+   ACCESSIBILITY
+   ============================================================================ */
+
+.skip-to-main {
+    position: absolute;
+    top: -100px;
+    left: 0;
+    background: $color-primary;
+    color: $color-white;
+    padding: 0.75rem 1.25rem;
+    text-decoration: none;
+    z-index: 9999;
+    
+    &:focus {
+        top: 0;
+    }
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.sr-only-focusable:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+}
+
+/* ============================================================================
+   PERFORMANCE OPTIMIZATIONS
+   ============================================================================ */
+
+.admin-mobile-menu,
+.dropdown-menu,
+.modal {
+    will-change: transform, opacity;
+}
+
+.card-aqua,
+.btn,
+.navbar-nav .nav-link {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* ============================================================================
+   FIN DU FICHIER - DIGITAL'SOS CMS
+   ============================================================================
+   
+   Pour personnaliser davantage :
+   1. Modifiez les couleurs dans abstracts/_variables-colors.scss
+   2. Ajoutez vos mixins dans abstracts/_mixins.scss
+   3. Personnalisez le thème dans themes/_aquatic.scss
+   4. Ajoutez des composants dans components/
+   
+   Documentation Laravel 12 : https://laravel.com/docs/12.x
+   Documentation Bootstrap 5 : https://getbootstrap.com/docs/5.3/
+   Documentation Laravel Mix : https://laravel-mix.com/
+   
+   Digital'SOS - La performance commence par une gestion maîtrisée
+   ============================================================================ */

@@ -474,30 +474,47 @@ public function indexPublic(Request $request)
     return view('public.index', compact('posts', 'categories', 'search', 'category'));
 }
 
-    /**
-     * Affichage d'un post public
-     */
     public function showPublic(Post $post)
-    {
-        // Incrémenter vues
-        $post->increment('hits');
-        
-        // Charger relations
-        $post->load(['category', 'tags']);
-        
-        // Vérifier visibilité
-        $contentVisible = $post->isContentVisibleTo(auth()->user());
-        
-        // Posts récents
-        $recentPosts = Post::with(['category'])
-            ->visibleTo(auth()->user())
-            ->where('id', '!=', $post->id)
-            ->orderBy('published_at', 'desc')
-            ->limit(6)
-            ->get();
-
-        return view('public.show', compact('post', 'contentVisible', 'recentPosts'));
+{
+    // Vérification de la visibilité
+    if ($post->status !== 'published') {
+        abort(404);
     }
+
+    // Vérifier les permissions
+    $contentVisible = true;
+    if ($post->visibility === 'authenticated' && !auth()->check()) {
+        $contentVisible = false;
+    }
+
+    // Incrémenter le compteur de vues
+    $post->increment('hits');
+
+    // Articles récents
+    $recentPosts = Post::where('status', 'published')
+        ->where('id', '!=', $post->id)
+        ->when($post->category_id, function ($query) use ($post) {
+            return $query->where('category_id', $post->category_id);
+        })
+        ->whereNotNull('published_at')
+        ->orderBy('published_at', 'desc')
+        ->limit(6)
+        ->get();
+
+    // ✅ AJOUT: Récupérer les catégories
+    $categories = Category::withCount([
+            'posts' => function ($query) {
+                $query->where('status', 'published')
+                    ->whereNotNull('published_at');
+            }
+        ])
+        ->having('posts_count', '>', 0)
+        ->orderBy('name')
+        ->get();
+
+    // ✅ Passer 'categories' à la vue
+    return view('public.show', compact('post', 'contentVisible', 'recentPosts', 'categories'));
+}
 
     /**
      * Posts par catégorie

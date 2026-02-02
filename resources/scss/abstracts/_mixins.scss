@@ -1,0 +1,259 @@
+/**
+ * ============================================================================
+ * MIXINS - DIGITAL'SOS CMS
+ * ============================================================================
+ * Mixins réutilisables pour éviter la duplication de code
+ * ============================================================================
+ */
+
+/* ============================================================================
+   GRADIENTS
+   ============================================================================ */
+
+/// Gradient aquatique (primaire → secondaire)
+@mixin gradient-aqua {
+    background: linear-gradient(135deg, $color-primary 0%, $color-secondary 100%);
+}
+
+/// Gradient primaire
+@mixin gradient-primary {
+    background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%);
+}
+
+/// Gradient secondaire
+@mixin gradient-secondary {
+    background: linear-gradient(135deg, $color-secondary 0%, $color-secondary-dark 100%);
+}
+
+/* ============================================================================
+   BOUTONS
+   ============================================================================ */
+
+/// Style de bouton avec hover
+/// @param {Color} $bg - Couleur de fond
+/// @param {Color} $hover-bg - Couleur de fond au survol
+@mixin button-style($bg, $hover-bg) {
+    background-color: $bg;
+    color: $color-white;
+    border: none;
+    transition: all 0.2s ease;
+    
+    &:hover:not(:disabled) {
+        background-color: $hover-bg;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba($bg, 0.2);
+    }
+}
+
+/// Bouton outline
+/// @param {Color} $color - Couleur de bordure et texte
+@mixin button-outline($color) {
+    background-color: transparent;
+    color: $color;
+    border: 1px solid $color;
+    transition: all 0.2s ease;
+    
+    &:hover:not(:disabled) {
+        background-color: $color;
+        color: $color-white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba($color, 0.2);
+    }
+}
+
+/* ============================================================================
+   CARDS
+   ============================================================================ */
+
+/// Card avec effet hover
+@mixin card-hover {
+    transition: all 0.3s ease;
+    
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba($color-primary, 0.2);
+    }
+}
+
+/// Card avec bordure colorée en haut
+/// @param {Color} $color - Couleur de la bordure
+@mixin card-top-border($color) {
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: $color;
+    }
+}
+
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
+
+/// Hover lift effect
+@mixin hover-lift {
+    transition: all 0.2s ease;
+    
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+}
+
+/// Hover scale effect
+@mixin hover-scale($scale: 1.05) {
+    transition: transform 0.2s ease;
+    
+    &:hover {
+        transform: scale($scale);
+    }
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+
+/// Media query pour mobile
+@mixin mobile {
+    @media (max-width: 767.98px) {
+        @content;
+    }
+}
+
+/// Media query pour tablette
+@mixin tablet {
+    @media (min-width: 768px) and (max-width: 991.98px) {
+        @content;
+    }
+}
+
+/// Media query pour desktop
+@mixin desktop {
+    @media (min-width: 992px) {
+        @content;
+    }
+}
+
+/// Media query pour large desktop
+@mixin desktop-lg {
+    @media (min-width: 1200px) {
+        @content;
+    }
+}
+
+/* ============================================================================
+   FLEXBOX
+   ============================================================================ */
+
+/// Flex center (horizontal et vertical)
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/// Flex between (espace entre les éléments)
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* ============================================================================
+   OVERLAY
+   ============================================================================ */
+
+/// Overlay sombre
+@mixin overlay-dark($opacity: 0.7) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba($color-dark, $opacity);
+}
+
+/* ============================================================================
+   TRUNCATE TEXT
+   ============================================================================ */
+
+/// Tronquer le texte avec ellipsis
+@mixin truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/// Tronquer sur plusieurs lignes
+/// @param {Number} $lines - Nombre de lignes
+@mixin line-clamp($lines) {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ============================================================================
+   SCROLLBAR
+   ============================================================================ */
+
+/// Scrollbar personnalisée
+@mixin custom-scrollbar($width: 12px, $track-color: $color-gray-100, $thumb-color: $color-primary) {
+    &::-webkit-scrollbar {
+        width: $width;
+        height: $width;
+    }
+    
+    &::-webkit-scrollbar-track {
+        background: $track-color;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        background: $thumb-color;
+        border-radius: 10px;
+        
+        &:hover {
+            background: darken($thumb-color, 10%);
+        }
+    }
+}
+
+/* ============================================================================
+   AUTRES
+   ============================================================================ */
+
+/// Clearfix
+@mixin clearfix {
+    &::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+/// Aspect ratio
+/// @param {Number} $width - Largeur
+/// @param {Number} $height - Hauteur
+@mixin aspect-ratio($width, $height) {
+    position: relative;
+    
+    &::before {
+        content: "";
+        display: block;
+        padding-top: ($height / $width) * 100%;
+    }
+    
+    > * {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+}

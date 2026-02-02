@@ -104,11 +104,7 @@
                             @endif
                         </div>
 
-                        <div class="mt-3">
-                            <x-add-to-notebook-button
-                                content-type="videos"
-                                :content-id="$video->id" />
-                        </div>
+                      
                     </div>
                 </div>
 

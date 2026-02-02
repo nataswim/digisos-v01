@@ -42,7 +42,6 @@
 │   │   │   ├── RoleController.php
 │   │   │   ├── SearchController.php
 │   │   │   ├── TagController.php
-│   │   │   ├── User
 │   │   │   └── UserController.php
 │   │   └── Requests
 │   │       ├── Auth
@@ -112,7 +111,9 @@
 ├── bootstrap
 │   ├── app.php
 │   ├── cache
+│   │   ├── config.php
 │   │   ├── packages.php
+│   │   ├── routes-v7.php
 │   │   └── services.php
 │   └── providers.php
 ├── cleanup_css.sh
@@ -483,6 +484,9 @@
 │       ├── public
 │       │   ├── about.blade.php
 │       │   ├── accessibility.blade.php
+│       │   ├── categories
+│       │   │   └── index.blade.php
+│       │   ├── category.blade.php
 │       │   ├── contact.blade.php
 │       │   ├── cookies.blade.php
 │       │   ├── ebook
@@ -498,12 +502,14 @@
 │       │   │   └── sous-category.blade.php
 │       │   ├── guide.blade.php
 │       │   ├── home.blade.php
+│       │   ├── index.blade.php
 │       │   ├── legal.blade.php
 │       │   ├── partials
 │       │   │   └── search-form.blade.php
 │       │   ├── pricing.blade.php
 │       │   ├── privacy.blade.php
 │       │   ├── search.blade.php
+│       │   ├── show.blade.php
 │       │   └── videos
 │       │       ├── category.blade.php
 │       │       ├── index.blade.php
@@ -535,4 +541,4 @@
 ├── vite.config.js
 └── webpack.mix.js
 
-89 directories, 447 files
+89 directories, 453 files

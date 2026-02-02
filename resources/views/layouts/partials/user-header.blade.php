@@ -113,7 +113,7 @@
     <li class="nav-item">
         <a class="nav-link" href="{{ route('user.calendar.index') }}" style="font-weight: 600;background-color: #ffffff;box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.2), 0 8px 5px 0 rgba(0, 0, 0, 0.19);border: 1px solid #b0c4c6;margin: 5px;">
             <i class="fas fa-water me-2"></i>Planification
-            <x-calendar-badge />
+           
         </a>
     </li>
     @endif
@@ -157,6 +157,9 @@
                 </li>
 
             </ul>
+
+
+
 
             <!-- Section utilisateur (droite) -->
             <div class="d-flex align-items-center">

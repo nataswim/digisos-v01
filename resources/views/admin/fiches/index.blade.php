@@ -249,7 +249,7 @@
                                         <div class="d-flex flex-column">
                                             <div class="d-flex align-items-center text-muted">
                                                 <i class="fas fa-eye me-1"></i>
-                                                <span>{{ number_format($fiche->views_count) }}</span>
+                                                <span>{{ number_format($fiche->views_count ?? 0) }}</span>
                                             </div>
                                             @if($fiche->sort_order > 0)
                                             <small class="text-muted">
@@ -289,23 +289,27 @@
                                             </a>
                                             
                                             <!-- Bouton Voir en ligne -->
-                                            @if($fiche->is_published && $fiche->category)
-                                                <a href="{{ route('public.fiches.show', [$fiche->category, $fiche]) }}" 
-                                                   target="_blank"
-                                                   class="btn btn-sm btn-outline-success" 
-                                                   title="Voir en ligne"
-                                                   data-bs-toggle="tooltip">
-                                                    <i class="fas fa-external-link-alt"></i>
-                                                </a>
-                                            @else
-                                                <button type="button"
-                                                        class="btn btn-sm btn-outline-secondary" 
-                                                        title="Non disponible en ligne"
-                                                        data-bs-toggle="tooltip"
-                                                        disabled>
-                                                    <i class="fas fa-external-link-alt"></i>
-                                                </button>
-                                            @endif
+@if($fiche->is_published && $fiche->category && $fiche->sousCategory)
+    <a href="{{ route('public.fiches.show', [
+            'category' => $fiche->category->slug, 
+            'sousCategory' => $fiche->sousCategory->slug,
+            'fiche' => $fiche->slug
+        ]) }}" 
+       target="_blank"
+       class="btn btn-sm btn-outline-success" 
+       title="Voir en ligne"
+       data-bs-toggle="tooltip">
+        <i class="fas fa-external-link-alt"></i>
+    </a>
+@else
+    <button type="button"
+            class="btn btn-sm btn-outline-secondary" 
+            title="@if(!$fiche->is_published)Non publié @elseif(!$fiche->category || !$fiche->sousCategory)Catégorie/Sous-catégorie manquante @else Non disponible @endif"
+            data-bs-toggle="tooltip"
+            disabled>
+        <i class="fas fa-eye-slash"></i>
+    </button>
+@endif
                                             
                                             <!-- Bouton Supprimer -->
                                             <form method="POST" 

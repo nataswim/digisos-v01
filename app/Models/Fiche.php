@@ -281,9 +281,10 @@ class Fiche extends Model
      */
     public function getUrlAttribute(): string
     {
-        if ($this->category) {
+        if ($this->category && $this->sousCategory) {
             return route('public.fiches.show', [
                 'category' => $this->category->slug,
+                'sousCategory' => $this->sousCategory->slug,
                 'fiche' => $this->slug
             ]);
         }

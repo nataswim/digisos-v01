@@ -1,11 +1,9 @@
 @extends('layouts.public')
 
-{{-- SEO Meta --}}
 @section('title', $post->meta_title ?: $post->name)
 @section('meta_description', $post->meta_description ?: Str::limit(strip_tags($post->intro ?? $post->content), 160))
 @section('meta_keywords', $post->meta_keywords ?: '')
 
-{{-- Open Graph --}}
 @section('og_type', 'article')
 @section('og_title', $post->name)
 @section('og_description', Str::limit(strip_tags($post->intro ?? $post->content), 200))
@@ -15,7 +13,6 @@
 @section('og_image_alt', $post->name)
 @endif
 
-{{-- Twitter Card --}}
 @section('twitter_title', $post->name)
 @section('twitter_description', Str::limit(strip_tags($post->intro ?? $post->content), 200))
 @if($post->image)
@@ -25,169 +22,178 @@
 
 @section('content')
 
-<!-- En-tête Article -->
-<section class="py-5 text-white text-center nataswim-titre3">
-    <div class="container-lg">
-        <h1 class="fw-bold mb-4">{{ $post->name }}</h1>
-        
-        @if($post->image)
-        <img src="{{ $post->image }}" 
-             alt="{{ $post->name }}" 
-             class="img-fluid rounded shadow" 
-             style="max-width: 800px; width: 100%;">
-        @endif
+<section class="hero-video-section position-relative text-white overflow-hidden">
+    @if($post->image)
+    <div class="hero-image-bg"></div>
+    @else
+    <video autoplay muted loop playsinline class="hero-video">
+        <source src="{{ asset('assets/images/team/nataswim-sport-training-1.mp4') }}" type="video/mp4">
+    </video>
+    @endif
+
+    <div class="hero-overlay"></div>
+
+    <div class="container-lg py-5 position-relative hero-content">
+        <div class="row align-items-center min-vh-50">
+            <div class="col-lg-10 mx-auto">
+                <div class="mb-4 animate-slide-up">
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        <span class="badge badge-primary">
+                            <i class="fas fa-folder me-1"></i>{{ $post->category->name ?? 'Non categorise' }}
+                        </span>
+                        @if($post->is_featured)
+                        <span class="badge badge-warning">
+                            <i class="fas fa-star me-1"></i>A la une
+                        </span>
+                        @endif
+                        @if($post->visibility === 'authenticated')
+                        <span class="badge badge-info">
+                            <i class="fas fa-lock me-1"></i>Membre
+                        </span>
+                        @endif
+                    </div>
+
+                    <h1 class="display-3 fw-bold mb-4">{{ $post->name }}</h1>
+
+                    <div class="d-flex flex-wrap gap-4 text-white-50 animate-slide-up animation-delay-1">
+                        <span>
+                            <i class="fas fa-calendar me-2"></i>{{ $post->published_at?->format('d/m/Y') ?? $post->created_at->format('d/m/Y') }}
+                        </span>
+                        <span>
+                            <i class="fas fa-eye me-2"></i>{{ number_format($post->hits) }} vues
+                        </span>
+                        @if($post->reading_time)
+                        <span>
+                            <i class="fas fa-clock me-2"></i>{{ $post->reading_time }} min
+                        </span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
-<!-- Contenu Article -->
-<article class="py-4">
+<article class="py-5 bg-aqua-light">
     <div class="container-lg">
         <div class="row justify-content-center">
             <div class="col-lg-10 col-xl-8">
 
-                <!-- Introduction -->
                 @if($post->intro)
-                <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-body p-4">
-                        <div class="lead">{!! $post->intro !!}</div>
+                <div class="card-aqua mb-4 animate-fade-in">
+                    <div class="lead article-intro">{!! $post->intro !!}</div>
+                </div>
+                @endif
+
+                @if($post->image)
+                <div class="mb-4 animate-fade-in animation-delay-1">
+                    <div class="article-image-wrapper">
+                        <img src="{{ $post->image }}" alt="{{ $post->name }}" class="article-image">
                     </div>
                 </div>
                 @endif
 
-                <!-- Contenu Principal -->
-                <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-body p-4">
-                        <div class="article-content">
-                            @if($contentVisible)
-                                {!! $post->content !!}
-                            @else
-                                <!-- Accès Restreint -->
-                                <div class="alert alert-info border-0 mb-4">
-                                    <div class="d-flex align-items-start gap-3">
-                                        <i class="fas fa-lock fs-2 text-primary"></i>
-                                        <div class="flex-grow-1">
-                                            <h5 class="mb-2">Contenu exclusif membre</h5>
-                                            <p class="mb-3">Créez votre compte pour continuer la lecture.</p>
-                                            <div class="d-flex gap-2">
-                                                <a href="{{ route('register') }}" class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-user-plus me-1"></i>Inscription
-                                                </a>
-                                                <a href="{{ route('login') }}" class="btn btn-outline-primary btn-sm">
-                                                    <i class="fas fa-sign-in-alt me-1"></i>Connexion
-                                                </a>
-                                            </div>
+                <div class="card-aqua mb-4 animate-fade-in animation-delay-2">
+                    <div class="article-content">
+                        @if($contentVisible)
+                            {!! $post->content !!}
+                        @else
+                            <div class="alert alert-info border-0 mb-4">
+                                <div class="d-flex align-items-start gap-3">
+                                    <i class="fas fa-lock fs-2 text-primary"></i>
+                                    <div class="flex-grow-1">
+                                        <h5 class="mb-2">Contenu exclusif membre</h5>
+                                        <p class="mb-3">Creez votre compte pour continuer la lecture.</p>
+                                        <div class="d-flex gap-2">
+                                            <a href="{{ route('register') }}" class="btn btn-primary btn-sm text-white">
+                                                <i class="fas fa-user-plus me-1"></i>Inscription
+                                            </a>
+                                            <a href="{{ route('login') }}" class="btn btn-outline-primary btn-sm">
+                                                <i class="fas fa-sign-in-alt me-1"></i>Connexion
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                <!-- Aperçu -->
-                                <div class="content-preview position-relative">
-                                    <div class="text-muted p-3 border rounded" style="max-height: 150px; overflow: hidden;">
-                                        {!! Str::limit(strip_tags($post->content), 500) !!}
-                                    </div>
-                                    <div class="position-absolute bottom-0 start-0 w-100 text-center py-2"
-                                         style="background: linear-gradient(transparent, white, white);">
-                                        <small class="text-muted">Contenu complet disponible pour les membres</small>
-                                    </div>
+                            <div class="content-preview position-relative">
+                                <div class="text-muted p-3 border rounded" style="max-height: 150px; overflow: hidden;">
+                                    {!! Str::limit(strip_tags($post->content), 500) !!}
                                 </div>
-                            @endif
-                        </div>
+                                <div class="position-absolute bottom-0 start-0 w-100 text-center py-2"
+                                     style="background: linear-gradient(transparent, #f9f5f4, #f9f5f4);">
+                                    <small class="text-muted">Contenu complet disponible pour les membres</small>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
 
-                <!-- Métadonnées Article -->
-                <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-body">
-                        <div class="row g-3 small">
-                            <div class="col-md-6">
-                                <div class="d-flex justify-content-between">
-                                    <span class="text-muted">
-                                        <i class="fas fa-folder me-1"></i>Catégorie
-                                    </span>
-                                    <strong>{{ $post->category->name ?? 'Non catégorisé' }}</strong>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="d-flex justify-content-between">
-                                    <span class="text-muted">
-                                        <i class="fas fa-calendar me-1"></i>Publié le
-                                    </span>
-                                    <strong>{{ $post->published_at?->format('d/m/Y') ?? $post->created_at->format('d/m/Y') }}</strong>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="d-flex justify-content-between">
-                                    <span class="text-muted">
-                                        <i class="fas fa-eye me-1"></i>Vues
-                                    </span>
-                                    <strong>{{ $post->hits }}</strong>
-                                </div>
-                            </div>
-                            @if($post->tags->isNotEmpty())
-                            <div class="col-12">
-                                <div class="d-flex flex-wrap gap-2">
-                                    <span class="text-muted">
-                                        <i class="fas fa-tags me-1"></i>Tags:
-                                    </span>
-                                    @foreach($post->tags as $tag)
-                                    <a href="{{ route('posts.public.tag', $tag) }}" 
-                                       class="badge bg-secondary text-decoration-none">
-                                        {{ $tag->name }}
-                                    </a>
-                                    @endforeach
-                                </div>
-                            </div>
-                            @endif
-                        </div>
+                @if($post->tags->isNotEmpty())
+                <div class="card-aqua mb-4">
+                    <div class="d-flex flex-wrap gap-2 align-items-center">
+                        <span class="text-muted">
+                            <i class="fas fa-tags me-2"></i>Tags:
+                        </span>
+                        @foreach($post->tags as $tag)
+                        <a href="{{ route('posts.public.tag', $tag) }}" class="badge badge-secondary text-decoration-none">
+                            {{ $tag->name }}
+                        </a>
+                        @endforeach
                     </div>
                 </div>
+                @endif
 
-                <!-- Articles Récents -->
                 @if(isset($recentPosts) && $recentPosts->count() > 0)
-                <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-header bg-white">
-                        <h5 class="mb-0">Articles récents</h5>
-                    </div>
-                    <div class="card-body p-0">
+                <div class="card-aqua">
+                    <h5 class="mb-4">
+                        <i class="fas fa-newspaper me-2 text-primary"></i>Articles recents
+                    </h5>
+
+                    <div class="row g-3">
                         @foreach($recentPosts->take(4) as $recentPost)
-                        <div class="p-3 {{ !$loop->last ? 'border-bottom' : '' }}">
-                            <div class="row align-items-center g-3">
-                                @if($recentPost->image)
-                                <div class="col-auto">
-                                    <img src="{{ $recentPost->image }}" 
-                                         class="rounded" 
-                                         style="width: 80px; height: 60px; object-fit: cover;"
-                                         alt="{{ $recentPost->name }}">
-                                </div>
-                                @endif
-                                <div class="col">
-                                    <a href="{{ route('posts.public.show', $recentPost) }}" 
-                                       class="text-decoration-none">
-                                        <h6 class="mb-1">{{ Str::limit($recentPost->name, 60) }}</h6>
-                                    </a>
-                                    <div class="small text-muted d-flex gap-3">
-                                        <span>
-                                            <i class="fas fa-calendar me-1"></i>
-                                            {{ $recentPost->published_at?->format('d/m/Y') ?? $recentPost->created_at->format('d/m/Y') }}
-                                        </span>
-                                        <span>
-                                            <i class="fas fa-eye me-1"></i>{{ $recentPost->hits }}
-                                        </span>
-                                        @if($recentPost->visibility === 'authenticated')
-                                        <span class="badge bg-warning-subtle text-warning">
-                                            <i class="fas fa-lock"></i>
-                                        </span>
-                                        @endif
+                        <div class="col-md-6">
+                            <div class="recent-post-item">
+                                <div class="row g-3 align-items-center">
+                                    @if($recentPost->image)
+                                    <div class="col-auto">
+                                        <div class="recent-post-image-wrapper">
+                                            <img src="{{ $recentPost->image }}" 
+                                                 class="recent-post-image"
+                                                 alt="{{ $recentPost->name }}">
+                                        </div>
+                                    </div>
+                                    @endif
+                                    <div class="col">
+                                        <a href="{{ route('posts.public.show', $recentPost) }}" 
+                                           class="text-decoration-none text-dark hover-primary">
+                                            <h6 class="mb-1">{{ Str::limit($recentPost->name, 50) }}</h6>
+                                        </a>
+                                        <div class="d-flex flex-wrap gap-2 small text-muted">
+                                            <span>
+                                                <i class="fas fa-calendar me-1"></i>
+                                                {{ $recentPost->published_at?->format('d/m/Y') ?? $recentPost->created_at->format('d/m/Y') }}
+                                            </span>
+                                            <span>
+                                                <i class="fas fa-eye me-1"></i>{{ number_format($recentPost->hits) }}
+                                            </span>
+                                            @if($recentPost->visibility === 'authenticated')
+                                            <span class="badge badge-info badge-sm">
+                                                <i class="fas fa-lock"></i>
+                                            </span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         @endforeach
                     </div>
+
                     @if($recentPosts->count() > 4)
-                    <div class="card-footer bg-light text-center">
-                        <a href="{{ route('posts.public.index') }}" class="btn btn-sm btn-outline-primary">
-                            Voir tous les articles
+                    <div class="text-center mt-4 pt-4 border-top">
+                        <a href="{{ route('posts.public.index') }}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-arrow-right me-2"></i>Voir tous les articles
                         </a>
                     </div>
                     @endif
@@ -199,10 +205,194 @@
     </div>
 </article>
 
+<section class="py-5">
+    <div class="container-lg">
+        <div class="text-center mb-5">
+            <h2 class="title-aqua-secondary">
+                <i class="fas fa-folder me-2"></i>Categories
+            </h2>
+            <p class="text-muted">Explorez nos articles par thematique</p>
+        </div>
+
+        @if(isset($categories) && $categories->count() > 0)
+        <div class="row g-4">
+            @foreach($categories as $category)
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card-aqua h-100">
+                    <div class="card-image-wrapper mb-3 position-relative">
+                        @if($category->image)
+                        <img src="{{ $category->image }}"
+                            alt="{{ $category->name }}"
+                            class="card-image">
+                        @else
+                        <div class="card-image-placeholder">
+                            <i class="fas fa-folder fa-3x text-secondary opacity-25"></i>
+                        </div>
+                        @endif
+
+                        <div class="position-absolute top-0 end-0 p-3">
+                            <span class="badge badge-danger">
+                                <i class="fas fa-file-alt me-1"></i>
+                                {{ $category->posts_count }} article{{ $category->posts_count > 1 ? 's' : '' }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <h6 class="card-title mb-2">
+                        <a href="{{ route('posts.public.category', $category) }}"
+                            class="text-decoration-none text-dark hover-primary">
+                            {{ $category->name }}
+                        </a>
+                    </h6>
+
+                    @if($category->description)
+                    <p class="card-text text-muted small mb-3">
+                        {{ Str::limit($category->description, 120) }}
+                    </p>
+                    @endif
+
+                    @if($category->group_name)
+                    <div class="card-meta">
+                        <span class="badge badge-secondary">
+                            <i class="fas fa-layer-group me-1"></i>{{ $category->group_name }}
+                        </span>
+                    </div>
+                    @endif
+                </div>
+            </div>
+            @endforeach
+        </div>
+        @else
+        <div class="text-center py-5">
+            <i class="fas fa-folder-open fa-3x text-muted mb-3 opacity-25"></i>
+            <h3 class="text-muted">Aucune categorie disponible</h3>
+            <p class="text-muted">Les categories seront bientot disponibles.</p>
+        </div>
+        @endif
+    </div>
+</section>
+
 @endsection
 
 @push('styles')
 <style>
+.hero-video-section {
+    min-height: 600px;
+    position: relative;
+}
+
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.hero-image-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('{{ $post->image }}');
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(56, 133, 155, 0.85) 0%, rgba(73, 170, 202, 0.75) 100%);
+    z-index: 2;
+}
+
+.hero-content {
+    z-index: 3;
+}
+
+.min-vh-50 {
+    min-height: 50vh;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.animate-slide-up {
+    animation: slideUp 0.8s ease-out;
+}
+
+.animate-fade-in {
+    animation: fadeIn 1s ease-out;
+}
+
+.animation-delay-1 {
+    animation-delay: 0.2s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.animation-delay-2 {
+    animation-delay: 0.4s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.animation-delay-3 {
+    animation-delay: 0.6s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.article-intro {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #4a5568;
+}
+
+.article-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(56, 133, 155, 0.15);
+}
+
+.article-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0.75rem;
+}
+
+.article-content {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #4a5568;
+}
+
 .article-content h1,
 .article-content h2,
 .article-content h3 {
@@ -214,32 +404,30 @@
 
 .article-content h1 {
     font-size: 1.7rem;
-    color: #0d7f8a;
+    color: #38859b;
 }
 
 .article-content h2 {
     font-size: 1.5rem;
-    color: #0a7db1;
+    color: #49aaca;
 }
 
 .article-content h3 {
     font-size: 1.3rem;
-    color: #6a1414;
+    color: #4fa79c;
 }
 
 .article-content p {
     margin-bottom: 1.5rem;
-    line-height: 1.8;
-    text-align: justify;
-    color: #4a5568;
 }
 
 .article-content .ql-video {
     width: 100%;
     display: block;
-    margin: 15px auto;
+    margin: 1.5rem auto;
     height: 480px;
     max-width: 100%;
+    border-radius: 0.75rem;
 }
 
 .article-content ul,
@@ -254,11 +442,11 @@
 }
 
 .article-content blockquote {
-    border-left: 4px solid #3182ce;
+    border-left: 4px solid #38859b;
     padding: 1.5rem;
     margin: 2rem 0;
     font-style: italic;
-    background: #f7fafc;
+    background: rgba(56, 133, 155, 0.05);
     border-radius: 0.375rem;
     color: #2d3748;
 }
@@ -266,14 +454,14 @@
 .article-content img {
     max-width: 100%;
     height: auto;
-    border-radius: 8px;
+    border-radius: 0.75rem;
     margin: 2rem auto;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(56, 133, 155, 0.15);
     display: block;
 }
 
 .article-content pre {
-    background: #1a202c;
+    background: #303030;
     color: #e2e8f0;
     padding: 1.5rem;
     border-radius: 0.5rem;
@@ -284,11 +472,11 @@
 }
 
 .article-content code {
-    background-color: #edf2f7;
+    background-color: rgba(56, 133, 155, 0.1);
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
     font-size: 0.875em;
-    color: #d63384;
+    color: #38859b;
     font-family: 'Courier New', monospace;
 }
 
@@ -309,7 +497,7 @@
 }
 
 .article-content th {
-    background-color: #f7fafc;
+    background-color: rgba(56, 133, 155, 0.05);
     font-weight: 600;
 }
 
@@ -317,14 +505,102 @@
     opacity: 0.7;
 }
 
+.recent-post-item {
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(56, 133, 155, 0.1);
+}
+
+.recent-post-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.recent-post-image-wrapper {
+    width: 80px;
+    height: 60px;
+    overflow: hidden;
+    border-radius: 0.5rem;
+}
+
+.recent-post-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.recent-post-item:hover .recent-post-image {
+    transform: scale(1.1);
+}
+
+.card-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    height: 180px;
+    background: linear-gradient(135deg, rgba(56, 133, 155, 0.05) 0%, rgba(73, 170, 202, 0.05) 100%);
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.card-aqua:hover .card-image {
+    transform: scale(1.05);
+}
+
+.card-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(56, 133, 155, 0.05) 0%, rgba(73, 170, 202, 0.05) 100%);
+}
+
+.card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.hover-primary {
+    transition: color 0.2s ease;
+}
+
+.hover-primary:hover {
+    color: #38859b !important;
+}
+
 @media (max-width: 768px) {
+    .hero-video-section {
+        min-height: 500px;
+    }
+
+    .display-3 {
+        font-size: 2rem !important;
+    }
+
+    .article-intro {
+        font-size: 1rem;
+    }
+
     .article-content {
         font-size: 0.95rem;
     }
-    
+
     .article-content .ql-video {
         height: 250px;
     }
+}
+
+html {
+    scroll-behavior: smooth;
 }
 </style>
 @endpush

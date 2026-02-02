@@ -1,0 +1,317 @@
+/**
+ * ============================================================================
+ * QUILL EDITOR ADVANCED - DIGITAL'SOS CMS
+ * ============================================================================
+ * Styles avancés pour l'éditeur WYSIWYG Quill
+ * Converti depuis CSS vers SCSS avec variables
+ * ============================================================================ */
+
+/* ============================================================================
+   IMAGES RESPONSIVE
+   ============================================================================ */
+
+.ql-editor img.responsive-image {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+    margin: 10px auto;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        transform: scale(1.02);
+    }
+}
+
+/* ============================================================================
+   STYLES POUR LES VIDÉOS
+   ============================================================================ */
+
+.ql-editor {
+    iframe {
+        max-width: 100% !important;
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 16 / 9;
+        border: none;
+        border-radius: 8px;
+        margin: 15px auto;
+        display: block;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    // Conteneur vidéo Quill
+    .ql-video {
+        max-width: 100%;
+        display: block;
+        margin: 15px auto;
+    }
+}
+
+/* ============================================================================
+   STYLES POUR LES TABLEAUX
+   ============================================================================ */
+
+.ql-editor {
+    .ql-table-wrapper,
+    table {
+        width: 100% !important;
+        border-collapse: collapse;
+        margin: 15px 0;
+        background: $color-white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border-radius: 4px;
+        overflow: hidden;
+        font-size: 14px;
+        
+        td,
+        th {
+            border: 1px solid $border-color-light;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        th {
+            background-color: $bg-light;
+            font-weight: 600;
+            color: $text-primary;
+            border-bottom: 2px solid $border-color;
+        }
+        
+        tbody tr {
+            &:hover {
+                background-color: $bg-light;
+            }
+            
+            &:nth-child(even) {
+                background-color: #fafbfc;
+            }
+        }
+    }
+    
+    .ql-table-wrapper {
+        width: 100%;
+        margin: 15px 0;
+        padding: 0;
+        overflow-x: auto;
+        display: block;
+    }
+}
+
+/* ============================================================================
+   BOUTONS PERSONNALISÉS
+   ============================================================================ */
+
+.ql-snow .ql-toolbar {
+    button {
+        &.ql-table-custom,
+        &.ql-html-custom {
+            width: auto !important;
+            padding: 3px 5px;
+            font-size: 14px;
+            
+            i {
+                font-size: 14px;
+            }
+            
+            &:hover {
+                color: $color-primary;
+            }
+            
+            &.ql-active {
+                color: $color-primary;
+            }
+        }
+    }
+}
+
+/* ============================================================================
+   STYLES POUR LES MODALS
+   ============================================================================ */
+
+[id^="videoInsertModal_"],
+[id^="tableInsertModal_"],
+[id^="htmlEditModal_"] {
+    textarea,
+    input {
+        transition: border-color 0.2s ease;
+        
+        &:focus {
+            border-color: $color-info;
+            box-shadow: 0 0 0 0.2rem rgba($color-info, 0.15);
+        }
+    }
+}
+
+// Éditeur HTML avec fond sombre
+[id^="htmlEditor_"] {
+    background-color: #1e293b !important;
+    color: #e2e8f0 !important;
+    border: 1px solid #334155 !important;
+    border-radius: 6px !important;
+    
+    &:focus {
+        outline: none !important;
+        border-color: $color-info !important;
+        box-shadow: 0 0 0 3px rgba($color-info, 0.1) !important;
+    }
+}
+
+/* ============================================================================
+   AMÉLIORATION DE L'ÉDITEUR QUILL
+   ============================================================================ */
+
+.ql-container {
+    min-height: 300px;
+}
+
+.ql-editor {
+    &.ql-blank::before {
+        color: $text-muted;
+        font-style: italic;
+    }
+    
+    // Citations
+    blockquote {
+        border-left: 4px solid $border-color;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        padding-left: 16px;
+        font-style: italic;
+        background-color: $bg-light;
+        padding: 10px 10px 10px 20px;
+        border-radius: 4px;
+    }
+    
+    // Blocs de code
+    pre.ql-syntax {
+        background-color: #23241f;
+        color: #f8f8f2;
+        overflow: auto;
+        padding: 15px;
+        border-radius: 4px;
+        margin: 15px 0;
+    }
+    
+    // Code inline
+    code {
+        background-color: $color-gray-100;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 90%;
+        color: #c7254e;
+    }
+}
+
+/* ============================================================================
+   HOVER EFFECTS
+   ============================================================================ */
+
+.hover-lift {
+    @include hover-lift;
+}
+
+.btn-group .btn-check:checked + .btn {
+    background-color: $color-primary;
+    color: $color-white;
+}
+
+.image-resize-control button:hover {
+    background-color: $border-color-light !important;
+    border-color: $border-color !important;
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+
+@include mobile {
+    .ql-editor {
+        .ql-table-wrapper table,
+        table {
+            font-size: 12px;
+            
+            td,
+            th {
+                padding: 6px 8px;
+            }
+        }
+        
+        iframe {
+            margin: 10px auto;
+        }
+    }
+    
+    .ql-snow .ql-toolbar button {
+        width: 24px;
+        height: 22px;
+    }
+}
+
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.ql-editor {
+    img,
+    table,
+    iframe {
+        animation: fadeIn 0.3s ease-in;
+    }
+}
+
+/* ============================================================================
+   ACCESSIBILITÉ
+   ============================================================================ */
+
+.ql-snow .ql-toolbar button {
+    &:focus {
+        outline: 2px solid $color-info;
+        outline-offset: 2px;
+    }
+}
+
+.ql-snow .ql-stroke {
+    stroke: #444;
+}
+
+.ql-snow .ql-toolbar button:hover .ql-stroke {
+    stroke: $color-primary;
+}
+
+/* ============================================================================
+   IMPRESSIONS
+   ============================================================================ */
+
+@media print {
+    .ql-toolbar {
+        display: none !important;
+    }
+    
+    .ql-editor {
+        border: none !important;
+        padding: 0 !important;
+        
+        .ql-table-wrapper,
+        table,
+        img {
+            page-break-inside: avoid;
+        }
+        
+        img {
+            max-width: 100% !important;
+        }
+    }
+}

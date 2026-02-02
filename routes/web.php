@@ -198,16 +198,19 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     // ========== GESTION FICHES DOCUMENTATION ==========
     
-    Route::resource('fiches', FicheController::class);
+    Route::resource('fiches', FicheController::class)->parameters([
+    'fiches' => 'fiche'
+]);
     Route::post('fiches/bulk-action', [FicheController::class, 'bulkAction'])->name('fiches.bulk-action');
     Route::post('fiches/bulk-assign-categories', [FicheController::class, 'bulkAssignCategories'])->name('fiches.bulk-assign-categories');
     
     Route::resource('fiches-categories', FichesCategoryController::class);
     
     Route::resource('fiches-sous-categories', FichesSousCategoryController::class);
-// API pour récupérer les sous-catégories par catégorie
-Route::get('fiches-sous-categories/api/by-category', [FichesSousCategoryController::class, 'apiByCategory'])
-    ->name('fiches-sous-categories.api.by-category');
+    
+    // API pour récupérer les sous-catégories par catégorie
+    Route::get('fiches-sous-categories/api/by-category', [FichesSousCategoryController::class, 'apiByCategory'])
+        ->name('fiches-sous-categories.api.by-category');
     
     // ========== GESTION SITEMAP ==========
     

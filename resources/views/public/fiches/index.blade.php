@@ -85,13 +85,17 @@
                             
                             <div class="d-flex align-items-center justify-content-between mt-3 pt-3 border-top">
                                 <small class="text-muted">
-                                    <i class="fas fa-eye me-1"></i>55{{ number_format($fiche->views_count) }} lectures
+                                    <i class="fas fa-eye me-1"></i>{{ number_format($fiche->views_count ?? 0) }} lectures
                                 </small>
-                                @if($fiche->category)
-                                    <a href="{{ route('public.fiches.show', [$fiche->category, $fiche]) }}" 
+                                @if($fiche->category && $fiche->sousCategory)
+                                    <a href="{{ route('public.fiches.show', [$fiche->category, $fiche->sousCategory, $fiche]) }}" 
                                        class="btn btn-sm btn-primary">
                                         Découvrir <i class="fas fa-arrow-right ms-1"></i>
                                     </a>
+                                @else
+                                    <button class="btn btn-sm btn-secondary" disabled>
+                                        <i class="fas fa-lock me-1"></i>Indisponible
+                                    </button>
                                 @endif
                             </div>
                         </div>

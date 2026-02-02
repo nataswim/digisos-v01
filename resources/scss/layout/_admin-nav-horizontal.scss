@@ -1,0 +1,323 @@
+/**
+ * ============================================================================
+ * ADMIN NAV HORIZONTAL - DIGITAL'SOS CMS
+ * ============================================================================
+ * Navigation horizontale pour l'interface admin
+ * Converti depuis CSS vers SCSS avec variables
+ * ============================================================================ */
+
+/* ============================================================================
+   NAVBAR PRINCIPALE
+   ============================================================================ */
+
+.navbar {
+    background-color: $nav-bg !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    padding: 0.5rem 0;
+    z-index: 1030;
+}
+
+.navbar-brand {
+    font-size: 1.25rem;
+    color: $color-primary !important;
+    transition: opacity 0.2s;
+    
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+/* ============================================================================
+   ITEMS DE NAVIGATION
+   ============================================================================ */
+
+.navbar-nav {
+    .nav-link {
+        color: $nav-link-color !important;
+        font-weight: 500;
+        padding: 0.5rem 1rem !important;
+        transition: all 0.2s;
+        border-radius: 6px;
+        margin: 0 0.2rem;
+        position: relative;
+        
+        &:hover {
+            color: $nav-link-hover-color !important;
+            background-color: $nav-link-hover-bg;
+        }
+        
+        &.active {
+            color: $nav-link-active-color !important;
+            background-color: $nav-link-active-bg;
+        }
+        
+        // Effet de soulignement au survol
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: $color-primary;
+            transition: width 0.3s ease;
+        }
+        
+        &:hover::after,
+        &.active::after {
+            width: 80%;
+        }
+    }
+}
+
+/* ============================================================================
+   DROPDOWNS
+   ============================================================================ */
+
+.dropdown-menu {
+    border: 1px solid $border-color;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 0.5rem 0;
+    margin-top: 0.5rem;
+    animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-item {
+    padding: 0.5rem 1.5rem;
+    color: $text-primary;
+    transition: all 0.2s;
+    font-size: 0.95rem;
+    
+    &:hover {
+        background-color: rgba($color-primary, 0.05);
+        color: $color-primary;
+        padding-left: 1.75rem;
+    }
+    
+    &.active {
+        background-color: rgba($color-primary, 0.1);
+        color: $color-primary;
+    }
+}
+
+.dropdown-header {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: $text-muted;
+    letter-spacing: 0.5px;
+    padding: 0.5rem 1.5rem;
+}
+
+.dropdown-divider {
+    margin: 0.5rem 0;
+}
+
+/* ============================================================================
+   BADGES DANS LE MENU
+   ============================================================================ */
+
+.nav-link .badge,
+.dropdown-item .badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 10px;
+}
+
+/* ============================================================================
+   BOUTONS D'ACTION
+   ============================================================================ */
+
+.btn-outline-secondary,
+.btn-outline-primary {
+    border-width: 1px;
+    transition: all 0.2s;
+}
+
+.btn-outline-secondary:hover {
+    background-color: $text-primary;
+    border-color: #63d1c8;
+}
+
+.btn-outline-primary:hover {
+    background-color: $color-primary;
+    border-color: #63d1c8;
+}
+
+/* ============================================================================
+   CHAMP DE RECHERCHE
+   ============================================================================ */
+
+.form-control-sm {
+    border-radius: 20px;
+    border: 1px solid $border-color;
+    padding-left: 2.5rem !important;
+    transition: all 0.2s;
+    
+    &:focus {
+        border-color: $color-primary;
+        box-shadow: 0 0 0 0.2rem rgba($color-primary, 0.15);
+    }
+}
+
+/* ============================================================================
+   BADGES DE NOTIFICATION
+   ============================================================================ */
+
+.badge {
+    &.bg-danger {
+        background-color: $color-danger !important;
+    }
+    
+    &.bg-success {
+        background-color: $color-success !important;
+    }
+    
+    &.bg-warning {
+        background-color: $color-warning !important;
+        color: $text-primary !important;
+    }
+    
+    &.bg-info {
+        background-color: $color-info !important;
+    }
+}
+
+/* ============================================================================
+   RESPONSIVE - MOBILE
+   ============================================================================ */
+
+@include mobile {
+    .navbar-collapse {
+        background-color: $color-white;
+        padding: 1rem;
+        margin-top: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+    
+    .navbar-nav {
+        padding-bottom: 1rem;
+        
+        .nav-link {
+            padding: 0.75rem 1rem !important;
+            margin: 0.2rem 0;
+            
+            &::after {
+                display: none;
+            }
+        }
+    }
+    
+    .dropdown-menu {
+        border: none;
+        box-shadow: none;
+        padding-left: 1rem;
+        animation: none;
+    }
+    
+    .dropdown-item {
+        padding-left: 2rem;
+    }
+    
+    // Séparation des sections en mobile
+    .nav-item.dropdown + .nav-item.dropdown {
+        border-top: 1px solid $border-color;
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+    }
+    
+    // Actions utilisateur en mobile
+    .d-flex.align-items-center.gap-2 {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.5rem !important;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid $border-color;
+        
+        > * {
+            width: 100%;
+        }
+    }
+}
+
+/* ============================================================================
+   TOGGLER PERSONNALISÉ
+   ============================================================================ */
+
+.navbar-toggler {
+    padding: 0.5rem;
+    font-size: 1.25rem;
+    border: 1px solid $border-color !important;
+    border-radius: 6px;
+    transition: all 0.2s;
+    
+    &:hover {
+        background-color: $bg-light;
+    }
+    
+    &:focus {
+        box-shadow: 0 0 0 0.2rem rgba($color-primary, 0.15);
+    }
+}
+
+/* ============================================================================
+   SCROLLBAR MENU MOBILE
+   ============================================================================ */
+
+@include mobile {
+    .navbar-collapse {
+        @include custom-scrollbar(6px, $bg-light, $color-primary);
+    }
+}
+
+/* ============================================================================
+   ANIMATION DU MENU BURGER
+   ============================================================================ */
+
+.navbar-toggler-icon {
+    transition: transform 0.3s ease;
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+    transform: rotate(90deg);
+}
+
+/* ============================================================================
+   AMÉLIORATION DE L'ICÔNE EXTERNE
+   ============================================================================ */
+
+.fa-external-link-alt.text-muted {
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.dropdown-item:hover .fa-external-link-alt.text-muted {
+    opacity: 1;
+}
+
+/* ============================================================================
+   STICKY NAVBAR
+   ============================================================================ */
+
+.sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+}
