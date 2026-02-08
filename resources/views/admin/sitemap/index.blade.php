@@ -7,16 +7,16 @@
 @section('content')
 <div class="container-fluid">
     {{-- En-tête avec actions --}}
-    <div class="d-flex bg-primary justify-content-between align-items-center text-white mb-4 p-4">
+    <div class="d-flex bg-white justify-content-between align-items-center text-primary mb-4 p-4">
         <div>
             <h2><i class="fas fa-sitemap me-2"></i>Gestion du Sitemap</h2>
             <small class="text-muted">{{ $urls->total() ?? $urls->count() }} URL(s) au total</small>
         </div>
         <div class="btn-group">
-            <button type="button" class="btn bg-warning text-white p-2" data-bs-toggle="modal" data-bs-target="#discoverModal">
+            <button type="button" class="btn bg-warning p-2" data-bs-toggle="modal" data-bs-target="#discoverModal">
                 <i class="fas fa-search me-2"></i>Découvrir
             </button>
-            <button type="button" class="btn bg-warning text-white p-2" data-bs-toggle="modal" data-bs-target="#generateModal">
+            <button type="button" class="btn bg-warning p-2" data-bs-toggle="modal" data-bs-target="#generateModal">
                 <i class="fas fa-rocket me-2"></i>Générer
             </button>
         </div>
@@ -44,7 +44,7 @@
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body text-center">
                     <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                        <i class="fas fa-link fa-2x text-primary"></i>
+                        <i class="fas fa-link fa-2x text-white"></i>
                     </div>
                     <h3 class="fw-bold text-primary mb-1">{{ $statistics['total_urls'] ?? 0 }}</h3>
                     <p class="text-muted mb-0">Total URLs</p>
@@ -56,7 +56,7 @@
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body text-center">
                     <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                        <i class="fas fa-check-circle fa-2x text-success"></i>
+                        <i class="fas fa-check-circle fa-2x text-white"></i>
                     </div>
                     <h3 class="fw-bold text-success mb-1">{{ $statistics['approved_urls'] ?? 0 }}</h3>
                     <p class="text-muted mb-0">Approuvées</p>
@@ -68,7 +68,7 @@
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body text-center">
                     <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                        <i class="fas fa-clock fa-2x text-warning"></i>
+                        <i class="fas fa-clock fa-2x text-white"></i>
                     </div>
                     <h3 class="fw-bold text-warning mb-1">{{ $statistics['pending_approval'] ?? 0 }}</h3>
                     <p class="text-muted mb-0">En attente</p>
@@ -80,7 +80,7 @@
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body text-center">
                     <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                        <i class="fas fa-calendar fa-2x text-info"></i>
+                        <i class="fas fa-calendar fa-2x text-white"></i>
                     </div>
                     <h3 class="fw-bold text-info mb-1">
                         @if($statistics['last_generated'] ?? false)
@@ -100,7 +100,7 @@
         <!-- Répartition par type -->
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-primary text-white p-3">
+                <div class="card-header bg-primary p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-layer-group me-2"></i>Répartition par type
                     </h6>
@@ -155,7 +155,7 @@
         <!-- Répartition par source -->
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-info text-white p-3">
+                <div class="card-header bg-info p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-sitemap me-2"></i>Répartition par source
                     </h6>
@@ -206,7 +206,7 @@
         <!-- Actions et Liens -->
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm mb-3">
-                <div class="card-header bg-success text-white p-3">
+                <div class="card-header bg-success p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-tools me-2"></i>Actions rapides
                     </h6>
@@ -227,7 +227,7 @@
             </div>
 
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-warning text-white p-3">
+                <div class="card-header bg-warning p-3">
                     <h6 class="mb-0">
                         <i class="fas fa-link me-2"></i>Liens SEO
                     </h6>
@@ -253,7 +253,7 @@
     <div class="row">
         <div class="col-12">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-primary text-white p-4">
+                <div class="card-header bg-white p-4">
                     <h5 class="mb-0">
                         <i class="fas fa-list me-2"></i>Liste des URLs
                     </h5>
@@ -302,7 +302,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="d-flex gap-1">
-                                <button type="submit" class="btn btn-primary text-white flex-fill">
+                                <button type="submit" class="btn btn-primary flex-fill">
                                     <i class="fas fa-filter me-2"></i>Filtrer
                                 </button>
                                 @if(request()->hasAny(['search', 'type', 'approved', 'source']))
@@ -433,7 +433,7 @@
                                                             <a class="dropdown-item d-flex align-items-center" 
                                                                href="{{ $url->url }}" 
                                                                target="_blank">
-                                                                <i class="fas fa-external-link-alt me-2 text-info"></i>Ouvrir l'URL
+                                                                <i class="fas fa-external-link-alt me-2 text-white"></i>Ouvrir l'URL
                                                             </a>
                                                         </li>
                                                         <li><hr class="dropdown-divider"></li>

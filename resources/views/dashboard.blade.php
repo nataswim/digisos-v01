@@ -88,9 +88,9 @@
                     
                     @forelse($recentPosts as $post)
                         <div class="d-flex align-items-center p-4 {{ !$loop->last ? 'border-bottom' : '' }}">
-                            <div class="bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" 
+                            <div class="bg-primary text-white bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" 
                                  style="width: 40px; height: 40px;">
-                                <i class="fas fa-file-alt text-primary"></i>
+                                <i class="fas fa-file-alt text-white"></i>
                             </div>
                             <div class="flex-fill">
                                 <h6 class="mb-1">
@@ -176,9 +176,9 @@
                         
                         @foreach($recentUsers as $user)
                             <div class="d-flex align-items-start {{ !$loop->last ? 'mb-3' : '' }}">
-                                <div class="bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" 
+                                <div class="bg-primary text-white bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" 
                                      style="width: 30px; height: 30px;">
-                                    <i class="fas fa-user text-info" style="font-size: 12px;"></i>
+                                    <i class="fas fa-user text-white" style="font-size: 12px;"></i>
                                 </div>
                                 <div class="flex-fill">
                                     <div class="fw-semibold">{{ $user->name }}</div>

@@ -3,168 +3,79 @@
 @section('title', 'Espace Telechargement - Ressources et eBooks')
 @section('meta_description', 'Decouvrez notre collection de ressources telechargeables : eBooks, guides, videos et documents pour votre developpement personnel et professionnel.')
 
-@push('styles')
-<style>
-.hero-section {
-        background: #008e80;
-    padding: 4rem 0;
-    color: white;
-    border-left: 10px solid #0f5c78;
-}
-
-.category-card {
-    transition: all 0.3s ease;
-    border: none;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.category-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 25px rgba(0,0,0,0.15);
-}
-
-.download-card {
-    transition: all 0.3s ease;
-    border: none;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.download-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-}
-
-.stats-badge {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: rgba(0,0,0,0.7);
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.5rem;
-    font-size: 0.75rem;
-}
-
-.format-badge {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    font-size: 0.75rem;
-    font-weight: bold;
-}
-</style>
-@endpush
-
 @section('content')
 
 
 
-
-<section class="position-relative text-white py-5 nataswim-titre3 overflow-hidden" style="min-height: 600px;">
+<!-- Hero Section avec Video Background -->
+<section class="position-relative text-white overflow-hidden">
     <!-- Video Background -->
-    <video autoplay muted loop playsinline class="position-absolute top-0 start-0 w-100 h-100" style="object-fit: cover; z-index: 1;">
+    <video autoplay muted loop playsinline class="hero-video">
         <source src="{{ asset('assets/images/team/ebooks.mp4') }}" type="video/mp4">
     </video>
-
-    <!-- Overlay sombre pour meilleure lisibilité -->
-    <div class="position-absolute top-0 start-0 w-100 h-100" style="z-index: 2;"></div>
-
     <!-- Contenu -->
-    <div class="container-lg py-4 position-relative" style="z-index: 3;">
-        <div class="row align-items-center">
-            <div class="col-lg-7 mb-4 mb-lg-0">
-                <h1 class="display-4 fw-bold mb-4">Ressources</h1>
-                <p class="lead mb-4">
-                    eBooks, guides pratiques, 
-                    formation et documents pour booster votre developpement.
+    <div class="container-lg py-5 position-relative hero-content">
+        <div class="row align-items-center min-vh-50">
+            <div class="col-lg-12">
+                <div class="d-flex align-items-center mb-4 animate-slide-up">
+                    <h1 class="text-white display-3 fw-bold mb-0">Ressources Thématique</h1>
+                </div>
+                <p class="lead mb-4 animate-slide-up animation-delay-1">
+                    guides pratiques et documents.
                 </p>
-                <div class="d-flex gap-3">
-                    <a href="#categories" class="btn btn-light btn-lg">
-                        Les categories
-                    </a>
-                    <a href="#featured" class="btn btn-outline-light btn-lg">
-                        A la une
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-4 text-center">
-                <div class="bg-white bg-opacity-10 rounded-3 p-4">
-                    <div class="row g-3">
-                        <div class="col-6">
-                            <div class="text-center">
-                                <h3 class="fw-bold mb-1">{{ $categories->sum('downloadables_count') }}</h3>
-                                <small class="opacity-75">Ressources</small>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="text-center">
-                                <h3 class="fw-bold mb-1">{{ $categories->count() }}</h3>
-                                <small class="opacity-75">Categories</small>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="text-center">
-                                <h3 class="fw-bold mb-1">{{ \App\Models\Downloadable::sum('download_count') }}</h3>
-                                <small class="opacity-75">Telechargements</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 </section>
 
 
-
-<!-- Section Telechargements Vedettes -->
+{{-- Section Telechargements Vedettes --}}
 @if($featuredDownloads->count() > 0)
-<section id="featured" class="py-5 bg-light">
+<section id="featured" class="section bg-aqua-light">
     <div class="container">
         <div class="row mb-5">
             <div class="col-lg-8 mx-auto text-center">
-                <h2 class="fw-bold mb-3">
-                    A la une
-                </h2>
-             
+                <h2 class="title-aqua-secondary">A la une</h2>
             </div>
         </div>
 
         <div class="row g-4">
             @foreach($featuredDownloads as $download)
-                <div class="col-lg-4 col-md-6">
-                    <div class="card download-card h-100">
+                <div class="col-lg-4 col-md-6 fade-in-up">
+                    <div class="card-aqua h-100">
                         <div class="position-relative">
                             @if($download->cover_image)
                                 <img src="{{ $download->cover_image }}" 
-                                     class="card-img-top" 
+                                     class="w-100 rounded-t-lg" 
                                      style="height: 200px; object-fit: cover;"
                                      alt="{{ $download->title }}">
                             @else
-                                <div class="card-img-top bg-primary d-flex align-items-center justify-content-center" 
+                                <div class="bg-primary-subtle d-flex align-items-center justify-content-center rounded-t-lg" 
                                      style="height: 200px;">
-                                    <i class="fas fa-file-{{ $download->format === 'pdf' ? 'pdf' : ($download->format === 'mp4' ? 'video' : 'alt') }} fa-3x text-white"></i>
+                                    <i class="fas fa-file-{{ $download->format === 'pdf' ? 'pdf' : ($download->format === 'mp4' ? 'video' : 'alt') }} fa-3x text-primary"></i>
                                 </div>
                             @endif
                             
-                            <div class="format-badge">
-                                <span class="badge bg-dark">{{ strtoupper($download->format) }}</span>
+                            <div class="position-absolute top-0 start-0 m-3">
+                                <span class="badge-m2pc badge-materiel">{{ strtoupper($download->format) }}</span>
                             </div>
                             
-                            <div class="stats-badge">
-                                <i class="fas fa-water me-1"></i>{{ number_format($download->download_count) }}
+                            <div class="position-absolute top-0 end-0 m-3">
+                                <span class="badge bg-dark bg-opacity-75 text-white px-2 py-1 rounded">
+                                    <i class="fas fa-download me-1"></i>{{ number_format($download->download_count) }}
+                                </span>
                             </div>
                         </div>
                         
-                        <div class="card-body d-flex flex-column">
+                        <div class="p-4 d-flex flex-column flex-grow-1">
                             <div class="mb-2">
-                                <span class="badge bg-primary-subtle text-primary">
+                                <span class="badge badge-primary">
                                     {{ $download->category->name }}
                                 </span>
                             </div>
-                            <h5 class="card-title fw-bold mb-3">{{ $download->title }}</h5>
+                            <h5 class="fw-bold mb-3">{{ $download->title }}</h5>
                             @if($download->short_description)
-                                <p class="card-text text-muted flex-grow-1">
+                                <p class="text-muted flex-grow-1 text-sm">
                                     {!! Str::limit($download->short_description, 120) !!}
                                 </p>
                             @endif
@@ -173,18 +84,17 @@
                                 @if($download->canBeDownloadedBy(auth()->user()))
                                     <div class="d-grid gap-2">
                                         <a href="{{ route('ebook.show', [$download->category->slug, $download->slug]) }}" 
-                                           class="btn btn-outline-primary">
+                                           class="btn btn-outline-primary hover-lift">
                                             <i class="fas fa-eye me-2"></i>Voir les details
                                         </a>
-
                                     </div>
                                 @else
                                     <div class="d-grid gap-2">
                                         <a href="{{ route('ebook.show', [$download->category->slug, $download->slug]) }}" 
-                                           class="btn btn-outline-primary">
+                                           class="btn btn-outline-primary hover-lift">
                                             <i class="fas fa-eye me-2"></i>Voir les details
                                         </a>
-                                        <div class="text-center">
+                                        <div class="text-center mt-2">
                                             <small class="text-muted">
                                                 <i class="fas fa-lock me-1"></i>
                                                 {{ $download->getAccessMessage(auth()->user()) }}
@@ -202,40 +112,39 @@
 </section>
 @endif
 
-
-
-
-<!-- Section Categories -->
-<section id="categories" class="py-5 nataswim-titre3" >
+{{-- Section Categories --}}
+<section id="categories" class="section">
     <div class="container">
-        
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="title-aqua-secondary">Explorez nos categories</h2>
+            </div>
+        </div>
 
         @if($categories->count() > 0)
             <div class="row g-4">
                 @foreach($categories as $category)
-                    <div class="col-lg-4 col-md-6">
-                        <div class="card category-card h-100">
-                            <div class="card-body p-4 text-center">
-                                @if($category->icon)
-                                    <div class="mb-3">
-                                        <i class="{{ $category->icon }} fa-3x text-primary"></i>
-                                    </div>
-                                @endif
-                                <h5 class="fw-bold mb-3">{{ $category->name }}</h5>
-                                @if($category->short_description)
-                                    <p class="text-muted mb-4">{{ $category->short_description }}</p>
-                                @endif
-                                <div class="d-flex justify-content-center align-items-center mb-3">
-                                    <span class="badge bg-primary-subtle text-primary me-2">
-                                        {{ $category->downloadables_count }} ressource(s)
-                                    </span>
+                    <div class="col-lg-4 col-md-6 fade-in-up">
+                        <div class="card-aqua-icon h-100 text-center">
+                            @if($category->icon)
+                                <div class="card-icon">
+                                    <i class="{{ $category->icon }}"></i>
                                 </div>
-                                <a href="{{ route('ebook.category', $category->slug) }}" 
-                                   class="btn btn-outline-primary">
-                                    Explorer ce rayon
-                                    <i class="fas fa-arrow-right ms-2"></i>
-                                </a>
+                            @endif
+                            <h5 class="card-title">{{ $category->name }}</h5>
+                            @if($category->short_description)
+                                <p class="card-description">{{ $category->short_description }}</p>
+                            @endif
+                            <div class="mb-3">
+                                <span class="badge badge-primary">
+                                    {{ $category->downloadables_count }} ressource(s)
+                                </span>
                             </div>
+                            <a href="{{ route('ebook.category', $category->slug) }}" 
+                               class="btn btn-outline-primary hover-lift">
+                                Explorer ce rayon
+                                <i class="fas fa-arrow-right ms-2"></i>
+                            </a>
                         </div>
                     </div>
                 @endforeach
@@ -244,60 +153,55 @@
             <div class="text-center py-5">
                 <i class="fas fa-folder-open fa-3x text-muted mb-3 opacity-50"></i>
                 <h4>Aucune categorie disponible</h4>
-                <p class="text-muted">Les categories seront bientÃ´t disponibles.</p>
+                <p class="text-muted">Les categories seront bientot disponibles.</p>
             </div>
         @endif
     </div>
 </section>
 
-
-
-<!-- Section Telechargements Recents -->
+{{-- Section Telechargements Recents --}}
 @if($recentDownloads->count() > 0)
-<section class="py-5">
+<section class="section bg-aqua-light">
     <div class="container">
         <div class="row mb-5">
             <div class="col-lg-8 mx-auto text-center">
-                <h2 class="fw-bold mb-3">
-                    Ressources
-                </h2>
-
+                <h2 class="title-aqua-secondary">Dernieres ressources</h2>
             </div>
         </div>
 
         <div class="row g-4">
             @foreach($recentDownloads as $download)
-                <div class="col-lg-3 col-md-6">
-                    <div class="card download-card h-100">
+                <div class="col-lg-3 col-md-6 fade-in-up">
+                    <div class="card-aqua h-100">
                         <div class="position-relative">
                             @if($download->cover_image)
                                 <img src="{{ $download->cover_image }}" 
-                                     class="card-img-top" 
-                                     style="height: 100%; object-fit: cover;"
+                                     class="w-100 rounded-t-lg" 
+                                     style="height: 150px; object-fit: cover;"
                                      alt="{{ $download->title }}">
                             @else
-                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
+                                <div class="bg-light d-flex align-items-center justify-content-center rounded-t-lg" 
                                      style="height: 150px;">
                                     <i class="fas fa-file-{{ $download->format === 'pdf' ? 'pdf' : ($download->format === 'mp4' ? 'video' : 'alt') }} fa-2x text-muted"></i>
                                 </div>
                             @endif
                             
-                            <div class="format-badge">
-                                <span class="badge bg-info">{{ strtoupper($download->format) }}</span>
+                            <div class="position-absolute top-0 start-0 m-2">
+                                <span class="badge badge-info">{{ strtoupper($download->format) }}</span>
                             </div>
                         </div>
                         
-                        <div class="card-body">
+                        <div class="p-3">
                             <div class="mb-2">
-                                <span class="badge bg-primary-subtle text-primary small">
+                                <span class="badge badge-primary text-xs">
                                     {{ $download->category->name }}
                                 </span>
                             </div>
-                            <h6 class="card-title fw-bold mb-3">{!! Str::limit($download->title, 50) !!}</h6>
+                            <h6 class="fw-bold mb-3">{!! Str::limit($download->title, 50) !!}</h6>
                             
                             <div class="d-grid">
                                 <a href="{{ route('ebook.show', [$download->category->slug, $download->slug]) }}" 
-                                   class="btn btn-sm btn-outline-primary">
+                                   class="btn btn-sm btn-outline-primary hover-lift">
                                     <i class="fas fa-eye me-2"></i>Voir
                                 </a>
                             </div>
@@ -308,41 +212,197 @@
         </div>
         
         <div class="text-center mt-5">
-            <a href="{{ route('ebook.search') }}" class="btn btn-primary btn-lg">
+            <a href="{{ route('ebook.search') }}" class="btn btn-primary btn-lg hover-lift">
                 <i class="fas fa-search me-2"></i>Voir toutes les ressources
             </a>
         </div>
     </div>
 </section>
 @endif
+
 @endsection
 
-@push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Animation des cartes au scroll
-    const cards = document.querySelectorAll('.category-card, .download-card');
-    
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-    
-    cards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(card);
-    });
-});
-</script>
+@push('styles')
+<style>
+
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    border-top: 20px solid #4097b5;
+    border-bottom: 20px solid #4097b5;
+    border-left: 20px solid #f9f5f4;
+    border-right: 20px solid #f9f5f4;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(56, 133, 155, 0.85) 0%, rgba(73, 170, 202, 0.75) 100%);
+    z-index: 2;
+}
+
+.hero-content {
+    z-index: 3;
+}
+
+.min-vh-50 {
+    min-height: 50vh;
+}
+
+.hero-icon {
+    font-size: 3rem;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+}
+
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.animate-slide-up {
+    animation: slideUp 0.8s ease-out;
+}
+
+.animate-fade-in {
+    animation: fadeIn 1s ease-out;
+}
+
+.animation-delay-1 {
+    animation-delay: 0.2s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.animation-delay-2 {
+    animation-delay: 0.4s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.animation-delay-3 {
+    animation-delay: 0.6s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+/* ============================================================================
+   CARD COMPONENTS
+   ============================================================================ */
+.card-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    height: 180px;
+    background: linear-gradient(135deg, rgba(56, 133, 155, 0.05) 0%, rgba(73, 170, 202, 0.05) 100%);
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.card-aqua:hover .card-image {
+    transform: scale(1.05);
+}
+
+.card-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(56, 133, 155, 0.05) 0%, rgba(73, 170, 202, 0.05) 100%);
+}
+
+.card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.card-footer-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(56, 133, 155, 0.1);
+}
+
+.hover-primary {
+    transition: color 0.2s ease;
+}
+
+.hover-primary:hover {
+    color: #1db8c5 !important;
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+@media (max-width: 768px) {
+    .hero-video-section {
+        min-height: 400px;
+    }
+
+    .hero-icon {
+        font-size: 2rem;
+    }
+
+    .display-3 {
+        font-size: 2rem !important;
+    }
+
+    .lead {
+        font-size: 1rem;
+    }
+}
+
+/* ============================================================================
+   SMOOTH SCROLL
+   ============================================================================ */
+html {
+    scroll-behavior: smooth;
+}
+.hover-primary:hover {
+    color: #38859b !important;
+}
+
+.position-relative {
+    position: relative;
+}
+
+@media (min-width: 768px) {
+    .rounded-start {
+        border-radius: 0.75rem 0 0 0.75rem !important;
+    }
+}
+</style>
 @endpush

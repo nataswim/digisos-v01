@@ -4,7 +4,7 @@
     <!-- Contenu principal -->
     <div class="col-lg-8">
         <div class="card border-0 shadow-sm">
-            <div class="card-header bg-primary text-white p-4">
+            <div class="card-header bg-white p-4">
                 <h5 class="mb-0">
                     <i class="fas fa-user-shield me-2"></i>Informations du rôle
                 </h5>
@@ -119,7 +119,7 @@
                                         <div class="card-header bg-light p-3">
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <h6 class="mb-0 text-capitalize">
-                                                    <i class="fas fa-folder me-2 text-info"></i>
+                                                    <i class="fas fa-folder me-2 text-white"></i>
                                                     {{ str_replace(['_', '-'], ' ', $groupName) }}
                                                 </h6>
                                                 <div class="form-check">
@@ -232,7 +232,7 @@
         <!-- Statistiques (en edition) -->
         @if(isset($role) && $role->exists)
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-info text-white p-4">
+                <div class="card-header bg-white text-primary p-4">
                     <h6 class="mb-0">
                         <i class="fas fa-chart-bar me-2"></i>Statistiques
                     </h6>
@@ -240,13 +240,13 @@
                 <div class="card-body p-4">
                     <div class="row g-3 text-center">
                         <div class="col-6">
-                            <div class="bg-info bg-opacity-10 rounded p-3">
+                            <div class="bg-light bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-primary mb-1">{{ $role->users()->count() }}</h4>
                                 <small class="text-muted">Utilisateurs</small>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="bg-success bg-opacity-10 rounded p-3">
+                            <div class="bg-light bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-success mb-1">{{ $role->permissions()->count() }}</h4>
                                 <small class="text-muted">Permissions</small>
                             </div>
@@ -267,7 +267,7 @@
 
         <!-- Aperçu des permissions selectionnees -->
         <div class="card border-0 shadow-sm">
-            <div class="card-header bg-warning text-white p-4">
+            <div class="card-header bg-white text-primary p-4">
                 <h6 class="mb-0">
                     <i class="fas fa-eye me-2"></i>Permissions selectionnees
                 </h6>

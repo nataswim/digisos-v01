@@ -10,7 +10,7 @@
         <!-- Liste des articles - Pleine largeur -->
         <div class="col-12">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-primary text-white p-4">
+                <div class="card-header bg-white p-4">
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <h5 class="mb-1">
@@ -324,25 +324,25 @@
                     
                     <div class="row g-3 text-center">
                         <div class="col-6">
-                            <div class="bg-info bg-opacity-10 rounded p-3">
+                            <div class="bg-light bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-primary mb-1">{{ $totalPosts }}</h4>
                                 <small class="text-muted">Total</small>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="bg-success bg-opacity-10 rounded p-3">
+                            <div class="bg-light bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-success mb-1">{{ $publishedPosts }}</h4>
                                 <small class="text-muted">Publies</small>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="bg-success bg-opacity-10 rounded p-3">
+                            <div class="bg-light bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-warning mb-1">{{ $draftPosts }}</h4>
                                 <small class="text-muted">Brouillons</small>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="bg-info bg-opacity-10 rounded p-3">
+                            <div class="bg-light bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-info mb-1">{{ $memberPosts }}</h4>
                                 <small class="text-muted">Membres</small>
                             </div>

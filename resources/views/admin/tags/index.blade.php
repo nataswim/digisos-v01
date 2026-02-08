@@ -10,7 +10,7 @@
         <!-- Liste des tags -->
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-warning text-white p-4">
+                <div class="card-header bg-white text-primary p-4">
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <h5 class="mb-1">
@@ -119,7 +119,7 @@
                                                         <li>
                                                             <a class="dropdown-item d-flex align-items-center" 
                                                                href="{{ route('admin.tags.show', $tag) }}">
-                                                                <i class="fas fa-eye me-2 text-info"></i>Voir details
+                                                                <i class="fas fa-eye me-2 text-white"></i>Voir details
                                                             </a>
                                                         </li>
                                                         <li>
@@ -209,25 +209,25 @@
                     
                     <div class="row g-3 text-center">
                         <div class="col-6">
-                            <div class="bg-info bg-opacity-10 rounded p-3">
+                            <div class="bg-light bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-primary mb-1">{{ $totalTags }}</h4>
                                 <small class="text-muted">Total tags</small>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="bg-success bg-opacity-10 rounded p-3">
+                            <div class="bg-light bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-success mb-1">{{ $usedTags }}</h4>
                                 <small class="text-muted">Utilises</small>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="bg-success bg-opacity-10 rounded p-3">
+                            <div class="bg-light bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-warning mb-1">{{ $unusedTags }}</h4>
                                 <small class="text-muted">Non utilises</small>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="bg-info bg-opacity-10 rounded p-3">
+                            <div class="bg-light bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-info mb-1">{{ $avgPerPost }}</h4>
                                 <small class="text-muted">Moy./article</small>
                             </div>

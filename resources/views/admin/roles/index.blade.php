@@ -10,7 +10,7 @@
         <!-- Liste des rôles -->
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-primary text-white p-4">
+                <div class="card-header bg-white p-4">
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <h5 class="mb-1">
@@ -84,7 +84,7 @@
                                             <li>
                                                 <a class="dropdown-item d-flex align-items-center" 
                                                    href="{{ route('admin.roles.show', $role) }}">
-                                                    <i class="fas fa-eye me-2 text-info"></i>Voir details
+                                                    <i class="fas fa-eye me-2 text-white"></i>Voir details
                                                 </a>
                                             </li>
                                             <li>

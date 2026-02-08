@@ -7,7 +7,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="card border-0 shadow-sm">
-        <div class="card-header bg-primary text-white p-4">
+        <div class="card-header bg-white p-4">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
                     <h5 class="mb-1">
@@ -154,7 +154,7 @@
                                         <li>
                                             <a class="dropdown-item d-flex align-items-center" 
                                                href="{{ route('admin.video-categories.show', $category) }}">
-                                                <i class="fas fa-eye me-2 text-info"></i>Voir détails
+                                                <i class="fas fa-eye me-2 text-white"></i>Voir détails
                                             </a>
                                         </li>
                                         <li>

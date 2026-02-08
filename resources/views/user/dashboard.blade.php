@@ -47,7 +47,7 @@
                 <div class="d-flex align-items-center">
                     <div class="bg-warning bg-opacity-20 rounded-circle d-flex align-items-center justify-content-center me-3"
                         style="width: 50px; height: 50px;">
-                        <i class="fas fa-clock text-warning fa-lg"></i>
+                        <i class="fas fa-clock text-white fa-lg"></i>
                     </div>
                     <div class="flex-fill">
                         <h5 class="alert-heading mb-2">

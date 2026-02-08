@@ -1,5 +1,4 @@
-<nav class="navbar navbar-expand-lg" style="border-left: 20px solid #ffffff;border-right: 20px solid #ffffff;border-bottom: 10px solid #63d0c7;border-top: 10px solid #63d0c7;background-image: linear-gradient(197deg, rgb(255 255 255) 85%, rgb(99, 208, 199) 0px);background-attachment: scroll;background-position: bottom;">
-    
+<nav class="navbar navbar-expand-lg" style="border-left: 20px solid #ffffff;border-right: 20px solid #ffffff;border-bottom: 10px solid #4ccac6;border-top: 10px solid #4ccac6;background-image: linear-gradient(198deg, rgb(255 255 255) 85%, rgb(96 203 198) 70px);background-attachment: scroll;background-position: bottom;"> 
 
 
     <div class="container-lg">
@@ -196,6 +195,15 @@
                         Système
                     </a>
                     <ul class="dropdown-menu">
+                        <li class="nav-item">
+    <a class="nav-link" href="{{ route('admin.pages.index') }}">
+        <i class="fas fa-file-alt"></i> Pages
+    </a>
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('admin.pages-categories.index') }}">
+        <i class="fas fa-folder"></i> Catégories Pages
+    </a>
+</li>
                         <li>
                             <a class="dropdown-item {{ request()->routeIs('admin.sitemap.*') ? 'active' : '' }}" href="{{ route('admin.sitemap.index') }}">
                                 <i class="fas fa-sitemap fa-fw me-2"></i>Sitemap
@@ -243,9 +251,9 @@
                 
                 <!-- Menu utilisateur -->
                 <div class="dropdown">
-                    <button class="btn btn-danger text-white btn-sm dropdown-toggle d-flex align-items-center" 
+                    <button class="btn btn-primary text-white btn-sm dropdown-toggle d-flex align-items-center" 
                             data-bs-toggle="dropdown">
-                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" 
+                        <div class="bg-light text-danger rounded-circle d-flex align-items-center justify-content-center me-2" 
                              style="width: 28px; height: 28px; font-size: 12px;">
                             {{ substr(auth()->user()->name, 0, 1) }}
                         </div>

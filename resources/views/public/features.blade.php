@@ -431,7 +431,7 @@
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center mb-3">
                             <div class="bg-info bg-opacity-10 rounded-circle p-3 me-3">
-                                <i class="fas fa-user-cog text-info"></i>
+                                <i class="fas fa-user-cog text-white"></i>
                             </div>
                             <h3 class="h5 mb-0">Espace coach</h3>
                         </div>

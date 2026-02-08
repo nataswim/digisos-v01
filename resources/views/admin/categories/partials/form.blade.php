@@ -4,7 +4,7 @@
     <!-- Contenu principal -->
     <div class="col-lg-8">
         <div class="card border-0 shadow-sm">
-            <div class="card-header bg-info text-white p-4">
+            <div class="card-header bg-white text-primary p-4">
                 <h5 class="mb-0">
                     <i class="fas fa-folder me-2"></i>Informations de la categorie
                 </h5>
@@ -150,7 +150,7 @@
 
         <!-- Organisation -->
         <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-warning text-white p-4">
+            <div class="card-header bg-white text-primary p-4">
                 <h6 class="mb-0">
                     <i class="fas fa-layer-group me-2"></i>Organisation
                 </h6>
@@ -179,7 +179,7 @@
 
         <!-- Image -->
 <div class="card border-0 shadow-sm">
-    <div class="card-header bg-primary text-white p-4">
+    <div class="card-header bg-white p-4">
         <h6 class="mb-0">
             <i class="fas fa-image me-2"></i>Image d'illustration
         </h6>

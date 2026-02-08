@@ -12,7 +12,7 @@
    ============================================================================ */
 
 // Couleur primaire (bleu aquatique)
-$color-primary: #38859b !default;
+$color-primary: #1db8c5 !default;
 $color-primary-dark: #3d8993 !default;
 $color-primary-light: #5fa3b5 !default;
 $color-primary-lighter: #e8f4f7 !default;
@@ -72,7 +72,7 @@ $color-gray-200: #eeeeee !default;
 $color-gray-300: #e0e0e0 !default;
 $color-gray-400: #bdbdbd !default;
 $color-gray-500: #9e9e9e !default;
-$color-gray-600: #757575 !default;
+$color-gray-600: #1a1a33 !default;
 $color-gray-700: #616161 !default;
 $color-gray-800: #424242 !default;
 $color-gray-900: #303030 !default;
@@ -111,10 +111,10 @@ $bg-dark: $color-dark !default;
 // Navigation
 $nav-bg: $color-white !default;
 $nav-link-color: $text-primary !default;
-$nav-link-hover-bg: #bce6e3 !default;
-$nav-link-hover-color: #378094 !default;
-$nav-link-active-bg: #fbfbf5 !default;
-$nav-link-active-color: #378094 !default;
+$nav-link-hover-bg: #ffffff !default;
+$nav-link-hover-color: #0c000b !default;
+$nav-link-active-bg: #ffffff !default;
+$nav-link-active-color: #32504f !default;
 
 // Footer
 $footer-bg: #e9f8f3 !default;

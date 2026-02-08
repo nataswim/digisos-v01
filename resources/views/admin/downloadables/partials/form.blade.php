@@ -4,7 +4,7 @@
     <!-- Contenu principal -->
     <div class="col-lg-8">
         <div class="card border-0 shadow-sm">
-            <div class="card-header bg-primary text-white p-4">
+            <div class="card-header bg-white p-4">
                 <h5 class="mb-0">
                     <i class="fas fa-water me-2"></i>Informations du telechargement
                 </h5>
@@ -284,7 +284,7 @@
 
         <!-- SEO et metadonnees -->
         <div class="card border-0 shadow-sm mt-4">
-            <div class="card-header bg-info text-white p-4">
+            <div class="card-header bg-white text-primary p-4">
                 <h6 class="mb-0">
                     <i class="fas fa-search me-2"></i>SEO et Metadonnees
                 </h6>
@@ -404,7 +404,7 @@
 
         <!-- Permissions d'acces -->
         <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-warning text-white p-4">
+            <div class="card-header bg-white text-primary p-4">
                 <h6 class="mb-0">
                     <i class="fas fa-shield-alt me-2"></i>Permissions d'acces
                 </h6>
@@ -478,7 +478,7 @@
 
         <!-- Image de couverture -->
         <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-info text-white p-4">
+            <div class="card-header bg-white text-primary p-4">
                 <h6 class="mb-0">
                     <i class="fas fa-image me-2"></i>Image de couverture
                 </h6>

@@ -8,22 +8,17 @@
 @section('content')
 
 <!-- Hero Section avec Video Background -->
-<section class="hero-video-section position-relative text-white overflow-hidden">
+<section class="position-relative text-white overflow-hidden">
     <!-- Video Background -->
     <video autoplay muted loop playsinline class="hero-video">
         <source src="{{ asset('assets/images/team/nataswim-sport-training-1.mp4') }}" type="video/mp4">
     </video>
-
-    <!-- Overlay avec dégradé aquatique -->
-    <div class="hero-overlay"></div>
-
     <!-- Contenu -->
     <div class="container-lg py-5 position-relative hero-content">
         <div class="row align-items-center min-vh-50">
             <div class="col-lg-12">
                 <div class="d-flex align-items-center mb-4 animate-slide-up">
-                    <i class="fas fa-newspaper me-3 hero-icon"></i>
-                    <h1 class="display-3 fw-bold mb-0">Articles & Dossiers</h1>
+                    <h1 class="text-white display-3 fw-bold mb-0">Articles & Dossiers</h1>
                 </div>
 
                 <p class="lead mb-4 animate-slide-up animation-delay-1">
@@ -231,14 +226,8 @@
 
 
 <!-- Grille des catégories -->
-<section class="py-5">
+<section class="py-5 bg-secondary">
     <div class="container-lg">
-        <div class="text-center mb-5">
-            <h2 class="title-aqua-secondary">
-                <i class="fas fa-folder me-2"></i>Catégories
-            </h2>
-            <p class="text-muted">Explorez nos articles par thématique</p>
-        </div>
 
         @if($categories->count() > 0)
         <div class="row g-4">
@@ -259,9 +248,9 @@
 
                         <!-- Badge nombre d'articles -->
                         <div class="position-absolute top-0 end-0 p-3">
-                            <span class="badge badge-danger">
+                            <span class="badge badge-secondary">
                                 <i class="fas fa-file-alt me-1"></i>
-                                {{ $category->posts_count }} article{{ $category->posts_count > 1 ? 's' : '' }}
+                                {{ $category->posts_count }}
                             </span>
                         </div>
                     </div>
@@ -311,13 +300,6 @@
 
 @push('styles')
 <style>
-/* ============================================================================
-   HERO VIDEO SECTION
-   ============================================================================ */
-.hero-video-section {
-    min-height: 600px;
-    position: relative;
-}
 
 .hero-video {
     position: absolute;
@@ -327,6 +309,10 @@
     height: 100%;
     object-fit: cover;
     z-index: 1;
+    border-top: 20px solid #4097b5;
+    border-bottom: 20px solid #4097b5;
+    border-left: 20px solid #f9f5f4;
+    border-right: 20px solid #f9f5f4;
 }
 
 .hero-overlay {
@@ -451,7 +437,7 @@
 }
 
 .hover-primary:hover {
-    color: #38859b !important;
+    color: #1db8c5 !important;
 }
 
 /* ============================================================================
@@ -459,7 +445,7 @@
    ============================================================================ */
 @media (max-width: 768px) {
     .hero-video-section {
-        min-height: 500px;
+        min-height: 400px;
     }
 
     .hero-icon {

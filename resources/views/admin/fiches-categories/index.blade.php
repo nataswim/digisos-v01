@@ -7,7 +7,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="card border-0 shadow-sm">
-        <div class="card-header bg-info text-white p-4">
+        <div class="card-header bg-white text-primary p-4">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
                     <h5 class="mb-1">
@@ -58,7 +58,7 @@
                     <div class="col-md-4">
                         <div class="d-flex align-items-center">
                             <div class="bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
-                                <i class="fas fa-folder text-success"></i>
+                                <i class="fas fa-folder text-white"></i>
                             </div>
                             <div>
                                 <h6 class="mb-0">{{ $stats['active'] ?? 0 }}</h6>
@@ -69,7 +69,7 @@
                     <div class="col-md-4">
                         <div class="d-flex align-items-center">
                             <div class="bg-warning bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
-                                <i class="fas fa-folder-open text-warning"></i>
+                                <i class="fas fa-folder-open text-white"></i>
                             </div>
                             <div>
                                 <h6 class="mb-0">{{ $stats['inactive'] ?? 0 }}</h6>
@@ -79,8 +79,8 @@
                     </div>
                     <div class="col-md-4">
                         <div class="d-flex align-items-center">
-                            <div class="bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
-                                <i class="fas fa-file-alt text-info"></i>
+                            <div class="bg-primary text-white bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                <i class="fas fa-file-alt text-white"></i>
                             </div>
                             <div>
                                 <h6 class="mb-0">{{ $stats['total'] ?? 0 }}</h6>
@@ -119,7 +119,7 @@
                                         @else
                                             <div class="bg-info bg-opacity-10 rounded d-flex align-items-center justify-content-center" 
                                                  style="width: 50px; height: 50px;">
-                                                <i class="fas fa-folder text-info fs-5"></i>
+                                                <i class="fas fa-folder text-white fs-5"></i>
                                             </div>
                                         @endif
                                         @if(!$category->is_active)
@@ -188,7 +188,7 @@
                                         <li>
                                             <a class="dropdown-item d-flex align-items-center" 
                                                href="{{ route('admin.fiches-categories.show', $category) }}">
-                                                <i class="fas fa-eye me-2 text-info"></i>Voir détails
+                                                <i class="fas fa-eye me-2 text-white"></i>Voir détails
                                             </a>
                                         </li>
                                         <li>

@@ -37,37 +37,7 @@
         <div class="row align-items-center min-vh-50">
             <div class="col-lg-10 mx-auto">
                 <div class="mb-4 animate-slide-up">
-                    <div class="d-flex flex-wrap gap-2 mb-3">
-                        <span class="badge badge-primary">
-                            <i class="fas fa-folder me-1"></i>{{ $post->category->name ?? 'Non categorise' }}
-                        </span>
-                        @if($post->is_featured)
-                        <span class="badge badge-warning">
-                            <i class="fas fa-star me-1"></i>A la une
-                        </span>
-                        @endif
-                        @if($post->visibility === 'authenticated')
-                        <span class="badge badge-info">
-                            <i class="fas fa-lock me-1"></i>Membre
-                        </span>
-                        @endif
-                    </div>
-
-                    <h1 class="display-3 fw-bold mb-4">{{ $post->name }}</h1>
-
-                    <div class="d-flex flex-wrap gap-4 text-white-50 animate-slide-up animation-delay-1">
-                        <span>
-                            <i class="fas fa-calendar me-2"></i>{{ $post->published_at?->format('d/m/Y') ?? $post->created_at->format('d/m/Y') }}
-                        </span>
-                        <span>
-                            <i class="fas fa-eye me-2"></i>{{ number_format($post->hits) }} vues
-                        </span>
-                        @if($post->reading_time)
-                        <span>
-                            <i class="fas fa-clock me-2"></i>{{ $post->reading_time }} min
-                        </span>
-                        @endif
-                    </div>
+                    <h1 class="display-3 fw-bold mb-4 text-white">{{ $post->name }}</h1>
                 </div>
             </div>
         </div>
@@ -77,7 +47,7 @@
 <article class="py-5 bg-aqua-light">
     <div class="container-lg">
         <div class="row justify-content-center">
-            <div class="col-lg-10 col-xl-8">
+            <div class="col-lg col-xl">
 
                 @if($post->intro)
                 <div class="card-aqua mb-4 animate-fade-in">
@@ -132,9 +102,7 @@
                 @if($post->tags->isNotEmpty())
                 <div class="card-aqua mb-4">
                     <div class="d-flex flex-wrap gap-2 align-items-center">
-                        <span class="text-muted">
-                            <i class="fas fa-tags me-2"></i>Tags:
-                        </span>
+                        
                         @foreach($post->tags as $tag)
                         <a href="{{ route('posts.public.tag', $tag) }}" class="badge badge-secondary text-decoration-none">
                             {{ $tag->name }}
@@ -205,14 +173,9 @@
     </div>
 </article>
 
-<section class="py-5">
+<section class="py-5 bg-secondary">
     <div class="container-lg">
-        <div class="text-center mb-5">
-            <h2 class="title-aqua-secondary">
-                <i class="fas fa-folder me-2"></i>Categories
-            </h2>
-            <p class="text-muted">Explorez nos articles par thematique</p>
-        </div>
+
 
         @if(isset($categories) && $categories->count() > 0)
         <div class="row g-4">
@@ -231,9 +194,9 @@
                         @endif
 
                         <div class="position-absolute top-0 end-0 p-3">
-                            <span class="badge badge-danger">
+                            <span class="badge badge-primary">
                                 <i class="fas fa-file-alt me-1"></i>
-                                {{ $category->posts_count }} article{{ $category->posts_count > 1 ? 's' : '' }}
+                                {{ $category->posts_count }}
                             </span>
                         </div>
                     </div>
@@ -277,18 +240,22 @@
 @push('styles')
 <style>
 .hero-video-section {
-    min-height: 600px;
+    min-height: 300px;
     position: relative;
 }
 
 .hero-video {
-    position: absolute;
+position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     z-index: 1;
+    border-top: 20px solid #4097b5;
+    border-bottom: 20px solid #4097b5;
+    border-left: 20px solid #f9f5f4;
+    border-right: 20px solid #f9f5f4;
 }
 
 .hero-image-bg {
@@ -404,7 +371,7 @@
 
 .article-content h1 {
     font-size: 1.7rem;
-    color: #38859b;
+    color: #1db8c5;
 }
 
 .article-content h2 {
@@ -442,7 +409,7 @@
 }
 
 .article-content blockquote {
-    border-left: 4px solid #38859b;
+    border-left: 4px solid #1db8c5;
     padding: 1.5rem;
     margin: 2rem 0;
     font-style: italic;
@@ -476,7 +443,7 @@
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
     font-size: 0.875em;
-    color: #38859b;
+    color: #1db8c5;
     font-family: 'Courier New', monospace;
 }
 
@@ -574,7 +541,7 @@
 }
 
 .hover-primary:hover {
-    color: #38859b !important;
+    color: #1db8c5 !important;
 }
 
 @media (max-width: 768px) {

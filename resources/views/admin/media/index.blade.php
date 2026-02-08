@@ -6,7 +6,7 @@
 <div class="container-fluid py-4">
     <!-- En-tête avec statistiques -->
     <div class="row mb-4">
-        <div class="col-12 card-header bg-primary text-white p-4">
+        <div class="col-12 card-header p-4">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
                     <h1 class="h3 mb-0">Gestion des medias</h1>
@@ -32,7 +32,7 @@
                         <div class="card-body p-3">
                             <div class="d-flex align-items-center">
                                 <div class="bg-primary bg-opacity-10 rounded p-2 me-3">
-                                    <i class="fas fa-images text-primary fa-lg"></i>
+                                    <i class="fas fa-images text-white fa-lg"></i>
                                 </div>
                                 <div>
                                     <div class="fw-bold fs-4">{{ number_format($stats['total_media']) }}</div>
@@ -47,7 +47,7 @@
                         <div class="card-body p-3">
                             <div class="d-flex align-items-center">
                                 <div class="bg-info bg-opacity-10 rounded p-2 me-3">
-                                    <i class="fas fa-hdd text-info fa-lg"></i>
+                                    <i class="fas fa-hdd text-white fa-lg"></i>
                                 </div>
                                 <div>
                                     <div class="fw-bold fs-4">{{ $stats['total_size_formatted'] }}</div>
@@ -62,7 +62,7 @@
                         <div class="card-body p-3">
                             <div class="d-flex align-items-center">
                                 <div class="bg-success bg-opacity-10 rounded p-2 me-3">
-                                    <i class="fas fa-folder text-success fa-lg"></i>
+                                    <i class="fas fa-folder text-white fa-lg"></i>
                                 </div>
                                 <div>
                                     <div class="fw-bold fs-4">{{ $stats['categories_count'] }}</div>
@@ -77,7 +77,7 @@
                         <div class="card-body p-3">
                             <div class="d-flex align-items-center">
                                 <div class="bg-warning bg-opacity-10 rounded p-2 me-3">
-                                    <i class="fas fa-clock text-warning fa-lg"></i>
+                                    <i class="fas fa-clock text-white fa-lg"></i>
                                 </div>
                                 <div>
                                     <div class="fw-bold fs-4">{{ $stats['recent_uploads'] }}</div>

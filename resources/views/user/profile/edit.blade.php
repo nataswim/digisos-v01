@@ -9,7 +9,7 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white border-bottom p-4">
                     <div class="d-flex align-items-center">
-                        <div class="bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" 
+                        <div class="bg-primary text-white bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" 
                              style="width: 50px; height: 50px;">
                             <i class="fas fa-user-edit text-primary"></i>
                         </div>

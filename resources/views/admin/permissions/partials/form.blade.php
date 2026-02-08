@@ -4,7 +4,7 @@
     <!-- Contenu principal -->
     <div class="col-lg-8">
         <div class="card border-0 shadow-sm">
-            <div class="card-header bg-warning text-white p-4">
+            <div class="card-header bg-white text-primary p-4">
                 <h5 class="mb-0">
                     <i class="fas fa-key me-2"></i>Informations de la permission
                 </h5>
@@ -98,7 +98,7 @@
     <div class="col-lg-4">
         <!-- Groupe et categorisation -->
         <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-info text-white p-4">
+            <div class="card-header bg-white text-primary p-4">
                 <h6 class="mb-0">
                     <i class="fas fa-layer-group me-2"></i>Categorisation
                 </h6>
@@ -152,13 +152,13 @@
                 <div class="card-body p-4">
                     <div class="row g-3 text-center">
                         <div class="col-6">
-                            <div class="bg-info bg-opacity-10 rounded p-3">
+                            <div class="bg-light bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-primary mb-1">{{ $permission->roles()->count() }}</h4>
                                 <small class="text-muted">Rôles</small>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="bg-success bg-opacity-10 rounded p-3">
+                            <div class="bg-light bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-success mb-1">{{ $permission->roles()->withCount('users')->get()->sum('users_count') }}</h4>
                                 <small class="text-muted">Utilisateurs</small>
                             </div>
@@ -188,7 +188,7 @@
 
         <!-- Guide de bonnes pratiques -->
         <div class="card border-0 shadow-sm">
-            <div class="card-header bg-primary text-white p-4">
+            <div class="card-header bg-white p-4">
                 <h6 class="mb-0">
                     <i class="fas fa-book me-2"></i>Bonnes pratiques
                 </h6>

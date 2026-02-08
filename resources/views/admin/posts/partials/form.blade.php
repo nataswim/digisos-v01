@@ -4,7 +4,7 @@
     <!-- Contenu principal -->
     <div class="col-lg-8">
         <div class="card border-0 shadow-sm">
-            <div class="card-header bg-primary text-white p-4">
+            <div class="card-header bg-white p-4">
                 <h5 class="mb-0">
                     <i class="fas fa-edit me-2"></i>Contenu de l'article
                 </h5>
@@ -112,7 +112,7 @@
 
         <!-- SEO et metadonnees -->
         <div class="card border-0 shadow-sm mt-4">
-            <div class="card-header bg-info text-white p-4">
+            <div class="card-header bg-white text-primary p-4">
                 <h6 class="mb-0">
                     <i class="fas fa-search me-2"></i>SEO et Metadonnees
                 </h6>
@@ -189,7 +189,7 @@
                 <!-- VISIBILITe -->
                 <div class="mb-3">
                     <label for="visibility" class="form-label fw-semibold">
-                        <i class="fas fa-eye me-1 text-info"></i>Visibilite du contenu
+                        <i class="fas fa-eye me-1 text-white"></i>Visibilite du contenu
                     </label>
                     <select name="visibility" id="visibility" class="form-select @error('visibility') is-invalid @enderror">
                         <option value="public" {{ old('visibility', isset($post) ? $post->visibility : 'public') === 'public' ? 'selected' : '' }}>
@@ -280,7 +280,7 @@
                                     </div>
                                     <div class="col-4">
                                         <div class="bg-info bg-opacity-10 rounded p-2">
-                                            <i class="fas fa-eye text-info"></i>
+                                            <i class="fas fa-eye text-white"></i>
                                             <div class="small fw-bold text-info">Teaser</div>
                                             <div class="tiny text-muted">Intro visible</div>
                                         </div>
@@ -341,7 +341,7 @@
 
         <!-- Categorie et Tags -->
         <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-warning text-white p-4">
+            <div class="card-header bg-white text-primary p-4">
                 <h6 class="mb-0">
                     <i class="fas fa-folder me-2"></i>Categorisation
                 </h6>
@@ -385,7 +385,7 @@
         
 <!-- Image -->
 <div class="card border-0 shadow-sm mb-4">
-    <div class="card-header bg-info text-white p-4">
+    <div class="card-header bg-white text-primary p-4">
         <h6 class="mb-0">
             <i class="fas fa-image me-2"></i>Image A la une
         </h6>

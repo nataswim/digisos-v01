@@ -7,190 +7,176 @@
 
 
 
-<section class="position-relative text-white py-5 nataswim-titre3 overflow-hidden" style="min-height: 600px;">
+<!-- Hero Section avec Video Background -->
+<section class="position-relative text-white overflow-hidden">
     <!-- Video Background -->
-    <video autoplay muted loop playsinline class="position-absolute top-0 start-0 w-100 h-100" style="object-fit: cover; z-index: 1;">
+    <video autoplay muted loop playsinline class="hero-video">
         <source src="{{ asset('assets/images/team/nataswim-sport-training-0.mp4') }}" type="video/mp4">
     </video>
-
-    <!-- Overlay sombre pour meilleure lisibilité -->
-    <div class="position-absolute top-0 start-0 w-100 h-100" style="z-index: 2;"></div>
-
     <!-- Contenu -->
-    <div class="container-lg py-4 position-relative" style="z-index: 3;">
-        <div class="row align-items-center">
-            <div class="col-lg mb-2 mb-lg-0">
-                <div class="d-flex align-items-center mb-3">
-                    <a href="{{ route('posts.public.index') }}" style=" color: #fff; text-decoration: none; ">
-                    
-                    <h1 class="display-4 fw-bold mb-0 shadow-lg border-0" style="text-shadow: 2px 2px 4px rgb(3 64 71);background-color: #63d0c7;padding: 10px;border-radius: 10px;"> <i class="fas fa-file-alt me-3"></i>Fiches Thématique</h1>
-                    </a>
+    <div class="container-lg py-5 position-relative hero-content">
+        <div class="row align-items-center min-vh-50">
+            <div class="col-lg-12">
+                <div class="d-flex align-items-center mb-4 animate-slide-up">
+                    <h1 class="text-white display-3 fw-bold mb-0">Fiches Thématique</h1>
                 </div>
-
-                <p class="lead mb-4">
-                    Retrouvez nos derniers fiches. Expertise, conseils techniques et actualités.
+                <p class="lead mb-4 animate-slide-up animation-delay-1">
+                    Retrouvez less dernières fiches.
                 </p>
             </div>
         </div>
     </div>
 </section>
 
+
+
 <!-- Fiches en vedette -->
 @if($featuredFiches->count() > 0)
-<section class="py-5 bg-light">
+<section class="py-5 bg-aqua-light">
     <div class="container-lg">
-        <div class="d-flex align-items-center justify-content-between mb-4">
-            <h2 class="h3 mb-0">
-                <i class="fas fa-star text-warning me-2"></i>Fiches en Vedette
-            </h2>
-        </div>
+        <h2 class="text-white-secondary mb-5 text-center">
+            <i class="fas fa-star text-warning me-2"></i>Fiches en Vedette
+        </h2>
         
         <div class="row g-4">
             @foreach($featuredFiches as $fiche)
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 border-0 shadow-lg hover-lift">
-                        @if($fiche->image)
-                            <img src="{{ $fiche->image }}" 
-                                 class="card-img-top" 
-                                 alt="{{ $fiche->title }}">
-                        @else
-                            <div class="card-img-top bg-primary d-flex align-items-center justify-content-center" 
-                                 style="height: 220px;">
-                                <i class="fas fa-file-alt fa-4x text-white opacity-50"></i>
-                            </div>
-                        @endif
+            <div class="col-md-6 col-lg-4 fade-in-up" style="animation-delay: {{ $loop->index * 0.15 }}s;">
+                <div class="card-aqua h-100 hover-lift">
+                    @if($fiche->image)
+                    <img src="{{ $fiche->image }}" 
+                         class="card-img-top rounded-top" 
+                         style="height: 220px; object-fit: cover;"
+                         alt="{{ $fiche->title }}">
+                    @else
+                    <div class="card-img-top bg-primary-lighter rounded-top d-flex align-items-center justify-content-center" 
+                         style="height: 220px;">
+                        <i class="fas fa-file-alt fa-4x text-primary opacity-50"></i>
+                    </div>
+                    @endif
+                    
+                    <div class="d-flex flex-column p-4">
+                        <div class="d-flex flex-wrap gap-2 mb-3">
+                            @if($fiche->category)
+                            <span class="badge badge-primary">
+                                <i class="fas fa-folder me-1"></i>{{ $fiche->category->name }}
+                            </span>
+                            @endif
+                            @if($fiche->visibility === 'authenticated')
+                            <span class="badge badge-warning">
+                                <i class="fas fa-lock me-1"></i>Membres
+                            </span>
+                            @endif
+                            <span class="badge badge-success">
+                                <i class="fas fa-star me-1"></i>En vedette
+                            </span>
+                        </div>
                         
-                        <div class="card-body d-flex flex-column">
-                            <div class="d-flex flex-wrap gap-2 mb-3">
-                                @if($fiche->category)
-                                    <span class="badge bg-primary">
-                                        <i class="fas fa-folder me-1"></i>{{ $fiche->category->name }}
-                                    </span>
-                                @endif
-                                @if($fiche->visibility === 'authenticated')
-                                    <span class="badge bg-warning">
-                                        <i class="fas fa-lock me-1"></i>Membres
-                                    </span>
-                                @endif
-                                <span class="badge bg-success">
-                                    <i class="fas fa-star me-1"></i>En vedette
-                                </span>
-                            </div>
-                            
-                            <h5 class="card-title mb-3">{{ $fiche->title }}</h5>
-                            
-                            <p class="card-text text-muted flex-grow-1">
-                                {!! Str::limit(strip_tags($fiche->short_description), 120) !!}
-                            </p>
-                            
-                            <div class="d-flex align-items-center justify-content-between mt-3 pt-3 border-top">
-                                <small class="text-muted">
-                                    <i class="fas fa-eye me-1"></i>{{ number_format($fiche->views_count ?? 0) }} lectures
-                                </small>
-                                @if($fiche->category && $fiche->sousCategory)
-                                    <a href="{{ route('public.fiches.show', [$fiche->category, $fiche->sousCategory, $fiche]) }}" 
-                                       class="btn btn-sm btn-primary">
-                                        Découvrir <i class="fas fa-arrow-right ms-1"></i>
-                                    </a>
-                                @else
-                                    <button class="btn btn-sm btn-secondary" disabled>
-                                        <i class="fas fa-lock me-1"></i>Indisponible
-                                    </button>
-                                @endif
-                            </div>
+                        <h5 class="mb-3">{{ $fiche->title }}</h5>
+                        
+                        <p class="text-muted flex-grow-1">
+                            {!! Str::limit(strip_tags($fiche->short_description), 120) !!}
+                        </p>
+                        
+                        <div class="d-flex align-items-center justify-content-between mt-3 pt-3 border-top">
+                            <small class="text-muted">
+                                <i class="fas fa-eye me-1"></i>{{ number_format($fiche->views_count ?? 0) }} lectures
+                            </small>
+                            @if($fiche->category && $fiche->sousCategory)
+                            <a href="{{ route('public.fiches.show', [$fiche->category, $fiche->sousCategory, $fiche]) }}" 
+                               class="btn btn-sm btn-primary">
+                                Découvrir <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                            @else
+                            <button class="btn btn-sm btn-secondary" disabled>
+                                <i class="fas fa-lock me-1"></i>Indisponible
+                            </button>
+                            @endif
                         </div>
                     </div>
                 </div>
+            </div>
             @endforeach
         </div>
     </div>
 </section>
 @endif
 
-<!-- Navigation par Catégories -->
-<section class="py-5 {{ $featuredFiches->count() > 0 ? 'bg-white' : 'bg-light' }}">
+<!-- Catégories -->
+<section class="py-5 {{ $featuredFiches->count() > 0 ? 'bg-white' : 'bg-aqua-light' }}">
     <div class="container-lg">
-        <!-- Catégories de fiches -->
+        <h2 class="text-white-secondary mb-5 text-center">Catégories de Fiches</h2>
+        
         @if($categories->count() > 0)
-            <!-- Boucle sur chaque catégorie -->
+        <div class="row g-4">
             @foreach($categories as $category)
-                <div class="category-row mb-4">
-                    <div class="card border-0 shadow-sm hover-category-fiche">
-                        <div class="row g-0">
-                            <!-- Image de la catégorie (gauche sur desktop, haut sur mobile) -->
-                            <div class="col-12 col-md-3">
-                                <div class="category-image-wrapper-fiche">
-                                    @if($category->image)
-                                        <img src="{{ $category->image }}" 
-                                             alt="{{ $category->name }}"
-                                             class="category-image-fiche">
-                                    @else
-                                        <div class="category-image-placeholder-fiche d-flex align-items-center justify-content-center text-white"
-                                             style="background: linear-gradient(135deg, {{ $loop->index % 4 == 0 ? '#0d6efd' : ($loop->index % 4 == 1 ? '#198754' : ($loop->index % 4 == 2 ? '#0dcaf0' : '#ffc107')) }} 0%, {{ $loop->index % 4 == 0 ? '#084298' : ($loop->index % 4 == 1 ? '#0f5132' : ($loop->index % 4 == 2 ? '#087990' : '#cc9a06')) }} 100%);">
-                                            <i class="fas fa-folder" style="font-size: 3rem;"></i>
-                                        </div>
-                                    @endif
-                                    
-                                    <!-- Badge nombre de fiches -->
-                                    <div class="position-absolute top-0 end-0 m-2">
-                                        <span class="badge bg-success shadow-sm fs-6">
-                                            
-                                            {{ $category->published_fiches_count }} fiche{{ $category->published_fiches_count > 1 ? 's' : '' }}
-                                        </span>
-                                    </div>
-                                </div>
+            <div class="col-12 fade-in-up" style="animation-delay: {{ $loop->index * 0.1 }}s;">
+                <div class="card-aqua hover-lift">
+                    <div class="row g-0">
+                        <!-- Image -->
+                        <div class="col-12 col-md-3">
+                            @if($category->image)
+                            <img src="{{ $category->image }}" 
+                                 alt="{{ $category->name }}"
+                                 class="img-fluid rounded-start h-100"
+                                 style="object-fit: cover; min-height: 200px;">
+                            @else
+                            <div class="bg-primary-lighter rounded-start h-100 d-flex align-items-center justify-content-center text-white"
+                                 style="min-height: 200px;">
+                                <i class="fas fa-folder" style="font-size: 3rem;"></i>
                             </div>
-
-                            <!-- Contenu central (titre, description) -->
-                            <div class="col-12 col-md-7">
-                                <div class="card-body">
-                                    <!-- Nom de la catégorie -->
-                                    <h3 class="card-title h4 mb-3">
-                                        <a href="{{ route('public.fiches.category', $category) }}" 
-                                           class="text-decoration-none text-dark category-link-fiche">
-                                            {{ $category->name }}
-                                        </a>
-                                    </h3>
-
-                                    <!-- Description -->
-                                    @if($category->description)
-                                        <p class="card-text text-muted mb-3">
-                                            {!! Str::limit(strip_tags($category->description), 180) !!}
-                                        </p>
-                                    @else
-                                        <p class="card-text text-muted mb-3">
-                                            Découvrez nos fiches pratiques dans la catégorie {{ $category->name }}.
-                                        </p>
-                                    @endif
-
-                                    <!-- Informations supplémentaires -->
-
-                                </div>
+                            @endif
+                            
+                            <div class="position-absolute top-0 end-0 m-2">
+                                <span class="badge badge-success shadow-sm fs-6">
+                                    {{ $category->published_fiches_count }} fiche{{ $category->published_fiches_count > 1 ? 's' : '' }}
+                                </span>
                             </div>
+                        </div>
 
-                            <!-- Bouton à droite -->
-                            <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
-                                <div class="p-3 w-100">
+                        <!-- Contenu -->
+                        <div class="col-12 col-md-7">
+                            <div class="p-4">
+                                <h3 class="h4 mb-3">
                                     <a href="{{ route('public.fiches.category', $category) }}" 
-                                       class="btn btn-outline-primary w-100 btn-category-fiche">
-                                        <i class="fas fa-arrow-right me-2"></i>
-                                        <span class="d-none d-lg-inline">Découvrir</span>
-                                        <span class="d-inline d-lg-none">Découvrir les fiches</span>
+                                       class="text-decoration-none text-dark hover-primary">
+                                        {{ $category->name }}
                                     </a>
-                                </div>
+                                </h3>
+
+                                @if($category->description)
+                                <p class="text-muted mb-0">
+                                    {!! Str::limit(strip_tags($category->description), 180) !!}
+                                </p>
+                                @else
+                                <p class="text-muted mb-0">
+                                    Découvrez nos fiches pratiques dans la catégorie {{ $category->name }}.
+                                </p>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Bouton -->
+                        <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
+                            <div class="p-3 w-100">
+                                <a href="{{ route('public.fiches.category', $category) }}" 
+                                   class="btn btn-primary w-100">
+                                    <i class="fas fa-arrow-right me-2"></i>
+                                    <span class="d-none d-lg-inline">Découvrir</span>
+                                    <span class="d-inline d-lg-none">Découvrir les fiches</span>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-            @endforeach
-        @else
-            <div class="text-center py-5">
-                <i class="fas fa-folder-open fa-3x text-muted mb-3 opacity-25"></i>
-                <h5 class="text-muted">Aucune catégorie disponible pour le moment</h5>
             </div>
+            @endforeach
+        </div>
+        @else
+        <div class="card-aqua text-center py-5">
+            <i class="fas fa-folder-open fa-3x text-muted mb-3 opacity-25"></i>
+            <h5 class="text-muted">Aucune catégorie disponible pour le moment</h5>
+        </div>
         @endif
-
-        
     </div>
 </section>
 
@@ -198,145 +184,185 @@
 
 @push('styles')
 <style>
-/* Espacement entre les lignes de catégories de fiches */
-.category-row {
-    margin-bottom: 2rem;
-}
 
-/* Style de la carte catégorie fiche avec effet hover */
-.hover-category-fiche {
-    transition: all 0.3s ease;
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-.hover-category-fiche:hover {
-    box-shadow: 0 0.5rem 2rem rgba(4, 173, 185, 0.25) !important;
-    background-color: #f0fbfc;
-}
-
-/* Image de la catégorie fiche */
-.category-image-wrapper-fiche {
-    position: relative;
-    height: 100%;
-}
-
-.category-image-fiche {
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
     object-fit: cover;
+    z-index: 1;
+    border-top: 20px solid #4097b5;
+    border-bottom: 20px solid #4097b5;
+    border-left: 20px solid #f9f5f4;
+    border-right: 20px solid #f9f5f4;
 }
 
-.category-image-placeholder-fiche {
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    min-height: 250px;
+    background: linear-gradient(135deg, rgba(56, 133, 155, 0.85) 0%, rgba(73, 170, 202, 0.75) 100%);
+    z-index: 2;
 }
 
-/* Liens avec effet hover fiche */
-.category-link-fiche {
-    transition: color 0.3s ease;
+.hero-content {
+    z-index: 3;
 }
 
-.hover-category-fiche:hover .category-link-fiche {
-    color: #04adb9 !important;
+.min-vh-50 {
+    min-height: 50vh;
 }
 
-/* Bouton avec effet hover fiche */
-.btn-category-fiche {
-    transition: all 0.3s ease;
+.hero-icon {
+    font-size: 3rem;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
 }
 
-.hover-category-fiche:hover .btn-category-fiche {
-    background-color: #04adb9;
-    border-color: #04adb9;
-    color: white;
-}
-
-/* Effet hover sur les cartes de fiches en vedette */
-.hover-lift {
-    transition: all 0.3s ease;
-}
-
-.hover-lift:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
-}
-
-
-
-.badge {
-    font-size: 0.75rem;
-}
-
-/* Responsive pour mobile */
-@media (max-width: 767px) {
-    /* Image centrée en haut sur mobile */
-    .category-image-wrapper-fiche {
-        min-height: 200px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
     }
-    
-    .category-image-fiche {
-        border-radius: 12px 12px 0 0;
-    }
-    
-    .category-image-placeholder-fiche {
-        min-height: 200px;
-        border-radius: 12px 12px 0 0;
-    }
-    
-    /* Espacement réduit sur mobile */
-    .category-row {
-        margin-bottom: 1.5rem;
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
-/* Responsive pour desktop */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.animate-slide-up {
+    animation: slideUp 0.8s ease-out;
+}
+
+.animate-fade-in {
+    animation: fadeIn 1s ease-out;
+}
+
+.animation-delay-1 {
+    animation-delay: 0.2s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.animation-delay-2 {
+    animation-delay: 0.4s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.animation-delay-3 {
+    animation-delay: 0.6s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+/* ============================================================================
+   CARD COMPONENTS
+   ============================================================================ */
+.card-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    height: 180px;
+    background: linear-gradient(135deg, rgba(56, 133, 155, 0.05) 0%, rgba(73, 170, 202, 0.05) 100%);
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.card-aqua:hover .card-image {
+    transform: scale(1.05);
+}
+
+.card-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(56, 133, 155, 0.05) 0%, rgba(73, 170, 202, 0.05) 100%);
+}
+
+.card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.card-footer-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(56, 133, 155, 0.1);
+}
+
+.hover-primary {
+    transition: color 0.2s ease;
+}
+
+.hover-primary:hover {
+    color: #1db8c5 !important;
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+@media (max-width: 768px) {
+    .hero-video-section {
+        min-height: 400px;
+    }
+
+    .hero-icon {
+        font-size: 2rem;
+    }
+
+    .display-3 {
+        font-size: 2rem !important;
+    }
+
+    .lead {
+        font-size: 1rem;
+    }
+}
+
+/* ============================================================================
+   SMOOTH SCROLL
+   ============================================================================ */
+html {
+    scroll-behavior: smooth;
+}
+.hover-primary:hover {
+    color: #38859b !important;
+}
+
+.position-relative {
+    position: relative;
+}
+
 @media (min-width: 768px) {
-    /* Image à gauche sur desktop */
-    .category-image-wrapper-fiche {
-        border-radius: 12px 0 0 12px;
-    }
-    
-    .category-image-fiche {
-        border-radius: 12px 0 0 12px;
-    }
-    
-    .category-image-placeholder-fiche {
-        border-radius: 12px 0 0 12px;
+    .rounded-start {
+        border-radius: 0.75rem 0 0 0.75rem !important;
     }
 }
 </style>
-@endpush
-
-@push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Animation d'entrée pour les cards
-    const cards = document.querySelectorAll('.hover-category-fiche, .hover-lift');
-    
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-    
-    cards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'all 0.6s ease';
-        observer.observe(card);
-    });
-});
-</script>
 @endpush

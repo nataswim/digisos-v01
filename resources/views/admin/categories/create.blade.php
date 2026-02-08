@@ -133,7 +133,7 @@
                 <div class="card border-0 shadow-sm mb-4">
                     <div class="card-header bg-white border-bottom p-4">
                         <h6 class="mb-0">
-                            <i class="fas fa-layer-group me-2 text-info"></i>Organisation
+                            <i class="fas fa-layer-group me-2 text-white"></i>Organisation
                         </h6>
                     </div>
                     <div class="card-body p-4">

@@ -13,7 +13,7 @@
             <!-- Contenu principal -->
             <div class="col-lg-8">
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-primary text-white p-4">
+                    <div class="card-header bg-white p-4">
                         <h5 class="mb-0">
                             <i class="fas fa-video me-2"></i>Informations de la vidéo
                         </h5>
@@ -211,7 +211,7 @@
                         <!-- Métadonnées -->
                         <div class="border-top pt-4">
                             <h6 class="fw-semibold mb-3">
-                                <i class="fas fa-info-circle me-2 text-info"></i>Métadonnées
+                                <i class="fas fa-info-circle me-2 text-white"></i>Métadonnées
                             </h6>
 
                             <div class="row g-3">
@@ -311,7 +311,7 @@
 
                         <div class="mb-3">
                             <label for="visibility" class="form-label fw-semibold">
-                                <i class="fas fa-eye me-1 text-info"></i>Visibilité
+                                <i class="fas fa-eye me-1 text-white"></i>Visibilité
                             </label>
                             <select name="visibility" id="visibility" class="form-select">
                                 <option value="public" {{ old('visibility', 'public') === 'public' ? 'selected' : '' }}>
@@ -360,7 +360,7 @@
 
                 <!-- Catégories -->
                 <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-header bg-warning text-white p-4">
+                    <div class="card-header bg-white text-primary p-4">
                         <h6 class="mb-0">
                             <i class="fas fa-folder me-2"></i>Catégories
                         </h6>
@@ -391,7 +391,7 @@
 
                 <!-- Thumbnail -->
                 <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-header bg-info text-white p-4">
+                    <div class="card-header bg-white text-primary p-4">
                         <h6 class="mb-0">
                             <i class="fas fa-image me-2"></i>Miniature
                         </h6>

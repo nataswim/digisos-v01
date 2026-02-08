@@ -10,7 +10,7 @@
         <!-- Informations principales -->
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-info text-white p-4">
+                <div class="card-header bg-white text-primary p-4">
                     <div class="d-flex align-items-center justify-content-between">
                         <h5 class="mb-0">
                             <i class="fas fa-layer-group me-2"></i>{{ $fichesSousCategory->name }}

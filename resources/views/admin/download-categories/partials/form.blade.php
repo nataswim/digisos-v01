@@ -4,7 +4,7 @@
     <!-- Contenu principal -->
     <div class="col-lg-8">
         <div class="card border-0 shadow-sm">
-            <div class="card-header bg-primary text-white p-4">
+            <div class="card-header bg-white p-4">
                 <h5 class="mb-0">
                     <i class="fas fa-folder me-2"></i>Informations de la categorie
                 </h5>
@@ -117,7 +117,7 @@
 
         <!-- Icône -->
         <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-info text-white p-4">
+            <div class="card-header bg-white text-primary p-4">
                 <h6 class="mb-0">
                     <i class="fas fa-icons me-2"></i>Icône
                 </h6>

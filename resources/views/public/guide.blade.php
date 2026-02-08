@@ -167,7 +167,7 @@
 
         <div class="alert alert-info border-0 shadow-sm">
             <div class="d-flex align-items-center">
-                <i class="fas fa-info-circle fa-2x me-3 text-info"></i>
+                <i class="fas fa-info-circle fa-2x me-3 text-white"></i>
                 <div>
                     <h5 class="mb-1">Comment ça marche ?</h5>
                     <p class="mb-0">

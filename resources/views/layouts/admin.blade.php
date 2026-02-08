@@ -11,15 +11,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/admin-nav-horizontal.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/admin-footer.css') }}" rel="stylesheet">
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <link href="{{ asset('css/quill-advanced.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/media-selector.css') }}" rel="stylesheet">
 
     @stack('styles')
 </head>
-<body style="background-color: rgb(250, 250, 245);background-image: linear-gradient(45deg, #fafbf5 85%, #63d0c7 0);background-position: top;background-attachment: fixed;">
+<body style="background-color: rgb(250, 250, 245);background-image: linear-gradient(45deg, #fafbf5 85%, #4ccac6 0);background-position: top;background-attachment: fixed;">
     @include('layouts.partials.admin-nav-horizontal')
     
     <div class="main-wrapper">

@@ -6,24 +6,25 @@
 
 @section('content')
 <!-- En-tête de la catégorie -->
-<section class="py-5 bg-primary text-white nataswim-titre3">
+<section class="py-5 bg-primary text-white nataswim-titre3" style="border-left: 20px solid #f9f5f4;border-bottom: 10px solid #4097b5;border-top: 10px solid #4097b5;background-image: linear-gradient(
+309deg, rgb(95 202 199) 85%, rgb(64 151 181) 70px);background-attachment: fixed;background-position: top;border-right: 20px solid #f9f5f4;">
     <div class="container-lg">
         <div class="row align-items-center">
-            <div class="col-lg-8">
+            <div class="col-lg">
                 <!-- Fil d'Ariane -->
-                <nav aria-label="breadcrumb" class="mb-3">
+                <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item">
-                            <a href="{{ route('home') }}" class="text-white text-decoration-none">
-                                <i class="fas fa-home me-1"></i>Accueil
+                            <a href="{{ route('home') }}" class="text-dark text-decoration-none">
+                                Accueil
                             </a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('posts.public.index') }}" class="text-white text-decoration-none">
+                            <a href="{{ route('posts.public.index') }}" class="text-dark text-decoration-none">
                                 Catégories
                             </a>
                         </li>
-                        <li class="breadcrumb-item active text-white" aria-current="page">
+                        <li class="breadcrumb-item active text-dark" aria-current="page">
                             {{ $category->name }}
                         </li>
                     </ol>
@@ -38,9 +39,9 @@
                 @endif
 
                 <div class="mt-3">
-                    <span class="badge bg-light text-dark fs-6">
+                    <span class="badge fs-6">
                         <i class="fas fa-file-alt me-1"></i>
-                        {{ $posts->total() }} article{{ $posts->total() > 1 ? 's' : '' }}
+                        {{ $posts->total() }} 
                     </span>
                     @if($category->group_name)
                         <span class="badge bg-warning ms-2 fs-6">
@@ -63,10 +64,10 @@
 </section>
 
 <!-- Liste des articles -->
-<section class="py-5">
+<section class="py-5" style="background-image: linear-gradient(229deg, #f9f5f4 85%, #ffffff 0);background-attachment: fixed;background-position: top;">
     <div class="container-lg">
         @if($posts->count() > 0)
-            <div class="row g-4">
+            <div class="row g-4" style=" background-color: #fff; padding: 20px 0px; border-radius: 10px; ">
                 @foreach($posts as $post)
                     <div class="col-md-6 col-lg-4">
                         <div class="card h-100 shadow-sm border-0 hover-card">

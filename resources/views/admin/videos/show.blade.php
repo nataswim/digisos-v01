@@ -10,7 +10,7 @@
         <!-- Informations principales -->
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-primary text-white p-4">
+                <div class="card-header bg-white p-4">
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <h5 class="mb-1">{{ $video->title }}</h5>
@@ -95,7 +95,7 @@
                     @if($video->duration || $video->width || $video->height)
                         <div class="border-top pt-4">
                             <h6 class="fw-semibold mb-3">
-                                <i class="fas fa-info-circle me-2 text-info"></i>Métadonnées
+                                <i class="fas fa-info-circle me-2 text-white"></i>Métadonnées
                             </h6>
                             <div class="row g-3">
                                 @if($video->duration)

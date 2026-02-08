@@ -4,45 +4,47 @@
 @section('meta_description', $category->description ?? 'Découvrez toutes les vidéos de la catégorie ' . $category->name)
 
 @section('content')
-<!-- Section titre avec breadcrumb -->
-<section class="py-5 text-white text-center nataswim-titre3">
-    <div class="container">
- 
 
+<!-- Hero Section avec image et titre de la catégorie -->
+<section class="hero-aqua py-5 text-white text-center position-relative overflow-hidden">
+    <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-8">
-                <h1 class="display-4 fw-bold mb-3">
+            <div class="col-lg-8 mx-auto fade-in-up">
+                <h1 class="text-white mb-3">
                     {{ $category->name }}
                 </h1>
 
+                @if($category->description)
+                <p class="lead mb-4 opacity-90">{{ $category->description }}</p>
+                @endif
 
-
-                <div class="d-flex align-items-center gap-3 mt-4">
-                    <span class="badge bg-light text-dark fs-6">
+                <div class="d-flex align-items-center justify-content-center gap-3 mt-4">
+                    <span class="badge badge-m2pc badge-materiel fs-6">
                         <i class="fas fa-video me-1"></i>{{ $videos->total() }} vidéo(s)
                     </span>
                 </div>
+            </div>
 
+            @if($category->image)
+            <div class="col-lg-4 text-center mt-4 mt-lg-0 fade-in-up" style="animation-delay: 0.2s;">
+                <img src="{{ $category->image }}"
+                    alt="{{ $category->name }}"
+                    class="img-fluid rounded-lg shadow-aqua-lg"
+                    style="max-height: 250px; object-fit: cover;">
+            </div>
+            @endif
+        </div>
     </div>
 </section>
 
-
-
-
-
-
-
-
-
-
 <!-- Liste des vidéos -->
-<section class="py-5 bg-light">
+<section class="py-5 bg-aqua-light">
     <div class="container">
         @if($videos->count() > 0)
         <div class="row g-4">
             @foreach($videos as $video)
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border-0 shadow-lg hover-lift">
+            <div class="col-md-6 col-lg-4 fade-in-up" style="animation-delay: {{ $loop->index * 0.1 }}s;">
+                <div class="card-aqua h-100 hover-lift">
                     @if($video->thumbnail)
                     <div class="position-relative">
                         <img src="{{ $video->thumbnail }}"
@@ -63,7 +65,7 @@
 
                         {{-- Badge Premium --}}
                         @if($video->visibility === 'authenticated')
-                        <span class="position-absolute top-0 start-0 m-2 badge bg-warning text-dark">
+                        <span class="position-absolute top-0 start-0 m-2 badge badge-warning">
                             <i class="fas fa-crown me-1"></i>Premium
                         </span>
                         @endif
@@ -78,19 +80,19 @@
                     <div class="card-body d-flex flex-column">
                         <div class="d-flex flex-wrap gap-2 mb-3">
                             @foreach($video->categories->take(2) as $cat)
-                            <span class="badge bg-primary">
+                            <span class="badge badge-primary">
                                 {{ $cat->name }}
                             </span>
                             @endforeach
 
                             @if($video->visibility === 'authenticated')
-                            <span class="badge bg-warning text-dark">
+                            <span class="badge badge-warning">
                                 <i class="fas fa-crown me-1"></i>Premium
                             </span>
                             @endif
 
                             @if($video->is_featured)
-                            <span class="badge bg-success">
+                            <span class="badge badge-success">
                                 <i class="fas fa-star me-1"></i>Vedette
                             </span>
                             @endif
@@ -120,7 +122,6 @@
         </div>
 
         <!-- Pagination -->
-        <!-- Pagination -->
         @if($videos->hasPages())
             <div class="row mt-5">
                 <div class="col-12">
@@ -131,76 +132,26 @@
             </div>
         @endif
         @else
-        <div class="card border-0 shadow-sm text-center py-5">
-            <div class="card-body">
-                <i class="fas fa-video fa-3x text-muted mb-3 opacity-25"></i>
-                <h5 class="text-muted mb-3">Aucune vidéo disponible dans cette catégorie</h5>
-                <a href="{{ route('public.videos.index') }}" class="btn btn-primary">
-                    <i class="fas fa-arrow-left me-2"></i>Retour aux vidéos
-                </a>
-            </div>
+        <div class="card-aqua text-center py-5">
+            <i class="fas fa-video fa-3x text-muted mb-3 opacity-25"></i>
+            <h5 class="text-muted mb-3">Aucune vidéo disponible dans cette catégorie</h5>
+            <a href="{{ route('public.videos.index') }}" class="btn btn-primary">
+                <i class="fas fa-arrow-left me-2"></i>Retour aux vidéos
+            </a>
         </div>
         @endif
     </div>
 </section>
 
-<!-- Breadcrumb -->
-<section class="py-3 bg-white border-bottom">
-    <div class="container-lg">
-        <nav aria-label="breadcrumb" class="mb-4">
-            <ol class="breadcrumb rounded px-3 py-2">
-                <li class="breadcrumb-item">
-                    <a href="{{ route('public.videos.index') }}" class="text-dark">
-                        <i class="fas fa-home me-1"></i>Vidéos
-                    </a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">
-                    {{ $category->name }}
-                </li>
-            </ol>
-        </nav>
-    </div>
-                </div>
-
-            @if($category->image)
-            <div class="col-lg text-center mt-4 mt-lg-0 ">
-                <img src="{{ $category->image }}"
-                    alt="{{ $category->name }}"
-                    class="img-fluid rounded shadow-lg"
-                    style="max-height: 250px; object-fit: cover;">
-                            @if($category->description)
-                <p class="lead mb-0">{{ $category->description }}</p>
-                @endif
-                </div>
-            
-            @endif
-            
-        </div>
-</section>
-
 <!-- Navigation rapide -->
-<section class="py-4 border-top">
+<section class="py-4 bg-secondary border-top">
     <div class="container">
         <div class="d-flex flex-wrap justify-content-center gap-3">
-            <a href="{{ route('public.videos.index') }}" class="btn btn-outline-primary">
+            <a href="{{ route('public.videos.index') }}" class="btn btn-primary">
                 <i class="fas fa-th me-2"></i>Toutes les catégories
             </a>
         </div>
     </div>
 </section>
+
 @endsection
-
-@push('styles')
-<style>
-    .hover-lift {
-        transition: all 0.3s ease;
-    }
-
-    .hover-lift:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
-    }
-
-    
-</style>
-@endpush

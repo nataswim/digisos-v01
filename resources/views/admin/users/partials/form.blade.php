@@ -4,7 +4,7 @@
     <!-- Contenu principal -->
     <div class="col-lg-8">
         <div class="card border-0 shadow-sm">
-            <div class="card-header bg-primary text-white p-4">
+            <div class="card-header bg-white p-4">
                 <h5 class="mb-0">
                     <i class="fas fa-user me-2"></i>Informations personnelles
                 </h5>
@@ -221,7 +221,7 @@
 
         <!-- Statut du compte -->
         <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-warning text-white p-4">
+            <div class="card-header bg-white text-primary p-4">
                 <h6 class="mb-0">
                     <i class="fas fa-toggle-on me-2"></i>Statut du compte
                 </h6>
@@ -251,7 +251,7 @@
 
         <!-- Avatar -->
         <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-info text-white p-4">
+            <div class="card-header bg-white text-primary p-4">
                 <h6 class="mb-0">
                     <i class="fas fa-user-circle me-2"></i>Photo de profil
                 </h6>

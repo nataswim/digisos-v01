@@ -10,7 +10,7 @@
         <!-- Informations principales -->
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-warning text-white p-4">
+                <div class="card-header bg-white text-primary p-4">
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center">
                             <div class="me-3">
@@ -166,7 +166,7 @@
                                                     @else
                                                         <div class="bg-primary bg-opacity-10 rounded d-flex align-items-center justify-content-center" 
                                                              style="width: 50px; height: 50px;">
-                                                            <i class="fas fa-file-alt text-primary"></i>
+                                                            <i class="fas fa-file-alt text-white"></i>
                                                         </div>
                                                     @endif
                                                 </div>

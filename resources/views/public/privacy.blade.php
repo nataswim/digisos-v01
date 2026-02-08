@@ -236,7 +236,7 @@
                             <div class="card-body p-4">
                                 <div class="d-flex align-items-center mb-3">
                                     <div class="bg-info bg-opacity-10 rounded-circle p-2 me-3">
-                                        <i class="fas fa-handshake text-info"></i>
+                                        <i class="fas fa-handshake text-white"></i>
                                     </div>
                                     <h4 class="h6 mb-0">Via des tiers</h4>
                                 </div>

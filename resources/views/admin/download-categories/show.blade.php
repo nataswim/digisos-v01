@@ -10,7 +10,7 @@
         <!-- Contenu principal -->
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-primary text-white p-4">
+                <div class="card-header bg-white p-4">
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center">
                             @if($downloadCategory->icon)
@@ -135,19 +135,19 @@
                 <div class="card-body p-3">
                     <div class="row g-3 text-center">
                         <div class="col-6">
-                            <div class="bg-info bg-opacity-10 rounded p-3">
+                            <div class="bg-light bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-primary mb-1">{{ $downloadCategory->downloadables->count() }}</h4>
                                 <small class="text-muted">Fichiers</small>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="bg-success bg-opacity-10 rounded p-3">
+                            <div class="bg-light bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-success mb-1">{{ $downloadCategory->downloadables->where('status', 'active')->count() }}</h4>
                                 <small class="text-muted">Actifs</small>
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="bg-info bg-opacity-10 rounded p-3">
+                            <div class="bg-light bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-info mb-1">{{ number_format($downloadCategory->downloadables->sum('download_count')) }}</h4>
                                 <small class="text-muted">Telechargements totaux</small>
                             </div>

@@ -11,8 +11,6 @@
         <source src="{{ asset('assets/images/team/nataswim.mp4') }}" type="video/mp4">
     </video>
 
-    <!-- Overlay avec dégradé aquatique -->
-    <div class="hero-overlay"></div>
 
     <!-- Contenu -->
     <div class="container-lg py-5 position-relative hero-content">
@@ -20,7 +18,7 @@
             <div class="col-lg-7 mb-4 mb-lg-0">
                 <div class="d-flex align-items-center mb-4 animate-slide-up">
                     <i class="fas fa-swimmer me-3 hero-icon"></i>
-                    <h1 class="display-3 fw-bold mb-0">Digital'SOS</h1>
+                    <h1 class="display-3 fw-bold mb-0 text-white">Digital'SOS</h1>
                 </div>
 
                 <p class="lead mb-4 animate-slide-up animation-delay-1">
@@ -307,18 +305,22 @@
    HERO VIDEO SECTION
    ============================================================================ */
 .hero-video-section {
-    min-height: 600px;
+    min-height: 400px;
     position: relative;
 }
 
 .hero-video {
-    position: absolute;
+position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     z-index: 1;
+    border-top: 20px solid #4097b5;
+    border-bottom: 20px solid #4097b5;
+    border-left: 20px solid #f9f5f4;
+    border-right: 20px solid #f9f5f4;
 }
 
 .hero-overlay {
@@ -373,7 +375,7 @@
 
 .btn-outline-light:hover {
     background: white;
-    color: #38859b;
+    color: #1db8c5;
 }
 
 /* ============================================================================
@@ -475,7 +477,7 @@
 }
 
 .hover-primary:hover {
-    color: #38859b !important;
+    color: #1db8c5 !important;
 }
 
 /* Video play overlay */

@@ -10,7 +10,7 @@
         <!-- Contenu principal -->
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-primary text-white p-4">
+                <div class="card-header bg-white p-4">
                     <div class="d-flex align-items-center justify-content-between">
                         <h5 class="mb-0">
                             <i class="fas fa-file-alt me-2"></i>{{ $post->name }}
@@ -160,7 +160,7 @@
                         <div class="d-flex align-items-center">
                             <div class="bg-info bg-opacity-10 rounded d-flex align-items-center justify-content-center me-3" 
                                  style="width: 40px; height: 40px;">
-                                <i class="fas fa-folder text-info"></i>
+                                <i class="fas fa-folder text-white"></i>
                             </div>
                             <div>
                                 <strong>{{ $post->category->name }}</strong>

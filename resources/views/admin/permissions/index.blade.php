@@ -10,7 +10,7 @@
         <!-- Liste des permissions -->
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-warning text-white p-4">
+                <div class="card-header bg-white text-primary p-4">
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <h5 class="mb-1">
@@ -103,7 +103,7 @@
                                                 <div class="d-flex align-items-start">
                                                     <div class="bg-warning bg-opacity-10 rounded d-flex align-items-center justify-content-center me-3" 
                                                          style="width: 40px; height: 40px;">
-                                                        <i class="fas fa-key text-warning"></i>
+                                                        <i class="fas fa-key text-white"></i>
                                                     </div>
                                                     <div>
                                                         <h6 class="mb-1">{{ $permission->name }}</h6>
@@ -158,7 +158,7 @@
                                                         <li>
                                                             <a class="dropdown-item d-flex align-items-center" 
                                                                href="{{ route('admin.permissions.show', $permission) }}">
-                                                                <i class="fas fa-eye me-2 text-info"></i>Voir details
+                                                                <i class="fas fa-eye me-2 text-white"></i>Voir details
                                                             </a>
                                                         </li>
                                                         <li>
@@ -250,25 +250,25 @@
                     
                     <div class="row g-3 text-center">
                         <div class="col-6">
-                            <div class="bg-info bg-opacity-10 rounded p-3">
+                            <div class="bg-light bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-primary mb-1">{{ $totalPermissions }}</h4>
                                 <small class="text-muted">Total</small>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="bg-success bg-opacity-10 rounded p-3">
+                            <div class="bg-light bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-success mb-1">{{ $usedPermissions }}</h4>
                                 <small class="text-muted">Utilisees</small>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="bg-success bg-opacity-10 rounded p-3">
+                            <div class="bg-light bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-warning mb-1">{{ $unusedPermissions }}</h4>
                                 <small class="text-muted">Non utilisees</small>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="bg-info bg-opacity-10 rounded p-3">
+                            <div class="bg-light bg-opacity-10 rounded p-3">
                                 <h4 class="fw-bold text-info mb-1">{{ $totalGroups }}</h4>
                                 <small class="text-muted">Groupes</small>
                             </div>

@@ -11,7 +11,7 @@
         
         <!-- Sélection du fournisseur -->
         <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-primary text-white p-4">
+            <div class="card-header bg-white p-4">
                 <h5 class="mb-0">
                     <i class="fas fa-robot me-2"></i>Sélectionnez votre fournisseur IA
                 </h5>
@@ -66,7 +66,7 @@
         <div class="row g-4">
             <div class="col-lg-8">
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-info text-white p-4">
+                    <div class="card-header bg-white text-primary p-4">
                         <h5 class="mb-0">
                             <i class="fas fa-cog me-2"></i>Configuration : 
                             <span id="config-provider-name">{{ $providers[$currentProvider]['name'] }}</span>
@@ -173,7 +173,7 @@
 
                 <!-- Statut -->
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-warning text-white p-4">
+                    <div class="card-header bg-white text-primary p-4">
                         <h6 class="mb-0">
                             <i class="fas fa-info-circle me-2"></i>Statut actuel
                         </h6>

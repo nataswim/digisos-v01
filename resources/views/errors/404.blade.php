@@ -41,7 +41,7 @@
                                 <div class="d-flex align-items-center">
                                     <div class="bg-primary bg-opacity-10 rounded me-3" style="width: 40px; height: 40px;">
                                         <div class="d-flex align-items-center justify-content-center h-100">
-                                            <i class="fas fa-file-alt text-primary"></i>
+                                            <i class="fas fa-file-alt text-white"></i>
                                         </div>
                                     </div>
                                     <div>

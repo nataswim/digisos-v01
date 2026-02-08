@@ -25,6 +25,9 @@ use App\Http\Controllers\Admin\VideoCategoryController;
 use App\Http\Controllers\FichesSousCategoryController;
 use App\Http\Controllers\Admin\VideoLibraryController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\PagesCategoryController;
+use App\Http\Controllers\PublicPageController;
 
 // ========== RECHERCHE GLOBALE ==========
 Route::get('/recherche', [SearchController::class, 'index'])->name('search');
@@ -49,6 +52,19 @@ Route::prefix('videos')->name('public.videos.')->group(function () {
     Route::get('/', [PublicVideoController::class, 'index'])->name('index');
     Route::get('/category/{category}', [PublicVideoController::class, 'category'])->name('category');
     Route::get('/{video}', [PublicVideoController::class, 'show'])->name('show');
+});
+// ========== ROUTES PAGES PUBLIQUES ==========
+// À ajouter après les routes fiches publiques (ligne ~85 environ)
+
+Route::prefix('pages')->name('public.pages.')->group(function () {
+    // Index - Liste des catégories
+    Route::get('/', [PublicPageController::class, 'index'])->name('index');
+    
+    // Catégorie - Liste des pages d'une catégorie
+    Route::get('/{category}', [PublicPageController::class, 'category'])->name('category');
+    
+    // Page individuelle (avec catégorie)
+    Route::get('/{category}/{page}', [PublicPageController::class, 'show'])->name('show');
 });
 
 // ========== ROUTES PUBLIQUES ==========
@@ -132,6 +148,17 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('tags', TagController::class);
     Route::post('tags/bulk-action', [TagController::class, 'bulkAction'])->name('tags.bulk-action');
 
+    // ========== GESTION PAGES STATIQUES ==========
+    
+    Route::resource('pages', PageController::class)->parameters([
+        'pages' => 'page'
+    ]);
+    Route::post('pages/bulk-action', [PageController::class, 'bulkAction'])->name('pages.bulk-action');
+    Route::post('pages/bulk-assign-categories', [PageController::class, 'bulkAssignCategories'])->name('pages.bulk-assign-categories');
+    
+    Route::resource('pages-categories', PagesCategoryController::class);
+
+    
     // ========== GESTION UTILISATEURS ==========
     
     // Users

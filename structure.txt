@@ -33,11 +33,14 @@
 │   │   │   ├── FichesCategoryController.php
 │   │   │   ├── FichesSousCategoryController.php
 │   │   │   ├── MediaController.php
+│   │   │   ├── PageController.php
+│   │   │   ├── PagesCategoryController.php
 │   │   │   ├── PermissionController.php
 │   │   │   ├── PostController.php
 │   │   │   ├── ProfileController.php
 │   │   │   ├── PublicController.php
 │   │   │   ├── PublicFicheController.php
+│   │   │   ├── PublicPageController.php
 │   │   │   ├── PublicVideoController.php
 │   │   │   ├── RoleController.php
 │   │   │   ├── SearchController.php
@@ -55,6 +58,7 @@
 │   │       ├── StoreFicheRequest.php
 │   │       ├── StoreMediaCategoryRequest.php
 │   │       ├── StoreMediaRequest.php
+│   │       ├── StorePageRequest.php
 │   │       ├── StorePermissionRequest.php
 │   │       ├── StorePostRequest.php
 │   │       ├── StoreRoleRequest.php
@@ -66,6 +70,7 @@
 │   │       ├── UpdateDownloadCategoryRequest.php
 │   │       ├── UpdateDownloadableRequest.php
 │   │       ├── UpdateFicheRequest.php
+│   │       ├── UpdatePageRequest.php
 │   │       ├── UpdatePermissionRequest.php
 │   │       ├── UpdatePostRequest.php
 │   │       ├── UpdateProfileRequest.php
@@ -87,6 +92,8 @@
 │   │   ├── FichesSousCategory.php
 │   │   ├── Media.php
 │   │   ├── MediaCategory.php
+│   │   ├── Page.php
+│   │   ├── PagesCategory.php
 │   │   ├── Permission.php
 │   │   ├── Post.php
 │   │   ├── Role.php
@@ -113,7 +120,6 @@
 │   ├── cache
 │   │   ├── config.php
 │   │   ├── packages.php
-│   │   ├── routes-v7.php
 │   │   └── services.php
 │   └── providers.php
 ├── cleanup_css.sh
@@ -166,7 +172,9 @@
 │   │   ├── 2025_10_13_140759_create_videos_table.php
 │   │   ├── 2025_10_13_140809_create_category_video_table.php
 │   │   ├── 2025_10_17_171428_create_fiches_sous_categories_table.php
-│   │   └── 2025_10_17_171540_add_sous_category_to_fiches_table.php
+│   │   ├── 2025_10_17_171540_add_sous_category_to_fiches_table.php
+│   │   ├── 2026_02_07_164102_create_page_categories_table.php
+│   │   └── 2026_02_07_164111_create_pages_table.php
 │   └── seeders
 │       ├── CategoriesTableSeeder.php
 │       ├── DatabaseSeeder.php
@@ -267,12 +275,7 @@
 │   │           ├── nataswim_app_logo_4.png
 │   │           └── quel-est-votre-style-sport.jpg
 │   ├── css
-│   │   ├── admin-footer.css
-│   │   ├── admin-nav-horizontal.css
 │   │   ├── app.css
-│   │   ├── media-manager.css
-│   │   ├── media-selector.css
-│   │   ├── quill-advanced.css
 │   │   └── social-share.css
 │   ├── favicon.ico
 │   ├── favicon02.ico
@@ -308,9 +311,27 @@
 │   │   ├── app.js
 │   │   └── bootstrap.js
 │   ├── scss
-│   │   ├── _custom.scss
-│   │   ├── _variables.scss
-│   │   └── app.scss
+│   │   ├── abstracts
+│   │   │   ├── _mixins.scss
+│   │   │   ├── _variables-colors.scss
+│   │   │   └── _variables.scss
+│   │   ├── animations
+│   │   │   └── _animations.scss
+│   │   ├── app.scss
+│   │   ├── components
+│   │   │   ├── _components.scss
+│   │   │   ├── _media-manager.scss
+│   │   │   ├── _media-selector.scss
+│   │   │   ├── _quill-advanced.scss
+│   │   │   └── _social-share.scss
+│   │   ├── layout
+│   │   │   ├── _admin-footer.scss
+│   │   │   └── _admin-nav-horizontal.scss
+│   │   ├── themes
+│   │   │   ├── _aquatic.scss
+│   │   │   └── _custom.scss
+│   │   └── utilities
+│   │       └── _utilities.scss
 │   └── views
 │       ├── admin
 │       │   ├── aitext
@@ -367,6 +388,18 @@
 │       │   │   │   ├── category.blade.php
 │       │   │   │   ├── details.blade.php
 │       │   │   │   └── upload.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── pages
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── partials
+│       │   │   │   └── form.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── pages-categories
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
 │       │   │   └── show.blade.php
 │       │   ├── permissions
 │       │   │   ├── create.blade.php
@@ -504,6 +537,10 @@
 │       │   ├── home.blade.php
 │       │   ├── index.blade.php
 │       │   ├── legal.blade.php
+│       │   ├── pages
+│       │   │   ├── category.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   └── show.blade.php
 │       │   ├── partials
 │       │   │   └── search-form.blade.php
 │       │   ├── pricing.blade.php
@@ -514,11 +551,10 @@
 │       │       ├── category.blade.php
 │       │       ├── index.blade.php
 │       │       └── show.blade.php
-│       ├── user
-│       │   ├── dashboard.blade.php
-│       │   └── profile
-│       │       └── edit.blade.php
-│       └── welcome.blade.php
+│       └── user
+│           ├── dashboard.blade.php
+│           └── profile
+│               └── edit.blade.php
 ├── routes
 │   ├── auth.php
 │   ├── console.php
@@ -541,4 +577,4 @@
 ├── vite.config.js
 └── webpack.mix.js
 
-89 directories, 453 files
+99 directories, 479 files

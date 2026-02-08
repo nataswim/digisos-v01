@@ -74,7 +74,7 @@
                         <tr>
                             <td class="px-4 py-3">
                                 <div class="d-flex align-items-center">
-                                    <div class="bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" 
+                                    <div class="bg-primary text-white bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" 
                                          style="width: 45px; height: 45px; font-size: 16px;">
                                         @if($user->avatar)
                                             <img src="{{ $user->avatar }}" class="rounded-circle" style="width: 45px; height: 45px; object-fit: cover;" alt="">
