@@ -4,8 +4,8 @@
 <div class="container-lg">
         <!-- Logo -->
         <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
-            <img src="{{ asset('assets/images/team/nataswim_app_logo_3.png') }}"
-                alt="nataswim application pour tous"
+            <img src="{{ asset('assets/images/logo/digital-sos-logo4.png') }}"
+                alt="Digital'SOS application"
                 class="img-fluid"
                 style="height: 80px; width: auto;">
         </a>

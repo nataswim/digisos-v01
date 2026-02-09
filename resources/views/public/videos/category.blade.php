@@ -6,8 +6,8 @@
 @section('content')
 
 <!-- Hero Section avec image et titre de la catégorie -->
-<section class="hero-aqua py-5 text-white text-center position-relative overflow-hidden">
-    <div class="container">
+<section class="nataswim-titre1 position-relative  text-white">
+    <div class="py-5 container ">
         <div class="row align-items-center">
             <div class="col-lg-8 mx-auto fade-in-up">
                 <h1 class="text-white mb-3">

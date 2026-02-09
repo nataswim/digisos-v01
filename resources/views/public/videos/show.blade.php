@@ -24,11 +24,11 @@
 @section('content')
 
 <!-- Hero Section titre -->
-<section class="hero-aqua py-5 text-white text-center">
-    <div class="container-lg">
+<section class="nataswim-titre1 position-relative  text-white">
+    <div class="py-5 container ">
         <div class="row align-items-center">
             <div class="col-lg mb-4 mb-lg-0 fade-in-up">
-                <h1 class="title-aqua text-white mb-0">{{ $video->title }}</h1>
+                <h1 class=" text-white mb-0">{{ $video->title }}</h1>
             </div>
         </div>
     </div>

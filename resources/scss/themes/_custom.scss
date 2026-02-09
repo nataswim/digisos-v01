@@ -239,31 +239,35 @@
 
     
 .nataswim-titre {
-background-color: #1d8e80;
-    background-image: radial-gradient(circle farthest-side at center bottom, #0ab29e, #1d8e80 125%);
-    border-color: #f9f5f4 rgb(249 245 244);
-    border-width: 0px 10px;
-    border-style: solid;
-}
-.nataswim-titre1 {
-background-image: linear-gradient(111deg, #049ee3 5%, #1477c4 90%, #009fe4 30%);
-    background-color: #1378c5;
-    border-color: #f9f5f4 #049ce1;
-    border-style: solid;
+background-color: #3f98b5;
+    background-image: linear-gradient(136deg, #4097b5 85%, #5fcac6 0);
+    border-color: #3f98b5 rgb(245 244 243);
     border-width: 20px;
+    border-style: solid;
+padding: 5rem 0;}
+.nataswim-titre1 {
+    border-left: 20px solid #f9f5f4;
+    border-bottom: 10px solid #4097b5;
+    border-top: 10px solid #4097b5;
+    background-image: linear-gradient(309deg, rgb(95 202 199) 85%, rgb(64 151 181) 70px);
+    background-attachment: fixed;
+    background-position: top;
+    border-right: 20px solid #f9f5f4;
+    padding: 3rem 0;
 }
 .nataswim-titre2 {
     background-color: #0a7183;
     border-color: #f9f5f4 #0a7183;
     border-width: 20px;
     border-style: solid;
-
+padding: 5rem 0;
 }
 .nataswim-titre3 {
     background-color: #4ccac6;
     border-width: 20px;
     border-style: solid;
     border-color: #f9f5f4 #4ccac6;
+    padding: 5rem 0;
 }
 .nataswim-titre4 {
     background-color: #067fba;
@@ -271,6 +275,7 @@ background-image: linear-gradient(111deg, #049ee3 5%, #1477c4 90%, #009fe4 30%);
     border-color: #f9f5f4 #0c98d8;
     border-width: 20px;
     border-style: solid;
+    padding: 5rem 0;
 }
 .nataswim-titre5 {
 background-color: #10557c ;
@@ -278,6 +283,7 @@ background-image: linear-gradient(176deg, #10557c 0%, #02a1c8 100%);
     border-color: #f9f5f4 #0b759d;
     border-width: 20px;
     border-style: solid;
+    padding: 5rem 0;
 }
 .nataswim-titre6 {
 background-color: #fcb900;
@@ -285,6 +291,7 @@ background-color: #fcb900;
     border-width: 20px;
     border-style: solid;
     border-color: #f9f5f4 #fab800;
+    padding: 5rem 0;
 }
 .nataswim-titre7 {
     background: linear-gradient(41deg, #c59f69 0%, #e1ca88 21%, #f9e9ca 43%, #edd89f 64%, #b38d52 83%, #d6bd7b 100%);
@@ -293,6 +300,7 @@ background-color: #fcb900;
     border-top: 20px solid #e3cd8d;
     border-bottom: 20px double #f9f5f4;
     border-radius: 0px 0px 40px 40px;
+    padding: 5rem 0;
 }
 .nataswim-titre8 {
     background: linear-gradient(41deg, #0f5c78 0%, #0f4d72 21%, #1a95c2 43%, #105975 64%, #105374 83%, #1990bd 100%);
@@ -301,17 +309,12 @@ background-color: #fcb900;
     border-top: 20px solid #13759e;
     border-bottom: 20px double #f9f5f4;
     border-radius: 0px 0px 40px 40px;
+    padding: 5rem 0;
 }
 .nataswim-ombre {
     box-shadow: 0 25px 20px rgba(0, 0, 0, 0.1);
 }
 
-.bg-primary {
-background-color: #4ccac6;
-    background-image: linear-gradient(45deg, #4ccac6 85%, #367f91 0);
-    background-position: top;
-    background-attachment: fixed;
-}
 .navurl {
 background-color: #ffffff;
     border-bottom: 4px solid #4ccac6;

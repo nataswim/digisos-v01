@@ -6,8 +6,7 @@
 
 @section('content')
 <!-- En-tête de la catégorie -->
-<section class="py-5 bg-primary text-white nataswim-titre3" style="border-left: 20px solid #f9f5f4;border-bottom: 10px solid #4097b5;border-top: 10px solid #4097b5;background-image: linear-gradient(
-309deg, rgb(95 202 199) 85%, rgb(64 151 181) 70px);background-attachment: fixed;background-position: top;border-right: 20px solid #f9f5f4;">
+<section class="nataswim-titre1 position-relative  text-white">
     <div class="container-lg">
         <div class="row align-items-center">
             <div class="col-lg">

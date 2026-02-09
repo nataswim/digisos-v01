@@ -6,7 +6,7 @@
 @section('content')
 
 {{-- En-tête de recherche --}}
-<section class="hero-aqua">
+<section class="nataswim-titre1 position-relative  text-white">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto text-center">

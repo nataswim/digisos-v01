@@ -14,11 +14,14 @@ $chiffre2 = mt_rand(79, 123);
                 <!-- A propos -->
                 <div class="col-lg-3 col-md-6">
                     <div class="d-flex align-items-center mb-4">
-                        <div class="bg-warning rounded-circle d-flex align-items-center justify-content-center me-3"
-                            style="width: 50px; height: 50px;">
-                            <i class="fas fa-water text-white"></i>
-                        </div>
-                        <h5 class="mb-0">Digital'SOS</h5>
+                    
+                        
+                    <a href="{{ route('home') }}">
+                        <img src="{{ asset('assets/images/logo/digital-sos-logo2.png') }}"
+                             alt="Digital'SOS application"
+                             class="hero-logo img-fluid" style="max-width: 200px;">
+                    </a>
+                
                     </div>
                     <p class="opacity-75 mb-4">
                         Digitalisez la gouvernance de votre structure sportive.

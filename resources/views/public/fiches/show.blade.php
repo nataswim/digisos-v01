@@ -23,8 +23,8 @@
 @section('content')
 
 <!-- Section Hero -->
-<section class="hero-aqua">
-    <div class="hero-content">
+<section>
+    <div class="nataswim-titre1 position-relative  text-white">
         <div class="container-lg">
             <h1 class="text-white">{{ $fiche->title }}</h1>
             

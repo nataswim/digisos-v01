@@ -6,8 +6,8 @@
 @section('content')
 
 <!-- Hero Section -->
-<section class="hero-aqua">
-    <div class="hero-content">
+<section class="nataswim-titre1 position-relative  text-white">
+    <div class="py-5 container ">
         <h1 class="text-white">{{ $sousCategory->name }}</h1>
         
         @if($sousCategory->description)

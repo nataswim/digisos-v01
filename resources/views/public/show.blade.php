@@ -22,19 +22,9 @@
 
 @section('content')
 
-<section class="hero-video-section position-relative text-white overflow-hidden">
-    @if($post->image)
-    <div class="hero-image-bg"></div>
-    @else
-    <video autoplay muted loop playsinline class="hero-video">
-        <source src="{{ asset('assets/images/team/nataswim-sport-training-1.mp4') }}" type="video/mp4">
-    </video>
-    @endif
-
-    <div class="hero-overlay"></div>
-
-    <div class="container-lg py-5 position-relative hero-content">
-        <div class="row align-items-center min-vh-50">
+<section class="nataswim-titre1 position-relative  text-white">
+    <div class="position-relative ">
+        <div class="row align-items-center" style="min-height: 250px;">
             <div class="col-lg-10 mx-auto">
                 <div class="mb-4 animate-slide-up">
                     <h1 class="display-3 fw-bold mb-4 text-white">{{ $post->name }}</h1>

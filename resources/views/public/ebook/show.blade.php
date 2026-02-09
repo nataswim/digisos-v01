@@ -7,10 +7,10 @@
 @section('content')
 
 {{-- En-tête de section --}}
-<section class="hero-aqua">
+<section class="nataswim-titre1 position-relative  text-white">
     <div class="container-lg">
         <div class="text-center">
-            <h1 class="title-aqua mb-0">{{ $downloadable->title }}</h1>
+            <h1 class="text-white mb-0">{{ $downloadable->title }}</h1>
         </div>
     </div>
 </section>

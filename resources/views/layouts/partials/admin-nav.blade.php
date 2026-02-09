@@ -2,7 +2,7 @@
     <div class="p-4 border-bottom border-secondary">
         <div class="d-flex align-items-center justify-content-center">
             <img src="{{ asset('assets/images/team/nataswim_app_logo_4.png') }}"
-                alt="nataswim application pour tous"
+                alt="Digital'SOS application"
                 class="img-fluid"
                 style="height: 80px; width: auto; filter: brightness(0) invert(1);">
         </div>

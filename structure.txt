@@ -1,5 +1,4 @@
 .
-├── README.md
 ├── app
 │   ├── Console
 │   │   └── Commands
@@ -7,12 +6,12 @@
 │   │       └── GenerateSitemap.php
 │   ├── Http
 │   │   ├── Controllers
-│   │   │   ├── AITextController.php
 │   │   │   ├── Admin
 │   │   │   │   ├── SitemapController.php
 │   │   │   │   ├── VideoCategoryController.php
 │   │   │   │   ├── VideoController.php
 │   │   │   │   └── VideoLibraryController.php
+│   │   │   ├── AITextController.php
 │   │   │   ├── Auth
 │   │   │   │   ├── AuthenticatedSessionController.php
 │   │   │   │   ├── ConfirmablePasswordController.php
@@ -25,8 +24,8 @@
 │   │   │   │   └── VerifyEmailController.php
 │   │   │   ├── CategoryController.php
 │   │   │   ├── Controller.php
-│   │   │   ├── DownloadCategoryController.php
 │   │   │   ├── DownloadableController.php
+│   │   │   ├── DownloadCategoryController.php
 │   │   │   ├── EbookController.php
 │   │   │   ├── EbookFileController.php
 │   │   │   ├── FicheController.php
@@ -53,8 +52,8 @@
 │   │       ├── BulkMediaActionRequest.php
 │   │       ├── ProfileUpdateRequest.php
 │   │       ├── StoreCategoryRequest.php
-│   │       ├── StoreDownloadCategoryRequest.php
 │   │       ├── StoreDownloadableRequest.php
+│   │       ├── StoreDownloadCategoryRequest.php
 │   │       ├── StoreFicheRequest.php
 │   │       ├── StoreMediaCategoryRequest.php
 │   │       ├── StoreMediaRequest.php
@@ -67,8 +66,8 @@
 │   │       ├── StoreVideoCategoryRequest.php
 │   │       ├── StoreVideoRequest.php
 │   │       ├── UpdateCategoryRequest.php
-│   │       ├── UpdateDownloadCategoryRequest.php
 │   │       ├── UpdateDownloadableRequest.php
+│   │       ├── UpdateDownloadCategoryRequest.php
 │   │       ├── UpdateFicheRequest.php
 │   │       ├── UpdatePageRequest.php
 │   │       ├── UpdatePermissionRequest.php
@@ -83,9 +82,9 @@
 │   │   └── ContactFormMail.php
 │   ├── Models
 │   │   ├── Category.php
+│   │   ├── Downloadable.php
 │   │   ├── DownloadCategory.php
 │   │   ├── DownloadLog.php
-│   │   ├── Downloadable.php
 │   │   ├── EbookFile.php
 │   │   ├── Fiche.php
 │   │   ├── FichesCategory.php
@@ -118,7 +117,6 @@
 ├── bootstrap
 │   ├── app.php
 │   ├── cache
-│   │   ├── config.php
 │   │   ├── packages.php
 │   │   └── services.php
 │   └── providers.php
@@ -194,7 +192,6 @@
 │   ├── assets
 │   │   └── images
 │   │       └── team
-│   │           ├── MUSCULATION_NATASWIM.mp4
 │   │           ├── anatomie.mp4
 │   │           ├── auteur-coach-hassan-el-haouat-nataswim-0.png
 │   │           ├── auteur-coach-hassan-el-haouat-nataswim-1.png
@@ -221,6 +218,12 @@
 │   │           ├── lac.mp4
 │   │           ├── med_Hassan_EL_HAOUAT.png
 │   │           ├── mode-emploi-nataswim.jpg
+│   │           ├── MUSCULATION_NATASWIM.mp4
+│   │           ├── nataswim_app_logo_0.png
+│   │           ├── nataswim_app_logo_1.png
+│   │           ├── nataswim_app_logo_2.png
+│   │           ├── nataswim_app_logo_3.png
+│   │           ├── nataswim_app_logo_4.png
 │   │           ├── nataswim-application-banner-0.jpg
 │   │           ├── nataswim-application-banner-1.jpg
 │   │           ├── nataswim-application-banner-10.jpg
@@ -268,11 +271,6 @@
 │   │           ├── nataswim-sport-training-4.mp4
 │   │           ├── nataswim-sport-training-5.mp4
 │   │           ├── nataswim.mp4
-│   │           ├── nataswim_app_logo_0.png
-│   │           ├── nataswim_app_logo_1.png
-│   │           ├── nataswim_app_logo_2.png
-│   │           ├── nataswim_app_logo_3.png
-│   │           ├── nataswim_app_logo_4.png
 │   │           └── quel-est-votre-style-sport.jpg
 │   ├── css
 │   │   ├── app.css
@@ -305,6 +303,7 @@
 │       ├── fa-solid-900.woff2
 │       ├── fa-v4compatibility.ttf
 │       └── fa-v4compatibility.woff2
+├── README.md
 ├── resources
 │   ├── js
 │   │   ├── admin.js
@@ -577,4 +576,4 @@
 ├── vite.config.js
 └── webpack.mix.js
 
-99 directories, 479 files
+99 directories, 478 files

@@ -37,8 +37,8 @@
             <div class="col-lg-5 text-center animate-fade-in animation-delay-3">
                 <div class="hero-logo-wrapper">
                     <a href="{{ route('home') }}">
-                        <img src="{{ asset('assets/images/team/nataswim_app_logo_2.png') }}"
-                             alt="nataswim application pour tous"
+                        <img src="{{ asset('assets/images/logo/digital-sos-logo2.png') }}"
+                             alt="Digital'SOS application"
                              class="hero-logo img-fluid">
                     </a>
                 </div>
@@ -356,7 +356,7 @@ position: absolute;
 }
 
 .hero-logo {
-    max-width: 200px;
+    max-width: 300px;
     height: auto;
     border-radius: 50%;
     transition: transform 0.3s ease;

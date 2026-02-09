@@ -26,6 +26,16 @@ class Post extends Model
         'order' => 'integer',
     ];
 
+    /**
+     * 🔧 CORRECTION : Utiliser le slug pour le route model binding
+     * Permet d'accéder aux posts via leur slug au lieu de l'ID
+     * Ex: /posts/mon-article au lieu de /posts/1
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -61,65 +71,59 @@ class Post extends Model
                $this->published_at <= now();
     }
 
-
-
-
     /**
      * Verifier si le contenu complet est visible pour l'utilisateur actuel
      */
     public function isContentVisibleTo($user = null): bool
-{
-    // Si le post n'est pas publie, seuls les admins/editeurs peuvent voir le contenu
-    if (!$this->isMetadataVisible()) {
-        return $user && ($user->hasRole('admin') || $user->hasRole('editor'));
-    }
-    
-    // Si la visibilite est publique, tout le monde peut voir le contenu
-    if ($this->visibility === 'public') {
-        return true;
-    }
-    
-    // Si la visibilite est "authenticated", verifier le rôle de l'utilisateur
-    if ($this->visibility === 'authenticated') {
-        if (!$user) {
-            return false; // Pas connecte = pas d'acces
+    {
+        // Si le post n'est pas publie, seuls les admins/editeurs peuvent voir le contenu
+        if (!$this->isMetadataVisible()) {
+            return $user && ($user->hasRole('admin') || $user->hasRole('editor'));
         }
         
-        // Les admins et editeurs peuvent tout voir
-        if ($user->hasRole('admin') || $user->hasRole('editor')) {
+        // Si la visibilite est publique, tout le monde peut voir le contenu
+        if ($this->visibility === 'public') {
             return true;
         }
         
-        // Les visitors ne peuvent PAS voir le contenu premium
-        if ($user->hasRole('visitor')) {
-            return false; // ❌ VISITOR = PAS D'ACCeS AU PREMIUM
+        // Si la visibilite est "authenticated", verifier le rÃ´le de l'utilisateur
+        if ($this->visibility === 'authenticated') {
+            if (!$user) {
+                return false; // Pas connecte = pas d'acces
+            }
+            
+            // Les admins et editeurs peuvent tout voir
+            if ($user->hasRole('admin') || $user->hasRole('editor')) {
+                return true;
+            }
+            
+            // Les visitors ne peuvent PAS voir le contenu premium
+            if ($user->hasRole('visitor')) {
+                return false; // ❌ VISITOR = PAS D'ACCÈS AU PREMIUM
+            }
+            
+            // Les users et rôles superieurs peuvent voir
+            return $user->hasRole('user') || ($user->role && $user->role->level >= 10);
         }
         
-        // Les users et rôles superieurs peuvent voir
-        return $user->hasRole('user') || ($user->role && $user->role->level >= 10);
+        return false;
     }
-    
-    return false;
-}
 
-
-/**
- * Determiner le message A afficher pour l'acces restreint
- */
-public function getAccessMessage($user = null): string
-{
-    if (!$user) {
-        return 'Connectez-vous pour acceder A ce contenu premium.';
+    /**
+     * Determiner le message A afficher pour l'acces restreint
+     */
+    public function getAccessMessage($user = null): string
+    {
+        if (!$user) {
+            return 'Connectez-vous pour acceder A ce contenu premium.';
+        }
+        
+        if ($user->hasRole('visitor')) {
+            return 'Votre compte doit être validé par un administrateur pour acceder aux contenus premium.';
+        }
+        
+        return 'Acces non autorise A ce contenu.';
     }
-    
-    if ($user->hasRole('visitor')) {
-        return 'Votre compte doit être valide par un administrateur pour acceder aux contenus premium.';
-    }
-    
-    return 'Acces non autorise A ce contenu.';
-}
-
-
 
     /**
      * Scope pour les posts avec metadonnees visibles
@@ -131,45 +135,36 @@ public function getAccessMessage($user = null): string
                     ->where('published_at', '<=', now());
     }
 
-
-
-
-
     /**
- * Scope pour les posts visibles selon le niveau d'utilisateur
- */
-public function scopeVisibleTo($query, $user = null)
-{
-    return $query->where(function($q) use ($user) {
-        // Posts publics et publies
-        $q->where('status', 'published')
-          ->whereNotNull('published_at')
-          ->where('published_at', '<=', now())
-          ->where('visibility', 'public');
-        
-        // Si utilisateur connecte et NON-visitor, ajouter les posts premium
-        if ($user && !$user->hasRole('visitor')) {
-            $q->orWhere(function($subQ) use ($user) {
-                $subQ->where('status', 'published')
-                     ->whereNotNull('published_at')
-                     ->where('published_at', '<=', now())
-                     ->where('visibility', 'authenticated');
-            });
-        }
-        
-        // Si admin/editeur, voir tous les posts
-        if ($user && ($user->hasRole('admin') || $user->hasRole('editor'))) {
-            $q->orWhere(function($subQ) {
-                $subQ->whereIn('status', ['draft', 'published']);
-            });
-        }
-    });
-}
-
-
-
-
-
+     * Scope pour les posts visibles selon le niveau d'utilisateur
+     */
+    public function scopeVisibleTo($query, $user = null)
+    {
+        return $query->where(function($q) use ($user) {
+            // Posts publics et publies
+            $q->where('status', 'published')
+              ->whereNotNull('published_at')
+              ->where('published_at', '<=', now())
+              ->where('visibility', 'public');
+            
+            // Si utilisateur connecte et NON-visitor, ajouter les posts premium
+            if ($user && !$user->hasRole('visitor')) {
+                $q->orWhere(function($subQ) use ($user) {
+                    $subQ->where('status', 'published')
+                         ->whereNotNull('published_at')
+                         ->where('published_at', '<=', now())
+                         ->where('visibility', 'authenticated');
+                });
+            }
+            
+            // Si admin/editeur, voir tous les posts
+            if ($user && ($user->hasRole('admin') || $user->hasRole('editor'))) {
+                $q->orWhere(function($subQ) {
+                    $subQ->whereIn('status', ['draft', 'published']);
+                });
+            }
+        });
+    }
 
     /**
      * Scope pour les posts publies uniquement
@@ -194,7 +189,7 @@ public function scopeVisibleTo($query, $user = null)
      */
     public function getUrlAttribute()
     {
-        return route('public.show', $this->slug);
+        return route('posts.public.show', $this->slug);
     }
 
     /**

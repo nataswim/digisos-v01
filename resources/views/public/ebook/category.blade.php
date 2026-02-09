@@ -6,8 +6,8 @@
 @section('content')
 
 {{-- En-tête de categorie --}}
-<section class="hero-aqua">
-    <div class="container-lg">
+<section class="nataswim-titre1 position-relative  text-white">
+    <div class="py-5 container ">
         <div class="row align-items-center">
             <div class="col-lg-7 mb-4 mb-lg-0">
                 <div class="d-flex align-items-center mb-3">
@@ -15,7 +15,7 @@
                         <i class="{{ $category->icon }} fa-3x me-3 text-white"></i>
                     @endif
                     <div>
-                        <h1 class="title-aqua mb-2">{{ $category->name }}</h1>
+                        <h1 class="text-white mb-2">{{ $category->name }}</h1>
                         @if($category->short_description)
                             <p class="lead text-white mb-0 opacity-90">{{ $category->short_description }}</p>
                         @endif
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="card-aqua bg-white bg-opacity-10 text-white">
+                <div class="card-aqua bg-white bg-opacity-10 text-primary">
                     <div class="row g-3">
                         <div class="col-6">
                             <h3 class="fw-bold mb-1">{{ $stats['total'] }}</h3>

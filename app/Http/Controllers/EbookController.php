@@ -97,6 +97,7 @@ class EbookController extends Controller
 
     /**
      * Detail d'un telechargement
+     * 🔧 CORRECTION : Variable renommée de $relatedDownloads en $relatedDownloadables
      */
     public function show($categorySlug, $downloadableSlug)
     {
@@ -110,8 +111,8 @@ class EbookController extends Controller
             ->with(['category', 'creator'])
             ->firstOrFail();
 
-        // Suggestions d'autres telechargements de la même categorie
-        $relatedDownloads = Downloadable::where('download_category_id', $category->id)
+        // 🔧 CORRECTION : Renommer la variable pour correspondre à la vue
+        $relatedDownloadables = Downloadable::where('download_category_id', $category->id)
             ->where('id', '!=', $downloadable->id)
             ->active()
             ->forPermission(auth()->user())
@@ -119,69 +120,67 @@ class EbookController extends Controller
             ->limit(4)
             ->get();
 
-        return view('public.ebook.show', compact('downloadable', 'category', 'relatedDownloads'));
+        // 🔧 CORRECTION : Utiliser le bon nom de variable dans compact()
+        return view('public.ebook.show', compact('downloadable', 'category', 'relatedDownloadables'));
     }
 
     /**
      * Telechargement d'un fichier
      */
-    
     public function download($categorySlug, $downloadableSlug, Request $request)
-{
-    $category = DownloadCategory::where('slug', $categorySlug)
-        ->where('status', 'active')
-        ->firstOrFail();
+    {
+        $category = DownloadCategory::where('slug', $categorySlug)
+            ->where('status', 'active')
+            ->firstOrFail();
 
-    $downloadable = Downloadable::where('slug', $downloadableSlug)
-        ->where('download_category_id', $category->id)
-        ->where('status', 'active')
-        ->with('ebookFile') // <- MODIFIER : charger ebookFile au lieu de media
-        ->firstOrFail();
+        $downloadable = Downloadable::where('slug', $downloadableSlug)
+            ->where('download_category_id', $category->id)
+            ->where('status', 'active')
+            ->with('ebookFile')
+            ->firstOrFail();
 
-    // Vérifier les permissions
-    $currentUser = auth()->user();
-    
-    if (!$downloadable->canBeDownloadedBy($currentUser)) {
-        $message = $downloadable->getAccessMessage($currentUser);
+        // Vérifier les permissions
+        $currentUser = auth()->user();
         
-        if (!$currentUser && $downloadable->user_permission === 'user') {
-            return redirect()->route('login')
-                ->with('info', 'Connectez-vous pour télécharger ce fichier.');
+        if (!$downloadable->canBeDownloadedBy($currentUser)) {
+            $message = $downloadable->getAccessMessage($currentUser);
+            
+            if (!$currentUser && $downloadable->user_permission === 'user') {
+                return redirect()->route('login')
+                    ->with('info', 'Connectez-vous pour télécharger ce fichier.');
+            }
+            
+            return redirect()->back()
+                ->with('error', $message);
         }
-        
-        return redirect()->back()
-            ->with('error', $message);
+
+        // Déterminer le chemin du fichier
+        if ($downloadable->ebook_file_id && $downloadable->ebookFile) {
+            // Fichier depuis ebook_files
+            if (!$downloadable->ebookFile->fileExists()) {
+                return redirect()->back()->with('error', 'Fichier non trouvé.');
+            }
+            $filePath = $downloadable->ebookFile->physical_path;
+            $fileName = $downloadable->title . '.' . $downloadable->format;
+            
+        } elseif ($downloadable->file_path) {
+            // Fichier classique
+            if (!Storage::disk('local')->exists($downloadable->file_path)) {
+                return redirect()->back()->with('error', 'Fichier non trouvé.');
+            }
+            $filePath = Storage::disk('local')->path($downloadable->file_path);
+            $fileName = $downloadable->title . '.' . $downloadable->format;
+            
+        } else {
+            return redirect()->back()->with('error', 'Aucun fichier disponible.');
+        }
+
+        // Incrémenter le compteur et logger
+        $downloadable->incrementDownloadCount($currentUser, $request);
+
+        // Téléchargement
+        return response()->download($filePath, $fileName);
     }
-
-    // Déterminer le chemin du fichier
-    if ($downloadable->ebook_file_id && $downloadable->ebookFile) {
-        // Fichier depuis ebook_files
-        if (!$downloadable->ebookFile->fileExists()) {
-            return redirect()->back()->with('error', 'Fichier non trouvé.');
-        }
-        $filePath = $downloadable->ebookFile->physical_path;
-        $fileName = $downloadable->title . '.' . $downloadable->format;
-        
-    } elseif ($downloadable->file_path) {
-        // Fichier classique
-        if (!Storage::disk('local')->exists($downloadable->file_path)) {
-            return redirect()->back()->with('error', 'Fichier non trouvé.');
-        }
-        $filePath = Storage::disk('local')->path($downloadable->file_path);
-        $fileName = $downloadable->title . '.' . $downloadable->format;
-        
-    } else {
-        return redirect()->back()->with('error', 'Aucun fichier disponible.');
-    }
-
-    // Incrémenter le compteur et logger
-    $downloadable->incrementDownloadCount($currentUser, $request);
-
-    // Téléchargement
-    return response()->download($filePath, $fileName);
-}
-    
-    
     
     /**
      * Recherche dans les telechargements

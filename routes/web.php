@@ -164,7 +164,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     // Users
     Route::resource('users', UserController::class);
     Route::post('users/bulk-action', [UserController::class, 'bulkAction'])->name('users.bulk-action');
-    
+    Route::patch('users/{user}/update-role', [UserController::class, 'updateRole'])->name('users.update-role');
     // Roles
     Route::resource('roles', RoleController::class);
     
