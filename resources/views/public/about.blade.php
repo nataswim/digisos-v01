@@ -4,6 +4,11 @@
 
 @section('content')
 
+<!-- Banniere -->
+<section class="bg-secondary">
+    @include('components.banner', ['slug' => 'banniere-1'])
+</section>
+
 
 <!-- Hero Section -->
 <section class="bg-primary text-white py-5">

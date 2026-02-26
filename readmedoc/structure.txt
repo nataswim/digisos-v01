@@ -1,0 +1,658 @@
+.
+├── app
+│   ├── Console
+│   │   └── Commands
+│   │       ├── GenerateCategorySlugs.php
+│   │       └── GenerateSitemap.php
+│   ├── Http
+│   │   ├── Controllers
+│   │   │   ├── AITextController.php
+│   │   │   ├── Admin
+│   │   │   │   ├── PhotoGalleryController.php
+│   │   │   │   ├── SitemapController.php
+│   │   │   │   ├── VideoCategoryController.php
+│   │   │   │   ├── VideoController.php
+│   │   │   │   └── VideoLibraryController.php
+│   │   │   ├── Auth
+│   │   │   │   ├── AuthenticatedSessionController.php
+│   │   │   │   ├── ConfirmablePasswordController.php
+│   │   │   │   ├── EmailVerificationNotificationController.php
+│   │   │   │   ├── EmailVerificationPromptController.php
+│   │   │   │   ├── NewPasswordController.php
+│   │   │   │   ├── PasswordController.php
+│   │   │   │   ├── PasswordResetLinkController.php
+│   │   │   │   ├── RegisteredUserController.php
+│   │   │   │   └── VerifyEmailController.php
+│   │   │   ├── BannerController.php
+│   │   │   ├── CategoryController.php
+│   │   │   ├── Controller.php
+│   │   │   ├── DownloadCategoryController.php
+│   │   │   ├── DownloadableController.php
+│   │   │   ├── EbookController.php
+│   │   │   ├── EbookFileController.php
+│   │   │   ├── Editor
+│   │   │   │   ├── EditorDashboardController.php
+│   │   │   │   ├── EditorFicheController.php
+│   │   │   │   ├── EditorMediaController.php
+│   │   │   │   ├── EditorPostController.php
+│   │   │   │   ├── EditorStatsController.php
+│   │   │   │   └── EditorVideoController.php
+│   │   │   ├── FicheController.php
+│   │   │   ├── FichesCategoryController.php
+│   │   │   ├── FichesSousCategoryController.php
+│   │   │   ├── MediaController.php
+│   │   │   ├── PageController.php
+│   │   │   ├── PagesCategoryController.php
+│   │   │   ├── PermissionController.php
+│   │   │   ├── PostController.php
+│   │   │   ├── ProfileController.php
+│   │   │   ├── PublicController.php
+│   │   │   ├── PublicFicheController.php
+│   │   │   ├── PublicGalleryController.php
+│   │   │   ├── PublicPageController.php
+│   │   │   ├── PublicVideoController.php
+│   │   │   ├── RoleController.php
+│   │   │   ├── SearchController.php
+│   │   │   ├── TagController.php
+│   │   │   └── UserController.php
+│   │   └── Requests
+│   │       ├── Auth
+│   │       │   ├── LoginRequest.php
+│   │       │   └── RegisterRequest.php
+│   │       ├── BulkMediaActionRequest.php
+│   │       ├── ProfileUpdateRequest.php
+│   │       ├── StoreCategoryRequest.php
+│   │       ├── StoreDownloadCategoryRequest.php
+│   │       ├── StoreDownloadableRequest.php
+│   │       ├── StoreFicheRequest.php
+│   │       ├── StoreMediaCategoryRequest.php
+│   │       ├── StoreMediaRequest.php
+│   │       ├── StorePageRequest.php
+│   │       ├── StorePermissionRequest.php
+│   │       ├── StorePhotoGalleryRequest.php
+│   │       ├── StorePostRequest.php
+│   │       ├── StoreRoleRequest.php
+│   │       ├── StoreTagRequest.php
+│   │       ├── StoreUserRequest.php
+│   │       ├── StoreVideoCategoryRequest.php
+│   │       ├── StoreVideoRequest.php
+│   │       ├── UpdateCategoryRequest.php
+│   │       ├── UpdateDownloadCategoryRequest.php
+│   │       ├── UpdateDownloadableRequest.php
+│   │       ├── UpdateFicheRequest.php
+│   │       ├── UpdatePageRequest.php
+│   │       ├── UpdatePermissionRequest.php
+│   │       ├── UpdatePhotoGalleryRequest.php
+│   │       ├── UpdatePostRequest.php
+│   │       ├── UpdateProfileRequest.php
+│   │       ├── UpdateRoleRequest.php
+│   │       ├── UpdateTagRequest.php
+│   │       ├── UpdateUserRequest.php
+│   │       ├── UpdateVideoCategoryRequest.php
+│   │       └── UpdateVideoRequest.php
+│   ├── Mail
+│   │   └── ContactFormMail.php
+│   ├── Models
+│   │   ├── Banner.php
+│   │   ├── BannerSlide.php
+│   │   ├── Category.php
+│   │   ├── DownloadCategory.php
+│   │   ├── DownloadLog.php
+│   │   ├── Downloadable.php
+│   │   ├── EbookFile.php
+│   │   ├── Fiche.php
+│   │   ├── FichesCategory.php
+│   │   ├── FichesSousCategory.php
+│   │   ├── Media.php
+│   │   ├── MediaCategory.php
+│   │   ├── Page.php
+│   │   ├── PagesCategory.php
+│   │   ├── Permission.php
+│   │   ├── PhotoGallery.php
+│   │   ├── Post.php
+│   │   ├── Role.php
+│   │   ├── Setting.php
+│   │   ├── SitemapUrl.php
+│   │   ├── Tag.php
+│   │   ├── Taggable.php
+│   │   ├── User.php
+│   │   ├── Video.php
+│   │   └── VideoCategory.php
+│   ├── Providers
+│   │   └── AppServiceProvider.php
+│   ├── Services
+│   │   ├── AITextService.php
+│   │   ├── SitemapService.php
+│   │   └── VideoService.php
+│   └── View
+│       └── Components
+│           ├── AppLayout.php
+│           └── GuestLayout.php
+├── artisan
+├── bootstrap
+│   ├── app.php
+│   ├── cache
+│   │   ├── packages.php
+│   │   └── services.php
+│   └── providers.php
+├── cleanup_css.sh
+├── composer.json
+├── composer.lock
+├── config
+│   ├── aitext.php
+│   ├── app.php
+│   ├── auth.php
+│   ├── cache.php
+│   ├── database.php
+│   ├── dompdf.php
+│   ├── filesystems.php
+│   ├── http.php
+│   ├── logging.php
+│   ├── mail.php
+│   ├── queue.php
+│   ├── services.php
+│   └── session.php
+├── database
+│   ├── factories
+│   │   └── UserFactory.php
+│   ├── migrations
+│   │   ├── 0001_01_01_000000_create_users_table.php
+│   │   ├── 0001_01_01_000001_create_cache_table.php
+│   │   ├── 0001_01_01_000002_create_jobs_table.php
+│   │   ├── 01-2025_09_17_120937_create_roles_table.php
+│   │   ├── 02-2025_09_17_120938_create_permissions_table.php
+│   │   ├── 03-2025_09_17_120938_create_role_permission_table.php
+│   │   ├── 04-2025_09_17_120938_update_users_table_add_profile_fields.php
+│   │   ├── 05-2025_09_17_120936_create_categories_table.php
+│   │   ├── 06-2025_09_17_120937_create_tags_table.php
+│   │   ├── 07-2025_09_17_120937_create_posts_table.php
+│   │   ├── 08-2025_09_17_120937_create_taggables_table.php
+│   │   ├── 2025_09_19_132446_add_visibility_to_posts_table.php
+│   │   ├── 2025_09_20_123309_create_media_categories_table.php
+│   │   ├── 2025_09_20_123340_create_media_table.php
+│   │   ├── 2025_09_24_072502_create_download_categories_table.php
+│   │   ├── 2025_09_24_072510_create_downloadables_table.php
+│   │   ├── 2025_09_24_072627_create_download_logs_table.php
+│   │   ├── 2025_09_29_114611_fiches_categories_table.php
+│   │   ├── 2025_09_29_114636_fiches_table.php
+│   │   ├── 2025_09_29_114710_fiches_fiches_category_table.php
+│   │   ├── 2025_10_06_083551_create_settings_table.php
+│   │   ├── 2025_10_06_124307_update_settings_for_multiple_api_keys.php
+│   │   ├── 2025_10_10_130158_create_sitemap_urls_table.php
+│   │   ├── 2025_10_13_080730_create_ebook_files_table.php
+│   │   ├── 2025_10_13_080824_add_ebook_file_id_to_downloadables_table.php
+│   │   ├── 2025_10_13_140743_create_video_categories_table.php
+│   │   ├── 2025_10_13_140759_create_videos_table.php
+│   │   ├── 2025_10_13_140809_create_category_video_table.php
+│   │   ├── 2025_10_17_171428_create_fiches_sous_categories_table.php
+│   │   ├── 2025_10_17_171540_add_sous_category_to_fiches_table.php
+│   │   ├── 2026_02_07_164102_create_page_categories_table.php
+│   │   ├── 2026_02_07_164111_create_pages_table.php
+│   │   ├── 2026_02_09_182435_create_photo_galleries_table.php
+│   │   ├── 2026_02_09_182447_create_gallery_media_table.php
+│   │   ├── 2026_02_10_102733_create_banners_table.php
+│   │   └── 2026_02_10_102744_create_banner_slides_table.php
+│   └── seeders
+│       ├── CategoriesTableSeeder.php
+│       ├── DatabaseSeeder.php
+│       ├── DefaultRolesSeeder.php
+│       ├── DownloadCategoriesSeeder.php
+│       ├── DownloadablesSeeder.php
+│       ├── FichesCategoriesSeeder.php
+│       ├── FichesSeeder.php
+│       ├── FichesSousCategoriesSeeder.php
+│       ├── PagesCategoriesSeeder.php
+│       ├── PagesSeeder.php
+│       ├── PermissionsTableSeeder.php
+│       ├── PostsTableSeeder.php
+│       ├── RolePermissionTableSeeder.php
+│       ├── RolesTableSeeder.php
+│       ├── SpatiePermissionSeeder.php
+│       ├── TaggablesTableSeeder.php
+│       ├── TagsTableSeeder.php
+│       ├── UsersTableSeeder.php
+│       ├── VideoCategoriesSeeder.php
+│       └── VideosSeeder.php
+├── package-lock.json
+├── package.json
+├── phpunit.xml
+├── public
+│   ├── assets
+│   │   ├── banner
+│   │   │   ├── digital-sos-banner-0.jpg
+│   │   │   ├── digital-sos-banner-1.jpg
+│   │   │   ├── digital-sos-banner-10.jpg
+│   │   │   ├── digital-sos-banner-11.jpg
+│   │   │   ├── digital-sos-banner-12.jpg
+│   │   │   ├── digital-sos-banner-13.jpg
+│   │   │   ├── digital-sos-banner-14.jpg
+│   │   │   ├── digital-sos-banner-15.jpg
+│   │   │   ├── digital-sos-banner-16.jpg
+│   │   │   ├── digital-sos-banner-17.jpg
+│   │   │   ├── digital-sos-banner-18.jpg
+│   │   │   ├── digital-sos-banner-19.jpg
+│   │   │   ├── digital-sos-banner-2.jpg
+│   │   │   ├── digital-sos-banner-20.jpg
+│   │   │   ├── digital-sos-banner-21.jpg
+│   │   │   ├── digital-sos-banner-22.jpg
+│   │   │   ├── digital-sos-banner-23.jpg
+│   │   │   ├── digital-sos-banner-24.jpg
+│   │   │   ├── digital-sos-banner-25.jpg
+│   │   │   ├── digital-sos-banner-26.jpg
+│   │   │   ├── digital-sos-banner-27.jpg
+│   │   │   ├── digital-sos-banner-28.jpg
+│   │   │   ├── digital-sos-banner-29.jpg
+│   │   │   ├── digital-sos-banner-3.jpg
+│   │   │   ├── digital-sos-banner-30.jpg
+│   │   │   ├── digital-sos-banner-31.jpg
+│   │   │   ├── digital-sos-banner-32.jpg
+│   │   │   ├── digital-sos-banner-33.jpg
+│   │   │   ├── digital-sos-banner-34.jpg
+│   │   │   ├── digital-sos-banner-35.jpg
+│   │   │   ├── digital-sos-banner-36.jpg
+│   │   │   ├── digital-sos-banner-37.jpg
+│   │   │   ├── digital-sos-banner-38.jpg
+│   │   │   ├── digital-sos-banner-39.jpg
+│   │   │   ├── digital-sos-banner-4.jpg
+│   │   │   ├── digital-sos-banner-40.jpg
+│   │   │   ├── digital-sos-banner-41.jpg
+│   │   │   ├── digital-sos-banner-42.jpg
+│   │   │   ├── digital-sos-banner-43.jpg
+│   │   │   ├── digital-sos-banner-44.jpg
+│   │   │   ├── digital-sos-banner-45.jpg
+│   │   │   ├── digital-sos-banner-46.jpg
+│   │   │   ├── digital-sos-banner-47.jpg
+│   │   │   ├── digital-sos-banner-48.jpg
+│   │   │   ├── digital-sos-banner-49.jpg
+│   │   │   ├── digital-sos-banner-5.jpg
+│   │   │   ├── digital-sos-banner-6.jpg
+│   │   │   ├── digital-sos-banner-7.jpg
+│   │   │   ├── digital-sos-banner-8.jpg
+│   │   │   └── digital-sos-banner-9.jpg
+│   │   └── images
+│   │       ├── logo
+│   │       │   ├── digital-sos-logo0.png
+│   │       │   ├── digital-sos-logo1.png
+│   │       │   ├── digital-sos-logo10.png
+│   │       │   ├── digital-sos-logo11.png
+│   │       │   ├── digital-sos-logo12.png
+│   │       │   ├── digital-sos-logo13.png
+│   │       │   ├── digital-sos-logo14.png
+│   │       │   ├── digital-sos-logo15.png
+│   │       │   ├── digital-sos-logo2.png
+│   │       │   ├── digital-sos-logo3.png
+│   │       │   ├── digital-sos-logo4.png
+│   │       │   ├── digital-sos-logo5.png
+│   │       │   ├── digital-sos-logo6.png
+│   │       │   ├── digital-sos-logo7.png
+│   │       │   ├── digital-sos-logo8.png
+│   │       │   └── digital-sos-logo9.png
+│   │       └── team
+│   │           ├── MUSCULATION_NATASWIM.mp4
+│   │           ├── anatomie.mp4
+│   │           ├── centre_aquasport_nataswim.mp4
+│   │           ├── ebooks.mp4
+│   │           ├── fitness-nataswim-courir.mp4
+│   │           ├── lac.mp4
+│   │           ├── med_Hassan_EL_HAOUAT.png
+│   │           ├── nataswim-sport-training-0.mp4
+│   │           ├── nataswim-sport-training-1.mp4
+│   │           ├── nataswim-sport-training-2.mp4
+│   │           ├── nataswim-sport-training-3.mp4
+│   │           ├── nataswim-sport-training-4.mp4
+│   │           ├── nataswim-sport-training-5.mp4
+│   │           └── nataswim.mp4
+│   ├── css
+│   │   ├── app.css
+│   │   └── social-share.css
+│   ├── favicon.ico
+│   ├── favicon02.ico
+│   ├── images
+│   │   └── test.svg
+│   ├── index.php
+│   ├── js
+│   │   ├── app.js
+│   │   ├── app.js.LICENSE.txt
+│   │   ├── ebook-file-selector.js
+│   │   ├── gallery-media-selector.js
+│   │   ├── media-manager.js
+│   │   ├── media-selector.js
+│   │   ├── quill-advanced.js
+│   │   ├── quill-ai-optimizer.js
+│   │   ├── quill-video-manager.js
+│   │   ├── social-share.js
+│   │   └── video-library-selector.js
+│   ├── mix-manifest.json
+│   ├── robots.txt
+│   ├── sitemap.xml
+│   └── webfonts
+│       ├── fa-brands-400.ttf
+│       ├── fa-brands-400.woff2
+│       ├── fa-regular-400.ttf
+│       ├── fa-regular-400.woff2
+│       ├── fa-solid-900.ttf
+│       ├── fa-solid-900.woff2
+│       ├── fa-v4compatibility.ttf
+│       └── fa-v4compatibility.woff2
+├── readmedoc
+│   ├── README-SEEDERS.md
+│   ├── README.md
+│   └── README_BANNERS.md
+├── resources
+│   ├── js
+│   │   ├── admin.js
+│   │   ├── app.js
+│   │   └── bootstrap.js
+│   ├── scss
+│   │   ├── abstracts
+│   │   │   ├── _mixins.scss
+│   │   │   ├── _variables-colors.scss
+│   │   │   └── _variables.scss
+│   │   ├── animations
+│   │   │   └── _animations.scss
+│   │   ├── app.scss
+│   │   ├── components
+│   │   │   ├── _components.scss
+│   │   │   ├── _media-manager.scss
+│   │   │   ├── _media-selector.scss
+│   │   │   ├── _quill-advanced.scss
+│   │   │   └── _social-share.scss
+│   │   ├── layout
+│   │   │   ├── _admin-footer.scss
+│   │   │   └── _admin-nav-horizontal.scss
+│   │   ├── themes
+│   │   │   ├── _aquatic.scss
+│   │   │   └── _custom.scss
+│   │   └── utilities
+│   │       └── _utilities.scss
+│   └── views
+│       ├── admin
+│       │   ├── aitext
+│       │   │   └── settings.blade.php
+│       │   ├── banners
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   └── partials
+│       │   │       ├── form.blade.php
+│       │   │       ├── slide-form.blade.php
+│       │   │       └── slide_form.blade.php
+│       │   ├── categories
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── partials
+│       │   │   │   └── form.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── dashboard.blade.php
+│       │   ├── download-categories
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── partials
+│       │   │   │   └── form.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── downloadables
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── partials
+│       │   │   │   ├── ebook-file-selector-modal.blade.php
+│       │   │   │   └── form.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── ebook-files
+│       │   │   ├── index.blade.php
+│       │   │   ├── modals
+│       │   │   │   └── upload.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── fiches
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── partials
+│       │   │   │   └── form.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── fiches-categories
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── fiches-sous-categories
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── media
+│       │   │   ├── categories.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── modals
+│       │   │   │   ├── category.blade.php
+│       │   │   │   ├── details.blade.php
+│       │   │   │   └── upload.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── pages
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── partials
+│       │   │   │   └── form.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── pages-categories
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── permissions
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── partials
+│       │   │   │   └── form.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── photo-galleries
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── partials
+│       │   │   │   ├── form.blade.php
+│       │   │   │   ├── media-selector-modal.blade.php
+│       │   │   │   └── media_selector_modal.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── posts
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── partials
+│       │   │   │   └── form.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── profile
+│       │   │   ├── edit.blade.php
+│       │   │   ├── form.blade.php
+│       │   │   ├── partials
+│       │   │   │   ├── delete-user-form.blade.php
+│       │   │   │   ├── update-password-form.blade.php
+│       │   │   │   └── update-profile-information-form.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── roles
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── partials
+│       │   │   │   └── form.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── sitemap
+│       │   │   ├── index.blade.php
+│       │   │   └── partials
+│       │   │       └── modals.blade.php
+│       │   ├── tags
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── partials
+│       │   │   │   └── form.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── users
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade-fonctionnel.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── partials
+│       │   │   │   └── form.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── video-categories
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   └── index.blade.php
+│       │   └── videos
+│       │       ├── create.blade.php
+│       │       ├── edit.blade.php
+│       │       ├── index.blade.php
+│       │       └── show.blade.php
+│       ├── auth
+│       │   ├── confirm-password.blade.php
+│       │   ├── forgot-password.blade.php
+│       │   ├── login.blade.php
+│       │   ├── register.blade.php
+│       │   ├── reset-password.blade.php
+│       │   └── verify-email.blade.php
+│       ├── components
+│       │   ├── admin
+│       │   │   ├── data-table.blade.php
+│       │   │   ├── page-header.blade.php
+│       │   │   └── stats-card.blade.php
+│       │   ├── application-logo.blade.php
+│       │   ├── auth-session-status.blade.php
+│       │   ├── banner.blade.php
+│       │   ├── danger-button.blade.php
+│       │   ├── dropdown-link.blade.php
+│       │   ├── dropdown.blade.php
+│       │   ├── guest-layout.blade.php
+│       │   ├── input-error.blade.php
+│       │   ├── input-label.blade.php
+│       │   ├── modal.blade.php
+│       │   ├── nav-link.blade.php
+│       │   ├── primary-button.blade.php
+│       │   ├── responsive-nav-link.blade.php
+│       │   ├── secondary-button.blade.php
+│       │   └── text-input.blade.php
+│       ├── dashboard.blade.php
+│       ├── editor
+│       │   ├── dashboard.blade.php
+│       │   ├── fiches
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   └── index.blade.php
+│       │   ├── media
+│       │   │   └── index.blade.php
+│       │   ├── posts
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   └── index.blade.php
+│       │   ├── stats.blade.php
+│       │   └── videos
+│       │       ├── create.blade.php
+│       │       ├── edit.blade.php
+│       │       └── index.blade.php
+│       ├── emails
+│       │   └── contact.blade.php
+│       ├── errors
+│       │   ├── 404.blade.php
+│       │   └── 500.blade.php
+│       ├── layouts
+│       │   ├── admin.blade.php
+│       │   ├── app.blade.php
+│       │   ├── editor.blade.php
+│       │   ├── guest.blade.php
+│       │   ├── navigation.blade.php
+│       │   ├── partials
+│       │   │   ├── admin-footer.blade.php
+│       │   │   ├── admin-header.blade.php
+│       │   │   ├── admin-nav-horizontal.blade.php
+│       │   │   ├── admin-nav.blade.php
+│       │   │   ├── editor-footer.blade.php
+│       │   │   ├── editor-header.blade.php
+│       │   │   ├── editor-nav-horizontal.blade.php
+│       │   │   ├── editor-nav.blade.php
+│       │   │   ├── public-footer.blade.php
+│       │   │   ├── public-header.blade.php
+│       │   │   ├── public-nav.blade.php
+│       │   │   ├── social-share.blade.php
+│       │   │   ├── user-footer.blade.php
+│       │   │   ├── user-header.blade.php
+│       │   │   └── user-nav.blade.php
+│       │   ├── public.blade.php
+│       │   └── user.blade.php
+│       ├── pagination
+│       │   └── five-per-row.blade.php
+│       ├── payments
+│       │   ├── history.blade.php
+│       │   └── index.blade.php
+│       ├── public
+│       │   ├── about.blade.php
+│       │   ├── accessibility.blade.php
+│       │   ├── categories
+│       │   │   └── index.blade.php
+│       │   ├── category.blade.php
+│       │   ├── contact.blade.php
+│       │   ├── cookies.blade.php
+│       │   ├── ebook
+│       │   │   ├── category.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── search.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── features.blade.php
+│       │   ├── fiches
+│       │   │   ├── category.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── show.blade.php
+│       │   │   └── sous-category.blade.php
+│       │   ├── galleries
+│       │   │   ├── index.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── guide.blade.php
+│       │   ├── home.blade.php
+│       │   ├── index.blade.php
+│       │   ├── legal.blade.php
+│       │   ├── pages
+│       │   │   ├── category.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── partials
+│       │   │   └── search-form.blade.php
+│       │   ├── pricing.blade.php
+│       │   ├── privacy.blade.php
+│       │   ├── search.blade.php
+│       │   ├── show.blade.php
+│       │   └── videos
+│       │       ├── category.blade.php
+│       │       ├── index.blade.php
+│       │       └── show.blade.php
+│       ├── user
+│       │   ├── dashboard.blade.php
+│       │   └── profile
+│       │       └── edit.blade.php
+│       └── visitor
+│           └── dashboard.blade.php
+├── routes
+│   ├── auth.php
+│   ├── console.php
+│   └── web.php
+├── structure.txt
+├── tests
+│   ├── Feature
+│   │   ├── Auth
+│   │   │   ├── AuthenticationTest.php
+│   │   │   ├── EmailVerificationTest.php
+│   │   │   ├── PasswordConfirmationTest.php
+│   │   │   ├── PasswordResetTest.php
+│   │   │   ├── PasswordUpdateTest.php
+│   │   │   └── RegistrationTest.php
+│   │   ├── ExampleTest.php
+│   │   └── ProfileTest.php
+│   ├── TestCase.php
+│   └── Unit
+│       └── ExampleTest.php
+├── vite.config.js
+└── webpack.mix.js
+
+114 directories, 542 files

@@ -49,5 +49,6 @@
     <script src="{{ asset('js/media-selector.js') }}"></script>
 
     @stack('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </body>
 </html>

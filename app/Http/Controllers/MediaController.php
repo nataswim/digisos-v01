@@ -21,9 +21,20 @@ class MediaController extends Controller
         }
     }
 
-    /**
-     * Index des medias
-     */
+    // NOUVELLE MÉTHODE POUR API (admin OU editor)
+    private function checkMediaApiAccess()
+    {
+        $user = auth()->user();
+        
+        if (!$user || !$user->role) {
+            abort(403, 'Authentification requise');
+        }
+        
+        if (!$user->hasRole('admin') && !$user->hasRole('editor')) {
+            abort(403, 'Acces non autorise');
+        }
+    }
+
     public function index(Request $request)
     {
         $this->checkAdminAccess();
@@ -54,9 +65,6 @@ class MediaController extends Controller
         return view('admin.media.index', compact('media', 'categories', 'stats', 'search', 'categoryId'));
     }
 
-    /**
-     * Actions en masse sur les médias
-     */
     public function bulkAction(BulkMediaActionRequest $request)
     {
         $this->checkAdminAccess();
@@ -101,15 +109,11 @@ class MediaController extends Controller
         }
     }
 
-    /**
-     * Suppression en masse
-     */
     private function bulkDelete(array $mediaIds): int
     {
         $media = Media::whereIn('id', $mediaIds)->get();
         
         foreach ($media as $item) {
-            // Supprimer le fichier physique
             if (Storage::disk('public')->exists($item->path)) {
                 Storage::disk('public')->delete($item->path);
             }
@@ -119,18 +123,12 @@ class MediaController extends Controller
         return $media->count();
     }
 
-    /**
-     * Changement de catégorie en masse
-     */
     private function bulkChangeCategory(array $mediaIds, ?int $categoryId): int
     {
         return Media::whereIn('id', $mediaIds)
             ->update(['media_category_id' => $categoryId]);
     }
 
-    /**
-     * Voir les médias d'une catégorie
-     */
     public function categoryMedia(MediaCategory $category)
     {
         $this->checkAdminAccess();
@@ -143,9 +141,6 @@ class MediaController extends Controller
         return view('admin.media.category-media', compact('category', 'media'));
     }
 
-    /**
-     * Upload de fichiers
-     */
     public function store(StoreMediaRequest $request)
     {
         $this->checkAdminAccess();
@@ -174,9 +169,6 @@ class MediaController extends Controller
             ->with('success', $message);
     }
 
-    /**
-     * Afficher un media
-     */
     public function show(Media $media)
     {
         $this->checkAdminAccess();
@@ -187,9 +179,6 @@ class MediaController extends Controller
         return view('admin.media.show', compact('media', 'categories'));
     }
 
-    /**
-     * Mettre à jour un media
-     */
     public function update(Request $request, Media $media)
     {
         $this->checkAdminAccess();
@@ -209,9 +198,6 @@ class MediaController extends Controller
             ->with('success', 'Media mis à jour avec succes.');
     }
 
-    /**
-     * Supprimer un media
-     */
     public function destroy(Media $media)
     {
         $this->checkAdminAccess();
@@ -222,42 +208,62 @@ class MediaController extends Controller
             ->with('success', 'Media supprime avec succes.');
     }
 
-    /**
-     * API pour selectionner des medias (modal)
-     */
+    // MODIFIÉ: ACCEPTE ADMIN ET EDITOR
     public function api(Request $request)
     {
-        $this->checkAdminAccess();
+        $this->checkMediaApiAccess();
 
-        $search = $request->input('search');
+        $search     = $request->input('search');
         $categoryId = $request->input('category');
-        $page = $request->input('page', 1);
-        $perPage = 12;
+        $perPage    = (int) $request->input('per_page', 24);
+        $page       = (int) $request->input('page', 1);
+        $imagesOnly = $request->has('images_only');
 
-        $query = Media::with('category')
-            ->latest();
+        $query = Media::with('category')->latest();
+
+        if ($imagesOnly) {
+            $query->where('mime_type', 'like', 'image/%');
+        }
 
         if ($search) {
-            $query->where('name', 'like', "%{$search}%");
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('alt_text', 'like', "%{$search}%")
+                  ->orWhere('original_name', 'like', "%{$search}%");
+            });
         }
 
         if ($categoryId) {
             $query->where('media_category_id', $categoryId);
         }
 
-        $media = $query->paginate($perPage, ['*'], 'page', $page);
+        $paginated = $query->paginate($perPage, ['*'], 'page', $page);
+
+        $items = collect($paginated->items())->map(fn (Media $item) => [
+            'id'                => $item->id,
+            'name'              => $item->name,
+            'file_name'         => $item->file_name,
+            'original_name'     => $item->original_name ?? $item->file_name,
+            'mime_type'         => $item->mime_type,
+            'path'              => $item->path,
+            'url'               => str_starts_with((string) $item->path, 'http')
+                                    ? $item->path
+                                    : asset('storage/' . $item->path),
+            'formatted_size'    => $this->formatBytes($item->size),
+            'size'              => $item->size,
+            'alt_text'          => $item->alt_text,
+            'media_category_id' => $item->media_category_id,
+        ]);
 
         return response()->json([
-            'data' => $media->items(),
-            'current_page' => $media->currentPage(),
-            'last_page' => $media->lastPage(),
-            'total' => $media->total(),
+            'data'         => $items,
+            'current_page' => $paginated->currentPage(),
+            'last_page'    => $paginated->lastPage(),
+            'total'        => $paginated->total(),
+            'per_page'     => $paginated->perPage(),
         ]);
     }
 
-    /**
-     * Gestion des categories
-     */
     public function categories()
     {
         $this->checkAdminAccess();
@@ -269,9 +275,6 @@ class MediaController extends Controller
         return view('admin.media.categories', compact('categories'));
     }
 
-    /**
-     * Creer une categorie
-     */
     public function storeCategory(StoreMediaCategoryRequest $request)
     {
         $this->checkAdminAccess();
@@ -279,7 +282,6 @@ class MediaController extends Controller
         $data = $request->validated();
         $data['slug'] = Str::slug($data['name']);
 
-        // Verifier l'unicite du slug
         $originalSlug = $data['slug'];
         $counter = 1;
         while (MediaCategory::where('slug', $data['slug'])->exists()) {
@@ -293,14 +295,10 @@ class MediaController extends Controller
             ->with('success', 'Categorie creee avec succes.');
     }
 
-    /**
-     * Supprimer une categorie
-     */
     public function destroyCategory(MediaCategory $category)
     {
         $this->checkAdminAccess();
         
-        // Verifier s'il y a des medias dans cette categorie
         if ($category->media()->count() > 0) {
             return redirect()->back()
                 ->with('error', 'Impossible de supprimer une categorie contenant des medias.');
@@ -312,32 +310,33 @@ class MediaController extends Controller
             ->with('success', 'Categorie supprimee avec succes.');
     }
 
-    // ========== MÉTHODES PRIVÉES ==========
+    // MODIFIÉ: ACCEPTE ADMIN ET EDITOR
+    public function categoriesApi()
+    {
+        $this->checkMediaApiAccess();
+        
+        $categories = MediaCategory::active()
+            ->ordered()
+            ->get(['id', 'name', 'color']);
+        
+        return response()->json($categories);
+    }
 
-    /**
-     * Upload d'un fichier
-     */
     private function uploadFile(UploadedFile $file, ?int $categoryId = null, ?string $customName = null, ?string $altText = null): Media
     {
-        // Generer un nom unique pour le fichier
         $fileName = $this->generateUniqueFileName($file);
         
-        // Creer le dossier media s'il n'existe pas
         $mediaPath = 'media';
         if (!Storage::disk('public')->exists($mediaPath)) {
             Storage::disk('public')->makeDirectory($mediaPath);
         }
         
-        // Chemin complet
         $filePath = $mediaPath . '/' . $fileName;
         
-        // Stocker le fichier
         Storage::disk('public')->putFileAs($mediaPath, $file, $fileName);
         
-        // Recuperer les metadonnees
         $metadata = $this->extractMetadata($file, $filePath);
         
-        // Creer l'enregistrement en base
         return Media::create([
             'name' => $customName ?: $this->cleanFileName($file->getClientOriginalName()),
             'file_name' => $fileName,
@@ -351,9 +350,6 @@ class MediaController extends Controller
         ]);
     }
 
-    /**
-     * Generer un nom de fichier unique
-     */
     private function generateUniqueFileName(UploadedFile $file): string
     {
         $extension = $file->getClientOriginalExtension();
@@ -363,23 +359,16 @@ class MediaController extends Controller
         return $timestamp . '_' . $random . '.' . $extension;
     }
 
-    /**
-     * Nettoyer le nom du fichier pour l'affichage
-     */
     private function cleanFileName(string $originalName): string
     {
         $name = pathinfo($originalName, PATHINFO_FILENAME);
         return Str::title(str_replace(['_', '-'], ' ', $name));
     }
 
-    /**
-     * Extraire les metadonnees du fichier
-     */
     private function extractMetadata(UploadedFile $file, string $storedPath): array
     {
         $metadata = [];
         
-        // Si c'est une image, recuperer les dimensions
         if (str_starts_with($file->getMimeType(), 'image/')) {
             $fullPath = Storage::disk('public')->path($storedPath);
             
@@ -396,9 +385,6 @@ class MediaController extends Controller
         return $metadata;
     }
 
-    /**
-     * Obtenir les statistiques des medias
-     */
     private function getMediaStats(): array
     {
         $totalMedia = Media::count();
@@ -415,9 +401,6 @@ class MediaController extends Controller
         ];
     }
 
-    /**
-     * Formater les bytes
-     */
     private function formatBytes(int $bytes): string
     {
         if ($bytes === 0) return '0 B';
@@ -430,17 +413,4 @@ class MediaController extends Controller
         
         return round($bytes, 2) . ' ' . $units[$i];
     }
-    /**
- * API pour récupérer les catégories (pour les modales)
- */
-public function categoriesApi()
-{
-    $this->checkAdminAccess();
-    
-    $categories = MediaCategory::active()
-        ->ordered()
-        ->get(['id', 'name', 'color']);
-    
-    return response()->json($categories);
-}
 }

@@ -51,11 +51,12 @@ $chiffre2 = mt_rand(79, 123);
                                 <i class="fas fa-star me-2 text-secondary"></i>Fonctionnalités
                             </a>
                         </li>
-                        <li class="mb-2">
-                            <a href="{{ route('pricing') }}" class="text-decoration-none text-dark">
-                                <i class="fas fa-tag me-2 text-secondary"></i>Plans d'inscription
-                            </a>
-                        </li>
+                        {{-- Galeries Photo --}}
+<li class="mb-2">
+    <a class="text-decoration-none text-dark" href="{{ route('galleries.index') }}">
+        <i class="fas fa-images me-2 text-secondary"></i> Galeries
+    </a>
+</li>
                         <li class="mb-2">
                             <a href="{{ route('guide') }}" class="text-decoration-none text-dark">
                                 <i class="fas fa-book-open me-2 text-secondary"></i>Guide d'utilisation

@@ -11,7 +11,8 @@ class ProfileController extends Controller
 {
     private function checkAdminAccess()
     {
-        if (!auth()->user()->hasRole('admin')) {
+        //if (!auth()->user()->hasRole('admin')) {
+if (!auth()->user()->hasRole('admin') && !auth()->user()->hasRole('editor')) {
             abort(403, 'Acces non autorise');
         }
     }

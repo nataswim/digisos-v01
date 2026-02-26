@@ -7,15 +7,9 @@ git add .
 git commit -m "Correction"
 git push origin main
 
-
-
-
-
-
-
 #  Installation : 
 # 1. Récupération du projetClonage du dépôt depuis GitHub vers le répertoire local :
-git clone https://github.com/votre-utilisateur/digisos-v01.git
+git clone https://github.com/.......
 cd digisos-v01
 # 2. Installation des dépendances
 Le projet utilise à la fois Node.js (pour le frontend) et PHP/Laravel (pour le backend).

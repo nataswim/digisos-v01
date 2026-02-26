@@ -50,8 +50,8 @@
                 <div class="card border-0 shadow-sm">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center">
-                            <div class="bg-{{ $stat['color'] }} text-white bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" 
-                                 style="width: 50px; height: 50px;">
+                            <div class="text-white bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" 
+                                 style="width: 50px;height: 50px;background-color: #5f80ca;">
                                 <i class="{{ $stat['icon'] }}"></i>
                             </div>
                             <div class="flex-fill">

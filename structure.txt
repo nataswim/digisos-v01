@@ -4,14 +4,18 @@
 │   │   └── Commands
 │   │       ├── GenerateCategorySlugs.php
 │   │       └── GenerateSitemap.php
+│   ├── Helpers
+│   │   └── route_helper.php
 │   ├── Http
 │   │   ├── Controllers
+│   │   │   ├── AITextController.php
 │   │   │   ├── Admin
+│   │   │   │   ├── DashboardController.php
+│   │   │   │   ├── PhotoGalleryController.php
 │   │   │   │   ├── SitemapController.php
 │   │   │   │   ├── VideoCategoryController.php
 │   │   │   │   ├── VideoController.php
 │   │   │   │   └── VideoLibraryController.php
-│   │   │   ├── AITextController.php
 │   │   │   ├── Auth
 │   │   │   │   ├── AuthenticatedSessionController.php
 │   │   │   │   ├── ConfirmablePasswordController.php
@@ -22,12 +26,22 @@
 │   │   │   │   ├── PasswordResetLinkController.php
 │   │   │   │   ├── RegisteredUserController.php
 │   │   │   │   └── VerifyEmailController.php
+│   │   │   ├── BannerController.php
 │   │   │   ├── CategoryController.php
 │   │   │   ├── Controller.php
-│   │   │   ├── DownloadableController.php
 │   │   │   ├── DownloadCategoryController.php
+│   │   │   ├── DownloadableController.php
 │   │   │   ├── EbookController.php
 │   │   │   ├── EbookFileController.php
+│   │   │   ├── Editor
+│   │   │   │   ├── EditorDashboardController.php
+│   │   │   │   ├── EditorFicheController.php
+│   │   │   │   ├── EditorMediaController.php
+│   │   │   │   ├── EditorPageController.php
+│   │   │   │   ├── EditorPhotoGalleryController.php
+│   │   │   │   ├── EditorPostController.php
+│   │   │   │   ├── EditorStatsController.php
+│   │   │   │   └── EditorVideoController.php
 │   │   │   ├── FicheController.php
 │   │   │   ├── FichesCategoryController.php
 │   │   │   ├── FichesSousCategoryController.php
@@ -39,12 +53,18 @@
 │   │   │   ├── ProfileController.php
 │   │   │   ├── PublicController.php
 │   │   │   ├── PublicFicheController.php
+│   │   │   ├── PublicGalleryController.php
 │   │   │   ├── PublicPageController.php
 │   │   │   ├── PublicVideoController.php
 │   │   │   ├── RoleController.php
 │   │   │   ├── SearchController.php
+│   │   │   ├── StatsController.php
 │   │   │   ├── TagController.php
-│   │   │   └── UserController.php
+│   │   │   ├── User
+│   │   │   │   └── UserDashboardController.php
+│   │   │   ├── UserController.php
+│   │   │   └── Visitor
+│   │   │       └── VisitorDashboardController.php
 │   │   └── Requests
 │   │       ├── Auth
 │   │       │   ├── LoginRequest.php
@@ -52,13 +72,14 @@
 │   │       ├── BulkMediaActionRequest.php
 │   │       ├── ProfileUpdateRequest.php
 │   │       ├── StoreCategoryRequest.php
-│   │       ├── StoreDownloadableRequest.php
 │   │       ├── StoreDownloadCategoryRequest.php
+│   │       ├── StoreDownloadableRequest.php
 │   │       ├── StoreFicheRequest.php
 │   │       ├── StoreMediaCategoryRequest.php
 │   │       ├── StoreMediaRequest.php
 │   │       ├── StorePageRequest.php
 │   │       ├── StorePermissionRequest.php
+│   │       ├── StorePhotoGalleryRequest.php
 │   │       ├── StorePostRequest.php
 │   │       ├── StoreRoleRequest.php
 │   │       ├── StoreTagRequest.php
@@ -66,11 +87,12 @@
 │   │       ├── StoreVideoCategoryRequest.php
 │   │       ├── StoreVideoRequest.php
 │   │       ├── UpdateCategoryRequest.php
-│   │       ├── UpdateDownloadableRequest.php
 │   │       ├── UpdateDownloadCategoryRequest.php
+│   │       ├── UpdateDownloadableRequest.php
 │   │       ├── UpdateFicheRequest.php
 │   │       ├── UpdatePageRequest.php
 │   │       ├── UpdatePermissionRequest.php
+│   │       ├── UpdatePhotoGalleryRequest.php
 │   │       ├── UpdatePostRequest.php
 │   │       ├── UpdateProfileRequest.php
 │   │       ├── UpdateRoleRequest.php
@@ -81,10 +103,12 @@
 │   ├── Mail
 │   │   └── ContactFormMail.php
 │   ├── Models
+│   │   ├── Banner.php
+│   │   ├── BannerSlide.php
 │   │   ├── Category.php
-│   │   ├── Downloadable.php
 │   │   ├── DownloadCategory.php
 │   │   ├── DownloadLog.php
+│   │   ├── Downloadable.php
 │   │   ├── EbookFile.php
 │   │   ├── Fiche.php
 │   │   ├── FichesCategory.php
@@ -94,6 +118,7 @@
 │   │   ├── Page.php
 │   │   ├── PagesCategory.php
 │   │   ├── Permission.php
+│   │   ├── PhotoGallery.php
 │   │   ├── Post.php
 │   │   ├── Role.php
 │   │   ├── Setting.php
@@ -104,10 +129,12 @@
 │   │   ├── Video.php
 │   │   └── VideoCategory.php
 │   ├── Providers
-│   │   └── AppServiceProvider.php
+│   │   ├── AppServiceProvider.php
+│   │   └── HelperServiceProvider.php
 │   ├── Services
 │   │   ├── AITextService.php
 │   │   ├── SitemapService.php
+│   │   ├── StatsService.php
 │   │   └── VideoService.php
 │   └── View
 │       └── Components
@@ -172,11 +199,22 @@
 │   │   ├── 2025_10_17_171428_create_fiches_sous_categories_table.php
 │   │   ├── 2025_10_17_171540_add_sous_category_to_fiches_table.php
 │   │   ├── 2026_02_07_164102_create_page_categories_table.php
-│   │   └── 2026_02_07_164111_create_pages_table.php
+│   │   ├── 2026_02_07_164111_create_pages_table.php
+│   │   ├── 2026_02_09_182435_create_photo_galleries_table.php
+│   │   ├── 2026_02_09_182447_create_gallery_media_table.php
+│   │   ├── 2026_02_10_102733_create_banners_table.php
+│   │   └── 2026_02_10_102744_create_banner_slides_table.php
 │   └── seeders
 │       ├── CategoriesTableSeeder.php
 │       ├── DatabaseSeeder.php
 │       ├── DefaultRolesSeeder.php
+│       ├── DownloadCategoriesSeeder.php
+│       ├── DownloadablesSeeder.php
+│       ├── FichesCategoriesSeeder.php
+│       ├── FichesSeeder.php
+│       ├── FichesSousCategoriesSeeder.php
+│       ├── PagesCategoriesSeeder.php
+│       ├── PagesSeeder.php
 │       ├── PermissionsTableSeeder.php
 │       ├── PostsTableSeeder.php
 │       ├── RolePermissionTableSeeder.php
@@ -184,94 +222,98 @@
 │       ├── SpatiePermissionSeeder.php
 │       ├── TaggablesTableSeeder.php
 │       ├── TagsTableSeeder.php
-│       └── UsersTableSeeder.php
+│       ├── UsersTableSeeder.php
+│       ├── VideoCategoriesSeeder.php
+│       └── VideosSeeder.php
 ├── package-lock.json
 ├── package.json
 ├── phpunit.xml
 ├── public
 │   ├── assets
+│   │   ├── banner
+│   │   │   ├── digital-sos-banner-0.jpg
+│   │   │   ├── digital-sos-banner-1.jpg
+│   │   │   ├── digital-sos-banner-10.jpg
+│   │   │   ├── digital-sos-banner-11.jpg
+│   │   │   ├── digital-sos-banner-12.jpg
+│   │   │   ├── digital-sos-banner-13.jpg
+│   │   │   ├── digital-sos-banner-14.jpg
+│   │   │   ├── digital-sos-banner-15.jpg
+│   │   │   ├── digital-sos-banner-16.jpg
+│   │   │   ├── digital-sos-banner-17.jpg
+│   │   │   ├── digital-sos-banner-18.jpg
+│   │   │   ├── digital-sos-banner-19.jpg
+│   │   │   ├── digital-sos-banner-2.jpg
+│   │   │   ├── digital-sos-banner-20.jpg
+│   │   │   ├── digital-sos-banner-21.jpg
+│   │   │   ├── digital-sos-banner-22.jpg
+│   │   │   ├── digital-sos-banner-23.jpg
+│   │   │   ├── digital-sos-banner-24.jpg
+│   │   │   ├── digital-sos-banner-25.jpg
+│   │   │   ├── digital-sos-banner-26.jpg
+│   │   │   ├── digital-sos-banner-27.jpg
+│   │   │   ├── digital-sos-banner-28.jpg
+│   │   │   ├── digital-sos-banner-29.jpg
+│   │   │   ├── digital-sos-banner-3.jpg
+│   │   │   ├── digital-sos-banner-30.jpg
+│   │   │   ├── digital-sos-banner-31.jpg
+│   │   │   ├── digital-sos-banner-32.jpg
+│   │   │   ├── digital-sos-banner-33.jpg
+│   │   │   ├── digital-sos-banner-34.jpg
+│   │   │   ├── digital-sos-banner-35.jpg
+│   │   │   ├── digital-sos-banner-36.jpg
+│   │   │   ├── digital-sos-banner-37.jpg
+│   │   │   ├── digital-sos-banner-38.jpg
+│   │   │   ├── digital-sos-banner-39.jpg
+│   │   │   ├── digital-sos-banner-4.jpg
+│   │   │   ├── digital-sos-banner-40.jpg
+│   │   │   ├── digital-sos-banner-41.jpg
+│   │   │   ├── digital-sos-banner-42.jpg
+│   │   │   ├── digital-sos-banner-43.jpg
+│   │   │   ├── digital-sos-banner-44.jpg
+│   │   │   ├── digital-sos-banner-45.jpg
+│   │   │   ├── digital-sos-banner-46.jpg
+│   │   │   ├── digital-sos-banner-47.jpg
+│   │   │   ├── digital-sos-banner-48.jpg
+│   │   │   ├── digital-sos-banner-49.jpg
+│   │   │   ├── digital-sos-banner-5.jpg
+│   │   │   ├── digital-sos-banner-6.jpg
+│   │   │   ├── digital-sos-banner-7.jpg
+│   │   │   ├── digital-sos-banner-8.jpg
+│   │   │   └── digital-sos-banner-9.jpg
 │   │   └── images
+│   │       ├── logo
+│   │       │   ├── digital-sos-logo0.png
+│   │       │   ├── digital-sos-logo1.png
+│   │       │   ├── digital-sos-logo10.png
+│   │       │   ├── digital-sos-logo11.png
+│   │       │   ├── digital-sos-logo12.png
+│   │       │   ├── digital-sos-logo13.png
+│   │       │   ├── digital-sos-logo14.png
+│   │       │   ├── digital-sos-logo15.png
+│   │       │   ├── digital-sos-logo2.png
+│   │       │   ├── digital-sos-logo3.png
+│   │       │   ├── digital-sos-logo4.png
+│   │       │   ├── digital-sos-logo5.png
+│   │       │   ├── digital-sos-logo6.png
+│   │       │   ├── digital-sos-logo7.png
+│   │       │   ├── digital-sos-logo8.png
+│   │       │   └── digital-sos-logo9.png
 │   │       └── team
+│   │           ├── MUSCULATION_NATASWIM.mp4
 │   │           ├── anatomie.mp4
-│   │           ├── auteur-coach-hassan-el-haouat-nataswim-0.png
-│   │           ├── auteur-coach-hassan-el-haouat-nataswim-1.png
-│   │           ├── auteur-coach-hassan-el-haouat-nataswim-10.png
-│   │           ├── auteur-coach-hassan-el-haouat-nataswim-11.png
-│   │           ├── auteur-coach-hassan-el-haouat-nataswim-12.png
-│   │           ├── auteur-coach-hassan-el-haouat-nataswim-13.png
-│   │           ├── auteur-coach-hassan-el-haouat-nataswim-14.png
-│   │           ├── auteur-coach-hassan-el-haouat-nataswim-15.png
-│   │           ├── auteur-coach-hassan-el-haouat-nataswim-16.png
-│   │           ├── auteur-coach-hassan-el-haouat-nataswim-17.png
-│   │           ├── auteur-coach-hassan-el-haouat-nataswim-2.png
-│   │           ├── auteur-coach-hassan-el-haouat-nataswim-3.png
-│   │           ├── auteur-coach-hassan-el-haouat-nataswim-4.png
-│   │           ├── auteur-coach-hassan-el-haouat-nataswim-5.png
-│   │           ├── auteur-coach-hassan-el-haouat-nataswim-6.png
-│   │           ├── auteur-coach-hassan-el-haouat-nataswim-7.png
-│   │           ├── auteur-coach-hassan-el-haouat-nataswim-8.png
-│   │           ├── auteur-coach-hassan-el-haouat-nataswim-9.png
 │   │           ├── centre_aquasport_nataswim.mp4
 │   │           ├── ebooks.mp4
 │   │           ├── fitness-nataswim-courir.mp4
-│   │           ├── guide-utilisation.jpg
 │   │           ├── lac.mp4
 │   │           ├── med_Hassan_EL_HAOUAT.png
-│   │           ├── mode-emploi-nataswim.jpg
-│   │           ├── MUSCULATION_NATASWIM.mp4
-│   │           ├── nataswim_app_logo_0.png
-│   │           ├── nataswim_app_logo_1.png
-│   │           ├── nataswim_app_logo_2.png
-│   │           ├── nataswim_app_logo_3.png
-│   │           ├── nataswim_app_logo_4.png
-│   │           ├── nataswim-application-banner-0.jpg
-│   │           ├── nataswim-application-banner-1.jpg
-│   │           ├── nataswim-application-banner-10.jpg
-│   │           ├── nataswim-application-banner-11.jpg
-│   │           ├── nataswim-application-banner-12.jpg
-│   │           ├── nataswim-application-banner-13.jpg
-│   │           ├── nataswim-application-banner-14.jpg
-│   │           ├── nataswim-application-banner-15.jpg
-│   │           ├── nataswim-application-banner-16.jpg
-│   │           ├── nataswim-application-banner-17.jpg
-│   │           ├── nataswim-application-banner-18.jpg
-│   │           ├── nataswim-application-banner-2.jpg
-│   │           ├── nataswim-application-banner-3.jpg
-│   │           ├── nataswim-application-banner-4.jpg
-│   │           ├── nataswim-application-banner-5.jpg
-│   │           ├── nataswim-application-banner-6.jpg
-│   │           ├── nataswim-application-banner-7.jpg
-│   │           ├── nataswim-application-banner-8.jpg
-│   │           ├── nataswim-application-banner-9.jpg
-│   │           ├── nataswim-logo0.png
-│   │           ├── nataswim-logo1.png
-│   │           ├── nataswim-logo2.png
-│   │           ├── nataswim-logo3.png
-│   │           ├── nataswim-logo4.png
-│   │           ├── nataswim-pays-monde-centre.png
-│   │           ├── nataswim-sport-net-systemes-0.jpg
-│   │           ├── nataswim-sport-net-systemes-1.jpg
-│   │           ├── nataswim-sport-net-systemes-10.jpg
-│   │           ├── nataswim-sport-net-systemes-11.jpg
-│   │           ├── nataswim-sport-net-systemes-2.jpg
-│   │           ├── nataswim-sport-net-systemes-3.jpg
-│   │           ├── nataswim-sport-net-systemes-4.jpg
-│   │           ├── nataswim-sport-net-systemes-5.jpg
-│   │           ├── nataswim-sport-net-systemes-6.jpg
-│   │           ├── nataswim-sport-net-systemes-7.jpg
-│   │           ├── nataswim-sport-net-systemes-8.jpg
-│   │           ├── nataswim-sport-net-systemes-9.jpg
-│   │           ├── nataswim-sport-net-systemes-irfc-0.jpg
-│   │           ├── nataswim-sport-net-systemes-irfc-1.jpg
-│   │           ├── nataswim-sport-net-systemes-irfc-2.jpg
 │   │           ├── nataswim-sport-training-0.mp4
 │   │           ├── nataswim-sport-training-1.mp4
 │   │           ├── nataswim-sport-training-2.mp4
 │   │           ├── nataswim-sport-training-3.mp4
 │   │           ├── nataswim-sport-training-4.mp4
 │   │           ├── nataswim-sport-training-5.mp4
-│   │           ├── nataswim.mp4
-│   │           └── quel-est-votre-style-sport.jpg
+│   │           └── nataswim.mp4
 │   ├── css
 │   │   ├── app.css
 │   │   └── social-share.css
@@ -284,6 +326,7 @@
 │   │   ├── app.js
 │   │   ├── app.js.LICENSE.txt
 │   │   ├── ebook-file-selector.js
+│   │   ├── gallery-media-selector.js
 │   │   ├── media-manager.js
 │   │   ├── media-selector.js
 │   │   ├── quill-advanced.js
@@ -303,7 +346,11 @@
 │       ├── fa-solid-900.woff2
 │       ├── fa-v4compatibility.ttf
 │       └── fa-v4compatibility.woff2
-├── README.md
+├── readmedoc
+│   ├── README-SEEDERS.md
+│   ├── README.md
+│   ├── README_BANNERS.md
+│   └── structure.txt
 ├── resources
 │   ├── js
 │   │   ├── admin.js
@@ -335,6 +382,14 @@
 │       ├── admin
 │       │   ├── aitext
 │       │   │   └── settings.blade.php
+│       │   ├── banners
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   └── partials
+│       │   │       ├── form.blade.php
+│       │   │       ├── slide-form.blade.php
+│       │   │       └── slide_form.blade.php
 │       │   ├── categories
 │       │   │   ├── create.blade.php
 │       │   │   ├── edit.blade.php
@@ -407,6 +462,15 @@
 │       │   │   ├── partials
 │       │   │   │   └── form.blade.php
 │       │   │   └── show.blade.php
+│       │   ├── photo-galleries
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── partials
+│       │   │   │   ├── form.blade.php
+│       │   │   │   ├── media-selector-modal.blade.php
+│       │   │   │   └── media_selector_modal.blade.php
+│       │   │   └── show.blade.php
 │       │   ├── posts
 │       │   │   ├── create.blade.php
 │       │   │   ├── edit.blade.php
@@ -471,6 +535,7 @@
 │       │   │   └── stats-card.blade.php
 │       │   ├── application-logo.blade.php
 │       │   ├── auth-session-status.blade.php
+│       │   ├── banner.blade.php
 │       │   ├── danger-button.blade.php
 │       │   ├── dropdown-link.blade.php
 │       │   ├── dropdown.blade.php
@@ -484,6 +549,40 @@
 │       │   ├── secondary-button.blade.php
 │       │   └── text-input.blade.php
 │       ├── dashboard.blade.php
+│       ├── editor
+│       │   ├── dashboard.blade.php
+│       │   ├── fiches
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   └── index.blade.php
+│       │   ├── media
+│       │   │   ├── index.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── pages
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── partials
+│       │   │   │   └── form.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── photo-galleries
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── form.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── partials
+│       │   │   │   ├── form.blade.php
+│       │   │   │   └── media_selector_modal.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── posts
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   └── index.blade.php
+│       │   ├── stats.blade.php
+│       │   └── videos
+│       │       ├── create.blade.php
+│       │       ├── edit.blade.php
+│       │       └── index.blade.php
 │       ├── emails
 │       │   └── contact.blade.php
 │       ├── errors
@@ -492,13 +591,14 @@
 │       ├── layouts
 │       │   ├── admin.blade.php
 │       │   ├── app.blade.php
+│       │   ├── editor.blade.php
 │       │   ├── guest.blade.php
 │       │   ├── navigation.blade.php
 │       │   ├── partials
 │       │   │   ├── admin-footer.blade.php
-│       │   │   ├── admin-header.blade.php
 │       │   │   ├── admin-nav-horizontal.blade.php
-│       │   │   ├── admin-nav.blade.php
+│       │   │   ├── editor-footer.blade.php
+│       │   │   ├── editor-nav-horizontal.blade.php
 │       │   │   ├── public-footer.blade.php
 │       │   │   ├── public-header.blade.php
 │       │   │   ├── public-nav.blade.php
@@ -532,6 +632,9 @@
 │       │   │   ├── index.blade.php
 │       │   │   ├── show.blade.php
 │       │   │   └── sous-category.blade.php
+│       │   ├── galleries
+│       │   │   ├── index.blade.php
+│       │   │   └── show.blade.php
 │       │   ├── guide.blade.php
 │       │   ├── home.blade.php
 │       │   ├── index.blade.php
@@ -550,10 +653,14 @@
 │       │       ├── category.blade.php
 │       │       ├── index.blade.php
 │       │       └── show.blade.php
-│       └── user
-│           ├── dashboard.blade.php
-│           └── profile
-│               └── edit.blade.php
+│       ├── stats
+│       │   └── stats_index.blade.php
+│       ├── user
+│       │   ├── dashboard.blade.php
+│       │   └── profile
+│       │       └── edit.blade.php
+│       └── visitor
+│           └── dashboard.blade.php
 ├── routes
 │   ├── auth.php
 │   ├── console.php
@@ -576,4 +683,4 @@
 ├── vite.config.js
 └── webpack.mix.js
 
-99 directories, 478 files
+122 directories, 562 files

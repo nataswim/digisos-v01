@@ -78,7 +78,7 @@
                         </li>
                         @endif
                         <li>
-                            <a class="dropdown-item py-2" href="{{ route('dashboard') }}">
+                            <a class="dropdown-item py-2" href="{{ get_dashboard_route() }}">
                                 <i class="fas fa-tachometer-alt text-dark me-2"></i>Mon tableau de bord
                             </a>
                         </li>
