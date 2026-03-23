@@ -6,9 +6,12 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-10 mx-auto">
-            <div class="d-flex justify-content-between align-items-center mb-4">
+
+
+
+<div class="card-header bg-white p-4 mb-3 card shadow-sm">
+                   
+  <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
                     <h1 class="h3 mb-0 text-primary">
                         <i class="fas fa-user-cog me-2"></i>Paramètres du profil
@@ -18,6 +21,15 @@
                     <i class="fas fa-eye me-2"></i>Voir mon profil
                 </a>
             </div>
+                </div>
+
+
+
+
+
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+           
 
             <div class="row g-4">
                 <!-- Informations du profil -->

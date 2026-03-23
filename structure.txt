@@ -12,7 +12,9 @@
 │   │   │   ├── Admin
 │   │   │   │   ├── DashboardController.php
 │   │   │   │   ├── PhotoGalleryController.php
+│   │   │   │   ├── ProfileItemController.php
 │   │   │   │   ├── SitemapController.php
+│   │   │   │   ├── UserProfileController.php
 │   │   │   │   ├── VideoCategoryController.php
 │   │   │   │   ├── VideoController.php
 │   │   │   │   └── VideoLibraryController.php
@@ -61,7 +63,8 @@
 │   │   │   ├── StatsController.php
 │   │   │   ├── TagController.php
 │   │   │   ├── User
-│   │   │   │   └── UserDashboardController.php
+│   │   │   │   ├── UserDashboardController.php
+│   │   │   │   └── UserProfileController.php
 │   │   │   ├── UserController.php
 │   │   │   └── Visitor
 │   │   │       └── VisitorDashboardController.php
@@ -81,6 +84,7 @@
 │   │       ├── StorePermissionRequest.php
 │   │       ├── StorePhotoGalleryRequest.php
 │   │       ├── StorePostRequest.php
+│   │       ├── StoreProfileItemRequest.php
 │   │       ├── StoreRoleRequest.php
 │   │       ├── StoreTagRequest.php
 │   │       ├── StoreUserRequest.php
@@ -94,6 +98,7 @@
 │   │       ├── UpdatePermissionRequest.php
 │   │       ├── UpdatePhotoGalleryRequest.php
 │   │       ├── UpdatePostRequest.php
+│   │       ├── UpdateProfileItemRequest.php
 │   │       ├── UpdateProfileRequest.php
 │   │       ├── UpdateRoleRequest.php
 │   │       ├── UpdateTagRequest.php
@@ -120,12 +125,14 @@
 │   │   ├── Permission.php
 │   │   ├── PhotoGallery.php
 │   │   ├── Post.php
+│   │   ├── ProfileItem.php
 │   │   ├── Role.php
 │   │   ├── Setting.php
 │   │   ├── SitemapUrl.php
 │   │   ├── Tag.php
 │   │   ├── Taggable.php
 │   │   ├── User.php
+│   │   ├── UserProfile.php
 │   │   ├── Video.php
 │   │   └── VideoCategory.php
 │   ├── Providers
@@ -203,7 +210,9 @@
 │   │   ├── 2026_02_09_182435_create_photo_galleries_table.php
 │   │   ├── 2026_02_09_182447_create_gallery_media_table.php
 │   │   ├── 2026_02_10_102733_create_banners_table.php
-│   │   └── 2026_02_10_102744_create_banner_slides_table.php
+│   │   ├── 2026_02_10_102744_create_banner_slides_table.php
+│   │   ├── 2026_03_06_154918_create_user_profiles_table.php
+│   │   └── 2026_03_06_155200_create_profile_items_table.php
 │   └── seeders
 │       ├── CategoriesTableSeeder.php
 │       ├── DatabaseSeeder.php
@@ -504,6 +513,14 @@
 │       │   │   ├── partials
 │       │   │   │   └── form.blade.php
 │       │   │   └── show.blade.php
+│       │   ├── user-profiles
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── items
+│       │   │   │   ├── create.blade.php
+│       │   │   │   └── edit.blade.php
+│       │   │   └── show.blade.php
 │       │   ├── users
 │       │   │   ├── create.blade.php
 │       │   │   ├── edit.blade.php
@@ -657,8 +674,10 @@
 │       │   └── stats_index.blade.php
 │       ├── user
 │       │   ├── dashboard.blade.php
-│       │   └── profile
-│       │       └── edit.blade.php
+│       │   ├── profile
+│       │   │   └── edit.blade.php
+│       │   └── user-profiles
+│       │       └── show.blade.php
 │       └── visitor
 │           └── dashboard.blade.php
 ├── routes
@@ -683,4 +702,4 @@
 ├── vite.config.js
 └── webpack.mix.js
 
-122 directories, 562 files
+125 directories, 578 files

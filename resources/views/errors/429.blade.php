@@ -1,22 +1,22 @@
 @extends('errors.layout.error')
 
-@section('title', '404 — Page introuvable')
+@section('title', '429 — Trop de requêtes')
 
 @section('content')
 
     <div class="error-icon">
-        <i class="fas fa-map-signs"></i>
+        <i class="fas fa-tachometer-alt"></i>
     </div>
 
-    <p class="error-code">404</p>
+    <p class="error-code">429</p>
 
     <div class="error-divider"></div>
 
-    <h1 class="error-title">Page introuvable</h1>
+    <h1 class="error-title">Trop de requêtes</h1>
 
     <p class="error-message">
-        La page que vous recherchez n'existe pas ou a été déplacée.<br>
-        Vérifiez l'adresse saisie ou revenez à l'accueil.
+        Vous avez effectué trop de tentatives en peu de temps.<br>
+        Veuillez patienter quelques instants avant de réessayer.
     </p>
 
     <div>

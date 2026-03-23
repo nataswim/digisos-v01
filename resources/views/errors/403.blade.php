@@ -1,22 +1,22 @@
 @extends('errors.layout.error')
 
-@section('title', '404 — Page introuvable')
+@section('title', '403 — Accès interdit')
 
 @section('content')
 
     <div class="error-icon">
-        <i class="fas fa-map-signs"></i>
+        <i class="fas fa-lock"></i>
     </div>
 
-    <p class="error-code">404</p>
+    <p class="error-code">403</p>
 
     <div class="error-divider"></div>
 
-    <h1 class="error-title">Page introuvable</h1>
+    <h1 class="error-title">Accès interdit</h1>
 
     <p class="error-message">
-        La page que vous recherchez n'existe pas ou a été déplacée.<br>
-        Vérifiez l'adresse saisie ou revenez à l'accueil.
+        Vous n'avez pas les droits nécessaires pour accéder à cette page.<br>
+        Si vous pensez qu'il s'agit d'une erreur, contactez un administrateur.
     </p>
 
     <div>

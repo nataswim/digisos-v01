@@ -246,6 +246,14 @@
                             </a>
                         </li>
                         <li>
+  <a class="dropdown-item" href="{{ route('admin.user-profiles.index') }}">
+                                <i class="fas fa-id-card me-2"></i>Fiches utilisateurs
+                            </a>
+
+
+
+</li>
+                        <li>
                             <a class="dropdown-item {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}" href="{{ route('admin.roles.index') }}">
                                 <i class="fas fa-user-tag fa-fw me-2"></i>Rôles
                             </a>

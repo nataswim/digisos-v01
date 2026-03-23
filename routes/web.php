@@ -37,6 +37,8 @@ use App\Http\Controllers\Admin\VideoCategoryController;
 use App\Http\Controllers\Admin\VideoLibraryController;
 use App\Http\Controllers\Admin\PhotoGalleryController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\UserProfileController;
+use App\Http\Controllers\Admin\ProfileItemController;
 
 // ========== CONTROLLERS ÉDITEUR ==========
 use App\Http\Controllers\Editor\EditorDashboardController;
@@ -51,6 +53,7 @@ use App\Http\Controllers\Editor\EditorPhotoGalleryController;
 // ========== CONTROLLERS DASHBOARDS RÔLES ==========
 use App\Http\Controllers\User\UserDashboardController;
 use App\Http\Controllers\Visitor\VisitorDashboardController;
+use App\Http\Controllers\User\UserProfileController as UserUserProfileController;
 
 // =============================================================================
 // ROUTES PUBLIQUES
@@ -149,6 +152,16 @@ Route::middleware(['auth', 'verified'])->prefix('visitor')->name('visitor.')->gr
 
 Route::middleware(['auth', 'verified'])->prefix('user')->name('user.')->group(function () {
     Route::get('/dashboard', UserDashboardController::class)->name('dashboard');
+        // ========== FICHE PROFIL ENRICHI (lecture seule) ==========
+    Route::get('/ma-fiche', [UserUserProfileController::class, 'show'])
+         ->name('user-profile.show');
+             // Profil utilisateur (édition des infos de base)
+    Route::get('/profile/edit', [ProfileController::class, 'editUser'])->name('profile.edit');
+    Route::patch('/profile',    [ProfileController::class, 'updateUserProfile'])->name('profile.update');
+
+    // Fiche de profil enrichi (lecture seule)
+    Route::get('/ma-fiche', [\App\Http\Controllers\User\UserProfileController::class, 'show'])
+         ->name('user-profile.show');
 });
 
 // =============================================================================
@@ -212,6 +225,22 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
+        // ========== FICHES UTILISATEURS ==========
+    Route::resource('user-profiles', UserProfileController::class)
+         ->parameters(['user-profiles' => 'user'])
+         ->except(['index']);
+
+    Route::get('user-profiles', [UserProfileController::class, 'index'])
+         ->name('user-profiles.index');
+
+    // Items de contenu (blocs titre + description) — gestion admin
+    Route::prefix('user-profiles/{user}/items')->name('user-profiles.items.')->group(function () {
+        Route::get('/create',        [ProfileItemController::class, 'create'])->name('create');
+        Route::post('/',             [ProfileItemController::class, 'store'])->name('store');
+        Route::get('/{item}/edit',   [ProfileItemController::class, 'edit'])->name('edit');
+        Route::put('/{item}',        [ProfileItemController::class, 'update'])->name('update');
+        Route::delete('/{item}',     [ProfileItemController::class, 'destroy'])->name('destroy');
+    });
 
     // ========== MÉDIATHÈQUE ==========
     Route::get('media-api',            [MediaController::class, 'api'])->name('media.api');

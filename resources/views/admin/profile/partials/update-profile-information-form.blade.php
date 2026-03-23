@@ -1,11 +1,8 @@
 <section class="card shadow-aqua border-0 overflow-hidden">
     <div class="card-header bg-gradient text-white py-4" style="background: linear-gradient(135deg, #38859b 0%, #49aaca 100%);">
         <div class="d-flex align-items-center gap-3">
-            <div class="bg-white bg-opacity-20 rounded-circle p-3">
-                <i class="fas fa-user-circle fa-lg"></i>
-            </div>
             <div>
-                <h2 class="h5 mb-1 fw-bold">
+                <h2 class="h5 mb-1 fw-bold text-white">
                     {{ __('Informations du profil') }}
                 </h2>
                 <p class="mb-0 small opacity-90">

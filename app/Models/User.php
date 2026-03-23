@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;      // <-- AJOUT
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -24,111 +27,131 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-        'date_of_birth' => 'date',
-        'last_login_at' => 'datetime',
-        'preferences' => 'array',
+        'password'          => 'hashed',
+        'date_of_birth'     => 'date',
+        'last_login_at'     => 'datetime',
+        'preferences'       => 'array',
     ];
 
-    // Definir des valeurs par defaut
     protected $attributes = [
-        'status' => 'active',
-        'locale' => 'fr',
-        'timezone' => 'Europe/Paris',
+        'status'      => 'active',
+        'locale'      => 'fr',
+        'timezone'    => 'Europe/Paris',
         'login_count' => 0,
     ];
 
-    public function role()
+    // -------------------------------------------------------------------------
+    // Relations existantes — inchangées
+    // -------------------------------------------------------------------------
+
+    public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
     }
 
-    public function posts()
+    public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'created_by');
     }
 
-    public function categories()
+    public function categories(): HasMany
     {
         return $this->hasMany(Category::class, 'created_by');
     }
 
-    public function tags()
+    public function tags(): HasMany
     {
         return $this->hasMany(Tag::class, 'created_by');
     }
 
-    public function hasRole($roleSlug): bool
-{
-    // Verification de securite
-    if (!$this->role) {
-        return false;
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
     }
-    
-    return $this->role->slug === $roleSlug;
-}
 
-    public function payments()
-{
-    return $this->hasMany(Payment::class);
-}
-// Ajoutez ces relations à votre modèle User existant
+    public function plans()
+    {
+        return $this->belongsToMany(Plan::class, 'user_plans')
+                    ->withPivot('date_debut', 'date_fin_prevue', 'statut', 'progression_pourcentage', 'notes_utilisateur', 'preferences', 'assigned_by')
+                    ->withTimestamps()
+                    ->using(UserPlan::class);
+    }
 
-public function plans()
-{
-    return $this->belongsToMany(Plan::class, 'user_plans')
-                ->withPivot('date_debut', 'date_fin_prevue', 'statut', 'progression_pourcentage', 'notes_utilisateur', 'preferences', 'assigned_by')
-                ->withTimestamps()
-                ->using(UserPlan::class);
-}
+    public function plansAssignes(): HasMany
+    {
+        return $this->hasMany(UserPlan::class, 'assigned_by');
+    }
 
-public function plansAssignes()
-{
-    return $this->hasMany(UserPlan::class, 'assigned_by');
-}
+    public function exercicesCreated(): HasMany
+    {
+        return $this->hasMany(Exercice::class, 'created_by');
+    }
 
-public function exercicesCreated()
-{
-    return $this->hasMany(Exercice::class, 'created_by');
-}
+    public function seriesCreated(): HasMany
+    {
+        return $this->hasMany(Serie::class, 'created_by');
+    }
 
-public function seriesCreated()
-{
-    return $this->hasMany(Serie::class, 'created_by');
-}
+    public function seancesCreated(): HasMany
+    {
+        return $this->hasMany(Seance::class, 'created_by');
+    }
 
-public function seancesCreated()
-{
-    return $this->hasMany(Seance::class, 'created_by');
-}
+    public function cyclesCreated(): HasMany
+    {
+        return $this->hasMany(Cycle::class, 'created_by');
+    }
 
-public function cyclesCreated()
-{
-    return $this->hasMany(Cycle::class, 'created_by');
-}
+    public function plansCreated(): HasMany
+    {
+        return $this->hasMany(Plan::class, 'created_by');
+    }
 
-public function plansCreated()
-{
-    return $this->hasMany(Plan::class, 'created_by');
-}
+    public function notebooks(): HasMany
+    {
+        return $this->hasMany(Notebook::class);
+    }
 
-// Méthodes utiles pour l'entraînement
-public function hasActivePlan(): bool
-{
-    return $this->plans()->wherePivot('statut', 'en_cours')->exists();
-}
+    // -------------------------------------------------------------------------
+    // AJOUT — Relation fiche utilisateur enrichie (One-to-One)
+    // -------------------------------------------------------------------------
 
-public function getCurrentPlan()
-{
-    return $this->plans()->wherePivot('statut', 'en_cours')->first();
-}
+    /**
+     * Fiche de profil enrichi de l'utilisateur.
+     * Créée automatiquement par l'admin depuis UserProfileController.
+     */
+    public function userProfile(): HasOne
+    {
+        return $this->hasOne(UserProfile::class);
+    }
 
-public function canAccessTraining(): bool
-{
-    return $this->hasRole('user') || $this->hasRole('editor') || $this->hasRole('admin');
-}
-public function notebooks()
-{
-    return $this->hasMany(Notebook::class);
-}
+    // -------------------------------------------------------------------------
+    // Méthodes métier existantes — inchangées
+    // -------------------------------------------------------------------------
+
+    public function hasRole(string $roleSlug): bool
+    {
+        if (! $this->role) {
+            return false;
+        }
+
+        return $this->role->slug === $roleSlug;
+    }
+
+    public function hasActivePlan(): bool
+    {
+        return $this->plans()->wherePivot('statut', 'en_cours')->exists();
+    }
+
+    public function getCurrentPlan()
+    {
+        return $this->plans()->wherePivot('statut', 'en_cours')->first();
+    }
+
+    public function canAccessTraining(): bool
+    {
+        return $this->hasRole('user')
+            || $this->hasRole('editor')
+            || $this->hasRole('admin');
+    }
 }

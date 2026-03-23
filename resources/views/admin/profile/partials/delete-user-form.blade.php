@@ -1,11 +1,8 @@
 <section class="card shadow-aqua border-0 overflow-hidden">
     <div class="card-header bg-danger text-white py-4">
         <div class="d-flex align-items-center gap-3">
-            <div class="bg-white bg-opacity-20 rounded-circle p-3">
-                <i class="fas fa-exclamation-triangle fa-lg"></i>
-            </div>
             <div>
-                <h2 class="h5 mb-1 fw-bold">
+                <h2 class="h5 mb-1 fw-bold text-white">
                     {{ __('Supprimer le compte') }}
                 </h2>
                 <p class="mb-0 small opacity-90">

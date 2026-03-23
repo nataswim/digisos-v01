@@ -4,127 +4,103 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Role;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\View\View;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use Illuminate\Support\Facades\Auth;
 
-/**
- * 🇬🇧 User Management Controller
- * 🇫🇷 Contrôleur de gestion des utilisateurs
- * 
- * @package App\Http\Controllers
- */
 class UserController extends Controller
 {
-    /**
-     * 🇬🇧 Check if current user has admin role
-     * 🇫🇷 Vérifier si l'utilisateur actuel a le rôle admin
-     * 
-     * @return void
-     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
-     */
+    // -------------------------------------------------------------------------
+    // Contrôle d'accès
+    // -------------------------------------------------------------------------
+
     private function checkAdminAccess(): void
     {
         $user = Auth::user();
-        
-        // 🇬🇧 Check if user is authenticated / 🇫🇷 Vérifier si l'utilisateur est authentifié
-        if (!$user) {
-            abort(403, 'Authentification requise');
+
+        if (! $user) {
+            abort(403, 'Authentification requise.');
         }
-        
-        // 🇬🇧 Check if user has admin role / 🇫🇷 Vérifier si l'utilisateur a le rôle admin
-        if (!$user->role || $user->role->slug !== 'admin') {
-            abort(403, 'Accès non autorisé - Rôle administrateur requis');
+
+        if (! $user->role || $user->role->slug !== 'admin') {
+            abort(403, 'Accès non autorisé — Rôle administrateur requis.');
         }
     }
 
-    /**
-     * 🇬🇧 Display users list
-     * 🇫🇷 Afficher la liste des utilisateurs
-     * 
-     * @param Request $request
-     * @return \Illuminate\View\View
-     */
-    public function index(Request $request)
+    // -------------------------------------------------------------------------
+    // CRUD
+    // -------------------------------------------------------------------------
+
+    public function index(Request $request): View
     {
         $this->checkAdminAccess();
 
         $search = $request->input('search');
-        $query = User::with('role');
+        $query  = User::with('role');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%");
+                  ->orWhere('email', 'like', "%{$search}%");
             });
         }
 
         $users = $query->orderBy('created_at', 'desc')->paginate(10);
-        $roles = Role::orderBy('level', 'asc')->get(); // 🇬🇧 For role dropdown / 🇫🇷 Pour le menu déroulant des rôles
+        $roles = Role::orderBy('level', 'asc')->get();
 
         return view('admin.users.index', compact('users', 'search', 'roles'));
     }
 
-    /**
-     * 🇬🇧 Show create user form
-     * 🇫🇷 Afficher le formulaire de création d'utilisateur
-     * 
-     * @return \Illuminate\View\View
-     */
-    public function create()
+    public function create(): View
     {
         $this->checkAdminAccess();
 
         $roles = Role::orderBy('level', 'asc')->get();
+
         return view('admin.users.create', compact('roles'));
     }
 
-    /**
-     * 🇬🇧 Store new user
-     * 🇫🇷 Enregistrer un nouvel utilisateur
-     * 
-     * @param StoreUserRequest $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(StoreUserRequest $request)
+    public function store(StoreUserRequest $request): RedirectResponse
     {
         $this->checkAdminAccess();
 
-        $data = $request->validated();
+        $data             = $request->validated();
         $data['password'] = Hash::make($data['password']);
 
-        // 🇬🇧 Set default values / 🇫🇷 Définir des valeurs par défaut
+        // Valeurs par défaut
         $data = array_merge([
-            'locale' => 'fr',
+            'locale'   => 'fr',
             'timezone' => 'Europe/Paris',
-            'status' => 'active',
+            'status'   => 'active',
         ], $data);
 
-        // 🇬🇧 Clean empty values / 🇫🇷 Nettoyer les valeurs vides
-        if (empty($data['locale'])) {
-            $data['locale'] = 'fr';
+        foreach (['locale', 'timezone', 'status'] as $field) {
+            if (empty($data[$field])) {
+                $data[$field] = match ($field) {
+                    'locale'   => 'fr',
+                    'timezone' => 'Europe/Paris',
+                    default    => 'active',
+                };
+            }
         }
 
-        if (empty($data['timezone'])) {
-            $data['timezone'] = 'Europe/Paris';
-        }
-
-        if (empty($data['status'])) {
-            $data['status'] = 'active';
-        }
-
-        // 🇬🇧 Assign default role if not specified / 🇫🇷 Assigner le rôle par défaut si non spécifié
+        // Rôle par défaut si absent
         if (empty($data['role_id'])) {
-            $defaultRole = Role::where('is_default', true)->first();
-            $data['role_id'] = $defaultRole?->id;
+            $data['role_id'] = Role::where('is_default', true)->first()?->id;
         }
 
-        // 🇬🇧 Clean optional empty fields / 🇫🇷 Nettoyer les champs optionnels vides
-        $optionalFields = ['username', 'first_name', 'last_name', 'avatar', 'bio', 'phone', 'date_of_birth'];
-        foreach ($optionalFields as $field) {
-            if (isset($data[$field]) && empty($data[$field])) {
+        // Avatar : chaîne vide → null
+        if (isset($data['avatar']) && $data['avatar'] === '') {
+            $data['avatar'] = null;
+        }
+
+        // Nettoyer les champs optionnels vides
+        foreach (['username', 'first_name', 'last_name', 'bio', 'phone', 'date_of_birth'] as $field) {
+            if (isset($data[$field]) && $data[$field] === '') {
                 $data[$field] = null;
             }
         }
@@ -135,74 +111,61 @@ class UserController extends Controller
             ->with('success', 'Utilisateur créé avec succès.');
     }
 
-    /**
-     * 🇬🇧 Show user details
-     * 🇫🇷 Afficher les détails d'un utilisateur
-     * 
-     * @param User $user
-     * @return \Illuminate\View\View
-     */
-    public function show(User $user)
+    public function show(User $user): View
     {
         $this->checkAdminAccess();
 
         $user->load('role');
+
         return view('admin.users.show', compact('user'));
     }
 
-    /**
-     * 🇬🇧 Show edit user form
-     * 🇫🇷 Afficher le formulaire d'édition d'utilisateur
-     * 
-     * @param User $user
-     * @return \Illuminate\View\View
-     */
-    public function edit(User $user)
+    public function edit(User $user): View
     {
         $this->checkAdminAccess();
 
         $roles = Role::orderBy('level', 'asc')->get();
+
         return view('admin.users.edit', compact('user', 'roles'));
     }
 
-    /**
-     * 🇬🇧 Update user
-     * 🇫🇷 Mettre à jour un utilisateur
-     * 
-     * @param UpdateUserRequest $request
-     * @param User $user
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
         $this->checkAdminAccess();
 
         $data = $request->validated();
 
-        // 🇬🇧 Password handling / 🇫🇷 Gestion du mot de passe
-        if (!empty($data['password'])) {
+        // Gestion du mot de passe
+        if (! empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         } else {
             unset($data['password']);
         }
 
-        // 🇬🇧 Set default values / 🇫🇷 Définir des valeurs par défaut
-        if (empty($data['locale'])) {
-            $data['locale'] = 'fr';
+        // Valeurs par défaut
+        foreach (['locale', 'timezone', 'status'] as $field) {
+            if (empty($data[$field])) {
+                $data[$field] = match ($field) {
+                    'locale'   => 'fr',
+                    'timezone' => 'Europe/Paris',
+                    default    => 'active',
+                };
+            }
         }
 
-        if (empty($data['timezone'])) {
-            $data['timezone'] = 'Europe/Paris';
+        // Avatar : chaîne vide → null (suppression)
+        if (isset($data['avatar']) && $data['avatar'] === '') {
+            $data['avatar'] = null;
         }
 
-        if (empty($data['status'])) {
-            $data['status'] = 'active';
+        // Si le champ avatar n'est pas envoyé du tout → conserver l'existant
+        if (! array_key_exists('avatar', $data)) {
+            unset($data['avatar']);
         }
 
-        // 🇬🇧 Clean optional empty fields / 🇫🇷 Nettoyer les champs optionnels vides
-        $optionalFields = ['username', 'first_name', 'last_name', 'avatar', 'bio', 'phone', 'date_of_birth'];
-        foreach ($optionalFields as $field) {
-            if (isset($data[$field]) && empty($data[$field])) {
+        // Nettoyer les champs optionnels vides
+        foreach (['username', 'first_name', 'last_name', 'bio', 'phone', 'date_of_birth'] as $field) {
+            if (isset($data[$field]) && $data[$field] === '') {
                 $data[$field] = null;
             }
         }
@@ -213,18 +176,10 @@ class UserController extends Controller
             ->with('success', 'Utilisateur mis à jour avec succès.');
     }
 
-    /**
-     * 🇬🇧 Delete user
-     * 🇫🇷 Supprimer un utilisateur
-     * 
-     * @param User $user
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function destroy(User $user)
+    public function destroy(User $user): RedirectResponse
     {
         $this->checkAdminAccess();
 
-        // 🇬🇧 Prevent admin from deleting themselves / 🇫🇷 Empêcher l'admin de se supprimer
         if ($user->id === Auth::id()) {
             return redirect()->route('admin.users.index')
                 ->with('error', 'Vous ne pouvez pas supprimer votre propre compte.');
@@ -236,29 +191,19 @@ class UserController extends Controller
             ->with('success', 'Utilisateur supprimé avec succès.');
     }
 
-    /**
-     * 🇬🇧 Update user role (AJAX or form)
-     * 🇫🇷 Mettre à jour le rôle d'un utilisateur (AJAX ou formulaire)
-     * 
-     * @param Request $request
-     * @param User $user
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
-     */
-    public function updateRole(Request $request, User $user)
+    public function updateRole(Request $request, User $user): mixed
     {
         $this->checkAdminAccess();
 
-        // 🇬🇧 Validation / 🇫🇷 Validation
         $validated = $request->validate([
-            'role_id' => 'nullable|exists:roles,id'
+            'role_id' => ['nullable', 'exists:roles,id'],
         ]);
 
-        // 🇬🇧 Prevent admin from changing their own role / 🇫🇷 Empêcher l'admin de changer son propre rôle
         if ($user->id === Auth::id()) {
             if ($request->wantsJson() || $request->ajax()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Vous ne pouvez pas modifier votre propre rôle.'
+                    'message' => 'Vous ne pouvez pas modifier votre propre rôle.',
                 ], 403);
             }
 
@@ -267,42 +212,35 @@ class UserController extends Controller
         }
 
         try {
-            // 🇬🇧 Update role / 🇫🇷 Mise à jour du rôle
-            $user->update([
-                'role_id' => $validated['role_id']
-            ]);
-
-            // 🇬🇧 Reload role relationship / 🇫🇷 Recharger la relation role
+            $user->update(['role_id' => $validated['role_id']]);
             $user->load('role');
 
-            // 🇬🇧 AJAX response / 🇫🇷 Réponse AJAX
             if ($request->wantsJson() || $request->ajax()) {
                 return response()->json([
                     'success' => true,
                     'message' => 'Rôle mis à jour avec succès.',
-                    'role' => $user->role ? [
-                        'id' => $user->role->id,
+                    'role'    => $user->role ? [
+                        'id'           => $user->role->id,
                         'display_name' => $user->role->display_name,
-                        'slug' => $user->role->slug,
-                        'level' => $user->role->level
-                    ] : null
+                        'slug'         => $user->role->slug,
+                        'level'        => $user->role->level,
+                    ] : null,
                 ]);
             }
 
-            // 🇬🇧 Classic redirect / 🇫🇷 Redirection classique
             $roleName = $user->role?->display_name ?? 'Aucun rôle';
+
             return redirect()->route('admin.users.index')
-                ->with('success', "Le rôle de {$user->name} a été mis à jour : {$roleName}");
-                
+                ->with('success', "Le rôle de {$user->name} a été mis à jour : {$roleName}.");
+
         } catch (\Exception $e) {
-            // 🇬🇧 Error handling / 🇫🇷 Gestion des erreurs
-            \Log::error('Erreur updateRole: ' . $e->getMessage());
-            
+            \Log::error('Erreur updateRole : ' . $e->getMessage());
+
             if ($request->wantsJson() || $request->ajax()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Une erreur est survenue lors de la mise à jour.',
-                    'error' => config('app.debug') ? $e->getMessage() : null
+                    'message' => 'Une erreur est survenue.',
+                    'error'   => config('app.debug') ? $e->getMessage() : null,
                 ], 500);
             }
 
@@ -311,35 +249,24 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * 🇬🇧 Bulk actions on users
-     * 🇫🇷 Actions groupées sur les utilisateurs
-     * 
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function bulkAction(Request $request)
+    public function bulkAction(Request $request): RedirectResponse
     {
         $this->checkAdminAccess();
 
         $validated = $request->validate([
-            'action' => 'required|in:delete,activate,deactivate',
-            'user_ids' => 'required|array',
-            'user_ids.*' => 'exists:users,id'
+            'action'     => ['required', 'in:delete,activate,deactivate'],
+            'user_ids'   => ['required', 'array'],
+            'user_ids.*' => ['exists:users,id'],
         ]);
 
-        $userIds = $validated['user_ids'];
-        $action = $validated['action'];
-
-        // 🇬🇧 Prevent admin from affecting themselves / 🇫🇷 Empêcher l'admin de s'affecter lui-même
-        $userIds = array_filter($userIds, fn($id) => $id != Auth::id());
+        $userIds = array_filter($validated['user_ids'], fn ($id) => $id != Auth::id());
 
         if (empty($userIds)) {
             return redirect()->route('admin.users.index')
                 ->with('warning', 'Aucun utilisateur sélectionné ou vous ne pouvez pas vous affecter vous-même.');
         }
 
-        switch ($action) {
+        switch ($validated['action']) {
             case 'delete':
                 User::whereIn('id', $userIds)->delete();
                 $message = count($userIds) . ' utilisateur(s) supprimé(s) avec succès.';

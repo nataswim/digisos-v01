@@ -32,11 +32,16 @@ class AuthenticatedSessionController extends Controller
             return redirect()->intended(route('editor.dashboard'));
         }
 
+        if ($user->hasRole('user')) {
+            return redirect()->intended(route('user.dashboard'));
+        }
+
         if ($user->hasRole('visitor')) {
             return redirect()->intended(route('visitor.dashboard'));
         }
 
-        return redirect()->intended(route('dashboard'));
+        // Fallback sécurisé : aucun rôle reconnu → page d'accueil
+        return redirect()->intended(route('home'));
     }
 
     public function destroy(Request $request): RedirectResponse
