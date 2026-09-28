@@ -242,10 +242,10 @@ position: absolute;
     height: 100%;
     object-fit: cover;
     z-index: 1;
-    border-top: 20px solid #4097b5;
-    border-bottom: 20px solid #4097b5;
-    border-left: 20px solid #f9f5f4;
-    border-right: 20px solid #f9f5f4;
+    border-top: 20px solid #ffffff;
+    border-bottom: 20px solid #ffffff;
+    border-left: 20px solid #2f80b8;
+    border-right: 20px solid #2f80b8;
 }
 
 .hero-image-bg {
@@ -361,17 +361,17 @@ position: absolute;
 
 .article-content h1 {
     font-size: 1.7rem;
-    color: #1db8c5;
+    color: #2f80b8;
 }
 
 .article-content h2 {
     font-size: 1.5rem;
-    color: #49aaca;
+    color: #2f80b8;
 }
 
 .article-content h3 {
     font-size: 1.3rem;
-    color: #4fa79c;
+    color: #2f80b8;
 }
 
 .article-content p {
@@ -399,7 +399,7 @@ position: absolute;
 }
 
 .article-content blockquote {
-    border-left: 4px solid #1db8c5;
+    border-left: 4px solid #2f80b8;
     padding: 1.5rem;
     margin: 2rem 0;
     font-style: italic;
@@ -433,7 +433,7 @@ position: absolute;
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
     font-size: 0.875em;
-    color: #1db8c5;
+    color: #2f80b8;
     font-family: 'Courier New', monospace;
 }
 
@@ -531,7 +531,7 @@ position: absolute;
 }
 
 .hover-primary:hover {
-    color: #1db8c5 !important;
+    color: #2f80b8 !important;
 }
 
 @media (max-width: 768px) {

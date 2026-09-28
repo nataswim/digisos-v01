@@ -121,7 +121,7 @@
                                     <a href="{{ route('posts.public.category', $category) }}" 
                                        class="btn btn-outline-primary w-100 btn-category">
                                         <i class="fas fa-arrow-right me-2"></i>
-                                        <span class="d-none d-lg-inline">Voir ce dossier</span>
+                                        <span class=" d-lg-inline">Voir ce dossier</span>
                                         <span class="d-inline d-lg-none">Voir tous les articles</span>
                                     </a>
                                 </div>
@@ -146,7 +146,7 @@
     <div class="container-lg text-center">
         <h2 class="h4 mb-4">Vous cherchez un sujet en particulier ?</h2>
         <p class="mb-4 text-muted">Que vous soyez un athlète cherchant à optimiser votre préparation physique ou un passionné souhaitant simplement progresser, l'entraînement est la clé de la réussite dans le sport. Notre plateforme se spécialise dans les programmes structurés pour atteindre vos objectifs. Découvrez nos stratégies spécifiques pour le Triathlon, où l'enchaînement de la natation, du vélo et de la course requiert une endurance et une musculation ciblées. Explorez nos dossiers détaillés sur les meilleures techniques de nage, les séances de renforcement musculaire pour prévenir les blessures, et les plans de préparation physique générale pour garantir des performances durables. Maîtrisez chaque discipline et transformez votre potentiel athlétique.</p>
-        <a href="{{ route('posts.public.index') }}" class="btn btn-primary btn-lg">
+        <a href="{{ route('posts.public.index') }}" class="btn btn-primary btn-lg text-white">
             <i class="fas fa-search me-2"></i>Parcourir 
         </a>
     </div>

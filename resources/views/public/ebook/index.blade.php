@@ -35,7 +35,7 @@
     <div class="container">
         <div class="row mb-5">
             <div class="col-lg-8 mx-auto text-center">
-                <h2 class="title-aqua-secondary">A la une</h2>
+                <h2 class="title-aqua-secondary py-4" style="background-image: linear-gradient(129deg, #f9be38 85%, #2f80b8 0);background-attachment: fixed;color: #0d4fac;box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);border-radius: 15px 0px 15px 0px;color: #1c2111;">A la une</h2>
             </div>
         </div>
 
@@ -117,7 +117,7 @@
     <div class="container">
         <div class="row mb-5">
             <div class="col-lg-8 mx-auto text-center">
-                <h2 class="title-aqua-secondary">Explorez nos categories</h2>
+                <h2 class="title-aqua-secondary py-4" style="background-image: linear-gradient(129deg, #f9be38 85%, #2f80b8 0);background-attachment: fixed;color: #0d4fac;box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);border-radius: 15px 0px 15px 0px;color: #1c2111;">Explorez nos categories</h2>
             </div>
         </div>
 
@@ -165,7 +165,7 @@
     <div class="container">
         <div class="row mb-5">
             <div class="col-lg-8 mx-auto text-center">
-                <h2 class="title-aqua-secondary">Dernieres ressources</h2>
+                <h2 class="title-aqua-secondary py-4" style="background-image: linear-gradient(129deg, #f9be38 85%, #2f80b8 0);background-attachment: fixed;color: #0d4fac;box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);border-radius: 15px 0px 15px 0px;color: #1c2111;">Dernieres ressources</h2>
             </div>
         </div>
 
@@ -212,7 +212,7 @@
         </div>
         
         <div class="text-center mt-5">
-            <a href="{{ route('ebook.search') }}" class="btn btn-primary btn-lg hover-lift">
+            <a href="{{ route('ebook.search') }}" class="btn btn-primary btn-lg text-white hover-lift">
                 <i class="fas fa-search me-2"></i>Voir toutes les ressources
             </a>
         </div>
@@ -226,17 +226,17 @@
 <style>
 
 .hero-video {
-    position: absolute;
+position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     z-index: 1;
-    border-top: 20px solid #4097b5;
-    border-bottom: 20px solid #4097b5;
-    border-left: 20px solid #f9f5f4;
-    border-right: 20px solid #f9f5f4;
+    border-top: 20px solid #f8f5f4;
+    border-bottom: 20px solid #f9f5f4;
+    border-left: 20px solid #2f80b8;
+    border-right: 20px solid #2f80b8;
 }
 
 .hero-overlay {
@@ -361,7 +361,7 @@
 }
 
 .hover-primary:hover {
-    color: #1db8c5 !important;
+    color: #2f80b8 !important;
 }
 
 /* ============================================================================

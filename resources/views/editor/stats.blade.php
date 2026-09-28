@@ -7,7 +7,7 @@
 <!-- Titre Section -->
 <section class="position-relative text-white overflow-hidden">
 <div class="card bg-secondary  p-3 border-0 shadow-sm mb-4">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                 <h5 class="mb-0 text-white "> <i class="fas fa-chart-bar text-white me-2"></i>
                  Statistiques</h5>
             </div>
@@ -15,7 +15,7 @@
 </section>
 
 <div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
 
         <div class="btn-group">
             <a href="{{ route('editor.stats', ['period' => 7]) }}" 
@@ -143,19 +143,19 @@
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                             <span class="text-muted">Articles créés</span>
                             <strong class="text-primary">{{ $recentStats['my_posts_created'] }}</strong>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                             <span class="text-muted">Fiches créées</span>
                             <strong class="text-success">{{ $recentStats['my_fiches_created'] }}</strong>
                         </div>
                     </div>
                     <div>
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                             <span class="text-muted">Vidéos créées</span>
                             <strong class="text-danger">{{ $recentStats['my_videos_created'] }}</strong>
                         </div>
@@ -175,7 +175,7 @@
                             <span class="text-muted">Articles publiés</span>
                             <strong class="text-success">{{ $statusBreakdown['posts']['published'] }}</strong>
                         </div>
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                             <span class="text-muted small">Brouillons</span>
                             <span class="text-warning">{{ $statusBreakdown['posts']['draft'] }}</span>
                         </div>
@@ -185,7 +185,7 @@
                             <span class="text-muted">Fiches publiées</span>
                             <strong class="text-success">{{ $statusBreakdown['fiches']['published'] }}</strong>
                         </div>
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                             <span class="text-muted small">Brouillons</span>
                             <span class="text-warning">{{ $statusBreakdown['fiches']['draft'] }}</span>
                         </div>
@@ -195,7 +195,7 @@
                             <span class="text-muted">Vidéos publiées</span>
                             <strong class="text-success">{{ $statusBreakdown['videos']['published'] }}</strong>
                         </div>
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                             <span class="text-muted small">Brouillons</span>
                             <span class="text-warning">{{ $statusBreakdown['videos']['draft'] }}</span>
                         </div>
@@ -215,7 +215,7 @@
                     <div class="list-group list-group-flush">
                         @forelse($myTopPosts as $post)
                             <div class="list-group-item">
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                                     <div class="flex-grow-1">
                                         <h6 class="mb-0 text-truncate">{{ $post->name }}</h6>
                                         <small class="text-muted">
@@ -246,7 +246,7 @@
                     <div class="list-group list-group-flush">
                         @forelse($myTopFiches as $fiche)
                             <div class="list-group-item">
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                                     <div class="flex-grow-1">
                                         <h6 class="mb-0 text-truncate">{{ $fiche->title }}</h6>
                                         <small class="text-muted">
@@ -277,7 +277,7 @@
                     <div class="list-group list-group-flush">
                         @forelse($myTopVideos as $video)
                             <div class="list-group-item">
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                                     <div class="flex-grow-1">
                                         <h6 class="mb-0 text-truncate">{{ $video->title }}</h6>
                                         <small class="text-muted">

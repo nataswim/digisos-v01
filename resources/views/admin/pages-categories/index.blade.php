@@ -60,7 +60,7 @@
     <!-- Liste des catégories -->
     <div class="card border-0 shadow-sm">
         <div class="card-header bg-white border-bottom p-3">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                 <h5 class="mb-0">Liste des catégories ({{ $categories->total() }})</h5>
                 <a href="{{ route('admin.pages-categories.create') }}" class="btn btn-primary">
                     <i class="fas fa-plus me-2"></i>Nouvelle catégorie

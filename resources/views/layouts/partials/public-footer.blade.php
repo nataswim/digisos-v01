@@ -4,7 +4,7 @@ $chiffre2 = mt_rand(79, 123);
 @endphp
 
 
-<footer class="guest-footer mt-5" style="border-top: 20px solid #4baccb;border-left: 20px solid #5fcac6;border-right: 20px solid #5fcac6;border-bottom: 20px solid #e9f7fa;background-image: linear-gradient(129deg, #e9f7fa 85%, #5fcac6 0);background-attachment: fixed;background-position: top;">
+<footer class="guest-footer mt-5" style="border-top: 40px solid #1c2111;border-left: 20px solid #f0a932;border-right: 20px solid #f0a932;border-bottom: 60px solid #1c2111;background-image: linear-gradient(129deg, #f6f6f6 85%, #1c2111 0);background-attachment: fixed;background-position: top;">
 
     <!-- Contenu principal du footer -->
     <div class="py-5">
@@ -34,7 +34,7 @@ $chiffre2 = mt_rand(79, 123);
 
                 <!-- Navigation -->
                 <div class="col-lg-3 col-md-6">
-                    <h6 class="fw-semibold mb-3" style="border-bottom: 2px solid #4badcc;background-image: linear-gradient(141deg, #ffffff 85%, #4baccb 0);padding: 10px 5px;color: #4baccb;">Navigation</h6>
+                    <h6 class="fw-semibold mb-3" style="border-bottom: 2px solid #2f80b8;background-image: linear-gradient(141deg, #ffffff 85%, #2f80b8 0);padding: 10px 5px;color: #2e7072;">Navigation</h6>
                     <ul class="list-unstyled">
                         <li class="mb-2">
                             <a href="{{ route('home') }}" class="text-decoration-none text-dark">
@@ -72,7 +72,7 @@ $chiffre2 = mt_rand(79, 123);
 
                 <!-- Ressources -->
                 <div class="col-lg-3 col-md-6">
-                    <h6 class="fw-semibold mb-3" style="border-bottom: 2px solid #4badcc;background-image: linear-gradient(141deg, #ffffff 85%, #4baccb 0);padding: 10px 5px;color: #4baccb;">Ressources</h6>
+                    <h6 class="fw-semibold mb-3" style="border-bottom: 2px solid #2f80b8;background-image: linear-gradient(141deg, #ffffff 85%, #2f80b8 0);padding: 10px 5px;color: #2e7072;">Ressources</h6>
                     <ul class="list-unstyled">
                         <li class="mb-2">
                             <a href="{{ route('posts.public.index') }}" class="text-decoration-none text-dark">
@@ -99,7 +99,7 @@ $chiffre2 = mt_rand(79, 123);
 
                 <!-- Informations légales -->
                 <div class="col-lg-3 col-md-6">
-                    <h6 class="fw-semibold mb-3" style="border-bottom: 2px solid #4badcc;background-image: linear-gradient(141deg, #ffffff 85%, #4baccb 0);padding: 10px 5px;color: #4baccb;">Informations</h6>
+                    <h6 class="fw-semibold mb-3" style="border-bottom: 2px solid #2f80b8;background-image: linear-gradient(141deg, #ffffff 85%, #2f80b8 0);padding: 10px 5px;color: #2e7072;">Informations</h6>
                     <ul class="list-unstyled">
                         <li class="mb-2">
                             <a href="{{ route('legal') }}" class="text-decoration-none text-dark">
@@ -143,7 +143,7 @@ $chiffre2 = mt_rand(79, 123);
     </div>
 
     <!-- Barre de copyright -->
-<div style="background-color: #5fcac6 !important;padding: 20px 5px;color: #000000;background: linear-gradient(202deg, #4097b5 85%, #5fcac6 0);background-attachment: fixed;margin: 25px 10px;">
+<div style="background-color: #f0a932 !important;padding: 20px 5px;color: #000000;background: linear-gradient(202deg, #2f80b8 85%, #f0a932 0);background-attachment: fixed;">
             <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6">

@@ -603,8 +603,17 @@
 │       ├── emails
 │       │   └── contact.blade.php
 │       ├── errors
+│       │   ├── 403.blade.php
 │       │   ├── 404.blade.php
-│       │   └── 500.blade.php
+│       │   ├── 404.blade00000.php
+│       │   ├── 419.blade.php
+│       │   ├── 429.blade.php
+│       │   ├── 500.blade.php
+│       │   ├── 500.blade0000.php
+│       │   ├── 503.blade.php
+│       │   ├── error.blade.php
+│       │   └── layout
+│       │       └── error.blade.php
 │       ├── layouts
 │       │   ├── admin.blade.php
 │       │   ├── app.blade.php
@@ -702,4 +711,4 @@
 ├── vite.config.js
 └── webpack.mix.js
 
-125 directories, 578 files
+126 directories, 586 files

@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class UpdateServiceRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return [
+            'name'        => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'address'     => ['nullable', 'string', 'max:500'],
+            'capacity'    => ['nullable', 'integer', 'min:1'],
+            'photo'       => ['nullable', 'string'],
+            'is_active'   => ['boolean'],
+        ];
+    }
+}

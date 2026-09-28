@@ -6,7 +6,7 @@
 <!-- Titre Section -->
 <section class="position-relative text-white overflow-hidden">
 <div class="card bg-success  p-3 border-0 shadow-sm mb-4">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                 <h5 class="mb-0 text-white ">  <i class="fas fa-file-medical text-white me-2"></i>
                 Créer un nouvel article</h5>
             </div>
@@ -15,7 +15,7 @@
 
 
 <div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
         <a href="{{ route('editor.posts.index') }}" class="btn btn-outline-secondary">
             <i class="fas fa-arrow-left me-2"></i>Retour
         </a>

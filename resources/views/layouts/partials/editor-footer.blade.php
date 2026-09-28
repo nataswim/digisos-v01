@@ -48,7 +48,7 @@
             </div>
         </div>
 
-        <div class="row mt-4 pt-4 border-top" style="background-color: #5fcac6 !important;padding-bottom: 20px;color: #000000;background: linear-gradient(131deg, #4babca 85%, #e9f7fa 0);background-attachment: fixed;">
+        <div class="row mt-4 pt-4 border-top" style="background-color: #2f80b8 !important;padding-bottom: 20px;color: #000000;background: linear-gradient(131deg, #4babca 85%, #e9f7fa 0);background-attachment: fixed;">
             <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                 <p class="mb-1 text-white">
                     <i class="fas fa-copyright me-1"></i>

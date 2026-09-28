@@ -60,7 +60,7 @@
                             <p class="card-text text-muted mb-3">
                                 Programmes structurés pour tous niveaux : technique, endurance, sprint. Plans hebdomadaires et cycles d'entraînement pour les sportifs.
                             </p>
-                            <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                                 <span class="text-primary fw-bold">Choisir vos plans →</span>
                                 <div class="d-flex gap-1">
                                     <span class="badge bg-success">Débutant</span>
@@ -93,7 +93,7 @@
                             <p class="card-text text-muted mb-3">
                                 Bibliothèque d'exercices musculation, natation et préparation physique. Techniques détaillées avec vidéos et conseils professionnels.
                             </p>
-                            <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                                 <span class="text-success fw-bold">Voir les exercices →</span>
                                 <div class="d-flex gap-1">
                                     <span class="badge bg-info">Vidéos</span>
@@ -127,7 +127,7 @@
                             <p class="card-text text-muted mb-3">
                                 Des guides complets sur les techniques, préparation physique, entraînement, sciences, stratégies et plus.
                             </p>
-                            <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                                 <span class="text-info fw-bold">Accéder aux fiches →</span>
                                 <div class="d-flex gap-1">
                                     <span class="badge bg-success">Sciences</span>
@@ -157,7 +157,7 @@
                             <p class="card-text text-muted mb-3">
                                 Outils de calcul spécialisés : VNC, prédicteur de temps natation, zones cardiaques, planification triathlon.
                             </p>
-                            <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                                 <span class="text-warning fw-bold">Utiliser nos outils →</span>
                                 <div class="d-flex gap-1">
                                     <span class="badge bg-success">Gratuit</span>
@@ -186,7 +186,7 @@
                         <p class="card-text text-muted mb-3">
                             Enregistrez vos performances, analysez votre évolution avec graphiques et statistiques détaillés.
                         </p>
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                             <span class="text-secondary fw-bold">Prochainement →</span>
                             <div class="d-flex gap-1">
                                 <span class="badge bg-info">Statistiques</span>
@@ -219,7 +219,7 @@
                             <p class="card-text text-muted mb-3">
                                 Documents PDF, vidéos d'entraînement, guides techniques et supports pédagogiques pour techniciens, sportifs et entraîneurs.
                             </p>
-                            <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                                 <span class="text-danger fw-bold">Télécharger les documents →</span>
                                 <div class="d-flex gap-1">
                                     <span class="badge bg-success">PDF</span>

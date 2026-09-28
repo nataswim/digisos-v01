@@ -47,7 +47,7 @@
                                 </select>
                             </div>
                             <div class="col-md-2">
-                                <button type="submit" class="btn btn-primary btn-lg w-100 hover-lift">
+                                <button type="submit" class="btn btn-primary btn-lg text-white w-100 hover-lift">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>

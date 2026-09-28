@@ -177,8 +177,8 @@
 }
 
 .content-display h1 { font-size: 1.5rem; color: #38859b; }
-.content-display h2 { font-size: 1.3rem; color: #49aaca; }
-.content-display h3 { font-size: 1.1rem; color: #4fa79c; }
+.content-display h2 { font-size: 1.3rem; color: #2f80b8; }
+.content-display h3 { font-size: 1.1rem; color: #2f80b8; }
 
 .content-display p {
     margin-bottom: 1rem;

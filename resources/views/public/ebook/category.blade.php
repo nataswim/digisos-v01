@@ -123,7 +123,7 @@
             <div class="col-lg-9">
                 @if($downloadables->count() > 0)
                     {{-- En-tête avec compteur --}}
-                    <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                         <h4 class="title-section mb-0">
                             {{ $downloadables->total() }} ressource(s) disponible(s)
                         </h4>

@@ -6,7 +6,7 @@
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                 <div>
                     <h1 class="h3 mb-0">Categories de medias</h1>
                     <p class="text-muted mb-0">Organisez vos medias en categories</p>
@@ -89,7 +89,7 @@
                                                              alt="{{ $media->name }}"
                                                              class="img-fluid rounded shadow-sm"
                                                              style="width: 100%; height: 100px; object-fit: cover;">
-                                                        <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-0 hover-overlay rounded d-flex align-items-center justify-content-center">
+                                                        <div class="position-absolute top-0 start-0 w-100 h-100 bg-opacity-0 hover-overlay rounded d-flex align-items-center justify-content-center">
                                                             <i class="fas fa-search-plus text-white d-none"></i>
                                                         </div>
                                                     </a>

@@ -3,7 +3,7 @@
 @section('title', $photoGallery->title)
 
 @section('header')
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-0">
             <i class="fas fa-images text-primary me-2"></i>
             {{ $photoGallery->title }}
@@ -135,7 +135,7 @@
             <div class="col-lg-8">
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-white border-bottom p-4">
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                             <h5 class="mb-0">
                                 <i class="fas fa-images text-primary me-2"></i>
                                 Photos de la galerie ({{ $photoGallery->photos->count() }})
@@ -166,7 +166,7 @@
                                                         {{ $photo->pivot->caption }}
                                                     </p>
                                                 @endif
-                                                <div class="d-flex justify-content-between align-items-center">
+                                                <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                                                     <small class="text-muted">
                                                         Ordre: {{ $photo->pivot->sort_order + 1 }}
                                                     </small>

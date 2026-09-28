@@ -1,6 +1,6 @@
 {{-- Navigation principale --}}
 <nav class="navbar navbar-expand-lg"
-     style="border-left:20px solid #ffffff;border-bottom:10px solid #4097b5;border-top:10px solid #4097b5;background-image:linear-gradient(24deg, rgb(255 255 255) 85%, rgb(64 151 181) 70px);background-attachment:fixed;background-position:top;padding:0px;">
+     style="border-left:20px solid #ffffff;border-bottom:10px solid #2f80b8;border-top:10px solid #2f80b8;background-image:linear-gradient(24deg, rgb(255 255 255) 85%, rgb(12 79 173) 70px);background-attachment:fixed;background-position:top;padding:0px;">
 
     <div class="container-lg">
 

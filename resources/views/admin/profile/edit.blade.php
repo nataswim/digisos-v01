@@ -11,7 +11,7 @@
 
 <div class="card-header bg-white p-4 mb-3 card shadow-sm">
                    
-  <div class="d-flex justify-content-between align-items-center mb-4">
+  <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                 <div>
                     <h1 class="h3 mb-0 text-primary">
                         <i class="fas fa-user-cog me-2"></i>Paramètres du profil
@@ -55,7 +55,7 @@
 @push('styles')
 <style>
 .bg-gradient {
-    background: linear-gradient(135deg, #38859b 0%, #49aaca 100%) !important;
+    background: linear-gradient(135deg, #38859b 0%, #2f80b8 100%) !important;
 }
 </style>
 @endpush

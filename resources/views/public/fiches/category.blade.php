@@ -114,7 +114,7 @@
                                 Lire <i class="fas fa-arrow-right ms-1"></i>
                             </a>
                             @else
-                            <button class="btn btn-sm btn-secondary" disabled>
+                            <button class="btn btn-sm btn-danger text-white" disabled>
                                 <i class="fas fa-lock me-1"></i>Indisponible
                             </button>
                             @endif
@@ -149,7 +149,7 @@
     <div class="container-lg">
         <div class="row align-items-center">
             <div class="col-lg-8 text-center text-lg-start">
-                <a href="{{ route('public.fiches.index') }}" class="btn btn-primary btn-lg">
+                <a href="{{ route('public.fiches.index') }}" class="btn btn-primary btn-lg text-white">
                     <i class="fas fa-th me-2"></i>Toutes les fiches
                 </a>
             </div>

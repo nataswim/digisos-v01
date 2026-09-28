@@ -12,7 +12,7 @@
         <div class="col-12">
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-3">
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                         <a href="{{ route('editor.pages.index') }}" class="btn btn-outline-secondary">
                             <i class="fas fa-arrow-left me-2"></i>Retour à la liste
                         </a>

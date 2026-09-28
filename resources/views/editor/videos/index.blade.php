@@ -7,7 +7,7 @@
 <!-- Titre Section -->
 <section class="position-relative text-white overflow-hidden">
 <div class="card bg-secondary  p-3 border-0 shadow-sm mb-4">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                 <h5 class="mb-0 text-white "> Gestion des Vidéos</h5>
                 <a href="{{ route('editor.videos.create') }}" class="btn btn-warning">
             <i class="fas fa-plus me-2"></i>Nouvelle vidéo

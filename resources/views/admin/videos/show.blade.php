@@ -172,7 +172,7 @@
                         @foreach($video->categories as $category)
                             <div class="d-flex align-items-center mb-2">
                                 <div class="bg-warning bg-opacity-10 rounded d-flex align-items-center justify-content-center me-3" 
-                                     style="width: 40px; height: 40px;">
+                                     style="width: 40px;height: 40px;background-color: #378093;">
                                     <i class="fas fa-folder text-warning"></i>
                                 </div>
                                 <div>

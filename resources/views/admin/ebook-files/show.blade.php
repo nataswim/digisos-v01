@@ -129,7 +129,7 @@
                         @foreach($ebookFile->downloadables as $downloadable)
                         <a href="{{ route('admin.downloadables.show', $downloadable) }}" 
                            class="list-group-item list-group-item-action">
-                            <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                                 <div>
                                     <h6 class="mb-1">{{ $downloadable->title }}</h6>
                                     <small class="text-muted">

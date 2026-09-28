@@ -281,7 +281,8 @@ $spacing-directions: (
 .bg-danger-lighter { background-color: $color-danger-lighter !important; }
 
 .bg-dark { background-color: $color-dark !important; }
-.bg-light { background-color: $color-light !important; }
+.bg-light { background-color: $color-light !important;     background-image: linear-gradient(129deg, #f0f1f0 85%, #ffffff 0);
+    background-attachment: fixed;}
 .bg-white { background-color: $color-white !important; }
 
 .bg-transparent { background-color: transparent !important; }

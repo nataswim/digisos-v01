@@ -18,7 +18,7 @@
                             </h5>
                             <small class="opacity-75">{{ $tags->total() ?? $tags->count() }} tag(s) au total</small>
                         </div>
-                        <a href="{{ route('admin.tags.create') }}" class="btn bg-warning text-white p-2">
+                        <a href="{{ route('admin.tags.create') }}" class="btn btn btn-success text-white p-2">
                             <i class="fas fa-plus me-2"></i>Nouveau tag
                         </a>
                     </div>

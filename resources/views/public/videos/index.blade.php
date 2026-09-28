@@ -50,8 +50,8 @@
                                     @else
                                         <div class="w-100 h-100 d-flex align-items-center justify-content-center text-white"
                                              style="background: linear-gradient(135deg, 
-                                                {{ $loop->index % 4 == 0 ? '#38859b' : ($loop->index % 4 == 1 ? '#4fa79c' : ($loop->index % 4 == 2 ? '#49aaca' : '#3d8993')) }} 0%, 
-                                                {{ $loop->index % 4 == 0 ? '#3d8993' : ($loop->index % 4 == 1 ? '#3e8680' : ($loop->index % 4 == 2 ? '#3a92b0' : '#38859b')) }} 100%);">
+                                                {{ $loop->index % 4 == 0 ? '#38859b' : ($loop->index % 4 == 1 ? '#2f80b8' : ($loop->index % 4 == 2 ? '#2f80b8' : '#2f80b8')) }} 0%, 
+                                                {{ $loop->index % 4 == 0 ? '#2f80b8' : ($loop->index % 4 == 1 ? '#3e8680' : ($loop->index % 4 == 2 ? '#3a92b0' : '#38859b')) }} 100%);">
                                             <i class="fas fa-video" style="font-size: 3rem;"></i>
                                         </div>
                                     @endif
@@ -64,7 +64,7 @@
                                     <!-- Nom de la catégorie -->
                                     <h3 class="title-section mb-3">
                                         <a href="{{ route('public.videos.category', $category) }}" 
-                                           class="text-decoration-none text-dark hover-aqua-glow">
+                                           class="text-decoration-none text-dark ">
                                             {{ $category->name }}
                                         </a>
                                     </h3>
@@ -93,9 +93,9 @@
                             <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
                                 <div class="p-3 w-100">
                                     <a href="{{ route('public.videos.category', $category) }}" 
-                                       class="btn btn-outline-primary w-100">
+                                       class="btn btn-primary w-100 text-white">
                                         <i class="fas fa-arrow-right me-2"></i>
-                                        <span class="d-none d-lg-inline">Découvrir</span>
+                                        <span class=" d-lg-inline">Découvrir</span>
                                         <span class="d-inline d-lg-none">Voir les vidéos</span>
                                     </a>
                                 </div>
@@ -228,7 +228,7 @@
 <section class="py-5 bg-aqua-light">
     <div class="container-lg">
         <div class="text-center mb-5">
-            <h2 class="title-aqua-secondary">
+            <h2 class="title-aqua-secondary py-4" style="background-image: linear-gradient(129deg, #f9be38 85%, #2f80b8 0);background-attachment: fixed;color: #0d4fac;box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);border-radius: 15px 0px 15px 0px;color: #1c2111;">
                 <i class="fas fa-trophy me-2"></i>Top 3 des vidéos les plus vues
             </h2>
             <p class="text-muted">Les vidéos favorites de notre communauté</p>
@@ -294,7 +294,7 @@
 <section class="py-5 bg-white" id="all-videos-section">
     <div class="container-lg">
         <div class="text-center mb-5">
-            <h2 class="title-aqua-secondary">
+            <h2 class="title-aqua-secondary py-4" style="background-image: linear-gradient(129deg, #f9be38 85%, #2f80b8 0);background-attachment: fixed;color: #0d4fac;box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);border-radius: 15px 0px 15px 0px;color: #1c2111;">
                 <i class="fas fa-th me-2"></i>Toutes les vidéos
             </h2>
         </div>
@@ -365,17 +365,17 @@
 <style>
 
 .hero-video {
-    position: absolute;
+position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     z-index: 1;
-    border-top: 20px solid #4097b5;
-    border-bottom: 20px solid #4097b5;
-    border-left: 20px solid #f9f5f4;
-    border-right: 20px solid #f9f5f4;
+    border-top: 20px solid #f8f5f4;
+    border-bottom: 20px solid #f9f5f4;
+    border-left: 20px solid #2f80b8;
+    border-right: 20px solid #2f80b8;
 }
 
 .hero-overlay {
@@ -500,7 +500,7 @@
 }
 
 .hover-primary:hover {
-    color: #1db8c5 !important;
+    color: #2f80b8 !important;
 }
 
 /* ============================================================================

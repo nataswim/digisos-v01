@@ -143,7 +143,7 @@
 
                         <!-- Bouton de sauvegarde -->
                         <div class="mt-4">
-                            <button type="submit" class="btn btn-primary btn-lg">
+                            <button type="submit" class="btn btn-primary btn-lg text-white">
                                 <i class="fas fa-save me-2"></i>Enregistrer la configuration
                             </button>
                         </div>
@@ -197,7 +197,7 @@
                                 @endif
                             </span>
                         </div>
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                             <span class="text-muted">Accès</span>
                             <span class="badge bg-primary">Admin uniquement</span>
                         </div>

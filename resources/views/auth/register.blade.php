@@ -403,7 +403,7 @@
 
                             <!-- Bouton d'inscription -->
                             <div class="d-grid mb-4">
-                                <button type="submit" class="btn btn-success btn-lg">
+                                <button type="submit" class="btn btn-success btn-lg text-white">
                                     <i class="fas fa-user-plus me-2"></i>Créer mon compte
                                 </button>
                             </div>

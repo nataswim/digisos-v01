@@ -26,7 +26,7 @@
                 </p>
 
                 <div class="d-flex gap-3 flex-wrap animate-slide-up animation-delay-2">
-                    <a href="#content-sections" class="btn btn-primary btn-lg">
+                    <a href="#content-sections" class="btn btn-primary btn-lg text-white">
                         <i class="fas fa-arrow-down me-2"></i>Découvrir
                     </a>
                     <a href="{{ route('posts.public.index') }}" class="btn btn-outline-light btn-lg">
@@ -56,7 +56,7 @@
 <section class="py-5 bg-aqua-light" id="content-sections">
     <div class="container-lg">
         <div class="text-center mb-5">
-            <h2 class="title-aqua-secondary">
+            <h2 class="title-aqua-secondary py-4" style="background-image: linear-gradient(129deg, #f9be38 85%, #2f80b8 0);background-attachment: fixed;color: #0d4fac;box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);border-radius: 15px 0px 15px 0px;color: #1c2111;">
                 <i class="fas fa-newspaper me-2"></i>Articles Récents
             </h2>
             <p class="text-muted">Découvrez nos dernières publications sur la natation et le triathlon</p>
@@ -126,7 +126,7 @@
         </div>
 
         <div class="text-center">
-            <a href="{{ route('posts.public.index') }}" class="btn btn-primary btn-lg">
+            <a href="{{ route('posts.public.index') }}" class="btn btn-primary btn-lg text-white">
                 <i class="fas fa-arrow-right me-2"></i>Voir tous les articles
             </a>
         </div>
@@ -140,7 +140,7 @@
 <section class="py-5 bg-aqua-light">
     <div class="container-lg">
         <div class="text-center mb-5">
-            <h2 class="title-aqua-secondary">
+            <h2 class="title-aqua-secondary py-4" style="background-image: linear-gradient(129deg, #f9be38 85%, #2f80b8 0);background-attachment: fixed;color: #0d4fac;box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);border-radius: 15px 0px 15px 0px;color: #1c2111;">
                 <i class="fas fa-video me-2"></i>Vidéos
             </h2>
             <p class="text-muted">Tutoriels vidéo et démonstrations techniques</p>
@@ -207,7 +207,7 @@
         </div>
 
         <div class="text-center">
-            <a href="{{ route('public.videos.index') }}" class="btn btn-info btn-lg">
+            <a href="{{ route('public.videos.index') }}" class="btn btn-info btn-lg text-white">
                 <i class="fas fa-arrow-right me-2"></i>Voir toutes les vidéos
             </a>
         </div>
@@ -219,7 +219,7 @@
 <section class="py-5">
     <div class="container-lg">
         <div class="text-center mb-5">
-            <h2 class="title-aqua-secondary">
+            <h2 class="title-aqua-secondary py-4" style="background-image: linear-gradient(129deg, #f9be38 85%, #2f80b8 0);background-attachment: fixed;color: #0d4fac;box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);border-radius: 15px 0px 15px 0px;color: #1c2111;">
                 <i class="fas fa-book me-2"></i>eBooks & Téléchargements
             </h2>
             <p class="text-muted">Ressources téléchargeables pour approfondir vos connaissances</p>
@@ -289,7 +289,7 @@
         </div>
 
         <div class="text-center">
-            <a href="{{ route('ebook.index') }}" class="btn btn-success btn-lg">
+            <a href="{{ route('ebook.index') }}" class="btn btn-success btn-lg text-white">
                 <i class="fas fa-arrow-right me-2"></i>Voir tous les téléchargements
             </a>
         </div>
@@ -317,10 +317,10 @@ position: absolute;
     height: 100%;
     object-fit: cover;
     z-index: 1;
-    border-top: 20px solid #4097b5;
-    border-bottom: 20px solid #4097b5;
-    border-left: 20px solid #f9f5f4;
-    border-right: 20px solid #f9f5f4;
+    border-top: 20px solid #ffffff;
+    border-bottom: 20px solid #ffffff;
+    border-left: 20px solid #2f80b8;
+    border-right: 20px solid #2f80b8;
 }
 
 .hero-overlay {
@@ -375,7 +375,7 @@ position: absolute;
 
 .btn-outline-light:hover {
     background: white;
-    color: #1db8c5;
+    color: #2f80b8;
 }
 
 /* ============================================================================
@@ -477,7 +477,7 @@ position: absolute;
 }
 
 .hover-primary:hover {
-    color: #1db8c5 !important;
+    color: #2f80b8 !important;
 }
 
 /* Video play overlay */

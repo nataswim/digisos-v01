@@ -18,7 +18,7 @@
             align-items: center;
             justify-content: center;
             background-color: #fafaf5;
-            background-image: linear-gradient(135deg, #fafbf5 85%, #4ccac6 0);
+            background-image: linear-gradient(135deg, #fafbf5 85%, #2f80b8 0);
             background-attachment: fixed;
         }
 
@@ -33,7 +33,7 @@
             font-size: 7rem;
             font-weight: 700;
             line-height: 1;
-            background: linear-gradient(135deg, #4097b5 0%, #4ccac6 100%);
+            background: linear-gradient(135deg, #2f80b8 0%, #2f80b8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -42,7 +42,7 @@
 
         .error-icon {
             font-size: 3rem;
-            color: #4097b5;
+            color: #2f80b8;
             margin-bottom: 1rem;
         }
 
@@ -63,13 +63,13 @@
         .error-divider {
             width: 60px;
             height: 4px;
-            background: linear-gradient(90deg, #4097b5, #4ccac6);
+            background: linear-gradient(90deg, #2f80b8, #2f80b8);
             border-radius: 2px;
             margin: 1.25rem auto;
         }
 
         .btn-home {
-            background: linear-gradient(135deg, #4097b5, #4ccac6);
+            background: linear-gradient(135deg, #2f80b8, #2f80b8);
             border: none;
             color: white;
             padding: .65rem 1.75rem;
@@ -89,7 +89,7 @@
         }
 
         .btn-back {
-            color: #4097b5;
+            color: #2f80b8;
             font-weight: 500;
             text-decoration: none;
             display: inline-flex;
@@ -100,7 +100,7 @@
         }
 
         .btn-back:hover {
-            color: #4ccac6;
+            color: #2f80b8;
         }
 
         .error-logo {

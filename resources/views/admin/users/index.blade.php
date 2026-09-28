@@ -10,7 +10,7 @@
         <div class="card-header bg-white p-4">
             <div class="d-flex align-items-center justify-content-between">
                 <h5 class="mb-0">Liste des utilisateurs</h5>
-                <a href="{{ route('admin.users.create') }}" class="btn bg-warning text-white p-2">
+                <a href="{{ route('admin.users.create') }}" class="btn btn btn-success text-white p-2">
                     <i class="fas fa-user-plus me-2"></i>Nouvel utilisateur
                 </a>
             </div>

@@ -108,7 +108,7 @@
     <div class="container-lg">
         <div class="row align-items-center">
             <div class="col-lg-8 text-center text-lg-start">
-                <a href="{{ route('public.pages.index') }}" class="btn btn-primary btn-lg">
+                <a href="{{ route('public.pages.index') }}" class="btn btn-primary btn-lg text-white">
                     <i class="fas fa-th me-2"></i>Toutes les pages
                 </a>
             </div>

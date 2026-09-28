@@ -191,7 +191,7 @@
 
                                 {{-- Bouton d'envoi --}}
                                 <div class="col-12 mt-4">
-                                    <button type="submit" class="btn btn-primary btn-lg w-100 w-md-auto">
+                                    <button type="submit" class="btn btn-primary btn-lg text-white w-100 w-md-auto">
                                         <i class="fas fa-paper-plane me-2"></i>
                                         Envoyer le message
                                     </button>

@@ -84,7 +84,7 @@
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     <div class="d-flex align-items-center">
                                                         <div class="bg-primary text-white bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" 
-                                                             style="width: 40px; height: 40px;">
+                                                             style="width: 40px;height: 40px;background-color: #378093;">
                                                             <i class="fas fa-user-shield text-primary"></i>
                                                         </div>
                                                         <div>

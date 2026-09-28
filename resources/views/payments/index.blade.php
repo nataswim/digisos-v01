@@ -80,7 +80,7 @@
                         </ul>
                         <!-- Plan 12 mois -->
                         <a href="https://buy.stripe.com/dRm28r5AOfEDaHn0JxgnK02"
-                            class="btn btn-success btn-lg w-100"
+                            class="btn btn-success btn-lg text-white w-100"
                             target="_blank">
                             <i class="fas fa-credit-card me-2"></i>S'inscrire pour 12 mois
                         </a>

@@ -32,7 +32,7 @@
 
 <!-- Fiches en vedette -->
 @if($featuredFiches->count() > 0)
-<section class="py-5 bg-aqua-light">
+<section class="py-5">
     <div class="container-lg">
         <h2 class="text-white-secondary mb-5 text-center">
             <i class="fas fa-star text-warning me-2"></i>Fiches en Vedette
@@ -87,7 +87,7 @@
                                 Découvrir <i class="fas fa-arrow-right ms-1"></i>
                             </a>
                             @else
-                            <button class="btn btn-sm btn-secondary" disabled>
+                            <button class="btn btn-sm btn-danger text-white" disabled>
                                 <i class="fas fa-lock me-1"></i>Indisponible
                             </button>
                             @endif
@@ -102,7 +102,7 @@
 @endif
 
 <!-- Catégories -->
-<section class="py-5 {{ $featuredFiches->count() > 0 ? 'bg-white' : 'bg-aqua-light' }}">
+<section class="py-5 {{ $featuredFiches->count() > 0 ? 'bg-none' : 'bg-aqua-light' }}">
     <div class="container-lg">
         <h2 class="text-white-secondary mb-5 text-center">Catégories de Fiches</h2>
         
@@ -159,9 +159,9 @@
                         <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
                             <div class="p-3 w-100">
                                 <a href="{{ route('public.fiches.category', $category) }}" 
-                                   class="btn btn-primary w-100">
+                                   class="btn btn-primary w-100 text-white">
                                     <i class="fas fa-arrow-right me-2"></i>
-                                    <span class="d-none d-lg-inline">Découvrir</span>
+                                    <span class=" d-lg-inline">Découvrir</span>
                                     <span class="d-inline d-lg-none">Découvrir les fiches</span>
                                 </a>
                             </div>
@@ -186,17 +186,17 @@
 <style>
 
 .hero-video {
-    position: absolute;
+position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     z-index: 1;
-    border-top: 20px solid #4097b5;
-    border-bottom: 20px solid #4097b5;
-    border-left: 20px solid #f9f5f4;
-    border-right: 20px solid #f9f5f4;
+    border-top: 20px solid #f8f5f4;
+    border-bottom: 20px solid #f9f5f4;
+    border-left: 20px solid #2f80b8;
+    border-right: 20px solid #2f80b8;
 }
 
 .hero-overlay {
@@ -321,7 +321,7 @@
 }
 
 .hover-primary:hover {
-    color: #1db8c5 !important;
+    color: #2f80b8 !important;
 }
 
 /* ============================================================================

@@ -122,7 +122,7 @@
                         @if($page->category)
                         <div class="col-md-6">
                             <div class="p-3 bg-primary-lighter rounded">
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                                     <span class="text-muted">
                                         <i class="fas fa-folder me-2"></i>Catégorie
                                     </span>
@@ -133,7 +133,7 @@
                         @endif
                         <div class="col-md-6">
                             <div class="p-3 bg-info-lighter rounded">
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                                     <span class="text-muted">
                                         <i class="fas fa-calendar me-2"></i>Publié le
                                     </span>
@@ -144,7 +144,7 @@
                         @if($page->creator)
                         <div class="col-md-6">
                             <div class="p-3 bg-warning-lighter rounded">
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                                     <span class="text-muted">
                                         <i class="fas fa-user me-2"></i>Auteur
                                     </span>
@@ -226,8 +226,8 @@
 }
 
 .content-display h1 { font-size: 1.7rem; color: #38859b; }
-.content-display h2 { font-size: 1.5rem; color: #49aaca; }
-.content-display h3 { font-size: 1.3rem; color: #4fa79c; }
+.content-display h2 { font-size: 1.5rem; color: #2f80b8; }
+.content-display h3 { font-size: 1.3rem; color: #2f80b8; }
 
 .content-display p {
     margin-bottom: 1.5rem;

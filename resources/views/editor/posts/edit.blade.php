@@ -7,7 +7,7 @@
 <!-- Titre Section -->
 <section class="position-relative text-white overflow-hidden">
 <div class="card bg-success  p-3 border-0 shadow-sm mb-4">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                 <h5 class="mb-0 text-white ">  <i class="fas fa-file-medical text-white me-2"></i>
                 Éditer l'article -  {{ $post->name }} </h5>
             </div>
@@ -15,7 +15,7 @@
 </section>
 
 <div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
         <div class="d-flex gap-2">
             @if($post->status === 'published')
                 <a href="{{ route('posts.public.show', $post->slug) }}" class="btn btn-outline-primary" target="_blank">

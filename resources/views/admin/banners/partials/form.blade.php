@@ -195,7 +195,7 @@
 
     {{-- FOOTER AVEC BOUTONS --}}
     <div class="card-footer bg-light p-3">
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
             <a href="{{ route('admin.banners.index') }}" class="btn btn-outline-secondary">
                 <i class="fas fa-times me-1"></i>Annuler
             </a>

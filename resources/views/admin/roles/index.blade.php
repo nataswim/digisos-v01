@@ -18,7 +18,7 @@
                             </h5>
                             <small class="opacity-75">{{ $roles->count() }} rôle(s) configure(s)</small>
                         </div>
-                        <a href="{{ route('admin.roles.create') }}" class="btn bg-warning text-white p-2">
+                        <a href="{{ route('admin.roles.create') }}" class="btn btn btn-success text-white p-2">
                             <i class="fas fa-plus me-2"></i>Nouveau rôle
                         </a>
                     </div>

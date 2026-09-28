@@ -39,7 +39,7 @@
                         @foreach($popularPosts as $post)
                             <a href="{{ route('posts.public.show', $post) }}" class="list-group-item list-group-item-action border-0 px-0">
                                 <div class="d-flex align-items-center">
-                                    <div class="bg-primary bg-opacity-10 rounded me-3" style="width: 40px; height: 40px;">
+                                    <div class="bg-primary bg-opacity-10 rounded me-3" style="width: 40px;height: 40px;background-color: #378093;">
                                         <div class="d-flex align-items-center justify-content-center h-100">
                                             <i class="fas fa-file-alt text-white"></i>
                                         </div>

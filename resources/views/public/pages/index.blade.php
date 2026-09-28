@@ -83,9 +83,9 @@
                         <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
                             <div class="p-3 w-100">
                                 <a href="{{ route('public.pages.category', $category) }}" 
-                                   class="btn btn-primary w-100">
+                                   class="btn btn-primary w-100 text-white">
                                     <i class="fas fa-arrow-right me-2"></i>
-                                    <span class="d-none d-lg-inline">Découvrir</span>
+                                    <span class=" d-lg-inline">Découvrir</span>
                                     <span class="d-inline d-lg-none">Découvrir les pages</span>
                                 </a>
                             </div>
@@ -109,17 +109,17 @@
 @push('styles')
 <style>
 .hero-video {
-    position: absolute;
+position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     z-index: 1;
-    border-top: 20px solid #4097b5;
-    border-bottom: 20px solid #4097b5;
-    border-left: 20px solid #f9f5f4;
-    border-right: 20px solid #f9f5f4;
+    border-top: 20px solid #f8f5f4;
+    border-bottom: 20px solid #f9f5f4;
+    border-left: 20px solid #2f80b8;
+    border-right: 20px solid #2f80b8;
 }
 
 .hero-content {

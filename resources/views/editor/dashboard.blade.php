@@ -7,7 +7,7 @@
 <!-- Titre Section -->
 <section class="position-relative text-white overflow-hidden">
 <div class="card bg-secondary  p-3 border-0 shadow-sm mb-4">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                 <h2 class="mb-0 text-white ">  <i class="fas fa-water me-2"></i>
                 Tableau de bord - <Editeur->{{ auth()->user()->name }}</Editeur-></h2>
         

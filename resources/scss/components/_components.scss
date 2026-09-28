@@ -52,15 +52,16 @@
  * Bouton primaire
  */
 .btn-primary {
-    background: linear-gradient(357deg, #60cbc7 100%, #60cbc7 100%);
-    color: $color-white;
-    border-color: $color-primary;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    background: linear-gradient(135deg, #2f80b8 85%, #f0a932 70px);
+    color: #ffffff;
+    box-shadow: 0px 4px 5px 3px rgba(0, 0, 0, 0.05);
+    border: none;
     
     &:hover:not(:disabled) {
-        background: linear-gradient(135deg, $color-primary-dark 0%, $color-primary 100%);
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        transform: translateY(-1px);
+        background: linear-gradient(211deg, #2f80b8 85%, #f0a932 70px);
+    color: #ffffff;
+    box-shadow: 0px 4px 5px 3px rgba(0, 0, 0, 0.05);
+    border: none;
     }
     
     &:active:not(:disabled) {
@@ -94,15 +95,16 @@
  * Bouton succès
  */
 .btn-success {
-    background: linear-gradient(135deg, $color-success 0%, $color-success-dark 100%);
-    color: $color-white;
-    border-color: $color-success;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    background: linear-gradient(309deg, #2f80b8 85%, #f0a932 70px);
+    color: #ffffff;
+    box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);
+    border: none;
     
     &:hover:not(:disabled) {
-        background: linear-gradient(135deg, $color-success-dark 0%, $color-success 100%);
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        transform: translateY(-1px);
+        background: linear-gradient(43deg, #2f80b8 75%, #f0a932 70px);
+    color: #f8f883;
+    box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);
+    border: none;
     }
 }
 
@@ -142,15 +144,16 @@
  * Bouton info
  */
 .btn-info {
-    background: linear-gradient(135deg, $color-info 0%, $color-info-dark 100%);
-    color: $color-white;
-    border-color: $color-info;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    background: linear-gradient(312deg, #2f80b8 85%, #f7bd37 70px);
+    color: #ffffff;
+    box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);
+    border: none;
     
     &:hover:not(:disabled) {
-        background: linear-gradient(135deg, $color-info-dark 0%, $color-info 100%);
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        transform: translateY(-1px);
+        background: linear-gradient(46deg, #2f80b8 80%, #e5823d 70px);
+    color: #ffffff;
+    box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);
+    border: none;
     }
 }
 

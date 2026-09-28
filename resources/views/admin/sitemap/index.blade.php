@@ -317,7 +317,7 @@
 
                 <!-- Actions en masse -->
                 <div id="bulkActions" class="alert alert-info m-4 mb-0 d-none">
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                         <div>
                             <strong><span id="selectedCount">0</span> URL(s) sélectionnée(s)</strong>
                         </div>

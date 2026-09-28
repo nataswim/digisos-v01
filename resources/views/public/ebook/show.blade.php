@@ -101,7 +101,7 @@
                     @if($downloadable->canBeDownloadedBy(auth()->user()))
                         <div class="d-grid gap-2 d-md-flex mb-4">
                             <a href="{{ route('ebook.download', [$category->slug, $downloadable->slug]) }}"
-                                class="btn btn-success btn-lg hover-lift flex-grow-1">
+                                class="btn btn-success btn-lg text-white hover-lift flex-grow-1">
                                 <i class="fas fa-download me-2"></i>Télécharger maintenant
                             </a>
                             <button class="btn btn-outline-primary btn-lg hover-lift" onclick="shareContent()">

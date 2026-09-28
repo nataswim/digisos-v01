@@ -89,7 +89,7 @@
                     @forelse($recentPosts as $post)
                         <div class="d-flex align-items-center p-4 {{ !$loop->last ? 'border-bottom' : '' }}">
                             <div class="bg-primary text-white bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" 
-                                 style="width: 40px; height: 40px;">
+                                 style="width: 40px;height: 40px;background-color: #378093;">
                                 <i class="fas fa-file-alt text-white"></i>
                             </div>
                             <div class="flex-fill">

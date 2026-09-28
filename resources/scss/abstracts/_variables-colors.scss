@@ -12,13 +12,13 @@
    ============================================================================ */
 
 // Couleur primaire (bleu aquatique)
-$color-primary: #1db8c5 !default;
-$color-primary-dark: #3d8993 !default;
+$color-primary: #2f80b8 !default;
+$color-primary-dark: #2f80b8 !default;
 $color-primary-light: #5fa3b5 !default;
 $color-primary-lighter: #e8f4f7 !default;
 
 // Couleur secondaire (bleu clair)
-$color-secondary: #49aaca !default;
+$color-secondary: #2f80b8 !default;
 $color-secondary-dark: #3a92b0 !default;
 $color-secondary-light: #6dbdd9 !default;
 $color-secondary-lighter: #e9f6fb !default;
@@ -32,19 +32,19 @@ $color-accent-dark: #ee8033 !default;
    ============================================================================ */
 
 // Succès (vert d'eau)
-$color-success: #4fa79c !default;
+$color-success: #2f80b8 !default;
 $color-success-dark: #3e8680 !default;
 $color-success-light: #6fbdb3 !default;
 $color-success-lighter: #e9f6f4 !default;
 
 // Info (bleu)
-$color-info: #49aaca !default;
+$color-info: #2f80b8 !default;
 $color-info-dark: #3a92b0 !default;
 $color-info-light: #6dbdd9 !default;
 $color-info-lighter: #e9f6fb !default;
 
 // Warning (orange)
-$color-warning: #f0ad4e !default;
+$color-warning: #facc33 !default;
 $color-warning-dark: #ec971f !default;
 $color-warning-light: #f4c67b !default;
 $color-warning-lighter: #fef7ed !default;
@@ -109,12 +109,12 @@ $bg-dark: $color-dark !default;
    ============================================================================ */
 
 // Navigation
-$nav-bg: $color-white !default;
-$nav-link-color: $text-primary !default;
-$nav-link-hover-bg: #ffffff !default;
-$nav-link-hover-color: #0c000b !default;
-$nav-link-active-bg: #ffffff !default;
-$nav-link-active-color: #32504f !default;
+// $nav-bg: $color-white !default;
+// $nav-link-color: $text-primary !default;
+// $nav-link-hover-bg: #ffffff !default;
+// $nav-link-hover-color: #0c000b !default;
+// $nav-link-active-bg: #ffffff !default;
+// $nav-link-active-color: #32504f !default;
 
 // Footer
 $footer-bg: #e9f8f3 !default;

@@ -1,11 +1,11 @@
 
-<footer class="admin-footer mt-5" style="border-top: 20px solid #4baccb;border-left: 20px solid #5fcac6;border-right: 20px solid #4aabca;border-bottom: 20px solid #4babca;">
+<footer class="admin-footer mt-5" style="border-top: 20px solid #fbfbf5;border-left: 20px solid #2f80b8;border-right: 20px solid #eea832;border-bottom: 20px solid #e9f7fa;">
     
     <div class="container-fluid py-4">
         <div class="row g-4">
             <!-- Colonne 1 : Sitemap -->
             <div class="col-lg-3 col-md-6">
-                <h6 class="footer-heading mb-3" style=" background-color: #ffffff; display: block; padding: 10px 5px; ">
+                <h6 class="footer-heading mb-3" style="background-color: #2f80b8;display: block;padding: 10px 5px;color: #ffffff;border-left: 4px solid #eea832;border-radius: 0px 20px 0px 0px;">
                     <i class="fas fa-sitemap me-2"></i>Sitemap
                 </h6>
                 <ul class="footer-links list-unstyled">
@@ -26,7 +26,7 @@
 
             <!-- Colonne 2 : Utilisateurs -->
             <div class="col-lg-3 col-md-6">
-                <h6 class="footer-heading mb-3" style=" background-color: #ffffff; display: block; padding: 10px 5px; ">
+                <h6 class="footer-heading mb-3" style="background-color: #2f80b8;display: block;padding: 10px 5px;color: #ffffff;border-left: 4px solid #eea832;border-radius: 0px 20px 0px 0px;">
                     <i class="fas fa-users me-2"></i>Utilisateurs
                 </h6>
                 <ul class="footer-links list-unstyled">
@@ -44,7 +44,7 @@
 
             <!-- Colonne 3 : eBooks -->
             <div class="col-lg-3 col-md-6">
-                <h6 class="footer-heading mb-3" style=" background-color: #ffffff; display: block; padding: 10px 5px; ">
+                <h6 class="footer-heading mb-3" style="background-color: #2f80b8;display: block;padding: 10px 5px;color: #ffffff;border-left: 4px solid #eea832;border-radius: 0px 20px 0px 0px;">
                     <i class="fas fa-book me-2"></i>eBooks & Ressources
                 </h6>
                 <ul class="footer-links list-unstyled">
@@ -62,7 +62,7 @@
 
             <!-- Colonne 4 : Liens externes -->
             <div class="col-lg-3 col-md-6">
-                <h6 class="footer-heading mb-3" style=" background-color: #ffffff; display: block; padding: 10px 5px; ">
+                <h6 class="footer-heading mb-3" style="background-color: #2f80b8;display: block;padding: 10px 5px;color: #ffffff;border-left: 4px solid #eea832;border-radius: 0px 20px 0px 0px;">
                     <i class="fas fa-external-link-alt me-2"></i>Outils
                 </h6>
                 <ul class="footer-links list-unstyled">
@@ -81,7 +81,7 @@
 
 
         <!-- Copyright et informations -->
-        <div class="row mt-4 pt-4 border-top" style="background-color: #5fcac6 !important;padding-bottom: 20px;color: #000000;background: linear-gradient(202deg, #4babca 85%, #5fcac6 0);background-attachment: fixed;">
+        <div class="row mt-4 pt-4 border-top" style="background-color: #eea832 !important;padding-bottom: 20px;color: #000000;background: linear-gradient(202deg, #eea832 85%, #fbfbf5 0);background-attachment: fixed;">
             <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                 <p class="mb-1 text-dark">
                     <i class="fas fa-copyright me-1"></i>

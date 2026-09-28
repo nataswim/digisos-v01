@@ -15,7 +15,7 @@
 
     @stack('styles')
 </head>
-<body style="background-color: rgb(250, 250, 245);background-image: linear-gradient(45deg, #fafbf5 85%, #4ccac6 0);background-position: top;background-attachment: fixed;">
+<body style="background-image: linear-gradient(284deg, rgb(250, 251, 245) 75%, rgb(240 169 50) 0px);background-attachment: fixed;">
     @include('layouts.partials.admin-nav-horizontal')
     
     <div class="main-wrapper">

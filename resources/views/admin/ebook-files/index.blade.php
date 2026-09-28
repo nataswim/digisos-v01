@@ -18,7 +18,7 @@
                             </h5>
                             <small class="opacity-75">{{ $files->total() }} fichier(s) au total</small>
                         </div>
-                        <button class="btn bg-warning text-white p-2" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                        <button class="btn btn btn-success text-white p-2" data-bs-toggle="modal" data-bs-target="#uploadModal">
                             <i class="fas fa-upload me-2"></i>Uploader des fichiers
                         </button>
                     </div>

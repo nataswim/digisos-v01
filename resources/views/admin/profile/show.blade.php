@@ -10,7 +10,7 @@
         <div class="col-lg-8 mx-auto">
             <!-- Card profil principal -->
             <div class="card shadow-aqua border-0 overflow-hidden mb-4">
-                <div class="card-header bg-gradient text-white py-4" style="background: linear-gradient(135deg, #38859b 0%, #49aaca 100%);">
+                <div class="card-header bg-gradient text-white py-4" style="background: linear-gradient(135deg, #38859b 0%, #2f80b8 100%);">
                     <div class="d-flex align-items-center gap-3">
                         <div class="bg-white bg-opacity-20 rounded-circle p-4">
                             <i class="fas fa-user-circle fa-3x"></i>

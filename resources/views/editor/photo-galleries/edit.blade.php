@@ -3,7 +3,7 @@
 @section('title', 'Éditer la galerie')
 
 @section('header')
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-0">
             <i class="fas fa-edit text-primary me-2"></i>
             Éditer : {{ $photoGallery->title }}

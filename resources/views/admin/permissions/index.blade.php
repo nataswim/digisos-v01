@@ -18,7 +18,7 @@
                             </h5>
                             <small class="opacity-75">{{ $permissions->total() ?? $permissions->count() }} permission(s) configuree(s)</small>
                         </div>
-                        <a href="{{ route('admin.permissions.create') }}" class="btn bg-warning text-white p-2">
+                        <a href="{{ route('admin.permissions.create') }}" class="btn btn btn-success text-white p-2">
                             <i class="fas fa-plus me-2"></i>Nouvelle permission
                         </a>
                     </div>
@@ -102,7 +102,7 @@
                                             <div class="col-md-6">
                                                 <div class="d-flex align-items-start">
                                                     <div class="bg-warning bg-opacity-10 rounded d-flex align-items-center justify-content-center me-3" 
-                                                         style="width: 40px; height: 40px;">
+                                                         style="width: 40px;height: 40px;background-color: #378093;">
                                                         <i class="fas fa-key text-white"></i>
                                                     </div>
                                                     <div>

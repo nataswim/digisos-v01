@@ -8,7 +8,7 @@
         <div class="col-lg-10">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white border-bottom p-4">
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                         <div>
                             <h4 class="mb-1"><i class="fas fa-history me-2"></i>Historique des paiements</h4>
                             <p class="text-muted mb-0">Consultez tous vos paiements et leur statut</p>

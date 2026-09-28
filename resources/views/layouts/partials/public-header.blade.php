@@ -1,5 +1,6 @@
 {{-- Navigation principale --}}
-<nav class="navbar navbar-expand-lg" style="border-left: 20px solid #ffffff;border-bottom: 10px solid #4097b5;border-top: 10px solid #4097b5;background-image: linear-gradient(24deg, rgb(255 255 255) 85%, rgb(64 151 181) 70px);background-attachment: fixed;background-position: top;padding: 0px;">
+<nav class="navbar navbar-expand-lg" style="border-left: 20px solid #f7f4f3;border-top: 20px solid #2f80b8;background-image: linear-gradient(
+17deg, #ffffff 85%, #2f80b8 70px);background-attachment: fixed;background-position: top;padding: 0px;border-right: 20px solid #f7bd37;border-bottom: 20px solid #ffffff;">
 
 <div class="container-lg">
         <!-- Logo -->
@@ -20,34 +21,34 @@
             <ul class="navbar-nav me-auto ms-lg-4">
 
                 <li class="nav-item" style="font-weight: 600;">
-                    <a class="nav-link navurl px-1 py-2 {{ request()->routeIs('posts.public.*') ? 'active bg-white text-white' : 'text-primary' }}"
+                    <a class="nav-link navurl px-1 py-2 {{ request()->routeIs('posts.public.*') ? 'active bg-white text-white' : '' }}"
                         href="{{ route('posts.public.index') }}">
                         <i class="fas fa-water me-2"></i>Actualités
                     </a>
                 </li>
                 
                 <li class="nav-item" style="font-weight: 600;">
-                    <a class="nav-link navurl px-1 py-2 {{ request()->routeIs('public.fiches.*') ? 'active bg-white text-white' : 'text-primary' }}"
+                    <a class="nav-link navurl px-1 py-2 {{ request()->routeIs('public.fiches.*') ? 'active bg-white text-white' : '' }}"
                         href="{{ route('public.fiches.index') }}">
                         <i class="fas fa-water me-2"></i>Fiches pratiques
                     </a>
                 </li>
 
                 <li class="nav-item" style="font-weight: 600;">
-                    <a class="nav-link navurl px-1 py-2 {{ request()->routeIs('public.videos.*') ? 'active bg-white text-white' : 'text-primary' }}"
+                    <a class="nav-link navurl px-1 py-2 {{ request()->routeIs('public.videos.*') ? 'active bg-white text-white' : '' }}"
                         href="{{ route('public.videos.index') }}">
                         <i class="fas fa-water me-2"></i>Tutoriels
                     </a>
                 </li>
 
                 <li class="nav-item" style="font-weight: 600;">
-                    <a class="nav-link navurl px-1 py-2 {{ request()->routeIs('ebook.*') ? 'active bg-white text-white' : 'text-primary' }}"
+                    <a class="nav-link navurl px-1 py-2 {{ request()->routeIs('ebook.*') ? 'active bg-white text-white' : '' }}"
                         href="{{ route('ebook.index') }}">
                         <i class="fas fa-water me-2"></i>Documents
                     </a>
                 </li>
 <li class="nav-item">
-    <a class="nav-link" href="{{ route('public.pages.index') }}"><i class="fas fa-water me-2"></i>Pages</a>
+    <a class="nav-link nav-link navurl" href="{{ route('public.pages.index') }}"><i class="fas fa-water me-2"></i>Pages</a>
 </li>
             </ul>
 

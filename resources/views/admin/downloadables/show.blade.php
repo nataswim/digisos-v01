@@ -248,7 +248,7 @@
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
                             <div class="bg-info bg-opacity-10 rounded d-flex align-items-center justify-content-center me-3" 
-                                 style="width: 40px; height: 40px;">
+                                 style="width: 40px;height: 40px;background-color: #378093;">
                                 @if($downloadable->category->icon)
                                     <i class="{{ $downloadable->category->icon }} text-white"></i>
                                 @else

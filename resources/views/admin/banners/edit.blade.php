@@ -23,7 +23,7 @@
 <div class="container-fluid">
 
     {{-- En-tête --}}
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
         <div>
             <a href="{{ route('admin.banners.index') }}" class="btn btn-sm btn-outline-secondary me-2">
                 <i class="fas fa-arrow-left me-1"></i>Retour

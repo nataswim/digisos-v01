@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg" style="border-bottom: 10px solid #5fcac6;border-top: 10px solid #5fcac6;background-image: linear-gradient(161deg, rgb(255 255 255) 85%, rgb(96 203 198) 70px);background-attachment: scroll;background-position: bottom;">
+<nav class="navbar navbar-expand-lg" style="border-bottom: 20px solid #fbfbf5;border-top: 20px solid #fbfbf5;background-image: linear-gradient(18deg, #4babca 85%, #f0a932 70px);background-attachment: scroll;background-position: bottom;border-left: 20px solid #4babca;">
 
     <div class="container-lg">
 
@@ -275,17 +275,64 @@
                     </ul>
                 </li>
 
-                <!-- GESTION (vide - réservé pour futur développement) -->
+                <!-- GESTION — Architecture Spatiale M2PC -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-water me-1"></i>Gestion
+                    @php
+                        $gestionActive = request()->routeIs(
+                            'admin.services.*',
+                            'admin.structures.*',
+                            'admin.espaces.*',
+                            'admin.zones.*'
+                        );
+                    @endphp
+                    <a class="nav-link dropdown-toggle {{ $gestionActive ? 'active fw-bold text-primary' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-sitemap me-1"></i>Gestion
                     </a>
                     <ul class="dropdown-menu">
+
+                        <!-- Architecture Spatiale M2PC -->
+                        <li><h6 class="dropdown-header"><i class="fas fa-sitemap me-2"></i>Architecture Spatiale</h6></li>
+
                         <li>
-                            <span class="dropdown-item-text text-muted fst-italic">
-                                <i class="fas fa-info-circle me-2"></i>Section en développement
-                            </span>
+                            <a class="dropdown-item {{ request()->routeIs('admin.services.*') ? 'active' : '' }}" href="{{ route('admin.services.index') }}">
+                                <i class="fas fa-building fa-fw me-2"></i>Services
+                                @php $servicesCount = App\Models\Service::count(); @endphp
+                                @if($servicesCount > 0)
+                                    <span class="badge bg-primary ms-2">{{ $servicesCount }}</span>
+                                @endif
+                            </a>
                         </li>
+
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('admin.structures.*') ? 'active' : '' }}" href="{{ route('admin.structures.index') }}">
+                                <i class="fas fa-layer-group fa-fw me-2"></i>Structures
+                                @php $structuresCount = App\Models\Structure::count(); @endphp
+                                @if($structuresCount > 0)
+                                    <span class="badge bg-success ms-2">{{ $structuresCount }}</span>
+                                @endif
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('admin.espaces.*') ? 'active' : '' }}" href="{{ route('admin.espaces.index') }}">
+                                <i class="fas fa-th-large fa-fw me-2"></i>Espaces
+                                @php $espacesCount = App\Models\Espace::count(); @endphp
+                                @if($espacesCount > 0)
+                                    <span class="badge bg-warning ms-2 text-dark">{{ $espacesCount }}</span>
+                                @endif
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('admin.zones.*') ? 'active' : '' }}" href="{{ route('admin.zones.index') }}">
+                                <i class="fas fa-map-marker-alt fa-fw me-2"></i>Zones
+                                @php $zonesCount = App\Models\Zone::count(); @endphp
+                                @if($zonesCount > 0)
+                                    <span class="badge bg-danger ms-2">{{ $zonesCount }}</span>
+                                @endif
+                            </a>
+                        </li>
+
                     </ul>
                 </li>
 

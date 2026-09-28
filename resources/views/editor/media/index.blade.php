@@ -6,7 +6,7 @@
 <!-- Titre Section -->
 <section class="position-relative text-white overflow-hidden">
 <div class="card bg-secondary  p-3 border-0 shadow-sm mb-4">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                 <h5 class="mb-0 text-white ">  <i class="fas fa-images text-white me-2"></i>
                 Médiathèque</h5>
          <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#uploadModal">
@@ -118,7 +118,7 @@
                         <h6 class="card-title small mb-1 text-truncate" title="{{ $item->name }}">
                             {{ $item->name }}
                         </h6>
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
                             <small class="text-muted">{{ number_format($item->size / 1024, 1) }} KB</small>
                             <div class="btn-group btn-group-sm">
                                 <a href="{{ route('editor.media.show', $item) }}" class="btn btn-sm btn-outline-primary" title="Voir">

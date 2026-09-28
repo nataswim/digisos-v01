@@ -143,7 +143,7 @@
                                                              alt="">
                                                     @else
                                                         <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center text-primary fw-bold" 
-                                                             style="width: 40px; height: 40px;">
+                                                             style="width: 40px;height: 40px;background-color: #378093;">
                                                             {{ substr($user->name, 0, 1) }}
                                                         </div>
                                                     @endif

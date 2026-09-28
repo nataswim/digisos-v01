@@ -5,7 +5,7 @@
 @section('content')
 <div class="container-fluid">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
         <div>
             <h1 class="h3 mb-0"><i class="fas fa-plus me-2 text-primary"></i>Nouvelle bannière</h1>
         </div>

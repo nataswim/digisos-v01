@@ -40,6 +40,12 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserProfileController;
 use App\Http\Controllers\Admin\ProfileItemController;
 
+// Architecture Spatiale 
+use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\StructureController;
+use App\Http\Controllers\Admin\EspaceController;
+use App\Http\Controllers\Admin\ZoneController;
+
 // ========== CONTROLLERS ÉDITEUR ==========
 use App\Http\Controllers\Editor\EditorDashboardController;
 use App\Http\Controllers\Editor\EditorPostController;
@@ -54,6 +60,8 @@ use App\Http\Controllers\Editor\EditorPhotoGalleryController;
 use App\Http\Controllers\User\UserDashboardController;
 use App\Http\Controllers\Visitor\VisitorDashboardController;
 use App\Http\Controllers\User\UserProfileController as UserUserProfileController;
+
+use App\Http\Controllers\PublicInstallationController;
 
 // =============================================================================
 // ROUTES PUBLIQUES
@@ -131,6 +139,16 @@ Route::prefix('galeries')->name('galleries.')->group(function () {
     Route::get('/',               [PublicGalleryController::class, 'index'])->name('index');
     Route::get('/{photoGallery}', [PublicGalleryController::class, 'show'])->name('show');
 });
+
+// ========== INSTALLATIONS PUBLIQUES (Architecture Spatiale M2PC) ==========
+Route::prefix('installations')->name('public.installations.')->group(function () {
+    Route::get('/',                         [PublicInstallationController::class, 'index'])->name('index');
+    Route::get('/{service}',                [PublicInstallationController::class, 'showService'])->name('service');
+    Route::get('/structures/{structure}',   [PublicInstallationController::class, 'showStructure'])->name('structure');
+    Route::get('/espaces/{espace}',         [PublicInstallationController::class, 'showEspace'])->name('espace');
+    Route::get('/zones/{zone}',             [PublicInstallationController::class, 'showZone'])->name('zone');
+});
+
 
 // =============================================================================
 // ROUTES AUTHENTIFICATION
@@ -307,6 +325,12 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
          ->name('photo-galleries.duplicate');
     Route::resource('photo-galleries', PhotoGalleryController::class)
          ->parameters(['photo-galleries' => 'photoGallery']);
+
+         // ========== ARCHITECTURE SPATIALE  ==========
+    Route::resource('services',   ServiceController::class);
+    Route::resource('structures', StructureController::class);
+    Route::resource('espaces',    EspaceController::class);
+    Route::resource('zones',      ZoneController::class);
 });
 
 // =============================================================================

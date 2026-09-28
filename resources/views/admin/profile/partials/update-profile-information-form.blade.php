@@ -1,5 +1,5 @@
 <section class="card shadow-aqua border-0 overflow-hidden">
-    <div class="card-header bg-gradient text-white py-4" style="background: linear-gradient(135deg, #38859b 0%, #49aaca 100%);">
+    <div class="card-header bg-gradient text-white py-4" style="background: linear-gradient(135deg, #38859b 0%, #2f80b8 100%);">
         <div class="d-flex align-items-center gap-3">
             <div>
                 <h2 class="h5 mb-1 fw-bold text-white">
