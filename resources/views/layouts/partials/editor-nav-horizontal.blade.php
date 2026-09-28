@@ -22,7 +22,7 @@
                 </li>
 
                 {{-- Contenus (Articles, Fiches, Pages) --}}
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown admin-menu">
                     @php 
                         $contenusActive = request()->routeIs(
                             'editor.posts.*', 
@@ -99,7 +99,7 @@
                 </li>
 
                 {{-- Multimédia (Vidéos, Galeries, Médiathèque) --}}
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown admin-menu">
                     @php 
                         $multimediaActive = request()->routeIs(
                             'editor.videos.*', 

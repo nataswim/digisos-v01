@@ -13,13 +13,13 @@
 
                 <!-- Dashboard -->
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active fw-bold text-primary' : '' }}" href="{{ route('admin.dashboard') }}">
+                    <a class="nav-link admin-menu{{ request()->routeIs('admin.dashboard') ? 'active fw-bold text-white' : '' }}" href="{{ route('admin.dashboard') }}">
                         <i class="fas fa-home me-1"></i>Dashboard
                     </a>
                 </li>
 
                 <!-- CONTENUS (dropdown) -->
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown admin-menu">
                     @php 
                         $contenusActive = request()->routeIs(
                             'admin.posts.*', 
@@ -32,7 +32,7 @@
                             'admin.pages-categories.*'
                         ); 
                     @endphp
-                    <a class="nav-link dropdown-toggle {{ $contenusActive ? 'active fw-bold text-primary' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle {{ $contenusActive ? 'active fw-bold text-white' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-water me-1"></i>Contenus
                     </a>
                     <ul class="dropdown-menu">
@@ -115,7 +115,7 @@
                 </li>
 
                 <!-- MULTIMÉDIA (dropdown) -->
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown admin-menu">
                     @php 
                         $multimediaActive = request()->routeIs(
                             'admin.videos.*', 
@@ -127,7 +127,7 @@
                             'admin.download-categories.*'
                         ); 
                     @endphp
-                    <a class="nav-link dropdown-toggle {{ $multimediaActive ? 'active fw-bold text-primary' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle {{ $multimediaActive ? 'active fw-bold text-white' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-water me-1"></i>Multimédia
                     </a>
                     <ul class="dropdown-menu">
@@ -222,7 +222,7 @@
                 </li>
 
                 <!-- SYSTÈME (dropdown) -->
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown admin-menu">
                     @php 
                         $systemActive = request()->routeIs(
                             'admin.users.*', 
@@ -231,7 +231,7 @@
                             'admin.sitemap.*'
                         ); 
                     @endphp
-                    <a class="nav-link dropdown-toggle {{ $systemActive ? 'active fw-bold text-primary' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle {{ $systemActive ? 'active fw-bold text-white' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-water me-1"></i>Système
                     </a>
                     <ul class="dropdown-menu">
@@ -276,7 +276,7 @@
                 </li>
 
                 <!-- GESTION — Architecture Spatiale M2PC -->
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown admin-menu">
                     @php
                         $gestionActive = request()->routeIs(
                             'admin.services.*',
@@ -285,7 +285,7 @@
                             'admin.zones.*'
                         );
                     @endphp
-                    <a class="nav-link dropdown-toggle {{ $gestionActive ? 'active fw-bold text-primary' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle {{ $gestionActive ? 'active fw-bold text-white' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-sitemap me-1"></i>Gestion
                     </a>
                     <ul class="dropdown-menu">
@@ -337,8 +337,8 @@
                 </li>
 
                 <!-- OUTILS (vide - réservé pour futur développement) -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <li class="nav-item dropdown admin-menu">
+                    <a class="nav-link dropdown-toggle admin-menu" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                        <i class="fas fa-water me-1"></i>Outils
                     </a>
                     <ul class="dropdown-menu">

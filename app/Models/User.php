@@ -64,54 +64,7 @@ class User extends Authenticatable
         return $this->hasMany(Tag::class, 'created_by');
     }
 
-    public function payments(): HasMany
-    {
-        return $this->hasMany(Payment::class);
-    }
-
-    public function plans()
-    {
-        return $this->belongsToMany(Plan::class, 'user_plans')
-                    ->withPivot('date_debut', 'date_fin_prevue', 'statut', 'progression_pourcentage', 'notes_utilisateur', 'preferences', 'assigned_by')
-                    ->withTimestamps()
-                    ->using(UserPlan::class);
-    }
-
-    public function plansAssignes(): HasMany
-    {
-        return $this->hasMany(UserPlan::class, 'assigned_by');
-    }
-
-    public function exercicesCreated(): HasMany
-    {
-        return $this->hasMany(Exercice::class, 'created_by');
-    }
-
-    public function seriesCreated(): HasMany
-    {
-        return $this->hasMany(Serie::class, 'created_by');
-    }
-
-    public function seancesCreated(): HasMany
-    {
-        return $this->hasMany(Seance::class, 'created_by');
-    }
-
-    public function cyclesCreated(): HasMany
-    {
-        return $this->hasMany(Cycle::class, 'created_by');
-    }
-
-    public function plansCreated(): HasMany
-    {
-        return $this->hasMany(Plan::class, 'created_by');
-    }
-
-    public function notebooks(): HasMany
-    {
-        return $this->hasMany(Notebook::class);
-    }
-
+    
     // -------------------------------------------------------------------------
     // AJOUT — Relation fiche utilisateur enrichie (One-to-One)
     // -------------------------------------------------------------------------
@@ -136,22 +89,5 @@ class User extends Authenticatable
         }
 
         return $this->role->slug === $roleSlug;
-    }
-
-    public function hasActivePlan(): bool
-    {
-        return $this->plans()->wherePivot('statut', 'en_cours')->exists();
-    }
-
-    public function getCurrentPlan()
-    {
-        return $this->plans()->wherePivot('statut', 'en_cours')->first();
-    }
-
-    public function canAccessTraining(): bool
-    {
-        return $this->hasRole('user')
-            || $this->hasRole('editor')
-            || $this->hasRole('admin');
     }
 }

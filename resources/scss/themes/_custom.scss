@@ -349,3 +349,27 @@ background-image: radial-gradient(ellipse at center, #297cc2 0%, #3b8aa1 100%) !
     background-position: top;
     background-attachment: fixed;
 }
+.admin-menu {
+    background-color: #ffffff;
+    color: #000000;
+    background-image: linear-gradient(230deg, #3080b9 85%, #f0aa33 70px);
+    border-radius: 0px 0px 20px 0px;
+    box-shadow: 3px 6px 2px 0 rgba(48, 128, 184, 0.36) !important;
+    border-left: 3px solid #f0aa33;
+}
+.admin-menu:hover {
+background-color: #ffffff;
+    color: #000000;
+    background-image: linear-gradient(68deg, #f0a833 85%, #3080b9 70px);
+    border-radius: 0px 0px 20px 0px;
+    box-shadow: 3px 6px 2px 0 rgba(48, 128, 184, 0.36) !important;
+    border-left: 5px solid #ffffff;
+}
+.admin-menu.active {
+background-color: #ffffff;
+    color: #000000;
+    background-image: linear-gradient(68deg, #f0a833 85%, #3080b9 70px);
+    border-radius: 0px 0px 20px 0px;
+    box-shadow: 3px 6px 2px 0 rgba(48, 128, 184, 0.36) !important;
+    border-left: 5px solid #ffffff;
+}

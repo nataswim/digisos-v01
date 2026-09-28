@@ -205,7 +205,7 @@ Route::middleware(['auth', 'verified'])->prefix('stats')->name('stats.')->group(
 // ESPACE ADMIN
 // =============================================================================
 
-Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'verified', 'can:access-admin'])->prefix('admin')->name('admin.')->group(function () {
 
     // ========== DASHBOARD ==========
     Route::get('/dashboard', AdminDashboardController::class)->name('dashboard');
@@ -337,7 +337,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
 // ESPACE ÉDITEUR
 // =============================================================================
 
-Route::middleware(['auth', 'verified'])->prefix('editor')->name('editor.')->group(function () {
+Route::middleware(['auth', 'verified', 'can:access-editor'])->prefix('editor')->name('editor.')->group(function () {
 
     // ========== DASHBOARD ==========
     Route::get('/dashboard', [EditorDashboardController::class, 'index'])->name('dashboard');

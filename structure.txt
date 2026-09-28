@@ -8,16 +8,20 @@
 │   │   └── route_helper.php
 │   ├── Http
 │   │   ├── Controllers
-│   │   │   ├── AITextController.php
 │   │   │   ├── Admin
 │   │   │   │   ├── DashboardController.php
+│   │   │   │   ├── EspaceController.php
 │   │   │   │   ├── PhotoGalleryController.php
 │   │   │   │   ├── ProfileItemController.php
+│   │   │   │   ├── ServiceController.php
 │   │   │   │   ├── SitemapController.php
+│   │   │   │   ├── StructureController.php
 │   │   │   │   ├── UserProfileController.php
 │   │   │   │   ├── VideoCategoryController.php
 │   │   │   │   ├── VideoController.php
-│   │   │   │   └── VideoLibraryController.php
+│   │   │   │   ├── VideoLibraryController.php
+│   │   │   │   └── ZoneController.php
+│   │   │   ├── AITextController.php
 │   │   │   ├── Auth
 │   │   │   │   ├── AuthenticatedSessionController.php
 │   │   │   │   ├── ConfirmablePasswordController.php
@@ -31,8 +35,8 @@
 │   │   │   ├── BannerController.php
 │   │   │   ├── CategoryController.php
 │   │   │   ├── Controller.php
-│   │   │   ├── DownloadCategoryController.php
 │   │   │   ├── DownloadableController.php
+│   │   │   ├── DownloadCategoryController.php
 │   │   │   ├── EbookController.php
 │   │   │   ├── EbookFileController.php
 │   │   │   ├── Editor
@@ -56,6 +60,7 @@
 │   │   │   ├── PublicController.php
 │   │   │   ├── PublicFicheController.php
 │   │   │   ├── PublicGalleryController.php
+│   │   │   ├── PublicInstallationController.php
 │   │   │   ├── PublicPageController.php
 │   │   │   ├── PublicVideoController.php
 │   │   │   ├── RoleController.php
@@ -75,8 +80,9 @@
 │   │       ├── BulkMediaActionRequest.php
 │   │       ├── ProfileUpdateRequest.php
 │   │       ├── StoreCategoryRequest.php
-│   │       ├── StoreDownloadCategoryRequest.php
 │   │       ├── StoreDownloadableRequest.php
+│   │       ├── StoreDownloadCategoryRequest.php
+│   │       ├── StoreEspaceRequest.php
 │   │       ├── StoreFicheRequest.php
 │   │       ├── StoreMediaCategoryRequest.php
 │   │       ├── StoreMediaRequest.php
@@ -86,13 +92,17 @@
 │   │       ├── StorePostRequest.php
 │   │       ├── StoreProfileItemRequest.php
 │   │       ├── StoreRoleRequest.php
+│   │       ├── StoreServiceRequest.php
+│   │       ├── StoreStructureRequest.php
 │   │       ├── StoreTagRequest.php
 │   │       ├── StoreUserRequest.php
 │   │       ├── StoreVideoCategoryRequest.php
 │   │       ├── StoreVideoRequest.php
+│   │       ├── StoreZoneRequest.php
 │   │       ├── UpdateCategoryRequest.php
-│   │       ├── UpdateDownloadCategoryRequest.php
 │   │       ├── UpdateDownloadableRequest.php
+│   │       ├── UpdateDownloadCategoryRequest.php
+│   │       ├── UpdateEspaceRequest.php
 │   │       ├── UpdateFicheRequest.php
 │   │       ├── UpdatePageRequest.php
 │   │       ├── UpdatePermissionRequest.php
@@ -101,20 +111,24 @@
 │   │       ├── UpdateProfileItemRequest.php
 │   │       ├── UpdateProfileRequest.php
 │   │       ├── UpdateRoleRequest.php
+│   │       ├── UpdateServiceRequest.php
+│   │       ├── UpdateStructureRequest.php
 │   │       ├── UpdateTagRequest.php
 │   │       ├── UpdateUserRequest.php
 │   │       ├── UpdateVideoCategoryRequest.php
-│   │       └── UpdateVideoRequest.php
+│   │       ├── UpdateVideoRequest.php
+│   │       └── UpdateZoneRequest.php
 │   ├── Mail
 │   │   └── ContactFormMail.php
 │   ├── Models
 │   │   ├── Banner.php
 │   │   ├── BannerSlide.php
 │   │   ├── Category.php
+│   │   ├── Downloadable.php
 │   │   ├── DownloadCategory.php
 │   │   ├── DownloadLog.php
-│   │   ├── Downloadable.php
 │   │   ├── EbookFile.php
+│   │   ├── Espace.php
 │   │   ├── Fiche.php
 │   │   ├── FichesCategory.php
 │   │   ├── FichesSousCategory.php
@@ -127,14 +141,17 @@
 │   │   ├── Post.php
 │   │   ├── ProfileItem.php
 │   │   ├── Role.php
+│   │   ├── Service.php
 │   │   ├── Setting.php
 │   │   ├── SitemapUrl.php
+│   │   ├── Structure.php
 │   │   ├── Tag.php
 │   │   ├── Taggable.php
 │   │   ├── User.php
 │   │   ├── UserProfile.php
 │   │   ├── Video.php
-│   │   └── VideoCategory.php
+│   │   ├── VideoCategory.php
+│   │   └── Zone.php
 │   ├── Providers
 │   │   ├── AppServiceProvider.php
 │   │   └── HelperServiceProvider.php
@@ -212,13 +229,21 @@
 │   │   ├── 2026_02_10_102733_create_banners_table.php
 │   │   ├── 2026_02_10_102744_create_banner_slides_table.php
 │   │   ├── 2026_03_06_154918_create_user_profiles_table.php
-│   │   └── 2026_03_06_155200_create_profile_items_table.php
+│   │   ├── 2026_03_06_155200_create_profile_items_table.php
+│   │   ├── 2026_03_25_101152_create_services_table.php
+│   │   ├── 2026_03_25_101209_create_structures_table.php
+│   │   ├── 2026_03_25_101221_create_espaces_table.php
+│   │   ├── 2026_03_25_101230_create_zones_table.php
+│   │   ├── 2026_03_27_155530_add_slug_to_services_table.php
+│   │   ├── 2026_03_27_155531_add_slug_to_espaces_table.php
+│   │   ├── 2026_03_27_155531_add_slug_to_structures_table.php
+│   │   └── 2026_03_27_155532_add_slug_to_zones_table.php
 │   └── seeders
 │       ├── CategoriesTableSeeder.php
 │       ├── DatabaseSeeder.php
 │       ├── DefaultRolesSeeder.php
-│       ├── DownloadCategoriesSeeder.php
 │       ├── DownloadablesSeeder.php
+│       ├── DownloadCategoriesSeeder.php
 │       ├── FichesCategoriesSeeder.php
 │       ├── FichesSeeder.php
 │       ├── FichesSousCategoriesSeeder.php
@@ -309,13 +334,13 @@
 │   │       │   ├── digital-sos-logo8.png
 │   │       │   └── digital-sos-logo9.png
 │   │       └── team
-│   │           ├── MUSCULATION_NATASWIM.mp4
 │   │           ├── anatomie.mp4
 │   │           ├── centre_aquasport_nataswim.mp4
 │   │           ├── ebooks.mp4
 │   │           ├── fitness-nataswim-courir.mp4
 │   │           ├── lac.mp4
 │   │           ├── med_Hassan_EL_HAOUAT.png
+│   │           ├── MUSCULATION_NATASWIM.mp4
 │   │           ├── nataswim-sport-training-0.mp4
 │   │           ├── nataswim-sport-training-1.mp4
 │   │           ├── nataswim-sport-training-2.mp4
@@ -356,9 +381,9 @@
 │       ├── fa-v4compatibility.ttf
 │       └── fa-v4compatibility.woff2
 ├── readmedoc
+│   ├── README_BANNERS.md
 │   ├── README-SEEDERS.md
 │   ├── README.md
-│   ├── README_BANNERS.md
 │   └── structure.txt
 ├── resources
 │   ├── js
@@ -397,8 +422,8 @@
 │       │   │   ├── index.blade.php
 │       │   │   └── partials
 │       │   │       ├── form.blade.php
-│       │   │       ├── slide-form.blade.php
-│       │   │       └── slide_form.blade.php
+│       │   │       ├── slide_form.blade.php
+│       │   │       └── slide-form.blade.php
 │       │   ├── categories
 │       │   │   ├── create.blade.php
 │       │   │   ├── edit.blade.php
@@ -426,6 +451,13 @@
 │       │   │   ├── index.blade.php
 │       │   │   ├── modals
 │       │   │   │   └── upload.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── espaces
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── partials
+│       │   │   │   └── form.blade.php
 │       │   │   └── show.blade.php
 │       │   ├── fiches
 │       │   │   ├── create.blade.php
@@ -477,8 +509,8 @@
 │       │   │   ├── index.blade.php
 │       │   │   ├── partials
 │       │   │   │   ├── form.blade.php
-│       │   │   │   ├── media-selector-modal.blade.php
-│       │   │   │   └── media_selector_modal.blade.php
+│       │   │   │   ├── media_selector_modal.blade.php
+│       │   │   │   └── media-selector-modal.blade.php
 │       │   │   └── show.blade.php
 │       │   ├── posts
 │       │   │   ├── create.blade.php
@@ -502,10 +534,24 @@
 │       │   │   ├── partials
 │       │   │   │   └── form.blade.php
 │       │   │   └── show.blade.php
+│       │   ├── services
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── partials
+│       │   │   │   └── form.blade.php
+│       │   │   └── show.blade.php
 │       │   ├── sitemap
 │       │   │   ├── index.blade.php
 │       │   │   └── partials
 │       │   │       └── modals.blade.php
+│       │   ├── structures
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── partials
+│       │   │   │   └── form.blade.php
+│       │   │   └── show.blade.php
 │       │   ├── tags
 │       │   │   ├── create.blade.php
 │       │   │   ├── edit.blade.php
@@ -533,10 +579,17 @@
 │       │   │   ├── create.blade.php
 │       │   │   ├── edit.blade.php
 │       │   │   └── index.blade.php
-│       │   └── videos
+│       │   ├── videos
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   └── show.blade.php
+│       │   └── zones
 │       │       ├── create.blade.php
 │       │       ├── edit.blade.php
 │       │       ├── index.blade.php
+│       │       ├── partials
+│       │       │   └── form.blade.php
 │       │       └── show.blade.php
 │       ├── auth
 │       │   ├── confirm-password.blade.php
@@ -664,6 +717,16 @@
 │       │   ├── guide.blade.php
 │       │   ├── home.blade.php
 │       │   ├── index.blade.php
+│       │   ├── installations
+│       │   │   ├── espaces
+│       │   │   │   └── show.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── services
+│       │   │   │   └── show.blade.php
+│       │   │   ├── structures
+│       │   │   │   └── show.blade.php
+│       │   │   └── zones
+│       │   │       └── show.blade.php
 │       │   ├── legal.blade.php
 │       │   ├── pages
 │       │   │   ├── category.blade.php
@@ -711,4 +774,4 @@
 ├── vite.config.js
 └── webpack.mix.js
 
-126 directories, 586 files
+139 directories, 636 files
