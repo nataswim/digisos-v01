@@ -162,7 +162,7 @@
                                             <i class="fas fa-info-circle me-1"></i>
                                             Votre compte ne permet pas l'accès à ce contenu premium.
                                         </p>
-                                        <a href="{{ route('payments.index') }}" 
+                                        <a href="{{ route('pricing') }}" 
                                            class="btn btn-warning d-inline-flex align-items-center justify-content-center gap-2 shadow-lg">
                                             <i class="fas fa-crown"></i>
                                             <span>Devenir Premium</span>

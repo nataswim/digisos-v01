@@ -115,7 +115,7 @@
                                     </a>
                                 </div>
                                 @elseif(auth()->user()->hasRole('visitor'))
-                                <a href="{{ route('payments.index') }}" 
+                                <a href="{{ route('pricing') }}" 
                                    class="btn btn-warning">
                                     <i class="fas fa-crown me-2"></i>Devenir Premium
                                 </a>

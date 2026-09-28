@@ -140,7 +140,7 @@
                                         </div>
                                     @elseif(auth()->user()->hasRole('visitor'))
                                         {{-- Utilisateur visitor : Bouton Premium --}}
-                                        <a href="{{ route('payments.index') }}" 
+                                        <a href="{{ route('pricing') }}" 
                                            class="btn btn-warning hover-lift shadow-lg">
                                             <i class="fas fa-crown me-2"></i>
                                             Devenir Premium
