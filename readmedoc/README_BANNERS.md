@@ -574,4 +574,4 @@ En cas de problème, vérifier dans l'ordre :
 
 ---
 
-**Fait avec ❤️ pour Digital'SOS**
+**Fait avec ❤️ pour Mon Club de Natation**

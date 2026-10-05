@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
- * 🇬🇧 Categories Table Seeder - Creates post categories for Digital'SOS
- * 🇫🇷 Seeder de la table categories - Crée les catégories de posts pour Digital'SOS
+ * 🇬🇧 Categories Table Seeder - Creates post categories for Mon Club de Natation
+ * 🇫🇷 Seeder de la table categories - Crée les catégories de posts pour Mon Club de Natation
  * 
  * @file database/seeders/CategoriesTableSeeder.php
  */

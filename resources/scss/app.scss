@@ -1,10 +1,10 @@
 /**
  * ============================================================================
- * APP.SCSS - DIGITAL'SOS CMS
+ * APP.SCSS - Mon Club de Natation CMS
  * ============================================================================
  * Fichier principal SCSS qui importe tous les composants
  * Méthode M2PC : Matériel | Planning | Personnel | Contenu
- * Charte aquatique Digital'SOS
+ * Charte aquatique Mon Club de Natation
  * Version : Laravel 12 | Bootstrap 5 | Laravel Mix
  * ============================================================================
  */
@@ -40,8 +40,8 @@
    THEMES
    ============================================================================ */
 
-@import 'themes/aquatic';  // Thème aquatique Digital'SOS ⭐ NOUVEAU
-@import 'themes/custom';  // Thème aquatique Digital'SOS ⭐ NOUVEAU
+@import 'themes/aquatic';  // Thème aquatique Mon Club de Natation ⭐ NOUVEAU
+@import 'themes/custom';  // Thème aquatique Mon Club de Natation ⭐ NOUVEAU
 
 
 /* ============================================================================
@@ -411,11 +411,11 @@ select {
     backface-visibility: hidden;
 }
 .navbar-nav .nav-link {
-    color: #fff;
+    color: #000000;
 }
 
 /* ============================================================================
-   FIN DU FICHIER - DIGITAL'SOS CMS
+   FIN DU FICHIER - Mon Club de Natation CMS
    ============================================================================
    
    Pour personnaliser davantage :
@@ -428,5 +428,5 @@ select {
    Documentation Bootstrap 5 : https://getbootstrap.com/docs/5.3/
    Documentation Laravel Mix : https://laravel-mix.com/
    
-   Digital'SOS - La performance commence par une gestion maîtrisée
+   Mon Club de Natation - La performance commence par une gestion maîtrisée
    ============================================================================ */

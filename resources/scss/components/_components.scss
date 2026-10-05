@@ -1,9 +1,9 @@
 /**
  * ============================================================================
- * COMPONENTS SCSS - DIGITAL'SOS CMS
+ * COMPONENTS SCSS - Mon Club de Natation CMS
  * ============================================================================
  * Composants UI : Boutons, Forms, Tables, Badges, Alerts, etc.
- * Basés sur la charte aquatique Digital'SOS
+ * Basés sur la charte aquatique Mon Club de Natation
  * Version : Laravel 12 | Bootstrap 5 | Vite
  * ============================================================================
  */
@@ -52,15 +52,15 @@
  * Bouton primaire
  */
 .btn-primary {
-    background: linear-gradient(135deg, #2f80b8 85%, #f0a932 70px);
+    background: linear-gradient(117deg, #1c2011 85%, #f0a932 70px);
     color: #ffffff;
     box-shadow: 0px 4px 5px 3px rgba(0, 0, 0, 0.05);
     border: none;
     
     &:hover:not(:disabled) {
-        background: linear-gradient(211deg, #2f80b8 85%, #f0a932 70px);
+    background: linear-gradient(245deg, #1c2011 85%, #f0a932 70px);
     color: #ffffff;
-    box-shadow: 0px 4px 5px 3px rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 2px 5px 3px rgb(0 0 0 / 24%);
     border: none;
     }
     
@@ -95,15 +95,15 @@
  * Bouton succès
  */
 .btn-success {
-    background: linear-gradient(309deg, #2f80b8 85%, #f0a932 70px);
+    background: linear-gradient(309deg, #f0a833 85%, #1c2111 70px);
     color: #ffffff;
     box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);
     border: none;
     
     &:hover:not(:disabled) {
-        background: linear-gradient(43deg, #2f80b8 75%, #f0a932 70px);
-    color: #f8f883;
-    box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);
+    background: linear-gradient(309deg, #1c2111 85%, #f0a833 70px);
+    color: #ffffff;
+    box-shadow: 2px 4px 7px 5px rgb(245 172 53 / 22%);
     border: none;
     }
 }

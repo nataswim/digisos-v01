@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 
-@section('title', 'Dossiers & Actualités Sport Natation Triathlon Santé')
+@section('title', 'Actualités & Infos pratiques du Club')
 @section('meta_description', 'Retrouvez nos derniers articles. Expertise, conseils techniques et actualités pour les passionnés de sport de la natation du triathlon et de la santé.')
 
 
@@ -18,7 +18,7 @@
         <div class="row align-items-center min-vh-50">
             <div class="col-lg-12">
                 <div class="d-flex align-items-center mb-4 animate-slide-up">
-                    <h1 class="text-white display-3 fw-bold mb-0">Articles & Dossiers</h1>
+                    <h1 class="text-white display-3 fw-bold mb-0">Actualités & Infos pratiques</h1>
                 </div>
 
                 <p class="lead mb-4 animate-slide-up animation-delay-1">
@@ -309,10 +309,10 @@ position: absolute;
     height: 100%;
     object-fit: cover;
     z-index: 1;
-    border-top: 20px solid #f8f5f4;
-    border-bottom: 20px solid #f9f5f4;
-    border-left: 20px solid #2f80b8;
-    border-right: 20px solid #2f80b8;
+    border-top: 20px solid #ffffff;
+    border-bottom: 20px solid #ffffff;
+    border-left: 20px solid #efa525;
+    border-right: 20px solid #efa525;
 }
 
 .hero-overlay {

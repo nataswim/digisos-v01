@@ -144,15 +144,17 @@
 @push('styles')
 <style>
 .hero-video {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     z-index: 1;
-    border-top: 20px solid #2f80b8;
-    border-bottom: 20px solid #2f80b8;
-    border-left: 20px solid #f9f5f4;
-    border-right: 20px solid #f9f5f4;
+    border-top: 20px solid #ffffff;
+    border-bottom: 20px solid #ffffff;
+    border-left: 20px solid #efa525;
+    border-right: 20px solid #efa525;
 }
 .hero-content { z-index: 3; }
 .min-vh-50 { min-height: 50vh; }

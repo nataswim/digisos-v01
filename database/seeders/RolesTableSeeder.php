@@ -7,8 +7,8 @@ use App\Models\Role;
 use Illuminate\Support\Facades\DB;
 
 /**
- * 🇬🇧 Roles Table Seeder - Creates the 4 base roles for Digital'SOS
- * 🇫🇷 Seeder de la table roles - Crée les 4 rôles de base pour Digital'SOS
+ * 🇬🇧 Roles Table Seeder - Creates the 4 base roles for Mon Club de Natation
+ * 🇫🇷 Seeder de la table roles - Crée les 4 rôles de base pour Mon Club de Natation
  * 
  * @file database/seeders/RolesTableSeeder.php
  */

@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
- * 🇬🇧 Tags Table Seeder - Creates post tags for Digital'SOS
- * 🇫🇷 Seeder de la table tags - Crée les tags de posts pour Digital'SOS
+ * 🇬🇧 Tags Table Seeder - Creates post tags for Mon Club de Natation
+ * 🇫🇷 Seeder de la table tags - Crée les tags de posts pour Mon Club de Natation
  * 
  * @file database/seeders/TagsTableSeeder.php
  */

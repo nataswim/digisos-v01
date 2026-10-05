@@ -1,4 +1,4 @@
-# Digital'SOS - Seeders Documentation
+# Mon Club de Natation - Seeders Documentation
 
 ## 📦 Seeders Générés
 
@@ -244,5 +244,5 @@ Pour toute question sur les seeders :
 
 ---
 
-**Généré pour Digital'SOS - Système de gestion sportive M2PC**  
+**Généré pour Mon Club de Natation - Système de gestion sportive M2PC**  
 *Version : 1.0 - Février 2026*

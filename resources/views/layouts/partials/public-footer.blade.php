@@ -4,7 +4,7 @@ $chiffre2 = mt_rand(79, 123);
 @endphp
 
 
-<footer class="guest-footer mt-5" style="border-top: 40px solid #1c2111;border-left: 20px solid #f0a932;border-right: 20px solid #f0a932;border-bottom: 60px solid #1c2111;background-image: linear-gradient(129deg, #f6f6f6 85%, #1c2111 0);background-attachment: fixed;background-position: top;">
+<footer class="guest-footer mt-5" style="border-top: 40px solid #f0a833;border-left: 20px solid #1c2010;border-right: 20px solid #e40066;border-bottom: 60px solid #f6f6f6;background-image: linear-gradient(129deg, #f6f6f6 85%, #1c2111 0);background-attachment: fixed;background-position: top;border-radius: 40px;">
 
     <!-- Contenu principal du footer -->
     <div class="py-5">
@@ -17,8 +17,8 @@ $chiffre2 = mt_rand(79, 123);
                     
                         
                     <a href="{{ route('home') }}">
-                        <img src="{{ asset('assets/images/logo/digital-sos-logo2.png') }}"
-                             alt="Digital'SOS application"
+                        <img src="{{ asset('assets/images/logo/Logo-CNBB-Natation-9.png') }}"
+                             alt="Club de natation Bressuire"
                              class="hero-logo img-fluid" style="max-width: 200px;">
                     </a>
                 
@@ -143,7 +143,7 @@ $chiffre2 = mt_rand(79, 123);
     </div>
 
     <!-- Barre de copyright -->
-<div style="background-color: #f0a932 !important;padding: 20px 5px;color: #000000;background: linear-gradient(202deg, #2f80b8 85%, #f0a932 0);background-attachment: fixed;">
+<div style="background-color: #E50066 !important;padding: 20px 5px;color: #ffffff;background: linear-gradient(202deg, #E50066 85%, #1c2111 0);background-attachment: fixed;">
             <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6">

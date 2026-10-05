@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
-@section('title', 'Fiches Pratiques')
-@section('meta_description', 'Découvrez nos fiches pratiques organisées par thématique pour optimiser votre entraînement et performance sportive.')
+@section('title', 'Espace d\'information')
+@section('meta_description', 'Retrouvez less fiches d\'information du club.')
 
 @section('content')
 
@@ -18,10 +18,10 @@
         <div class="row align-items-center min-vh-50">
             <div class="col-lg-12">
                 <div class="d-flex align-items-center mb-4 animate-slide-up">
-                    <h1 class="text-white display-3 fw-bold mb-0">Fiches Thématique</h1>
+                    <h1 class="text-white display-3 fw-bold mb-0">Espace d'information</h1>
                 </div>
                 <p class="lead mb-4 animate-slide-up animation-delay-1">
-                    Retrouvez less dernières fiches.
+                    Retrouvez less fiches d'information du club.
                 </p>
             </div>
         </div>
@@ -193,10 +193,10 @@ position: absolute;
     height: 100%;
     object-fit: cover;
     z-index: 1;
-    border-top: 20px solid #f8f5f4;
-    border-bottom: 20px solid #f9f5f4;
-    border-left: 20px solid #2f80b8;
-    border-right: 20px solid #2f80b8;
+    border-top: 20px solid #ffffff;
+    border-bottom: 20px solid #ffffff;
+    border-left: 20px solid #efa525;
+    border-right: 20px solid #efa525;
 }
 
 .hero-overlay {

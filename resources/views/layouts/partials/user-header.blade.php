@@ -6,8 +6,8 @@
 
         {{-- Logo --}}
         <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
-            <img src="{{ asset('assets/images/logo/digital-sos-logo4.png') }}"
-                 alt="Digital'SOS application"
+            <img src="{{ asset('assets/images/logo/Logo-CNBB-Natation-9.png') }}"
+                 alt="Club de natation Bressuire"
                  class="img-fluid"
                  style="height:80px;width:auto;">
         </a>
@@ -25,35 +25,35 @@
                 <li class="nav-item" style="font-weight:600;">
                     <a class="nav-link navurl px-1 py-2 {{ request()->routeIs('posts.public.*') ? 'active' : 'text-primary' }}"
                        href="{{ route('posts.public.index') }}">
-                        <i class="fas fa-water me-2"></i>Actualités
+                        <i class="fas fa-water me-2" style="color: #eea324;"></i>Actualités
                     </a>
                 </li>
 
                 <li class="nav-item" style="font-weight:600;">
                     <a class="nav-link navurl px-1 py-2 {{ request()->routeIs('public.fiches.*') ? 'active' : 'text-primary' }}"
                        href="{{ route('public.fiches.index') }}">
-                        <i class="fas fa-water me-2"></i>Fiches pratiques
+                        <i class="fas fa-water me-2" style="color: #eea324;"></i>Fiches pratiques
                     </a>
                 </li>
 
                 <li class="nav-item" style="font-weight:600;">
                     <a class="nav-link navurl px-1 py-2 {{ request()->routeIs('public.videos.*') ? 'active' : 'text-primary' }}"
                        href="{{ route('public.videos.index') }}">
-                        <i class="fas fa-water me-2"></i>Tutoriels
+                        <i class="fas fa-water me-2" style="color: #eea324;"></i>Tutoriels
                     </a>
                 </li>
 
                 <li class="nav-item" style="font-weight:600;">
                     <a class="nav-link navurl px-1 py-2 {{ request()->routeIs('ebook.*') ? 'active' : 'text-primary' }}"
                        href="{{ route('ebook.index') }}">
-                        <i class="fas fa-water me-2"></i>Documents
+                        <i class="fas fa-water me-2" style="color: #eea324;"></i>Documents
                     </a>
                 </li>
 
                 <li class="nav-item" style="font-weight:600;">
                     <a class="nav-link navurl px-1 py-2 {{ request()->routeIs('public.pages.*') ? 'active' : 'text-primary' }}"
                        href="{{ route('public.pages.index') }}">
-                        <i class="fas fa-water me-2"></i>Pages
+                        <i class="fas fa-water me-2" style="color: #eea324;"></i>Pages
                     </a>
                 </li>
 

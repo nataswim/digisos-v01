@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
- * 🇬🇧 Fiches Categories Seeder - Creates fiche categories for Digital'SOS
- * 🇫🇷 Seeder des catégories de fiches - Crée les catégories de fiches pour Digital'SOS
+ * 🇬🇧 Fiches Categories Seeder - Creates fiche categories for Mon Club de Natation
+ * 🇫🇷 Seeder des catégories de fiches - Crée les catégories de fiches pour Mon Club de Natation
  * 
  * @file database/seeders/FichesCategoriesSeeder.php
  */

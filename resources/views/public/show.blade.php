@@ -244,8 +244,8 @@ position: absolute;
     z-index: 1;
     border-top: 20px solid #ffffff;
     border-bottom: 20px solid #ffffff;
-    border-left: 20px solid #2f80b8;
-    border-right: 20px solid #2f80b8;
+    border-left: 20px solid #efa525;
+    border-right: 20px solid #efa525;
 }
 
 .hero-image-bg {

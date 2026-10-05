@@ -126,7 +126,7 @@
         {{-- Logo --}}
         <div class="error-logo">
             <a href="{{ route('home') }}">
-                <img src="{{ asset('assets/images/logo/digital-sos-logo4.png') }}"
+                <img src="{{ asset('assets/images/logo/Logo-CNBB-Natation-9.png') }}"
                      alt="{{ config('app.name') }}">
             </a>
         </div>

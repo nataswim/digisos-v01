@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
-@section('title', 'Pages Informatives')
-@section('meta_description', 'Découvrez nos pages informatives organisées par thématique.')
+@section('title', 'Bienvenue dans votre espace d\'information Club de natation de Bressuire')
+@section('meta_description', 'Découvrez nos pages club organisées par thématique.')
 
 @section('content')
 
@@ -16,10 +16,10 @@
         <div class="row align-items-center min-vh-50">
             <div class="col-lg-12">
                 <div class="d-flex align-items-center mb-4 animate-slide-up">
-                    <h1 class="text-white display-3 fw-bold mb-0">Pages Informatives</h1>
+                    <h1 class="text-white display-3 fw-bold mb-0">Espace d'information</h1>
                 </div>
                 <p class="lead mb-4 animate-slide-up animation-delay-1">
-                    Retrouvez toutes nos pages thématiques.
+                    Retrouvez ici toutes les informations pratiques nécessaires au bon déroulement de votre saison au club. Que vous soyez nouvel adhérent ou nageur confirmé, cette rubrique rassemble l'ensemble des éléments essentiels pour vous guider.
                 </p>
             </div>
         </div>
@@ -29,8 +29,8 @@
 <!-- Catégories -->
 <section class="py-5 bg-white">
     <div class="container-lg">
-        <h2 class="text-white-secondary mb-5 text-center">Catégories de Pages</h2>
-        
+        <h2 class="text-white-secondary mb-5 text-center">CNBB</h2>
+        <p>Une question spécifique n'est pas traitée ici ? L'équipe reste à votre disposition via notre formulaire de contact.</p>
         @if($categories->count() > 0)
         <div class="row g-4">
             @foreach($categories as $category)
@@ -116,10 +116,10 @@ position: absolute;
     height: 100%;
     object-fit: cover;
     z-index: 1;
-    border-top: 20px solid #f8f5f4;
-    border-bottom: 20px solid #f9f5f4;
-    border-left: 20px solid #2f80b8;
-    border-right: 20px solid #2f80b8;
+    border-top: 20px solid #ffffff;
+    border-bottom: 20px solid #ffffff;
+    border-left: 20px solid #efa525;
+    border-right: 20px solid #efa525;
 }
 
 .hero-content {

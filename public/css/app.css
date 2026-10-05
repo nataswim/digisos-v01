@@ -2,11 +2,11 @@
 @charset "UTF-8";
 /**
  * ============================================================================
- * APP.SCSS - DIGITAL'SOS CMS
+ * APP.SCSS - Mon Club de Natation CMS
  * ============================================================================
  * Fichier principal SCSS qui importe tous les composants
  * Méthode M2PC : Matériel | Planning | Personnel | Contenu
- * Charte aquatique Digital'SOS
+ * Charte aquatique Mon Club de Natation
  * Version : Laravel 12 | Bootstrap 5 | Laravel Mix
  * ============================================================================
  */
@@ -20,14 +20,14 @@
    ============================================================================ */
 /**
  * ============================================================================
- * VARIABLES COULEURS - DIGITAL'SOS CMS
+ * VARIABLES COULEURS - Mon Club de Natation CMS
  * ============================================================================
  * Système de couleurs centralisé pour toute l'application
- * Basé sur la charte aquatique Digital'SOS (nataswim.fr)
+ * Basé sur la charte aquatique Mon Club de Natation (nataswim.fr)
  * ============================================================================
  */
 /* ============================================================================
-   COULEURS PRINCIPALES - CHARTE DIGITAL'SOS
+   COULEURS PRINCIPALES - CHARTE Mon Club de Natation
    ============================================================================ */
 /* ============================================================================
    COULEURS DE STATUT
@@ -73,7 +73,7 @@
 
 /**
  * ============================================================================
- * MIXINS - DIGITAL'SOS CMS
+ * MIXINS - Mon Club de Natation CMS
  * ============================================================================
  * Mixins réutilisables pour éviter la duplication de code
  * ============================================================================
@@ -23369,9 +23369,9 @@ readers do not read off random characters that represent icons */
    ============================================================================ */
 /**
  * ============================================================================
- * THÈME AQUATIQUE - DIGITAL'SOS CMS
+ * THÈME AQUATIQUE - Mon Club de Natation CMS
  * ============================================================================
- * Styles spécifiques au thème aquatique Digital'SOS
+ * Styles spécifiques au thème aquatique Mon Club de Natation
  * Inspiré de nataswim.fr
  * ============================================================================
  */
@@ -24005,19 +24005,19 @@ readers do not read off random characters that represent icons */
 }
 
 .navurl {
-  background-image: radial-gradient(ellipse at center, #297cc2 0%, #3b8aa1 100%) !important;
-  border-bottom: 4px solid #f7bd37;
-  color: #ffffff;
-  border-radius: 0px 10px;
-  box-shadow: 0 0 2rem 0 rgba(0, 0, 0, 0.051);
+background-image: radial-gradient(ellipse at center, #f7f4f3 0%, #f7f4f4 100%) !important;
+    border-bottom: 4px solid #efa525;
+    color: #1c2111;
+    border-radius: 0px 10px;
+    box-shadow: 0 0 2rem 0 rgb(0 0 0 / 11%);
 }
 
 .navurl:hover {
-  background-image: radial-gradient(ellipse at center, #f09133 0%, #f7be38 100%) !important;
-  border-bottom: 6px solid #3b8aa1;
-  color: #000000;
-  border-radius: 15px 0px;
-  box-shadow: 0 0 0.5rem 0 rgb(255, 255, 255);
+  background-image: radial-gradient(ellipse at center, #ffffff 0%, #f6f3f3 100%) !important;
+    border-bottom: 4px solid #1c2111;
+    color: #1c2111;
+    border-radius: 15px 0px;
+    box-shadow: 0 0 2rem 0 rgb(0 0 0 / 0%);
   font-weight: bold;
   text-transform: uppercase;
 }
@@ -24071,7 +24071,7 @@ readers do not read off random characters that represent icons */
    ============================================================================ */
 /**
  * ============================================================================
- * ADMIN NAV HORIZONTAL - DIGITAL'SOS CMS
+ * ADMIN NAV HORIZONTAL - Mon Club de Natation CMS
  * ============================================================================
  * Navigation horizontale pour l'interface admin
  * Converti depuis CSS vers SCSS avec variables
@@ -24334,7 +24334,7 @@ readers do not read off random characters that represent icons */
 
 /**
  * ============================================================================
- * ADMIN FOOTER - DIGITAL'SOS CMS
+ * ADMIN FOOTER - Mon Club de Natation CMS
  * ============================================================================
  * Footer de l'interface admin
  * Converti depuis CSS vers SCSS avec variables
@@ -24681,23 +24681,23 @@ body {
    ============================================================================ */
 /**
  * ============================================================================
- * COMPONENTS SCSS - DIGITAL'SOS CMS
+ * COMPONENTS SCSS - Mon Club de Natation CMS
  * ============================================================================
  * Composants UI : Boutons, Forms, Tables, Badges, Alerts, etc.
- * Basés sur la charte aquatique Digital'SOS
+ * Basés sur la charte aquatique Mon Club de Natation
  * Version : Laravel 12 | Bootstrap 5 | Vite
  * ============================================================================
  */
 /**
  * ============================================================================
- * VARIABLES COULEURS - DIGITAL'SOS CMS
+ * VARIABLES COULEURS - Mon Club de Natation CMS
  * ============================================================================
  * Système de couleurs centralisé pour toute l'application
- * Basé sur la charte aquatique Digital'SOS (nataswim.fr)
+ * Basé sur la charte aquatique Mon Club de Natation (nataswim.fr)
  * ============================================================================
  */
 /* ============================================================================
-   COULEURS PRINCIPALES - CHARTE DIGITAL'SOS
+   COULEURS PRINCIPALES - CHARTE Mon Club de Natation
    ============================================================================ */
 /* ============================================================================
    COULEURS DE STATUT
@@ -24781,15 +24781,15 @@ body {
  * Bouton primaire
  */
 .btn-primary {
-  background: linear-gradient(135deg, #2f80b8 85%, #f0a932 70px);
-  color: #ffffff;
-  box-shadow: 0px 4px 5px 3px rgba(0, 0, 0, 0.05);
-  border: none;
+background: linear-gradient(117deg, #1c2011 85%, #f0a932 70px);
+    color: #ffffff;
+    box-shadow: 0px 4px 5px 3px rgba(0, 0, 0, 0.05);
+    border: none;
 }
 .btn-primary:hover:not(:disabled) {
-  background: linear-gradient(211deg, #2f80b8 85%, #f0a932 70px);
-  color: #ffffff;
-  box-shadow: 0px 4px 5px 3px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(245deg, #1c2011 85%, #f0a932 70px);
+    color: #ffffff;
+    box-shadow: 0px 2px 5px 3px rgb(0 0 0 / 24%);
   border: none;
 }
 .btn-primary:active:not(:disabled) {
@@ -24820,16 +24820,16 @@ body {
  * Bouton succès
  */
 .btn-success {
-  background: linear-gradient(309deg, #2f80b8 85%, #f0a932 70px);
-  color: #ffffff;
-  box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);
-  border: none;
+ background: linear-gradient(309deg, #f0a833 85%, #1c2111 70px);
+    color: #ffffff;
+    box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);
+    border: none;
 }
 .btn-success:hover:not(:disabled) {
-  background: linear-gradient(43deg, #2f80b8 75%, #f0a932 70px);
-  color: #f8f883;
-  box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);
-  border: none;
+  background: linear-gradient(309deg, #1c2111 85%, #f0a833 70px);
+    color: #ffffff;
+    box-shadow: 2px 4px 7px 5px rgb(245 172 53 / 22%);
+    border: none;
 }
 
 /**
@@ -25769,7 +25769,7 @@ select.form-control {
    ============================================================================ */
 /**
  * ============================================================================
- * MEDIA MANAGER - DIGITAL'SOS CMS
+ * MEDIA MANAGER - Mon Club de Natation CMS
  * ============================================================================
  * Gestionnaire de médias
  * Converti depuis CSS vers SCSS avec variables
@@ -26031,7 +26031,7 @@ select.form-control {
 }
 /**
  * ============================================================================
- * MEDIA SELECTOR - DIGITAL'SOS CMS
+ * MEDIA SELECTOR - Mon Club de Natation CMS
  * ============================================================================
  * Sélecteur de médias pour les formulaires
  * Converti depuis CSS vers SCSS avec variables
@@ -26063,7 +26063,7 @@ select.form-control {
 
 /**
  * ============================================================================
- * QUILL EDITOR ADVANCED - DIGITAL'SOS CMS
+ * QUILL EDITOR ADVANCED - Mon Club de Natation CMS
  * ============================================================================
  * Styles avancés pour l'éditeur WYSIWYG Quill
  * Converti depuis CSS vers SCSS avec variables
@@ -26337,7 +26337,7 @@ select.form-control {
 }
 /**
  * ============================================================================
- * SOCIAL SHARE - DIGITAL'SOS CMS
+ * SOCIAL SHARE - Mon Club de Natation CMS
  * ============================================================================
  * Bandeau de partage social sticky
  * Converti depuis CSS vers SCSS avec variables
@@ -26564,23 +26564,23 @@ select.form-control {
    ============================================================================ */
 /**
  * ============================================================================
- * UTILITIES SCSS - DIGITAL'SOS CMS
+ * UTILITIES SCSS - Mon Club de Natation CMS
  * ============================================================================
  * Classes utilitaires pour spacing, display, flex, text, backgrounds, etc.
- * Basées sur la charte aquatique Digital'SOS
+ * Basées sur la charte aquatique Mon Club de Natation
  * Version : Laravel 12 | Bootstrap 5 | Vite
  * ============================================================================
  */
 /**
  * ============================================================================
- * VARIABLES COULEURS - DIGITAL'SOS CMS
+ * VARIABLES COULEURS - Mon Club de Natation CMS
  * ============================================================================
  * Système de couleurs centralisé pour toute l'application
- * Basé sur la charte aquatique Digital'SOS (nataswim.fr)
+ * Basé sur la charte aquatique Mon Club de Natation (nataswim.fr)
  * ============================================================================
  */
 /* ============================================================================
-   COULEURS PRINCIPALES - CHARTE DIGITAL'SOS
+   COULEURS PRINCIPALES - CHARTE Mon Club de Natation
    ============================================================================ */
 /* ============================================================================
    COULEURS DE STATUT
@@ -28819,23 +28819,23 @@ select.form-control {
    ============================================================================ */
 /**
  * ============================================================================
- * ANIMATIONS SCSS - DIGITAL'SOS CMS
+ * ANIMATIONS SCSS - Mon Club de Natation CMS
  * ============================================================================
  * Animations et effets : fade, slide, scale, wave, pulse, rotate, etc.
- * Thématique aquatique pour Digital'SOS
+ * Thématique aquatique pour Mon Club de Natation
  * Version : Laravel 12 | Bootstrap 5 | Vite
  * ============================================================================
  */
 /**
  * ============================================================================
- * VARIABLES COULEURS - DIGITAL'SOS CMS
+ * VARIABLES COULEURS - Mon Club de Natation CMS
  * ============================================================================
  * Système de couleurs centralisé pour toute l'application
- * Basé sur la charte aquatique Digital'SOS (nataswim.fr)
+ * Basé sur la charte aquatique Mon Club de Natation (nataswim.fr)
  * ============================================================================
  */
 /* ============================================================================
-   COULEURS PRINCIPALES - CHARTE DIGITAL'SOS
+   COULEURS PRINCIPALES - CHARTE Mon Club de Natation
    ============================================================================ */
 /* ============================================================================
    COULEURS DE STATUT
@@ -30040,11 +30040,11 @@ select {
 }
 
 .navbar-nav .nav-link {
-  color: #fff;
+  color: #000000;
 }
 
 /* ============================================================================
-   FIN DU FICHIER - DIGITAL'SOS CMS
+   FIN DU FICHIER - Mon Club de Natation CMS
    ============================================================================
 
    Pour personnaliser davantage :
@@ -30057,5 +30057,5 @@ select {
    Documentation Bootstrap 5 : https://getbootstrap.com/docs/5.3/
    Documentation Laravel Mix : https://laravel-mix.com/
 
-   Digital'SOS - La performance commence par une gestion maîtrisée
+   Mon Club de Natation - La performance commence par une gestion maîtrisée
    ============================================================================ */

@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Plateforme Digital\'SOS')
+@section('title', 'Mon Club de Natation')
 @section('meta_description', 'Decouvrez notre plateforme dediee A la natation et au triathlon avec articles, plans d\'entrainement, fiches techniques et videos. Rejoignez notre communaute de nageurs, triathletes et coachs.')
 
 @section('content')
@@ -18,11 +18,11 @@
             <div class="col-lg-7 mb-4 mb-lg-0">
                 <div class="d-flex align-items-center mb-4 animate-slide-up">
                     <i class="fas fa-swimmer me-3 hero-icon"></i>
-                    <h1 class="display-3 fw-bold mb-0 text-white">Digital'SOS</h1>
+                    <h1 class="display-3 fw-bold mb-0 text-white">Plongez dans l'aventure, à votre rythme !</h1>
                 </div>
 
                 <p class="lead mb-4 animate-slide-up animation-delay-1">
-                    Optimisez vos entraînements, développez vos connaissances et formez-vous en continu grâce à cette plateforme dédiée aux sportifs, techniciens, préparateurs physiques, entraîneurs et coachs — du débutant au professionnel.
+                    Bienvenue sur le site officiel de Votre Club de Natation ! Que vous fassiez vos premières longueurs ou que vous prépariez vos prochaines compétitions, notre club est un espace d'apprentissage, de dépassement de soi et de convivialité.
                 </p>
 
                 <div class="d-flex gap-3 flex-wrap animate-slide-up animation-delay-2">
@@ -37,8 +37,8 @@
             <div class="col-lg-5 text-center animate-fade-in animation-delay-3">
                 <div class="hero-logo-wrapper">
                     <a href="{{ route('home') }}">
-                        <img src="{{ asset('assets/images/logo/digital-sos-logo2.png') }}"
-                             alt="Digital'SOS application"
+                        <img src="{{ asset('assets/images/logo/Logo-CNBB-Natation-9.png') }}"
+                             alt="Club de natation Bressuire"
                              class="hero-logo img-fluid">
                     </a>
                 </div>
@@ -57,9 +57,9 @@
     <div class="container-lg">
         <div class="text-center mb-5">
             <h2 class="title-aqua-secondary py-4" style="background-image: linear-gradient(129deg, #f9be38 85%, #2f80b8 0);background-attachment: fixed;color: #0d4fac;box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);border-radius: 15px 0px 15px 0px;color: #1c2111;">
-                <i class="fas fa-newspaper me-2"></i>Articles Récents
+                <i class="fas fa-newspaper me-2"></i>La passion de l'eau, l'esprit d'équipe.
             </h2>
-            <p class="text-muted">Découvrez nos dernières publications sur la natation et le triathlon</p>
+            <p class="text-muted">Restez informés au quotidien.</p>
         </div>
 
         <div class="row g-4 mb-4">
@@ -136,165 +136,6 @@
 
 
 
-<!-- Section Vidéos -->
-<section class="py-5 bg-aqua-light">
-    <div class="container-lg">
-        <div class="text-center mb-5">
-            <h2 class="title-aqua-secondary py-4" style="background-image: linear-gradient(129deg, #f9be38 85%, #2f80b8 0);background-attachment: fixed;color: #0d4fac;box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);border-radius: 15px 0px 15px 0px;color: #1c2111;">
-                <i class="fas fa-video me-2"></i>Vidéos
-            </h2>
-            <p class="text-muted">Tutoriels vidéo et démonstrations techniques</p>
-        </div>
-
-        <div class="row g-4 mb-4">
-            @php
-            $recentVideos = App\Models\Video::query()
-                ->orderBy('created_at', 'desc')
-                ->limit(4)
-                ->get();
-            @endphp
-
-            @forelse($recentVideos as $video)
-            <div class="col-md-6 col-lg-3">
-                <div class="card-aqua h-100">
-                    <div class="card-image-wrapper mb-3 position-relative">
-                        @if($video->thumbnail)
-                        <img src="{{ $video->thumbnail }}"
-                            class="card-image"
-                            alt="{{ $video->title }}">
-                        @else
-                        <div class="card-image-placeholder">
-                            <i class="fas fa-video fa-3x text-info opacity-25"></i>
-                        </div>
-                        @endif
-                        <div class="video-play-overlay">
-                            <i class="fas fa-play-circle"></i>
-                        </div>
-                    </div>
-
-                    <h6 class="card-title mb-2">
-                        <a href="{{ route('public.videos.show', $video) }}"
-                            class="text-decoration-none text-dark hover-primary">
-                            {!! Str::limit($video->title, 50) !!}
-                        </a>
-                    </h6>
-
-                    @if($video->description)
-                    <p class="card-text text-muted small mb-3">
-                        {!! Str::limit(strip_tags($video->description), 80) !!}
-                    </p>
-                    @endif
-
-                    <div class="card-footer-info mt-auto">
-                        <span class="badge badge-info">
-                            <i class="fas fa-play me-1"></i>Vidéo
-                        </span>
-                        <a href="{{ route('public.videos.show', $video) }}"
-                            class="btn btn-sm btn-outline-primary">
-                            Voir
-                        </a>
-                    </div>
-                </div>
-            </div>
-            @empty
-            <div class="col-12">
-                <div class="text-center py-5 text-muted">
-                    <i class="fas fa-video fa-3x mb-3 opacity-25"></i>
-                    <p>Aucune vidéo disponible</p>
-                </div>
-            </div>
-            @endforelse
-        </div>
-
-        <div class="text-center">
-            <a href="{{ route('public.videos.index') }}" class="btn btn-info btn-lg text-white">
-                <i class="fas fa-arrow-right me-2"></i>Voir toutes les vidéos
-            </a>
-        </div>
-    </div>
-</section>
-
-
-<!-- Section eBooks -->
-<section class="py-5">
-    <div class="container-lg">
-        <div class="text-center mb-5">
-            <h2 class="title-aqua-secondary py-4" style="background-image: linear-gradient(129deg, #f9be38 85%, #2f80b8 0);background-attachment: fixed;color: #0d4fac;box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);border-radius: 15px 0px 15px 0px;color: #1c2111;">
-                <i class="fas fa-book me-2"></i>eBooks & Téléchargements
-            </h2>
-            <p class="text-muted">Ressources téléchargeables pour approfondir vos connaissances</p>
-        </div>
-
-        <div class="row g-4 mb-4">
-            @php
-            $recentDownloads = App\Models\Downloadable::query()
-                ->orderBy('created_at', 'desc')
-                ->limit(4)
-                ->get();
-            @endphp
-
-            @forelse($recentDownloads as $download)
-            <div class="col-md-6 col-lg-3">
-                <div class="card-aqua h-100">
-                    <div class="card-image-wrapper mb-3">
-                        @if($download->image)
-                        <img src="{{ $download->image }}"
-                            class="card-image"
-                            alt="{{ $download->title }}">
-                        @else
-                        <div class="card-image-placeholder">
-                            <i class="fas fa-book fa-3x text-success opacity-25"></i>
-                        </div>
-                        @endif
-                    </div>
-
-                    <div class="card-meta mb-2">
-                        <span class="badge badge-success">
-                            {{ $download->category->name ?? 'Téléchargement' }}
-                        </span>
-                    </div>
-
-                    <h6 class="card-title mb-2">
-                        <a href="{{ route('ebook.show', [$download->category, $download]) }}"
-                            class="text-decoration-none text-dark hover-primary">
-                            {!! Str::limit($download->title, 50) !!}
-                        </a>
-                    </h6>
-
-                    @if($download->description)
-                    <p class="card-text text-muted small mb-3">
-                        {!! Str::limit(strip_tags($download->description), 80) !!}
-                    </p>
-                    @endif
-
-                    <div class="card-footer-info mt-auto">
-                        <small class="text-muted">
-                            <i class="fas fa-download me-1"></i>{{ $download->downloads_count ?? 0 }}
-                        </small>
-                        <a href="{{ route('ebook.show', [$download->category, $download]) }}"
-                            class="btn btn-sm btn-outline-primary">
-                            Télécharger
-                        </a>
-                    </div>
-                </div>
-            </div>
-            @empty
-            <div class="col-12">
-                <div class="text-center py-5 text-muted">
-                    <i class="fas fa-book fa-3x mb-3 opacity-25"></i>
-                    <p>Aucun téléchargement disponible</p>
-                </div>
-            </div>
-            @endforelse
-        </div>
-
-        <div class="text-center">
-            <a href="{{ route('ebook.index') }}" class="btn btn-success btn-lg text-white">
-                <i class="fas fa-arrow-right me-2"></i>Voir tous les téléchargements
-            </a>
-        </div>
-    </div>
-</section>
 
 
 @endsection
@@ -319,8 +160,8 @@ position: absolute;
     z-index: 1;
     border-top: 20px solid #ffffff;
     border-bottom: 20px solid #ffffff;
-    border-left: 20px solid #2f80b8;
-    border-right: 20px solid #2f80b8;
+    border-left: 20px solid #efa525;
+    border-right: 20px solid #efa525;
 }
 
 .hero-overlay {

@@ -5,8 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 
 /**
- * 🇬🇧 Database Seeder - Main orchestrator for all Digital'SOS seeders
- * 🇫🇷 Seeder principal - Orchestrateur de tous les seeders Digital'SOS
+ * 🇬🇧 Database Seeder - Main orchestrator for all Mon Club de Natation seeders
+ * 🇫🇷 Seeder principal - Orchestrateur de tous les seeders Mon Club de Natation
  * 
  * @file database/seeders/DatabaseSeeder.php
  */
