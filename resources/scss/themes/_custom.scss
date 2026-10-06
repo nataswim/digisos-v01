@@ -130,32 +130,32 @@
 // Form controls ameliores
 .form-control:focus,
 .form-select:focus {
-    border-color: #0ea5e9;
-    box-shadow: 0 0 0 0.2rem rgba(14, 165, 233, 0.25);
+    border-color: #2f80b8;
+    box-shadow: 0 0 0 0.2rem rgba(47, 128, 184, 0.25);
 }
 
-// Breadcrumbs aquatiques
+// Breadcrumbs : bleu du club (l'ancien cyan #0ea5e9 était trop clair pour être lisible)
 .breadcrumb-item.active {
-    color: #0ea5e9;
+    color: #1c2111;
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
-    color: #0ea5e9;
+    color: #2f80b8;
 }
 
 // Pagination personnalisee
 .page-link {
-    color: #0ea5e9;
+    color: #2f80b8;
     
     &:hover {
-        background-color: rgba(14, 165, 233, 0.1);
-        border-color: #0ea5e9;
+        background-color: rgba(47, 128, 184, 0.1);
+        border-color: #2f80b8;
     }
 }
 
 .page-item.active .page-link {
-    background-color: #0ea5e9;
-    border-color: #0ea5e9;
+    background-color: #2f80b8;
+    border-color: #2f80b8;
 }
 
 // Utilitaires
@@ -317,7 +317,7 @@ background-color: #fcb900;
 }
 
 .navurl {
-background-image: radial-gradient(ellipse at center, #f7f4f3 0%, #f7f4f4 100%) !important;
+background-image: radial-gradient(ellipse at center, #f0f1f0 0, #f0f1f0 100%) !important;
     border-bottom: 4px solid #efa525;
     color: #1c2111;
     border-radius: 0px 10px;
@@ -333,7 +333,7 @@ background-image: radial-gradient(ellipse at center, #f7f4f3 0%, #f7f4f4 100%) !
   text-transform: uppercase;
 }
 .bg-light {
-    --bs-bg-opacity: none;
+    --bs-bg-opacity: 1;
     background-color: #f9f5f4;
     background-image: linear-gradient(129deg, #f0f1f0 85%, #ffffff 0);
     background-attachment: fixed;

@@ -1,374 +1,280 @@
 @extends('layouts.public')
 
-@section('title', 'Mon Club de Natation')
-@section('meta_description', 'Decouvrez notre plateforme dediee A la natation et au triathlon avec articles, plans d\'entrainement, fiches techniques et videos. Rejoignez notre communaute de nageurs, triathletes et coachs.')
+@section('title', 'Club de natation à Bressuire')
+@section('meta_description', 'Site officiel du Cercle des Nageurs du Bocage Bressuirais (CNBB), club de natation de Bressuire affilié à la FFN : école de natation, natation course, actualités, inscriptions et informations pratiques.')
 
 @section('content')
-<!-- Hero Section avec Video Background -->
-<section class="hero-video-section position-relative text-white overflow-hidden">
-    <!-- Video Background -->
-    <video autoplay muted loop playsinline class="hero-video">
-        <source src="{{ asset('assets/images/team/CNBB-natation-1.mp4') }}" type="video/mp4">
-    </video>
+
+@php
+    $ageClub = now()->year - 1954;
+
+    // Dernières actualités : fournies par PublicController::home().
+    // Si la route d'accueil pointe encore directement sur la vue, on les charge ici.
+    $recentArticles = $recentPosts ?? App\Models\Post::with('category')
+        ->where('status', 'published')
+        ->whereNotNull('published_at')
+        ->where('published_at', '<=', now())   // pas d'article programmé pour plus tard
+        ->orderBy('published_at', 'desc')
+        ->limit(4)
+        ->get();
+
+    // Les groupes du club
+    $groupes = [
+        [
+            'icon'    => 'fa-child',
+            'couleur' => 'info',
+            'titre'   => 'École de natation',
+            'texte'   => 'Pour les plus jeunes : les bases des quatre nages et les tests de la Fédération (Sauv\'nage, Pass\'sports de l\'eau, Pass\'compétition).',
+        ],
+        [
+            'icon'    => 'fa-swimmer',
+            'couleur' => 'primary',
+            'titre'   => 'Natation course',
+            'texte'   => 'Le cœur du club : l\'entraînement régulier et la compétition, du niveau départemental au niveau régional.',
+        ],
+        [
+            'icon'    => 'fa-user-graduate',
+            'couleur' => 'success',
+            'titre'   => 'Jeunes et étudiants',
+            'texte'   => 'Un tarif dédié pour continuer à nager pendant ses études, et la possibilité de se former à l\'encadrement des plus petits.',
+        ],
+        [
+            'icon'    => 'fa-users',
+            'couleur' => 'warning',
+            'titre'   => 'Adultes',
+            'texte'   => 'Pour les adultes sachant nager qui veulent s\'entretenir et progresser dans une ambiance associative.',
+        ],
+    ];
+
+    // Accès rapides
+    $raccourcis = [
+        ['icon' => 'fa-clipboard-list', 'titre' => 'Infos pratiques',   'url' => route('public.fiches.index')],
+        ['icon' => 'fa-play-circle',    'titre' => 'Au fil de l\'eau',  'url' => route('public.videos.index')],
+        ['icon' => 'fa-images',         'titre' => 'Galeries photo',    'url' => route('galleries.index')],
+        ['icon' => 'fa-file-download',  'titre' => 'Ressources',        'url' => route('ebook.index')],
+        ['icon' => 'fa-swimming-pool',  'titre' => 'Installations',     'url' => route('public.installations.index')],
+        ['icon' => 'fa-life-ring',      'titre' => 'Guide du site',     'url' => route('guide')],
+    ];
+@endphp
 
 
-    <!-- Contenu -->
-    <div class="container-lg py-5 position-relative hero-content">
-        <div class="row align-items-center min-vh-50">
-            <div class="col-lg-7 mb-4 mb-lg-0">
-                <div class="d-flex align-items-center mb-4 animate-slide-up">
-                    <i class="fas fa-swimmer me-3 hero-icon"></i>
-                    <h1 class="display-3 fw-bold mb-0 text-white">Plongez à votre rythme !</h1>
-                </div>
+<x-public.hero
+    title="Plongez à votre rythme !"
+    eyebrow="Cercle des Nageurs du Bocage Bressuirais"
+    icon="fa-swimmer"
+    video="assets/images/team/CNBB-natation-1.mp4"
+    lead="Bienvenue sur le site officiel du CNBB, le club de natation de Bressuire. De l'école de natation à la compétition, le club est un lieu d'apprentissage, de dépassement de soi et de convivialité.">
+    <a href="#le-club" class="btn btn-primary btn-lg text-white">
+        <i class="fas fa-arrow-down me-2" aria-hidden="true"></i>Découvrir le club
+    </a>
+    <a href="{{ route('pricing') }}" class="btn btn-light btn-lg">
+        <i class="fas fa-clipboard-check me-2" aria-hidden="true"></i>S'inscrire
+    </a>
+    <a href="{{ route('posts.public.index') }}" class="btn btn-outline-light btn-lg">
+        <i class="fas fa-newspaper me-2" aria-hidden="true"></i>Vie du club
+    </a>
+</x-public.hero>
 
-                <p class="lead mb-4 animate-slide-up animation-delay-1">
-                    Bienvenue sur le site officiel de Votre Club de Natation ! Que vous fassiez vos premières longueurs ou que vous prépariez vos prochaines compétitions, notre club est un espace d'apprentissage, de dépassement de soi et de convivialité.
+
+<!-- Le club en bref -->
+<section id="le-club" class="anchor-section py-5 bg-white">
+    <div class="container-lg">
+        <div class="row align-items-center g-4 g-lg-5">
+            <div class="col-lg-6">
+                <h2 class="display-6 fw-bold mb-4">Un club de natation à Bressuire depuis 1954</h2>
+                <p class="lead text-muted">
+                    Association sportive affiliée à la Fédération Française de Natation, le CNBB est
+                    essentiellement spécialisé dans la natation course.
                 </p>
+                <p class="text-muted mb-4">
+                    Nos nageurs s'entraînent au centre aquatique Cœur d'O. Enfants, jeunes, étudiants et adultes
+                    y trouvent un groupe adapté à leur âge et à leur niveau, encadré par les entraîneurs
+                    et porté par une équipe de bénévoles.
+                </p>
+                <a href="{{ route('about') }}" class="btn btn-outline-primary">
+                    <i class="fas fa-water me-2" aria-hidden="true"></i>Présentation et historique du club
+                </a>
+            </div>
 
-                <div class="d-flex gap-3 flex-wrap animate-slide-up animation-delay-2">
-                    <a href="#content-sections" class="btn btn-primary btn-lg text-white">
-                        <i class="fas fa-arrow-down me-2"></i>Découvrir
-                    </a>
-                    <a href="{{ route('posts.public.index') }}" class="btn btn-outline-light btn-lg">
-                        <i class="fas fa-book-open me-2"></i>Nos contenus
-                    </a>
+            <div class="col-lg-6">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="card border-0 shadow-sm text-center p-4 h-100">
+                            <div class="display-5 fw-bold text-primary mb-2">1954</div>
+                            <small class="text-muted">Année de création</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card border-0 shadow-sm text-center p-4 h-100">
+                            <div class="display-5 fw-bold text-success mb-2">{{ $ageClub }} ans</div>
+                            <small class="text-muted">D'histoire au bord des bassins</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card border-0 shadow-sm text-center p-4 h-100">
+                            <div class="display-5 fw-bold text-warning mb-2">FFN</div>
+                            <small class="text-muted">Club affilié à la Fédération Française de Natation</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card border-0 shadow-sm text-center p-4 h-100">
+                            <div class="display-5 fw-bold text-info mb-2">Cœur d'O</div>
+                            <small class="text-muted">Notre lieu d'entraînement à Bressuire</small>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
         </div>
     </div>
 </section>
 
 
-
-
-
-
-<!-- Section Articles -->
-<section class="py-5 bg-aqua-light" id="content-sections">
+<!-- Nager au CNBB -->
+<section id="nager" class="anchor-section py-5 bg-light">
     <div class="container-lg">
-        <div class="text-center mb-5">
-            <h2 class="title-aqua-secondary py-4" style="background-image: linear-gradient(129deg, #f9be38 85%, #2f80b8 0);background-attachment: fixed;color: #0d4fac;box-shadow: 0px 5px 6px 4px rgba(0, 0, 0, 0.05);border-radius: 15px 0px 15px 0px;color: #1c2111;">
-                <i class="fas fa-newspaper me-2"></i>La passion de l'eau, l'esprit d'équipe.
-            </h2>
-            <p class="text-muted">Restez informés au quotidien.</p>
-        </div>
+        <header class="text-center mb-5">
+            <h2 class="display-6 fw-bold mb-3">Nager au CNBB</h2>
+            <p class="lead text-muted">Un groupe pour chaque âge, dès que l'on sait nager 25 mètres</p>
+        </header>
 
-        <div class="row g-4 mb-4">
-            @php
-            $recentArticles = App\Models\Post::where('status', 'published')
-            ->whereNotNull('published_at')
-            ->orderBy('published_at', 'desc')
-            ->limit(4)
-            ->get();
-            @endphp
-
-            @forelse($recentArticles as $article)
-            <div class="col-md-6 col-lg-3">
-                <div class="card-aqua h-100">
-                    <div class="card-image-wrapper mb-3">
-                        @if($article->image)
-                        <img src="{{ $article->image }}"
-                            class="card-image"
-                            alt="{{ $article->name }}">
-                        @else
-                        <div class="card-image-placeholder">
-                            <i class="fas fa-newspaper fa-3x text-primary opacity-25"></i>
+        <div class="row g-4">
+            @foreach ($groupes as $groupe)
+                <div class="col-md-6 col-lg-3">
+                    <article class="card border-0 shadow-sm h-100 text-center">
+                        <div class="card-body p-4">
+                            <div class="bg-{{ $groupe['couleur'] }} bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4"
+                                 style="width: 80px; height: 80px;">
+                                <i class="fas {{ $groupe['icon'] }} text-{{ $groupe['couleur'] }} fa-2x" aria-hidden="true"></i>
+                            </div>
+                            <h3 class="h5 fw-bold mb-3">{{ $groupe['titre'] }}</h3>
+                            <p class="text-muted mb-0">{{ $groupe['texte'] }}</p>
                         </div>
-                        @endif
-                    </div>
-
-                    <div class="card-meta mb-2">
-                        <span class="badge badge-primary">
-                            {{ $article->category->name ?? 'Non catégorisé' }}
-                        </span>
-                    </div>
-
-                    <h6 class="card-title mb-2">
-                        <a href="{{ route('posts.public.show', $article) }}"
-                            class="text-decoration-none text-dark hover-primary">
-                            {!! Str::limit($article->name, 50) !!}
-                        </a>
-                    </h6>
-
-                    @if($article->intro)
-                    <p class="card-text text-muted small mb-3">
-                        {!! Str::limit(strip_tags($article->intro), 80) !!}
-                    </p>
-                    @endif
-
-                    <div class="card-footer-info mt-auto">
-                        <small class="text-muted">
-                            <i class="fas fa-eye me-1"></i>{{ $article->hits }}
-                        </small>
-                        <small class="text-muted">
-                            {{ $article->published_at->format('d/m/Y') }}
-                        </small>
-                    </div>
+                    </article>
                 </div>
-            </div>
-            @empty
-            <div class="col-12">
-                <div class="text-center py-5 text-muted">
-                    <i class="fas fa-newspaper fa-3x mb-3 opacity-25"></i>
-                    <p>Aucun article publié récemment</p>
-                </div>
-            </div>
-            @endforelse
+            @endforeach
         </div>
 
-        <div class="text-center">
-            <a href="{{ route('posts.public.index') }}" class="btn btn-primary btn-lg text-white">
-                <i class="fas fa-arrow-right me-2"></i>Voir tous les articles
+        <div class="text-center mt-5">
+            <a href="{{ route('pricing') }}" class="btn btn-primary btn-lg text-white">
+                <i class="fas fa-euro-sign me-2" aria-hidden="true"></i>Tarifs et inscription
             </a>
         </div>
     </div>
 </section>
 
 
+<!-- Actualités -->
+<section id="actualites" class="anchor-section py-5 bg-aqua-light">
+    <div class="container-lg">
+        <div class="text-center mb-5">
+            <h2 class="title-aqua-secondary home-banner-title py-4">
+                <i class="fas fa-newspaper me-2" aria-hidden="true"></i>La passion de l'eau, l'esprit d'équipe.
+            </h2>
+            <p class="text-muted">Résultats, événements et informations pratiques : restez informés de la vie du club.</p>
+        </div>
+
+        <div class="row g-4 mb-4">
+            @forelse ($recentArticles as $article)
+                <div class="col-md-6 col-lg-3">
+                    <x-public.post-card :post="$article" :intro-limit="80" />
+                </div>
+            @empty
+                <div class="col-12">
+                    <div class="text-center py-5 text-muted">
+                        <i class="fas fa-newspaper fa-3x mb-3 opacity-25" aria-hidden="true"></i>
+                        <p class="mb-0">Les premières actualités arrivent bientôt.</p>
+                    </div>
+                </div>
+            @endforelse
+        </div>
+
+        <div class="text-center">
+            <a href="{{ route('posts.public.index') }}" class="btn btn-primary btn-lg text-white">
+                <i class="fas fa-arrow-right me-2" aria-hidden="true"></i>Toute la vie du club
+            </a>
+        </div>
+    </div>
+</section>
 
 
+<!-- Accès rapides -->
+<section id="acces-rapides" class="anchor-section py-5 bg-white">
+    <div class="container-lg">
+        <header class="text-center mb-5">
+            <h2 class="display-6 fw-bold mb-3">Accès rapides</h2>
+            <p class="lead text-muted">Toutes les rubriques du site en un clic</p>
+        </header>
 
+        <div class="row g-3 justify-content-center">
+            @foreach ($raccourcis as $raccourci)
+                <div class="col-6 col-md-4 col-lg-2">
+                    <a href="{{ $raccourci['url'] }}" class="home-quick-link card border-0 shadow-sm h-100 text-center text-decoration-none p-3">
+                        <i class="fas {{ $raccourci['icon'] }} fa-2x text-primary mb-2" aria-hidden="true"></i>
+                        <span class="fw-semibold text-dark">{{ $raccourci['titre'] }}</span>
+                    </a>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+
+<!-- Nous rejoindre -->
+<section class="py-5 bg-primary text-white">
+    <div class="container-lg text-center">
+        <h2 class="display-6 fw-bold mb-3">Envie de nager avec nous ?</h2>
+        <p class="lead mb-2">Les inscriptions se font sur dossier, à déposer dans la boîte aux lettres du club.</p>
+        <p class="mb-4">
+            <a href="mailto:cnbb079@gmail.com" class="text-white">cnbb079@gmail.com</a>
+            <span class="mx-2" aria-hidden="true">·</span>
+            <a href="tel:+33602350843" class="text-white">06 02 35 08 43</a>
+            <span class="mx-2" aria-hidden="true">·</span>
+            40 boulevard de la République, 79300 Bressuire
+        </p>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+            <a href="{{ route('pricing') }}" class="btn btn-light btn-lg">
+                <i class="fas fa-clipboard-check me-2" aria-hidden="true"></i>S'inscrire au club
+            </a>
+            <a href="{{ route('contact') }}" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-envelope me-2" aria-hidden="true"></i>Nous contacter
+            </a>
+        </div>
+    </div>
+</section>
 
 @endsection
 
+
 @push('styles')
 <style>
-/* ============================================================================
-   HERO VIDEO SECTION
-   ============================================================================ */
-.hero-video-section {
-    min-height: 400px;
-    position: relative;
-}
-
-.hero-video {
-position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-    border-top: 20px solid #ffffff;
-    border-bottom: 20px solid #ffffff;
-    border-left: 20px solid #efa525;
-    border-right: 20px solid #efa525;
-}
-
-.hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(56, 133, 155, 0.85) 0%, rgba(73, 170, 202, 0.75) 100%);
-    z-index: 2;
-}
-
-.hero-content {
-    z-index: 3;
-}
-
-.min-vh-50 {
-    min-height: 50vh;
-}
-
-.hero-icon {
-    font-size: 3rem;
-    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
-}
-
-.hero-logo-wrapper {
-    position: relative;
-    display: inline-block;
-    background: white;
-    border-radius: 50%;
-    padding: 1rem;
-    box-shadow: 0 0 40px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 1);
-}
-
-.hero-logo {
-    max-width: 300px;
-    height: auto;
-    border-radius: 50%;
-    transition: transform 0.3s ease;
-}
-
-.hero-logo:hover {
-    transform: scale(1.05);
-}
-
-.btn-outline-light {
-    background: transparent;
-    color: white;
-    border: 2px solid white;
-    transition: all 0.3s ease;
-}
-
-.btn-outline-light:hover {
-    background: white;
-    color: #2f80b8;
-}
-
-/* ============================================================================
-   ANIMATIONS
-   ============================================================================ */
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-.animate-slide-up {
-    animation: slideUp 0.8s ease-out;
-}
-
-.animate-fade-in {
-    animation: fadeIn 1s ease-out;
-}
-
-.animation-delay-1 {
-    animation-delay: 0.2s;
-    opacity: 0;
-    animation-fill-mode: forwards;
-}
-
-.animation-delay-2 {
-    animation-delay: 0.4s;
-    opacity: 0;
-    animation-fill-mode: forwards;
-}
-
-.animation-delay-3 {
-    animation-delay: 0.6s;
-    opacity: 0;
-    animation-fill-mode: forwards;
-}
-
-/* ============================================================================
-   CARD COMPONENTS
-   ============================================================================ */
-.card-image-wrapper {
-    position: relative;
-    overflow: hidden;
-    border-radius: 0.75rem;
-    height: 180px;
-    background: linear-gradient(135deg, rgba(56, 133, 155, 0.05) 0%, rgba(73, 170, 202, 0.05) 100%);
-}
-
-.card-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.card-aqua:hover .card-image {
-    transform: scale(1.05);
-}
-
-.card-image-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, rgba(56, 133, 155, 0.05) 0%, rgba(73, 170, 202, 0.05) 100%);
-}
-
-.card-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.card-footer-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(56, 133, 155, 0.1);
-}
-
-.hover-primary {
-    transition: color 0.2s ease;
-}
-
-.hover-primary:hover {
-    color: #2f80b8 !important;
-}
-
-/* Video play overlay */
-.video-play-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 3rem;
-    color: white;
-    opacity: 0.8;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-}
-
-.card-aqua:hover .video-play-overlay {
-    opacity: 1;
-}
-
-/* ============================================================================
-   RESPONSIVE
-   ============================================================================ */
-@media (max-width: 768px) {
-    .hero-video-section {
-        min-height: 500px;
+    /* Bandeau de titre des actualités */
+    .home-banner-title {
+        background-image: linear-gradient(129deg, #f9be38 85%, #2f80b8 0);
+        color: #1c2111;
+        box-shadow: 0 5px 6px 4px rgba(0, 0, 0, 0.05);
+        border-radius: 15px 0 15px 0;
     }
 
-    .hero-icon {
-        font-size: 2rem;
+    /* Tuiles d'accès rapide */
+    .home-quick-link {
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
-    .display-3 {
-        font-size: 2rem !important;
+    .home-quick-link:hover,
+    .home-quick-link:focus {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 20px rgba(47, 128, 184, 0.18) !important;
     }
 
-    .lead {
-        font-size: 1rem;
-    }
+    @media (prefers-reduced-motion: reduce) {
+        .home-quick-link {
+            transition: none;
+        }
 
-    .hero-logo-wrapper {
-        padding: 0.5rem;
+        .home-quick-link:hover,
+        .home-quick-link:focus {
+            transform: none;
+        }
     }
-
-    .hero-logo {
-        max-width: 150px;
-    }
-
-    .btn-lg {
-        padding: 0.75rem 1.25rem;
-        font-size: 1rem;
-    }
-}
-
-/* ============================================================================
-   SMOOTH SCROLL
-   ============================================================================ */
-html {
-    scroll-behavior: smooth;
-}
 </style>
 @endpush

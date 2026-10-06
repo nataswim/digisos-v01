@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Inscription saison 2026-2027')
+@section('meta_description', 'Inscription au CNBB pour la saison 2026-2027 : tarifs de l\'école de natation, des jeunes, des étudiants et des adultes, remises famille, pièces du dossier et modalités de règlement.')
 
 @section('content')
 
@@ -65,38 +66,22 @@
 @endphp
 
 
-<!-- Hero Section avec Video Background -->
-<section class="position-relative text-white overflow-hidden">
-    <!-- Video Background -->
-    <video autoplay muted loop playsinline class="hero-video">
-        <source src="{{ asset('assets/images/team/CNBB-natation-2.mp4') }}" type="video/mp4">
-    </video>
-    <!-- Contenu -->
-    <div class="container-lg py-5 position-relative hero-content">
-        <div class="row align-items-center min-vh-50">
-            <div class="col-lg-12">
-                <div class="d-flex align-items-center mb-4 animate-slide-up">
-                 <h1 class="display-4 fw-bold mb-4 text-white">Inscription saison {{ $saison }}</h1>
-                </div>
-                <p class="lead mb-4">
-                    Tarifs, conditions et pièces à fournir pour rejoindre le Cercle des Nageurs du Bocage Bressuirais.
-                </p>
-                <div class="d-flex flex-wrap gap-2">
-                    <a href="#tarifs" class="btn btn-primary btn-lg">
-                        <i class="fas fa-euro-sign me-2"></i>Voir les tarifs
-                    </a>
-                    <a href="#dossier" class="btn btn-secondary btn-lg">
-                        <i class="fas fa-folder-open me-2"></i>Préparer mon dossier
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<x-public.hero
+    :title="'Inscription saison ' . $saison"
+    eyebrow="Le club"
+    title-class="display-4"
+    lead="Tarifs, conditions et pièces à fournir pour rejoindre le Cercle des Nageurs du Bocage Bressuirais.">
+    <a href="#tarifs" class="btn btn-primary btn-lg">
+        <i class="fas fa-euro-sign me-2" aria-hidden="true"></i>Voir les tarifs
+    </a>
+    <a href="#dossier" class="btn btn-secondary btn-lg">
+        <i class="fas fa-folder-open me-2" aria-hidden="true"></i>Préparer mon dossier
+    </a>
+</x-public.hero>
 
 
 <!-- Conditions d'accès -->
-<section id="conditions" class="inscription-section py-5 bg-white">
+<section id="conditions" class="anchor-section py-5 bg-white">
     <div class="container-lg">
         <header class="text-center mb-5">
             <h2 class="display-6 fw-bold mb-3">Avant de vous inscrire</h2>
@@ -156,7 +141,7 @@
 
 
 <!-- Tarifs -->
-<section id="tarifs" class="inscription-section py-5 bg-light">
+<section id="tarifs" class="anchor-section py-5 bg-light">
     <div class="container-lg">
         <header class="text-center mb-5">
             <h2 class="display-6 fw-bold mb-3">Tarifs {{ $saison }}</h2>
@@ -224,14 +209,14 @@
 
 
 <!-- Dossier d'inscription -->
-<section id="dossier" class="inscription-section py-5 bg-white">
+<section id="dossier" class="anchor-section py-5 bg-white">
     <div class="container-lg">
         <header class="text-center mb-5">
             <h2 class="display-6 fw-bold mb-3">Votre dossier d'inscription</h2>
             <p class="lead text-muted">Les pièces à réunir pour un dossier complet</p>
         </header>
 
-        <div class="row g-5">
+        <div class="row g-4 g-lg-5">
             <div class="col-lg-7">
                 @foreach ($pieces as $index => $piece)
                     <article class="d-flex align-items-start mb-4">
@@ -310,7 +295,7 @@
 
 
 <!-- Bon à savoir -->
-<section id="bon-a-savoir" class="inscription-section py-5 bg-light">
+<section id="bon-a-savoir" class="anchor-section py-5 bg-light">
     <div class="container-lg">
         <header class="text-center mb-5">
             <h2 class="display-6 fw-bold mb-3">Bon à savoir</h2>
@@ -359,7 +344,7 @@
 
 
 <!-- Appel aux parents -->
-<section id="benevoles" class="inscription-section py-5 bg-white">
+<section id="benevoles" class="anchor-section py-5 bg-white">
     <div class="container-lg">
         <div class="row justify-content-center">
             <div class="col-lg-9">
@@ -408,11 +393,6 @@
 
 @push('styles')
 <style>
-    /* Décalage des ancres pour ne pas passer sous le menu fixe */
-    .inscription-section {
-        scroll-margin-top: 90px;
-    }
-
     /* Pastilles numérotées des pièces du dossier */
     .inscription-numero {
         width: 48px;
@@ -420,22 +400,5 @@
         font-size: 1.2rem;
         font-weight: 700;
     }
-        .hero-video {
-position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-    border-top: 20px solid #ffffff;
-    border-bottom: 20px solid #ffffff;
-    border-left: 20px solid #efa525;
-    border-right: 20px solid #efa525;
-}
-
-.hero-content {
-    z-index: 3;
-}
 </style>
 @endpush

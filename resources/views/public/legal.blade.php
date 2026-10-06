@@ -1,75 +1,109 @@
 @extends('layouts.public')
 
-@section('title', 'Mentions Légales')
+@section('title', 'Mentions légales')
+@section('meta_description', 'Mentions légales du site du Cercle des Nageurs du Bocage Bressuirais (CNBB) : éditeur, directeur de la publication, hébergeur, propriété intellectuelle et droit à l\'image.')
 
 @section('content')
 
-<!-- Hero Section -->
+@php
+    // Date de dernière modification du texte : à changer à la main quand le contenu évolue.
+    $miseAJour = '6 octobre 2026';
+
+    // À COMPLÉTER : la loi (LCEN, art. 6) impose le nom, l'adresse et le téléphone de l'hébergeur
+    // réellement utilisé. Indiquez un seul hébergeur ; les lignes vides ne sont pas affichées.
+    $hebergeur = [
+        'nom'       => 'O2Switch - HOSTINGER',
+        'adresse'   => null,
+        'telephone' => null,
+        'site'      => null,
+    ];
+@endphp
+
+
+<!-- En-tête -->
 <section class="bg-primary text-white py-5">
     <div class="container-lg">
         <div class="row align-items-center">
             <div class="col-lg-8 mb-4 mb-lg-0">
-                <div class="d-flex align-items-center mb-3">
-                    <i class="fas fa-gavel me-3 fs-1"></i>
-                    <h1 class="display-4 fw-bold mb-0">Mentions Légales</h1>
-                </div>
+                <h1 class="display-4 fw-bold mb-3">
+                    <i class="fas fa-gavel me-3" aria-hidden="true"></i>Mentions légales
+                </h1>
                 <p class="lead mb-3">
-                    Conformément aux dispositions de la loi n° 2004-575 du 21 juin 2004 pour la confiance en 
-                    l'économie numérique, voici les informations légales concernant ce site.
+                    Les informations légales du site du Cercle des Nageurs du Bocage Bressuirais, conformément
+                    à la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique.
                 </p>
-                <p class="mb-0 opacity-75">
-                    Dernière mise à jour : {{ now()->format('d/m/Y') }}
-                </p>
+                <p class="mb-0 opacity-75">Dernière mise à jour : {{ $miseAJour }}</p>
             </div>
-            <div class="col-lg-4 text-center">
-                <div class="bg-white bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+            <div class="col-lg-4 text-center d-none d-lg-block">
+                <div class="bg-white bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center"
                      style="width: 200px; height: 200px;">
-                    <i class="fas fa-building" style="font-size: 5rem;"></i>
+                    <i class="fas fa-balance-scale" style="font-size: 5rem;" aria-hidden="true"></i>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Contenu principal -->
+
 <section class="py-5 bg-white">
     <div class="container-lg">
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <div class="alert alert-info mb-5">
-                    <div class="d-flex">
-                        <div class="me-3">
-                            <i class="fas fa-question-circle text-primary fs-3"></i>
-                        </div>
-                        <div>
-                            <p class="mb-0">
-                                Les présentes mentions légales sont susceptibles d'être modifiées à tout moment. 
-                                Nous vous invitons à les consulter régulièrement.
-                            </p>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Éditeur du site -->
                 <article class="card mb-5 border-0 shadow-sm">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center mb-3">
                             <div class="bg-info bg-opacity-10 rounded-circle p-3 me-3">
-                                <i class="fas fa-building text-info fs-3"></i>
+                                <i class="fas fa-swimmer text-info fs-3" aria-hidden="true"></i>
                             </div>
-                            <h3 class="h5 mb-0">Éditeur du site</h3>
+                            <h2 class="h5 mb-0">Éditeur du site</h2>
                         </div>
                         <div class="card p-4 bg-light border-0">
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <p class="mb-1"><strong>Raison sociale :</strong> SNS (6201Z)</p>
-                                    <p class="mb-1"><strong>Adresse du siège social :</strong> 45 Avenue Albert Camus, 78200 Paris, France</p>
+                                    <p class="mb-1"><strong>Cercle des Nageurs du Bocage Bressuirais (CNBB)</strong></p>
+                                    <p class="mb-1">Association sportive, affiliée à la Fédération Française de Natation</p>
+                                    <p class="mb-1">Fondée le 22 mars 1954 — Journal officiel du 12 mai 1954, n° 843</p>
+                                    <address class="mb-0">
+                                        40 boulevard de la République<br>
+                                        79300 Bressuire
+                                    </address>
                                 </div>
                                 <div class="col-md-6">
-                                    <p class="mb-1"><strong>Directeur de la publication :</strong> Med H EL HAOUAT</p>
-                                    <p class="mb-0"><strong>Contact :</strong> natation.swimming@gmail.com</p>
+                                    <p class="mb-1">
+                                        <strong>E-mail :</strong>
+                                        <a href="mailto:cnbb079@gmail.com">cnbb079@gmail.com</a>
+                                    </p>
+                                    <p class="mb-1">
+                                        <strong>Téléphone :</strong>
+                                        <a href="tel:+33602350843">06 02 35 08 43</a>
+                                    </p>
+                                    <p class="mb-0">
+                                        <strong>Directeur de la publication :</strong>
+                                        Sébastien CHEVALIER, président du club
+                                    </p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Conception -->
+                <article class="card mb-5 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3">
+                                <i class="fas fa-laptop-code text-primary fs-3" aria-hidden="true"></i>
+                            </div>
+                            <h2 class="h5 mb-0">Conception et réalisation</h2>
+                        </div>
+                        <div class="card p-4 bg-light border-0">
+                            <p class="mb-1"><strong>SNS</strong> — Med H EL HAOUAT</p>
+                            <p class="mb-0">
+                                <strong>Contact technique :</strong>
+                                <a href="mailto:natation.swimming@gmail.com">natation.swimming@gmail.com</a>
+                            </p>
                         </div>
                     </div>
                 </article>
@@ -79,12 +113,21 @@
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center mb-3">
                             <div class="bg-success bg-opacity-10 rounded-circle p-3 me-3">
-                                <i class="fas fa-server text-success fs-3"></i>
+                                <i class="fas fa-server text-success fs-3" aria-hidden="true"></i>
                             </div>
-                            <h3 class="h5 mb-0">Hébergeur</h3>
+                            <h2 class="h5 mb-0">Hébergeur</h2>
                         </div>
                         <div class="card p-4 bg-light border-0">
-                            <p class="mb-1"><strong>Raison sociale :</strong> O2Switch - HOSTINGER</p>
+                            <p class="mb-1"><strong>{{ $hebergeur['nom'] }}</strong></p>
+                            @if ($hebergeur['adresse'])
+                                <p class="mb-1">{{ $hebergeur['adresse'] }}</p>
+                            @endif
+                            @if ($hebergeur['telephone'])
+                                <p class="mb-1"><strong>Téléphone :</strong> {{ $hebergeur['telephone'] }}</p>
+                            @endif
+                            @if ($hebergeur['site'])
+                                <p class="mb-0"><strong>Site :</strong> {{ $hebergeur['site'] }}</p>
+                            @endif
                         </div>
                     </div>
                 </article>
@@ -94,171 +137,145 @@
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center mb-3">
                             <div class="bg-warning bg-opacity-10 rounded-circle p-3 me-3">
-                                <i class="fas fa-copyright text-warning fs-3"></i>
+                                <i class="fas fa-copyright text-warning fs-3" aria-hidden="true"></i>
                             </div>
-                            <h3 class="h5 mb-0">Propriété intellectuelle</h3>
+                            <h2 class="h5 mb-0">Propriété intellectuelle</h2>
                         </div>
                         <p class="mb-3">
-                            L'ensemble de ce site (structure, présentation, textes, logos, images, photographies, vidéos, 
-                            sons, applications informatiques, etc.) constitue une œuvre protégée par la législation française 
-                            et internationale relative à la propriété intellectuelle.
-                        </p>
-                        <p class="mb-3">
-                            Nataswim est titulaire exclusif de tous les droits de propriété intellectuelle sur le site et 
-                            son contenu. Sauf autorisation préalable et expresse de Nataswim, toute représentation, 
-                            reproduction, modification, publication ou adaptation de tout ou partie du site ou de son contenu, 
-                            sur quelque support que ce soit et par quelque procédé que ce soit, est interdite.
+                            Les textes, logos, photographies, vidéos et documents publiés sur ce site appartiennent
+                            au CNBB ou à leurs auteurs, et sont protégés par le droit de la propriété intellectuelle.
                         </p>
                         <p class="mb-0">
-                            Le non-respect de cette interdiction constitue une contrefaçon susceptible d'engager la 
-                            responsabilité civile et pénale du contrefacteur.
+                            Vous pouvez partager un lien vers une page du site librement. En revanche, la reprise
+                            d'un contenu (texte, photo, vidéo, document) sur un autre support nécessite l'accord
+                            préalable du club : <a href="{{ route('contact') }}">contactez-nous</a>.
                         </p>
                     </div>
                 </article>
 
-                <!-- Liens hypertextes -->
-                <article class="card mb-5 border-0 shadow-sm">
-                    <div class="card-body p-4">
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3">
-                                <i class="fas fa-link text-primary fs-3"></i>
-                            </div>
-                            <h3 class="h5 mb-0">Liens hypertextes</h3>
-                        </div>
-                        <div class="row g-4">
-                            <div class="col-md-6">
-                                <div class="card h-100 border-0 shadow-sm">
-                                    <div class="card-body p-4">
-                                        <h4 class="h6 mb-3 fw-bold">Liens vers notre site</h4>
-                                        <p class="mb-0">
-                                            La mise en place d'un lien hypertexte vers notre site nécessite une 
-                                            autorisation préalable et écrite. Veuillez nous contacter si vous souhaitez 
-                                            établir un lien vers notre site.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card h-100 border-0 shadow-sm">
-                                    <div class="card-body p-4">
-                                        <h4 class="h6 mb-3 fw-bold">Liens depuis notre site</h4>
-                                        <p class="mb-0">
-                                            Notre site peut contenir des liens hypertextes redirigeant vers d'autres 
-                                            sites internet. Nataswim n'a pas la possibilité de vérifier le contenu de 
-                                            ces sites et n'assumera aucune responsabilité de ce fait quant aux contenus 
-                                            de ces sites.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Limitation de responsabilité -->
+                <!-- Droit à l'image -->
                 <article class="card mb-5 border-0 shadow-sm">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center mb-3">
                             <div class="bg-danger bg-opacity-10 rounded-circle p-3 me-3">
-                                <i class="fas fa-exclamation-triangle text-danger fs-3"></i>
+                                <i class="fas fa-camera text-danger fs-3" aria-hidden="true"></i>
                             </div>
-                            <h3 class="h5 mb-0">Limitation de responsabilité</h3>
+                            <h2 class="h5 mb-0">Photos et vidéos : droit à l'image</h2>
                         </div>
                         <p class="mb-3">
-                            Nataswim s'efforce d'assurer au mieux de ses possibilités l'exactitude et la mise à jour des 
-                            informations diffusées sur son site. Cependant, Nataswim ne peut garantir l'exactitude, la 
-                            précision ou l'exhaustivité des informations mises à la disposition sur ce site.
+                            Le site présente des photos et des vidéos des entraînements, des compétitions et de la vie du club.
                         </p>
-                        <p class="mb-3">
-                            Nataswim décline toute responsabilité :
+                        <p class="mb-0">
+                            Si vous, ou votre enfant, apparaissez sur une image et souhaitez son retrait, écrivez-nous à
+                            <a href="mailto:cnbb079@gmail.com">cnbb079@gmail.com</a> en indiquant la page concernée :
+                            l'image sera retirée dans les meilleurs délais.
                         </p>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <ul class="mb-3">
-                                    <li>Pour toute interruption du site</li>
-                                    <li>Pour toute survenance de bogues</li>
-                                    <li>Pour toute inexactitude ou omission dans les informations disponibles sur ce site</li>
-                                </ul>
-                            </div>
-                            <div class="col-md-6">
-                                <ul class="mb-0">
-                                    <li>Pour tous dommages résultant d'une intrusion frauduleuse d'un tiers</li>
-                                    <li>Et plus généralement de tout dommage direct ou indirect, quelles qu'en soient les causes</li>
-                                </ul>
-                            </div>
-                        </div>
                     </div>
                 </article>
 
-                <!-- Gestion des données -->
+                <!-- Liens -->
                 <article class="card mb-5 border-0 shadow-sm">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center mb-3">
-                            <div class="bg-info bg-opacity-10 rounded-circle p-3 me-3">
-                                <i class="fas fa-globe-europe text-info fs-3"></i>
+                            <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3">
+                                <i class="fas fa-link text-primary fs-3" aria-hidden="true"></i>
                             </div>
-                            <h3 class="h5 mb-0">Gestion des données personnelles</h3>
+                            <h2 class="h5 mb-0">Liens vers d'autres sites</h2>
                         </div>
                         <p class="mb-0">
-                            Les informations concernant la collecte et le traitement des données personnelles sont détaillées 
-                            dans notre Politique de Confidentialité</a> 
-                            et notre Politique de Cookies</a>.
+                            Le site peut contenir des liens vers d'autres sites (fédération, comités, partenaires,
+                            résultats de compétitions). Le CNBB ne maîtrise pas le contenu de ces sites et ne peut
+                            en être tenu responsable.
                         </p>
                     </div>
                 </article>
 
-                <!-- Droit applicable -->
+                <!-- Responsabilité -->
                 <article class="card mb-5 border-0 shadow-sm">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center mb-3">
                             <div class="bg-secondary bg-opacity-10 rounded-circle p-3 me-3">
-                                <i class="fas fa-gavel text-secondary fs-3"></i>
+                                <i class="fas fa-exclamation-triangle text-secondary fs-3" aria-hidden="true"></i>
                             </div>
-                            <h3 class="h5 mb-0">Droit applicable et juridiction compétente</h3>
+                            <h2 class="h5 mb-0">Exactitude des informations</h2>
+                        </div>
+                        <p class="mb-3">
+                            Le club s'efforce de tenir à jour les informations publiées (horaires, tarifs, dates
+                            de compétitions, modalités d'inscription). Elles peuvent toutefois évoluer en cours de saison :
+                            en cas de doute, la réponse du club fait foi.
+                        </p>
+                        <p class="mb-0">
+                            Le CNBB ne peut être tenu responsable d'une interruption du site, d'une erreur ou d'une omission,
+                            ni des dommages résultant de l'intrusion frauduleuse d'un tiers.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Données personnelles -->
+                <article class="card mb-5 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-info bg-opacity-10 rounded-circle p-3 me-3">
+                                <i class="fas fa-user-shield text-info fs-3" aria-hidden="true"></i>
+                            </div>
+                            <h2 class="h5 mb-0">Données personnelles et cookies</h2>
                         </div>
                         <p class="mb-0">
-                            Les présentes mentions légales sont régies par le droit français. En cas de litige relatif à 
-                            l'interprétation ou à l'exécution des présentes, les tribunaux français seront seuls compétents.
+                            La collecte et l'utilisation de vos données sont expliquées dans notre
+                            <a href="{{ route('privacy') }}">politique de confidentialité</a>
+                            et notre <a href="{{ route('cookies') }}">politique de cookies</a>.
                         </p>
                     </div>
                 </article>
 
                 <!-- Accessibilité -->
-                <article class="card border-0 shadow-sm">
+                <article class="card mb-5 border-0 shadow-sm">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center mb-3">
                             <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3">
-                                <i class="fas fa-universal-access text-primary fs-3"></i>
+                                <i class="fas fa-universal-access text-primary fs-3" aria-hidden="true"></i>
                             </div>
-                            <h3 class="h5 mb-0">Accessibilité</h3>
+                            <h2 class="h5 mb-0">Accessibilité</h2>
                         </div>
                         <p class="mb-0">
-                            Notre engagement en matière d'accessibilité est détaillé dans notre 
-                            <a href="{{ route('accessibility') }}" class="text-primary">Déclaration d'Accessibilité</a>.
+                            Nos engagements et les limites connues du site sont décrits dans notre
+                            <a href="{{ route('accessibility') }}">déclaration d'accessibilité</a>.
                         </p>
                     </div>
                 </article>
+
+                <!-- Droit applicable -->
+                <article class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-secondary bg-opacity-10 rounded-circle p-3 me-3">
+                                <i class="fas fa-gavel text-secondary fs-3" aria-hidden="true"></i>
+                            </div>
+                            <h2 class="h5 mb-0">Droit applicable</h2>
+                        </div>
+                        <p class="mb-0">
+                            Les présentes mentions légales sont régies par le droit français. Elles peuvent être
+                            modifiées à tout moment ; la date de dernière mise à jour figure en haut de cette page.
+                        </p>
+                    </div>
+                </article>
+
             </div>
         </div>
     </div>
 </section>
 
-<!-- CTA Contact -->
+
+<!-- Contact -->
 <section class="py-5 bg-primary text-white text-center">
     <div class="container-lg py-3">
-        <h2 class="mb-4 fw-bold">Nous Contacter</h2>
+        <h2 class="mb-4 fw-bold">Une question ?</h2>
         <p class="lead mb-4 mx-auto" style="max-width: 700px;">
-            Pour toute question concernant les présentes mentions légales, n'hésitez pas à nous contacter.
+            Pour toute question sur ces mentions légales ou sur le site, écrivez-nous.
         </p>
-        <div class="d-flex justify-content-center">
-            <a href="{{ route('contact') }}" class="btn btn-light btn-lg">
-                <i class="fas fa-envelope me-2"></i>
-                Contactez-nous
-            </a>
-        </div>
-        <p class="mt-4 small opacity-75">
-            Ces mentions légales sont fournies à titre informatif.
-        </p>
+        <a href="{{ route('contact') }}" class="btn btn-light btn-lg">
+            <i class="fas fa-envelope me-2" aria-hidden="true"></i>Contacter le club
+        </a>
     </div>
 </section>
 

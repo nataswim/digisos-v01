@@ -58,6 +58,7 @@
 │   │   │   ├── PostController.php
 │   │   │   ├── ProfileController.php
 │   │   │   ├── PublicController.php
+│   │   │   ├── PublicController0.php
 │   │   │   ├── PublicFicheController.php
 │   │   │   ├── PublicGalleryController.php
 │   │   │   ├── PublicInstallationController.php
@@ -332,10 +333,31 @@
 │   │       │   ├── digital-sos-logo6.png
 │   │       │   ├── digital-sos-logo7.png
 │   │       │   ├── digital-sos-logo8.png
-│   │       │   └── digital-sos-logo9.png
+│   │       │   ├── digital-sos-logo9.png
+│   │       │   ├── Logo-CNBB-Natation-0.png
+│   │       │   ├── Logo-CNBB-Natation-1.png
+│   │       │   ├── Logo-CNBB-Natation-10.png
+│   │       │   ├── Logo-CNBB-Natation-11.png
+│   │       │   ├── Logo-CNBB-Natation-12.png
+│   │       │   ├── Logo-CNBB-Natation-13.png
+│   │       │   ├── Logo-CNBB-Natation-14.png
+│   │       │   ├── Logo-CNBB-Natation-15.png
+│   │       │   ├── Logo-CNBB-Natation-16.png
+│   │       │   ├── Logo-CNBB-Natation-17.png
+│   │       │   ├── Logo-CNBB-Natation-2.png
+│   │       │   ├── Logo-CNBB-Natation-3.png
+│   │       │   ├── Logo-CNBB-Natation-4.png
+│   │       │   ├── Logo-CNBB-Natation-5.png
+│   │       │   ├── Logo-CNBB-Natation-6.png
+│   │       │   ├── Logo-CNBB-Natation-7.png
+│   │       │   ├── Logo-CNBB-Natation-8.png
+│   │       │   └── Logo-CNBB-Natation-9.png
 │   │       └── team
 │   │           ├── anatomie.mp4
 │   │           ├── centre_aquasport_nataswim.mp4
+│   │           ├── CNBB-natation-1.mp4
+│   │           ├── CNBB-natation-2.mp4
+│   │           ├── CNBB-natation-3.mp4
 │   │           ├── ebooks.mp4
 │   │           ├── fitness-nataswim-courir.mp4
 │   │           ├── lac.mp4
@@ -406,10 +428,12 @@
 │   │   │   └── _social-share.scss
 │   │   ├── layout
 │   │   │   ├── _admin-footer.scss
-│   │   │   └── _admin-nav-horizontal.scss
+│   │   │   ├── _admin-nav-horizontal.scss
+│   │   │   └── _public.scss
 │   │   ├── themes
 │   │   │   ├── _aquatic.scss
-│   │   │   └── _custom.scss
+│   │   │   ├── _custom.scss
+│   │   │   └── _custom0.scss
 │   │   └── utilities
 │   │       └── _utilities.scss
 │   └── views
@@ -676,37 +700,52 @@
 │       │   ├── partials
 │       │   │   ├── admin-footer.blade.php
 │       │   │   ├── admin-nav-horizontal.blade.php
+│       │   │   ├── cookie-consent.blade.php
 │       │   │   ├── editor-footer.blade.php
 │       │   │   ├── editor-nav-horizontal.blade.php
 │       │   │   ├── public-footer.blade.php
+│       │   │   ├── public-footer.blade0.php
 │       │   │   ├── public-header.blade.php
+│       │   │   ├── public-header.blade0.php
 │       │   │   ├── public-nav.blade.php
 │       │   │   ├── social-share.blade.php
 │       │   │   ├── user-footer.blade.php
 │       │   │   ├── user-header.blade.php
 │       │   │   └── user-nav.blade.php
 │       │   ├── public.blade.php
+│       │   ├── public.blade0.php
 │       │   └── user.blade.php
 │       ├── pagination
 │       │   └── five-per-row.blade.php
-│       ├── payments
-│       │   ├── history.blade.php
-│       │   └── index.blade.php
 │       ├── public
 │       │   ├── about.blade.php
+│       │   ├── about.blade0.php
 │       │   ├── accessibility.blade.php
+│       │   ├── accessibility.blade0.php
 │       │   ├── categories
 │       │   │   └── index.blade.php
+│       │   ├── category-card.blade.php
+│       │   ├── category-row.blade.php
 │       │   ├── category.blade.php
+│       │   ├── category.blade0.php
 │       │   ├── contact.blade.php
+│       │   ├── contact.blade0.php
+│       │   ├── content-card.blade.php
 │       │   ├── cookies.blade.php
+│       │   ├── cookies.blade0.php
 │       │   ├── ebook
 │       │   │   ├── category.blade.php
 │       │   │   ├── index.blade.php
 │       │   │   ├── search.blade.php
 │       │   │   └── show.blade.php
 │       │   ├── features.blade.php
+│       │   ├── features.blade0.php
 │       │   ├── fiches
+│       │   │   ├── category.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── show.blade.php
+│       │   │   └── sous-category.blade.php
+│       │   ├── fiches0
 │       │   │   ├── category.blade.php
 │       │   │   ├── index.blade.php
 │       │   │   ├── show.blade.php
@@ -715,8 +754,12 @@
 │       │   │   ├── index.blade.php
 │       │   │   └── show.blade.php
 │       │   ├── guide.blade.php
+│       │   ├── guide.blade0.php
+│       │   ├── hero.blade.php
 │       │   ├── home.blade.php
+│       │   ├── home.blade0.php
 │       │   ├── index.blade.php
+│       │   ├── index.blade0.php
 │       │   ├── installations
 │       │   │   ├── espaces
 │       │   │   │   └── show.blade.php
@@ -728,16 +771,27 @@
 │       │   │   └── zones
 │       │   │       └── show.blade.php
 │       │   ├── legal.blade.php
+│       │   ├── legal.blade0.php
+│       │   ├── locked-notice.blade.php
 │       │   ├── pages
+│       │   │   ├── category.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── pages0
 │       │   │   ├── category.blade.php
 │       │   │   ├── index.blade.php
 │       │   │   └── show.blade.php
 │       │   ├── partials
 │       │   │   └── search-form.blade.php
+│       │   ├── post-card.blade.php
 │       │   ├── pricing.blade.php
+│       │   ├── pricing.blade0.php
 │       │   ├── privacy.blade.php
+│       │   ├── privacy.blade0.php
 │       │   ├── search.blade.php
+│       │   ├── search.blade0.php
 │       │   ├── show.blade.php
+│       │   ├── show.blade0.php
 │       │   └── videos
 │       │       ├── category.blade.php
 │       │       ├── index.blade.php
@@ -774,4 +828,4 @@
 ├── vite.config.js
 └── webpack.mix.js
 
-139 directories, 636 files
+140 directories, 689 files

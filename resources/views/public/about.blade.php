@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Le club — Présentation et historique')
+@section('meta_description', 'Découvrez le Cercle des Nageurs du Bocage Bressuirais : club de natation de Bressuire fondé en 1954, affilié à la FFN. Présentation, historique, présidents et coordonnées.')
 
 @section('content')
 
@@ -130,30 +131,23 @@
 @endphp
 
 
-<!-- Hero Section avec Video Background -->
-<section class="position-relative text-white overflow-hidden">
-    <!-- Video Background -->
-    <video autoplay muted loop playsinline class="hero-video">
-        <source src="{{ asset('assets/images/team/CNBB-natation-2.mp4') }}" type="video/mp4">
-    </video>
-    <!-- Contenu -->
-    <div class="container-lg py-5 position-relative hero-content">
-        <div class="row align-items-center min-vh-50">
-            <div class="col-lg-12">
-                <div class="d-flex align-items-center mb-4 animate-slide-up">
-                    <h1 class="text-white display-3 fw-bold mb-0">Cercle des Nageurs du Bocage Bressuirais</h1>
-                </div>
-                 <p class="text-uppercase fw-semibold mb-2 opacity-75">Le club</p>
-                <p class="lead mb-0">
-                    Fondé en 1954, le CNBB reste l'un des clubs les plus dynamiques des Deux-Sèvres.
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
+<x-public.hero
+    title="Cercle des Nageurs du Bocage Bressuirais"
+    eyebrow="Le club"
+    lead="Fondé en 1954, le CNBB reste l'un des clubs les plus dynamiques des Deux-Sèvres.">
+    <a href="#presentation" class="btn btn-primary btn-lg text-white">
+        <i class="fas fa-water me-2" aria-hidden="true"></i>Présentation
+    </a>
+    <a href="#historique" class="btn btn-light btn-lg">
+        <i class="fas fa-history me-2" aria-hidden="true"></i>Historique
+    </a>
+    <a href="{{ route('pricing') }}" class="btn btn-outline-light btn-lg">
+        <i class="fas fa-clipboard-check me-2" aria-hidden="true"></i>S'inscrire
+    </a>
+</x-public.hero>
 
 <!-- Présentation -->
-<section id="presentation" class="py-5 bg-white">
+<section id="presentation" class="anchor-section py-5 bg-white">
     <div class="container-lg">
         <div class="row justify-content-center">
             <div class="col-lg-10">
@@ -221,7 +215,7 @@
 
 
 <!-- Historique -->
-<section id="historique" class="py-5 bg-white">
+<section id="historique" class="anchor-section py-5 bg-white">
     <div class="container-lg">
         <div class="row justify-content-center">
             <div class="col-lg-9">
@@ -250,7 +244,7 @@
 
 
 <!-- Présidents -->
-<section id="presidents" class="py-5 bg-light">
+<section id="presidents" class="anchor-section py-5 bg-light">
     <div class="container-lg">
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -288,7 +282,7 @@
 
 
 <!-- Coordonnées -->
-<section id="coordonnees" class="py-5 bg-white">
+<section id="coordonnees" class="anchor-section py-5 bg-white">
     <div class="container-lg">
         <header class="text-center mb-5">
             <h2 class="display-6 fw-bold mb-3">Nous trouver, nous joindre</h2>
@@ -387,23 +381,5 @@
     .club-timeline article:last-child {
         margin-bottom: 0 !important;
     }
-
-    .hero-video {
-position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-    border-top: 20px solid #ffffff;
-    border-bottom: 20px solid #ffffff;
-    border-left: 20px solid #efa525;
-    border-right: 20px solid #efa525;
-}
-
-.hero-content {
-    z-index: 3;
-}
 </style>
 @endpush

@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
-@section('title', 'Guide d\'utilisation')
+@section('title', 'Guide d\'utilisation du site')
+@section('meta_description', 'Mode d\'emploi du site du CNBB : trouver une information, créer un compte, accéder aux contenus réservés aux membres, gérer son profil. Réponses aux questions fréquentes.')
 
 @section('content')
 
@@ -20,7 +21,7 @@
     // Sommaire de la page
     $sommaire = [
         ['id' => 'premiers-pas', 'icon' => 'fa-shoe-prints',      'label' => 'Premiers pas'],
-        ['id' => 'acces',        'icon' => 'fa-user-check',       'label' => 'Visiteur ou membre'],
+        ['id' => 'acces',        'icon' => 'fa-user-check',       'label' => 'Avec ou sans compte'],
         ['id' => 'rubriques',    'icon' => 'fa-compass',          'label' => 'Les rubriques'],
         ['id' => 'mon-espace',   'icon' => 'fa-user-circle',      'label' => 'Mon espace'],
         ['id' => 'recherche',    'icon' => 'fa-search',           'label' => 'Recherche'],
@@ -32,7 +33,7 @@
         [
             'couleur' => 'primary',
             'titre'   => 'Explorez librement',
-            'texte'   => 'Les actualités, les fiches pratiques, les vidéos, les galeries photo et la présentation des installations sont consultables sans inscription.',
+            'texte'   => 'La vie du club, les infos pratiques, les vidéos, les galeries photo et la présentation des installations sont consultables sans inscription.',
         ],
         [
             'couleur' => 'success',
@@ -47,7 +48,7 @@
         [
             'couleur' => 'info',
             'titre'   => 'Accédez à votre espace',
-            'texte'   => 'Une fois connecté, vous arrivez sur votre tableau de bord. Si vous êtes adhérent, le club active votre accès aux contenus réservés aux membres.',
+            'texte'   => 'Une fois connecté, vous arrivez sur votre tableau de bord et vous pouvez lire les contenus marqués « Membre ». Si vous êtes adhérent, le club peut aussi vous ouvrir votre fiche personnelle.',
         ],
     ];
 
@@ -56,32 +57,32 @@
         [
             'icon'    => 'fa-newspaper',
             'couleur' => 'primary',
-            'titre'   => 'Actualités',
-            'texte'   => 'La vie du club : résultats de compétitions, événements, informations pratiques et annonces. Les articles sont classés par catégories et par mots-clés.',
+            'titre'   => 'Vie du club',
+            'texte'   => 'Les actualités : résultats de compétitions, événements, informations pratiques et annonces. Les articles sont classés par catégories et par mots-clés.',
             'url'     => route('posts.public.index'),
-            'lien'    => 'Lire les actualités',
+            'lien'    => 'Suivre la vie du club',
         ],
         [
             'icon'    => 'fa-clipboard-list',
             'couleur' => 'success',
-            'titre'   => 'Fiches pratiques',
-            'texte'   => 'Des fiches claires pour progresser : technique des nages, conseils d\'entraînement, matériel, démarches. Elles sont rangées par catégories et sous-catégories.',
+            'titre'   => 'Infos pratiques',
+            'texte'   => 'Les fiches d\'information du club : organisation, matériel, compétitions, démarches, conseils. Elles sont rangées par catégories et sous-catégories.',
             'url'     => route('public.fiches.index'),
             'lien'    => 'Consulter les fiches',
         ],
         [
             'icon'    => 'fa-play-circle',
             'couleur' => 'danger',
-            'titre'   => 'Vidéos',
-            'texte'   => 'Démonstrations techniques, tutoriels et reportages du club, à regarder directement sur le site, sur ordinateur comme sur téléphone.',
+            'titre'   => 'Au fil de l\'eau',
+            'texte'   => 'Les vidéos : démonstrations techniques, éducatifs et reportages du club, à regarder directement sur le site, sur ordinateur comme sur téléphone.',
             'url'     => route('public.videos.index'),
             'lien'    => 'Voir les vidéos',
         ],
         [
             'icon'    => 'fa-book-open',
             'couleur' => 'warning',
-            'titre'   => 'Documents à télécharger',
-            'texte'   => 'Guides, formulaires et plans d\'entraînement au format PDF. Choisissez une catégorie, ouvrez le document puis cliquez sur « Télécharger ».',
+            'titre'   => 'Ressources',
+            'texte'   => 'Les documents à télécharger : formulaires, guides et documents du club au format PDF. Choisissez une catégorie, ouvrez le document puis cliquez sur « Télécharger ».',
             'url'     => route('ebook.index'),
             'lien'    => 'Parcourir les documents',
         ],
@@ -104,10 +105,10 @@
         [
             'icon'    => 'fa-file-alt',
             'couleur' => 'secondary',
-            'titre'   => 'Pages d\'information',
-            'texte'   => 'Les informations durables du club : présentation, fonctionnement, règlement, aide. Elles sont regroupées par thème.',
+            'titre'   => 'Le Club',
+            'texte'   => 'Les informations durables du club : fonctionnement, groupes, règles de vie, démarches. Le menu « Le Club » donne aussi accès à la présentation, aux installations et aux galeries.',
             'url'     => route('public.pages.index'),
-            'lien'    => 'Voir les pages',
+            'lien'    => 'Voir les informations',
         ],
         [
             'icon'    => 'fa-envelope',
@@ -123,7 +124,7 @@
     $faq = [
         [
             'q' => 'Comment s\'inscrire au club ?',
-            'r' => 'Créer un compte sur le site ne vaut pas adhésion au club. L\'adhésion se fait avec un dossier d\'inscription à déposer dans la boîte aux lettres du club. Les tarifs, les conditions et la liste des pièces à fournir sont détaillés sur la page « Inscription ».',
+            'r' => 'Créer un compte sur le site ne vaut pas adhésion au club. L\'adhésion se fait avec un dossier d\'inscription à déposer dans la boîte aux lettres du club. Les tarifs, les conditions et la liste des pièces à fournir sont détaillés sur la page « S\'inscrire au club », accessible depuis le menu.',
         ],
         [
             'q' => 'J\'ai oublié mon mot de passe, que faire ?',
@@ -135,11 +136,11 @@
         ],
         [
             'q' => 'Pourquoi certains contenus sont-ils verrouillés ?',
-            'r' => 'Une partie des fiches, vidéos et documents est réservée aux membres du club. Si vous êtes adhérent et que ces contenus restent verrouillés après votre inscription sur le site, contactez le club pour faire activer votre accès membre.',
+            'r' => 'Les contenus marqués d\'un cadenas sont réservés aux personnes connectées : créez un compte ou connectez-vous pour les lire. Certains contenus peuvent en plus être réservés aux adhérents du club : si l\'un d\'eux reste verrouillé alors que vous êtes adhérent, contactez-nous.',
         ],
         [
             'q' => 'Faut-il un compte pour consulter le site ?',
-            'r' => 'Non. Les actualités, les contenus publics, les galeries et la présentation des installations sont accessibles à tous. Le compte sert à accéder à votre espace personnel et, pour les adhérents, aux contenus réservés.',
+            'r' => 'Non. Les actualités, les contenus publics, les galeries et la présentation des installations sont accessibles à tous. Le compte sert à accéder à votre espace personnel et aux contenus marqués « Membre ».',
         ],
         [
             'q' => 'Comment modifier mes informations personnelles ?',
@@ -147,7 +148,7 @@
         ],
         [
             'q' => 'Un document ne se télécharge pas.',
-            'r' => 'Vérifiez que vous êtes bien connecté : certains documents sont réservés aux membres. Si le problème persiste, essayez avec un autre navigateur, puis signalez-le-nous en précisant le nom du document.',
+            'r' => 'Vérifiez que vous êtes bien connecté : certains documents sont réservés aux personnes ayant un compte. Si le problème persiste, essayez avec un autre navigateur, puis signalez-le-nous en précisant le nom du document.',
         ],
         [
             'q' => 'Le site fonctionne-t-il sur téléphone et tablette ?',
@@ -161,43 +162,23 @@
 @endphp
 
 
-<!-- Hero Section avec Video Background -->
-<section class="position-relative text-white overflow-hidden">
-    <!-- Video Background -->
-    <video autoplay muted loop playsinline class="hero-video">
-        <source src="{{ asset('assets/images/team/CNBB-natation-2.mp4') }}" type="video/mp4">
-    </video>
-    <!-- Contenu -->
-    <div class="container-lg py-5 position-relative hero-content">
-        <div class="row align-items-center min-vh-50">
-            <div class="col-lg-12">
-                <div class="d-flex align-items-center mb-4 animate-slide-up">
-                    <h1 class="text-white display-3 fw-bold mb-0">Guide d'utilisation</h1>
-                </div>
-                 <p class="text-uppercase fw-semibold mb-2 opacity-75">Le club</p>
-                <p class="lead mb-0">
-                    Nageur, parent, adhérent ou simple curieux : cette page vous explique comment trouver une information,
-                    créer votre compte et profiter de votre espace personnel sur le site du
-                    Cercle des Nageurs du Bocage Bressuirais (CNBB).
-                </p>
-                <div class="d-flex flex-wrap gap-2">
-                    @guest
-                        <a href="{{ route('register') }}" class="btn btn-light btn-lg">
-                            <i class="fas fa-user-plus me-2"></i>Créer mon compte
-                        </a>
-                        <a href="{{ route('login') }}" class="btn btn-outline-light btn-lg">
-                            <i class="fas fa-sign-in-alt me-2"></i>Me connecter
-                        </a>
-                    @else
-                        <a href="{{ $dashboardRoute }}" class="btn btn-light btn-lg">
-                            <i class="fas fa-user-circle me-2"></i>Accéder à mon espace
-                        </a>
-                    @endguest
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<x-public.hero
+    title="Guide d'utilisation"
+    eyebrow="Le site du club"
+    lead="Nageur, parent, adhérent ou simple curieux : cette page vous explique comment trouver une information, créer votre compte et profiter de votre espace personnel sur le site du Cercle des Nageurs du Bocage Bressuirais (CNBB).">
+    @guest
+        <a href="{{ route('register') }}" class="btn btn-light btn-lg">
+            <i class="fas fa-user-plus me-2" aria-hidden="true"></i>Créer mon compte
+        </a>
+        <a href="{{ route('login') }}" class="btn btn-outline-light btn-lg">
+            <i class="fas fa-sign-in-alt me-2" aria-hidden="true"></i>Me connecter
+        </a>
+    @else
+        <a href="{{ $dashboardRoute }}" class="btn btn-light btn-lg">
+            <i class="fas fa-user-circle me-2" aria-hidden="true"></i>Accéder à mon espace
+        </a>
+    @endguest
+</x-public.hero>
 
 
 <!-- Sommaire -->
@@ -215,7 +196,7 @@
 
 
 <!-- Premiers pas -->
-<section id="premiers-pas" class="guide-section py-5 bg-white">
+<section id="premiers-pas" class="anchor-section py-5 bg-white">
     <div class="container-lg">
         <header class="text-center mb-5">
             <h2 class="display-6 fw-bold mb-3">Premiers pas</h2>
@@ -241,11 +222,11 @@
 </section>
 
 
-<!-- Visiteur ou membre -->
-<section id="acces" class="guide-section py-5 bg-light">
+<!-- Avec ou sans compte -->
+<section id="acces" class="anchor-section py-5 bg-light">
     <div class="container-lg">
         <header class="text-center mb-5">
-            <h2 class="display-6 fw-bold mb-3">Visiteur ou membre : à quoi avez-vous accès ?</h2>
+            <h2 class="display-6 fw-bold mb-3">Avec ou sans compte : à quoi avez-vous accès ?</h2>
             <p class="lead text-muted">Le contenu affiché dépend de votre situation</p>
         </header>
 
@@ -261,7 +242,7 @@
                         <p class="text-muted small mb-3">Vous naviguez librement</p>
                         <ul class="list-unstyled mb-0">
                             <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Actualités du club</li>
-                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Fiches, vidéos et pages publiques</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Fiches, vidéos, pages et documents publics</li>
                             <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Galeries photo et installations</li>
                             <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Recherche et formulaire de contact</li>
                             <li class="mb-2 text-muted"><i class="fas fa-lock me-2"></i>Pas d'espace personnel</li>
@@ -278,13 +259,13 @@
                              style="width: 70px; height: 70px;">
                             <i class="fas fa-user text-info fa-2x"></i>
                         </div>
-                        <h3 class="h5 fw-bold mb-1">Compte visiteur</h3>
-                        <p class="text-muted small mb-3">Vous venez de vous inscrire sur le site</p>
+                        <h3 class="h5 fw-bold mb-1">Avec un compte</h3>
+                        <p class="text-muted small mb-3">Gratuit, créé en une minute sur le site</p>
                         <ul class="list-unstyled mb-0">
                             <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tout ce qui est accessible sans compte</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Les contenus marqués « Membre » <i class="fas fa-lock small text-muted" aria-hidden="true"></i></li>
                             <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Un tableau de bord personnel</li>
-                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>La gestion de votre profil et de votre mot de passe</li>
-                            <li class="text-muted"><i class="fas fa-lock me-2"></i>Contenus réservés aux membres non inclus</li>
+                            <li><i class="fas fa-check text-success me-2"></i>La gestion de votre profil et de votre mot de passe</li>
                         </ul>
                     </div>
                 </article>
@@ -297,13 +278,12 @@
                              style="width: 70px; height: 70px;">
                             <i class="fas fa-swimmer text-primary fa-2x"></i>
                         </div>
-                        <h3 class="h5 fw-bold mb-1">Compte membre</h3>
-                        <p class="text-muted small mb-3">Vous êtes adhérent et le club a activé votre accès</p>
+                        <h3 class="h5 fw-bold mb-1">Adhérent du club</h3>
+                        <p class="text-muted small mb-3">Le club a relié votre compte à votre adhésion</p>
                         <ul class="list-unstyled mb-0">
-                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tout ce qui est accessible aux visiteurs</li>
-                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Fiches, vidéos et pages réservées aux membres</li>
-                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Documents à télécharger réservés</li>
-                            <li><i class="fas fa-check text-success me-2"></i>Votre fiche personnelle tenue par le club</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tout ce qui est accessible avec un compte</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Votre fiche personnelle, tenue par le club</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Selon les rubriques, des contenus réservés aux adhérents</li>
                         </ul>
                     </div>
                 </article>
@@ -313,8 +293,8 @@
         <div class="alert alert-info border-0 shadow-sm mt-4 mb-0 d-flex align-items-start" role="note">
             <i class="fas fa-info-circle fa-lg me-3 mt-1"></i>
             <div>
-                <strong>Vous êtes adhérent mais vos contenus restent verrouillés ?</strong>
-                L'accès membre est activé par le club après votre inscription sur le site.
+                <strong>Vous êtes adhérent mais votre fiche n'apparaît pas, ou un contenu reste verrouillé ?</strong>
+                Le club relie votre compte à votre adhésion après votre inscription sur le site.
                 <a href="{{ route('contact') }}" class="alert-link">Contactez-nous</a> en précisant le nom du nageur concerné.
                 Pas encore adhérent ? Les tarifs et le dossier à fournir sont sur la page
                 <a href="{{ route('pricing') }}" class="alert-link">Inscription</a>.
@@ -325,7 +305,7 @@
 
 
 <!-- Les rubriques -->
-<section id="rubriques" class="guide-section py-5 bg-white">
+<section id="rubriques" class="anchor-section py-5 bg-white">
     <div class="container-lg">
         <header class="text-center mb-5">
             <h2 class="display-6 fw-bold mb-3">Les rubriques du site</h2>
@@ -356,14 +336,14 @@
 
 
 <!-- Mon espace -->
-<section id="mon-espace" class="guide-section py-5 bg-light">
+<section id="mon-espace" class="anchor-section py-5 bg-light">
     <div class="container-lg">
-        <div class="row align-items-center g-5">
+        <div class="row align-items-center g-4 g-lg-5">
             <div class="col-lg-6">
                 <h2 class="display-6 fw-bold mb-4">Votre espace personnel</h2>
                 <p class="text-muted mb-4">
                     Dès que vous êtes connecté, un espace vous est réservé. Vous y accédez à tout moment
-                    depuis le menu situé en haut de la page.
+                    avec le bouton à votre nom, en haut à droite de la page.
                 </p>
 
                 <article class="d-flex align-items-start mb-4">
@@ -399,7 +379,7 @@
                         <i class="fas fa-address-book fa-lg"></i>
                     </div>
                     <div>
-                        <h3 class="h5 fw-bold mb-1">Ma fiche <span class="badge bg-primary align-middle ms-1">Membres</span></h3>
+                        <h3 class="h5 fw-bold mb-1">Ma fiche <span class="badge bg-primary align-middle ms-1">Adhérents</span></h3>
                         <p class="text-muted mb-0">
                             Une fiche personnelle renseignée par le club, que vous consultez en lecture seule.
                             Une information à corriger ? Signalez-la à votre entraîneur ou au secrétariat.
@@ -464,7 +444,7 @@
 
 
 <!-- Recherche -->
-<section id="recherche" class="guide-section py-5 bg-white">
+<section id="recherche" class="anchor-section py-5 bg-white">
     <div class="container-lg">
         <div class="row justify-content-center">
             <div class="col-lg-10">
@@ -520,7 +500,7 @@
 
 
 <!-- Questions fréquentes -->
-<section id="faq" class="guide-section py-5 bg-light">
+<section id="faq" class="anchor-section py-5 bg-light">
     <div class="container-lg">
         <div class="row justify-content-center">
             <div class="col-lg-9">
@@ -598,11 +578,6 @@
 
 @push('styles')
 <style>
-    /* Décalage des ancres pour ne pas passer sous le menu fixe */
-    .guide-section {
-        scroll-margin-top: 90px;
-    }
-
     /* Pastilles numérotées des étapes */
     .guide-step {
         width: 64px;
@@ -637,22 +612,5 @@
             transform: none;
         }
     }
-        .hero-video {
-position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-    border-top: 20px solid #ffffff;
-    border-bottom: 20px solid #ffffff;
-    border-left: 20px solid #efa525;
-    border-right: 20px solid #efa525;
-}
-
-.hero-content {
-    z-index: 3;
-}
 </style>
 @endpush

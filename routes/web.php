@@ -62,6 +62,7 @@ use App\Http\Controllers\Visitor\VisitorDashboardController;
 use App\Http\Controllers\User\UserProfileController as UserUserProfileController;
 
 use App\Http\Controllers\PublicInstallationController;
+use App\Models\Category;
 
 // =============================================================================
 // ROUTES PUBLIQUES
@@ -97,12 +98,15 @@ Route::get('/guide-utilisation',         [PublicController::class, 'guide'])->na
 Route::get('/contact',                   [PublicController::class, 'contact'])->name('contact');
 Route::post('/contact',                  [PublicController::class, 'contactSend'])->name('contact.send');
 
+  Route::get('/', [PublicController::class, 'home'])->name('home');
+  Route::post('/contact', [PublicController::class, 'contactSend'])->middleware('throttle:5,1')->name('contact.send');
+  
 // ========== POSTS PUBLICS ==========
 Route::get('/posts',                     [PostController::class, 'indexPublic'])->name('posts.public.index');
 Route::get('/posts/tag/{tag}',           [PostController::class, 'byTag'])->name('posts.public.tag');
 Route::get('/posts/category/{category}', [PostController::class, 'byCategory'])->name('posts.public.category');
 Route::get('/posts/{post}',              [PostController::class, 'showPublic'])->name('posts.public.show');
-
+Route::get('/revue-de-presse', [PublicController::class, 'press'])->name('press');
 // ========== VIDÉOS PUBLIQUES ==========
 Route::prefix('videos')->name('public.videos.')->group(function () {
     Route::get('/',                    [PublicVideoController::class, 'index'])->name('index');
