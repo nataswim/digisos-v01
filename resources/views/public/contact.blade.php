@@ -18,7 +18,7 @@
     <div class="container-lg position-relative" style="z-index: 3;">
         <div class="row align-items-center">
             <div class="col-lg-8 mb-4 mb-lg-0">
-                <h1 class="display-4 fw-bold mb-4">Contactez-nous</h1>
+                <h1 class="display-4 text-white fw-bold mb-4">Contactez-nous</h1>
                 <p class="lead mb-0">
                     N'hésitez pas à nous envoyer vos messages. Nous vous répondrons dans les plus brefs délais.
                 </p>
@@ -27,7 +27,7 @@
                 <div class="bg-white bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center p-3" 
                      style="width: 200px; height: 200px;">
                     <img 
-                        src="{{ asset('assets/images/team/nataswim_app_logo_0.png') }}" 
+                        src="{{ asset('assets/images/logo/Logo-CNBB-Natation-9.png') }}" 
                         alt="Nataswim Logo" 
                         class="img-fluid"
                         style="max-width: 160px; max-height: 160px;"
@@ -215,8 +215,8 @@
                         <!-- Carte Google Maps -->
                         <div class="ratio ratio-16x9">
                             <iframe 
-                                title="Localisation DIGITALSOS - 46 Rte de la Pyramide, 75012 Paris" 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2625.8583384719945!2d2.404621!3d48.843611!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e6729d8cf8e8c9%3A0x1234567890abcdef!2s46%20Route%20de%20la%20Pyramide%2C%2075012%20Paris!5e0!3m2!1sfr!2sfr!4v1733049600000!5m2!1sfr!2sfr" 
+                                title="Localisation DIGITALSOS - 40 boulevard de la République, 79300 Bressuire" 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2402.494965143164!2d-0.49433602408381405!3d46.834599671129475!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4807a8106e13d59b%3A0x10765af134435179!2s40%20Bd%20de%20la%20R%C3%A9publique%2C%2079300%20Bressuire!5e1!3m2!1sfr!2sfr!4v1791235462121!5m2!1sfr!2sfr" 
                                 style="border: 0;" 
                                 allowfullscreen 
                                 loading="lazy"

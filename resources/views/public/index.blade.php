@@ -11,7 +11,7 @@
 <section class="position-relative text-white overflow-hidden">
     <!-- Video Background -->
     <video autoplay muted loop playsinline class="hero-video">
-        <source src="{{ asset('assets/images/team/nataswim-sport-training-1.mp4') }}" type="video/mp4">
+        <source src="{{ asset('assets/images/team/CNBB-natation-2.mp4') }}" type="video/mp4">
     </video>
     <!-- Contenu -->
     <div class="container-lg py-5 position-relative hero-content">

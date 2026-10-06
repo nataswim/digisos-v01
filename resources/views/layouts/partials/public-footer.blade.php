@@ -46,11 +46,7 @@ $chiffre2 = mt_rand(79, 123);
                                 <i class="fas fa-info-circle me-2 text-secondary"></i>À propos
                             </a>
                         </li>
-                        <li class="mb-2">
-                            <a href="{{ route('features') }}" class="text-decoration-none text-dark">
-                                <i class="fas fa-star me-2 text-secondary"></i>Fonctionnalités
-                            </a>
-                        </li>
+
                         {{-- Galeries Photo --}}
 <li class="mb-2">
     <a class="text-decoration-none text-dark" href="{{ route('galleries.index') }}">
@@ -59,7 +55,7 @@ $chiffre2 = mt_rand(79, 123);
 </li>
                         <li class="mb-2">
                             <a href="{{ route('guide') }}" class="text-decoration-none text-dark">
-                                <i class="fas fa-book-open me-2 text-secondary"></i>Guide d'utilisation
+                                <i class="fas fa-book-open me-2 text-secondary"></i>Utilisation
                             </a>
                         </li>
                         <li class="mb-2">

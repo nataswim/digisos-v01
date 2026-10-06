@@ -1,275 +1,151 @@
 @extends('layouts.public')
 
-@section('title', 'Plans d\'inscription')
+@section('title', 'Inscription saison 2026-2027')
 
 @section('content')
 
-<!-- Hero Section -->
+@php
+    $saison = '2026-2027';
 
-<section class="bg-primary text-white py-5">
-    <div class="container-lg">
-        <div class="row align-items-center">
-            <div class="col-lg-7 mb-4 mb-lg-0">
-                <div class="d-flex align-items-center mb-3">
-                    <h1 class="display-4 fw-bold mb-4">Plans - Inscription</h1>
+    // Tarifs de la saison
+    $tarifs = [
+        [
+            'icon'    => 'fa-child',
+            'couleur' => 'info',
+            'titre'   => 'École de natation',
+            'detail'  => 'Enfants 10 ans et moins',
+            'prix'    => 175,
+        ],
+        [
+            'icon'    => 'fa-swimmer',
+            'couleur' => 'primary',
+            'titre'   => 'Natation jeunes et étudiants',
+            'detail'  => 'Jeunes 11 ans et plus, étudiants de 18 à 25 ans (avec justificatif)',
+            'prix'    => 190,
+        ],
+        [
+            'icon'    => 'fa-user-graduate',
+            'couleur' => 'success',
+            'titre'   => 'Anciens nageurs étudiants',
+            'detail'  => 'Anciens nageurs jeunes, étudiants hors Bressuire, licenciés l\'année précédente',
+            'prix'    => 110,
+        ],
+        [
+            'icon'    => 'fa-users',
+            'couleur' => 'warning',
+            'titre'   => 'Adultes',
+            'detail'  => 'Plus de 18 ans',
+            'prix'    => 210,
+        ],
+    ];
+
+    // Pièces du dossier
+    $pieces = [
+        [
+            'titre' => 'La fiche d\'inscription',
+            'texte' => 'Dûment remplie. Pour les compétiteurs, ajoutez la fiche sanitaire de liaison.',
+        ],
+        [
+            'titre' => 'Le règlement de l\'adhésion',
+            'texte' => 'En espèces, par chèque(s) ou par virement. Le détail est indiqué plus bas.',
+        ],
+        [
+            'titre' => 'Le certificat médical',
+            'texte' => 'Obligatoire lors de la première adhésion. Il est à renouveler tous les 3 ans pour les adultes. Pour les mineurs, une attestation CERFA 15699-01 le remplace.',
+        ],
+        [
+            'titre' => 'Une photo d\'identité',
+            'texte' => 'Uniquement pour les nouveaux adhérents.',
+        ],
+        [
+            'titre' => 'Un chèque de caution de 5 €',
+            'texte' => 'Pour le badge d\'entrée. Il n\'est débité qu\'en cas de perte de la carte.',
+        ],
+    ];
+@endphp
+
+
+<!-- Hero Section avec Video Background -->
+<section class="position-relative text-white overflow-hidden">
+    <!-- Video Background -->
+    <video autoplay muted loop playsinline class="hero-video">
+        <source src="{{ asset('assets/images/team/CNBB-natation-2.mp4') }}" type="video/mp4">
+    </video>
+    <!-- Contenu -->
+    <div class="container-lg py-5 position-relative hero-content">
+        <div class="row align-items-center min-vh-50">
+            <div class="col-lg-12">
+                <div class="d-flex align-items-center mb-4 animate-slide-up">
+                 <h1 class="display-4 fw-bold mb-4 text-white">Inscription saison {{ $saison }}</h1>
                 </div>
-                <p class="lead mb-0">
-                    Choisissez la durée qui vous convient et accédez à la totalité des services
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-
-<!-- Plans d'inscription -->
-<section class="py-5 bg-white">
-    <div class="container-lg">
-        <div class="row justify-content-center mb-5">
-            <div class="col-lg-8 text-center">
                 <p class="lead mb-4">
-                    Choisissez la durée qui vous convient : 12 / 6 / 3 mois, et accédez à la totalité des services.
+                    Tarifs, conditions et pièces à fournir pour rejoindre le Cercle des Nageurs du Bocage Bressuirais.
                 </p>
-            </div>
-        </div>
-
-        <div class="row g-4 justify-content-center mb-5">
-            <!-- Plan 12 mois -->
-            <div class="col-lg-4 col-md-6">
-                <article class="card h-100 border-primary shadow">
-                    <div class="card-header bg-primary text-white text-center py-3">
-                        <span class="badge bg-white text-primary">Meilleure valeur</span>
-                    </div>
-                    <div class="card-body p-4 text-center">
-                        <div class="mb-3">
-                            <i class="fas fa-swimmer text-primary" style="font-size: 2.5rem;"></i>
-                        </div>
-                        <h2 class="card-title h3 mb-2">12 mois</h2>
-                        <p class="text-muted mb-3">
-                            Accès complet à tous les services pendant une année complète.
-                        </p>
-                        <div class="mb-3">
-                            <span class="text-muted me-2" style="font-weight: bold;"> 8€ par mois = 96€</span>
-                        </div>
-                        <ul class="list-unstyled text-start mb-4">
-                            <li class="mb-2 d-flex align-items-center">
-                                <i class="fas fa-check text-success me-2"></i>
-                                <span>Paiement unique non récurrent</span>
-                            </li>
-                            <li class="mb-2 d-flex align-items-center">
-                                <i class="fas fa-check text-success me-2"></i>
-                                <span>Pas de Renouvellement Automatique</span>
-                            </li>
-                            <li class="mb-2 d-flex align-items-center">
-                                <i class="fas fa-check text-success me-2"></i>
-                                <span>Accès illimité à toutes les ressources</span>
-                            </li>
-                            <li class="mb-2 d-flex align-items-center">
-                                <i class="fas fa-check text-success me-2"></i>
-                                <span>Support prioritaire</span>
-                            </li>
-                        </ul>
-                        <!-- Plan 12 mois -->
-                        <a href="https://buy.stripe.com/dRm28r5AOfEDaHn0JxgnK02"
-                            class="btn btn-success btn-lg text-white w-100"
-                            target="_blank">
-                            <i class="fas fa-credit-card me-2"></i>S'inscrire pour 12 mois
-                        </a>
-
-                        <div class="text-primary mb-3" style="font-size: 2.5rem;">
-                            <i class="fab fa-paypal"></i>
-                        </div>
-                        <p class="text-muted mb-0">
-                            S'inscrire avec Paypal.
-                        </p>
-                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                            <input type="hidden" name="cmd" value="_s-xclick" />
-                            <input type="hidden" name="hosted_button_id" value="WXXYSM9EF42ZN" />
-                            <input type="hidden" name="currency_code" value="EUR" />
-                            <input type="image" src="https://www.paypalobjects.com/fr_FR/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" title="PayPal, votre réflexe sécurité pour payer en ligne." alt="Acheter" />
-                        </form>
-                    </div>
-                </article>
-            </div>
-
-            <!-- Plan 6 mois -->
-            <div class="col-lg-4 col-md-6">
-                <article class="card h-100 border-0 shadow-sm">
-                    <div class="card-body p-4 text-center">
-                        <div class="mb-3">
-                            <i class="fas fa-user-tie text-warning" style="font-size: 2.5rem;"></i>
-                        </div>
-                        <h2 class="card-title h3 mb-2">6 mois</h2>
-                        <p class="text-muted mb-3">
-                            Solution intermédiaire avec tous les services pendant 6 mois.
-                        </p>
-                        <div class="mb-3">
-                            <span class="text-muted me-2" style="font-weight: bold;"> 11€ par mois = 66€</span>
-                        </div>
-                        <ul class="list-unstyled text-start mb-4">
-                            <li class="mb-2 d-flex align-items-center">
-                                <i class="fas fa-check text-success me-2"></i>
-                                <span>Paiement unique non récurrent</span>
-                            </li>
-                            <li class="mb-2 d-flex align-items-center">
-                                <i class="fas fa-check text-success me-2"></i>
-                                <span>Pas de Renouvellement Automatique</span>
-                            </li>
-                            <li class="mb-2 d-flex align-items-center">
-                                <i class="fas fa-check text-success me-2"></i>
-                                <span>Accès illimité à toutes les ressources</span>
-                            </li>
-                            <li class="mb-2 d-flex align-items-center">
-                                <i class="fas fa-check text-success me-2"></i>
-                                <span>Support standard</span>
-                            </li>
-                        </ul>
-                        <!-- Plan 6 mois -->
-                        <a href="https://buy.stripe.com/6oU9AT7IW8cbeXD1NBgnK01"
-                            class="btn btn-outline-primary btn-lg w-100"
-                            target="_blank">
-                            <i class="fas fa-credit-card me-2"></i>S'inscrire pour 6 mois
-                        </a>
-
-                        <div class="text-primary mb-3" style="font-size: 2.5rem;">
-                            <i class="fab fa-paypal"></i>
-                        </div>
-                        <p class="text-muted mb-0">
-                            S'inscrire avec Paypal.
-                        </p>
-                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                            <input type="hidden" name="cmd" value="_s-xclick" />
-                            <input type="hidden" name="hosted_button_id" value="8UFX4YSD4G68G" />
-                            <input type="hidden" name="currency_code" value="EUR" />
-                            <input type="image" src="https://www.paypalobjects.com/fr_FR/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" title="PayPal, votre réflexe sécurité pour payer en ligne." alt="Acheter" />
-                        </form>
-
-                    </div>
-                </article>
-            </div>
-
-            <!-- Plan 3 mois -->
-            <div class="col-lg-4 col-md-6">
-                <article class="card h-100 border-0 shadow-sm">
-                    <div class="card-body p-4 text-center">
-                        <div class="mb-3">
-                            <i class="fas fa-swimmer text-danger" style="font-size: 2.5rem;"></i>
-                        </div>
-                        <span class="text-muted me-2" style="font-weight: bold;"> 3 mois</h2>
-                            <p class="text-muted mb-3">
-                                Formule découverte avec tous les services pendant 3 mois.
-                            </p>
-                            <div class="mb-3">
-                                <span class="text-muted me-2">15€ par mois = 45€</span>
-                            </div>
-                            <ul class="list-unstyled text-start mb-4">
-                                <li class="mb-2 d-flex align-items-center">
-                                    <i class="fas fa-check text-success me-2"></i>
-                                    <span>Paiement unique non récurrent</span>
-                                </li>
-                                <li class="mb-2 d-flex align-items-center">
-                                    <i class="fas fa-check text-success me-2"></i>
-                                    <span>Pas de Renouvellement Automatique</span>
-                                </li>
-                                <li class="mb-2 d-flex align-items-center">
-                                    <i class="fas fa-check text-success me-2"></i>
-                                    <span>Accès illimité à toutes les ressources</span>
-                                </li>
-                                <li class="mb-2 d-flex align-items-center">
-                                    <i class="fas fa-check text-success me-2"></i>
-                                    <span>Support standard</span>
-                                </li>
-                            </ul>
-                            <!-- Plan 3 mois -->
-                            <a href="https://buy.stripe.com/6oUeVd9R478716NgIvgnK00"
-                                class="btn btn-outline-primary btn-lg w-100"
-                                target="_blank">
-                                <i class="fas fa-credit-card me-2"></i>S'inscrire pour 3 mois
-                            </a>
-                            <div class="text-primary mb-3" style="font-size: 2.5rem;">
-                                <i class="fab fa-paypal"></i>
-                            </div>
-                            <p class="text-muted mb-0">
-                                S'inscrire avec Paypal.
-                            </p>
-                            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                                <input type="hidden" name="cmd" value="_s-xclick" />
-                                <input type="hidden" name="hosted_button_id" value="FVB4LYV557SLY" />
-                                <input type="hidden" name="currency_code" value="EUR" />
-                                <input type="image" src="https://www.paypalobjects.com/fr_FR/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" title="PayPal, votre réflexe sécurité pour payer en ligne." alt="Acheter" />
-                            </form>
-                    </div>
-                </article>
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="#tarifs" class="btn btn-primary btn-lg">
+                        <i class="fas fa-euro-sign me-2"></i>Voir les tarifs
+                    </a>
+                    <a href="#dossier" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-folder-open me-2"></i>Préparer mon dossier
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-
-        <!-- Bandeau Prix -->
-        <div class="alert alert-warning border-0 shadow-sm text-center">
-            <div class="row align-items-center">
-                <div class="col mx-auto">
-                    <p class="mb-3">
-                        <strong>Pour les inscriptions premium de groupes, clubs ou centres de formation, veuillez <a href="{{ route('contact') }}">
-                                Nous contacter <i class="fas fa-envelope me-2"></i> </a>.</strong>
-                    </p>
-                </div>
-            </div>
-        </div>
-          <div class="alert alert-success border-0 shadow-sm text-center">
-            <div class="row align-items-center">
-                <div class="col mx-auto">
-                    <p class="mb-3">
-       Si vous avez déjà participé à nos <strong>camps, stages, formations ou webinaires, </strong> veuillez valider votre compte sur la plateforme. Les liens d'accès vous ont été envoyés suite à votre inscription.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-
 </section>
 
-<!-- Pourquoi Nataswim -->
-<section class="py-5 bg-light">
+
+<!-- Conditions d'accès -->
+<section id="conditions" class="inscription-section py-5 bg-white">
     <div class="container-lg">
+        <header class="text-center mb-5">
+            <h2 class="display-6 fw-bold mb-3">Avant de vous inscrire</h2>
+            <p class="lead text-muted">Qui peut rejoindre le club ?</p>
+        </header>
+
         <div class="row g-4">
-            <div class="col-lg-4 col-md-6">
-                <article class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="text-primary mb-3" style="font-size: 2.5rem;">
-                            <i class="fas fa-clock"></i>
+            <div class="col-md-4">
+                <article class="card border-0 shadow-sm h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4"
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-swimmer text-primary fa-2x"></i>
                         </div>
-                        <h3 class="h5 fw-bold mb-3">Gagner du temps </h3>
+                        <h3 class="h5 fw-bold mb-3">Savoir nager 25 mètres</h3>
                         <p class="text-muted mb-0">
-                            Des ressources conçues pour optimiser votre progression et améliorer rapidement vos performances.
+                            L'inscription est réservée aux adultes et aux enfants sachant nager au moins 25 m.
                         </p>
                     </div>
                 </article>
             </div>
 
-            <div class="col-lg-4 col-md-6">
-                <article class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="text-primary mb-3" style="font-size: 2.5rem;">
-                            <i class="fas fa-lightbulb"></i>
+            <div class="col-md-4">
+                <article class="card border-0 shadow-sm h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4"
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-stopwatch text-success fa-2x"></i>
                         </div>
-                        <h3 class="h5 fw-bold mb-3">Souplesse et liberté d'utilisation</h3>
+                        <h3 class="h5 fw-bold mb-3">Une évaluation du niveau</h3>
                         <p class="text-muted mb-0">
-                            Accédez à nos contenus quand vous voulez, où vous voulez, selon votre propre rythme.
+                            Lors de la première adhésion, le club se réserve le droit d'évaluer le niveau de pratique.
+                            Pour l'école de natation, un entraîneur évalue les enfants dès début septembre afin de confirmer
+                            ou non l'inscription et de les orienter vers le groupe le plus adapté.
                         </p>
                     </div>
                 </article>
             </div>
 
-            <div class="col-lg-4 col-md-6">
-                <article class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="text-primary mb-3" style="font-size: 2.5rem;">
-                            <i class="fas fa-money-bill-wave"></i>
+            <div class="col-md-4">
+                <article class="card border-0 shadow-sm h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4"
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-life-ring text-info fa-2x"></i>
                         </div>
-                        <h3 class="h5 fw-bold mb-3">Qualité </h3>
+                        <h3 class="h5 fw-bold mb-3">Pour apprendre à nager</h3>
                         <p class="text-muted mb-0">
-                            Des contenus élaborés par des professionnels reconnus dans le domaine sportif.
+                            Le centre aquatique Cœur d'O propose des créneaux d'apprentissage aux enfants et aux adultes.
                         </p>
                     </div>
                 </article>
@@ -279,191 +155,287 @@
 </section>
 
 
-
-<!-- CTA -->
-<section class="py-5 bg-primary text-white text-center">
+<!-- Tarifs -->
+<section id="tarifs" class="inscription-section py-5 bg-light">
     <div class="container-lg">
-        <h2 class="mb-4 fw-bold">Des questions ?</h2>
+        <header class="text-center mb-5">
+            <h2 class="display-6 fw-bold mb-3">Tarifs {{ $saison }}</h2>
+            <p class="lead text-muted">Adhésion pour la saison complète</p>
+        </header>
+
+        <div class="row g-4">
+            @foreach ($tarifs as $tarif)
+                <div class="col-md-6 col-lg-3">
+                    <article class="card border-0 shadow-sm h-100 text-center">
+                        <div class="card-body p-4 d-flex flex-column">
+                            <div class="bg-{{ $tarif['couleur'] }} bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3 mx-auto"
+                                 style="width: 70px; height: 70px;">
+                                <i class="fas {{ $tarif['icon'] }} text-{{ $tarif['couleur'] }} fa-2x"></i>
+                            </div>
+                            <h3 class="h5 fw-bold mb-2">{{ $tarif['titre'] }}</h3>
+                            <p class="text-muted small flex-grow-1">{{ $tarif['detail'] }}</p>
+                            <div class="display-5 fw-bold text-{{ $tarif['couleur'] }}">{{ $tarif['prix'] }} €</div>
+                        </div>
+                    </article>
+                </div>
+            @endforeach
+        </div>
+
+        <div class="row g-4 mt-1">
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <h3 class="h5 fw-bold mb-3">
+                            <i class="fas fa-tags text-success me-2"></i>Remises famille
+                        </h3>
+                        <ul class="list-unstyled mb-3">
+                            <li class="d-flex mb-2">
+                                <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                                <span><strong>2 adhésions :</strong> remise de 10 €</span>
+                            </li>
+                            <li class="d-flex">
+                                <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                                <span><strong>3 adhésions et plus :</strong> 10 % de remise sur l'ensemble des adhésions</span>
+                            </li>
+                        </ul>
+                        <p class="text-muted small mb-0">
+                            Remises valables uniquement pour une adhésion en début de saison.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm h-100 border-start border-warning border-4">
+                    <div class="card-body p-4">
+                        <h3 class="h5 fw-bold mb-3">
+                            <i class="fas fa-exclamation-triangle text-warning me-2"></i>Réinscription tardive
+                        </h3>
+                        <p class="mb-0">
+                            Une pénalité de <strong>10 €</strong> est appliquée pour les réinscriptions
+                            effectuées après le <strong>30 septembre 2026</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Dossier d'inscription -->
+<section id="dossier" class="inscription-section py-5 bg-white">
+    <div class="container-lg">
+        <header class="text-center mb-5">
+            <h2 class="display-6 fw-bold mb-3">Votre dossier d'inscription</h2>
+            <p class="lead text-muted">Les pièces à réunir pour un dossier complet</p>
+        </header>
+
+        <div class="row g-5">
+            <div class="col-lg-7">
+                @foreach ($pieces as $index => $piece)
+                    <article class="d-flex align-items-start mb-4">
+                        <div class="inscription-numero bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3 flex-shrink-0">
+                            {{ $index + 1 }}
+                        </div>
+                        <div>
+                            <h3 class="h5 fw-bold mb-1">{{ $piece['titre'] }}</h3>
+                            <p class="text-muted mb-0">{{ $piece['texte'] }}</p>
+                        </div>
+                    </article>
+                @endforeach
+
+                <div class="alert alert-danger border-0 shadow-sm d-flex align-items-start mb-0" role="alert">
+                    <i class="fas fa-ban fa-lg me-3 mt-1"></i>
+                    <div>
+                        <strong>Tout dossier incomplet sera refusé</strong> et entraînera le refus de l'accès au bassin.
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <h3 class="h5 fw-bold mb-3">
+                            <i class="fas fa-credit-card text-primary me-2"></i>Régler l'adhésion
+                        </h3>
+                        <ul class="list-unstyled mb-0">
+                            <li class="d-flex mb-3">
+                                <i class="fas fa-money-bill-wave text-success me-3 mt-1"></i>
+                                <span><strong>En espèces.</strong></span>
+                            </li>
+                            <li class="d-flex mb-3">
+                                <i class="fas fa-money-check text-success me-3 mt-1"></i>
+                                <span>
+                                    <strong>Par chèque,</strong> en 1, 2, 3 ou 4 fois.
+                                    Les chèques sont encaissables au 15/09, 15/10, 15/11 et 15/12.
+                                </span>
+                            </li>
+                            <li class="d-flex mb-3">
+                                <i class="fas fa-university text-success me-3 mt-1"></i>
+                                <span>
+                                    <strong>Par virement,</strong> en précisant le nom et le prénom de l'adhérent.
+                                </span>
+                            </li>
+                            <li class="d-flex">
+                                <i class="fas fa-ticket-alt text-success me-3 mt-1"></i>
+                                <span>
+                                    <strong>Coupons sport ou chèques ANCV :</strong> justificatif à nous joindre
+                                    avant le 30 octobre (chèque de caution qui sera encaissé).
+                                </span>
+                            </li>
+                        </ul>
+                        <p class="text-muted small mt-3 mb-0">
+                            En cas de difficultés, contactez-nous par e-mail :
+                            <a href="mailto:cnbb079@gmail.com">cnbb079@gmail.com</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm border-top border-primary border-4">
+                    <div class="card-body p-4">
+                        <h3 class="h5 fw-bold mb-3">
+                            <i class="fas fa-inbox text-primary me-2"></i>Où déposer le dossier ?
+                        </h3>
+                        <p class="mb-0">
+                            Les dossiers complets sont à déposer dans la <strong>boîte aux lettres du club</strong>,
+                            derrière l'abribus en bas de Cœur d'O.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Bon à savoir -->
+<section id="bon-a-savoir" class="inscription-section py-5 bg-light">
+    <div class="container-lg">
+        <header class="text-center mb-5">
+            <h2 class="display-6 fw-bold mb-3">Bon à savoir</h2>
+        </header>
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <article class="d-flex align-items-start">
+                    <div class="bg-info text-white rounded-circle d-flex align-items-center justify-content-center me-3 flex-shrink-0"
+                         style="width: 60px; height: 60px;">
+                        <i class="fas fa-calendar-alt fa-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="h5 fw-bold mb-2">Congés scolaires</h3>
+                        <p class="text-muted mb-0">
+                            Les activités du club sont interrompues durant les vacances scolaires.
+                            Les éventuels stages organisés pendant ces périodes font l'objet d'informations.
+                        </p>
+                    </div>
+                </article>
+            </div>
+
+            <div class="col-md-6">
+                <article class="d-flex align-items-start">
+                    <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3 flex-shrink-0"
+                         style="width: 60px; height: 60px;">
+                        <i class="fas fa-info fa-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="h5 fw-bold mb-2">Limite des interventions du club</h3>
+                        <p class="text-muted mb-2">
+                            Le club ne peut être tenu responsable du fonctionnement des installations mises à disposition
+                            par l'Agglo 2B, ni des vols pouvant être commis dans l'enceinte de ces installations.
+                        </p>
+                        <p class="text-muted mb-0">
+                            Au cours de l'année, les bassins peuvent être mis à disposition par l'Agglo 2B pour des manifestations,
+                            ou fermés pour problèmes techniques ou sanitaires, entretien ou réparations. Le club ne peut être tenu
+                            pour responsable de la suppression d'activité, et aucune remise de quote-part de cotisation ne sera accordée.
+                        </p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Appel aux parents -->
+<section id="benevoles" class="inscription-section py-5 bg-white">
+    <div class="container-lg">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                <div class="card border-0 shadow-sm bg-success bg-opacity-10">
+                    <div class="card-body p-4 p-lg-5 text-center">
+                        <i class="fas fa-hands-helping text-success fa-3x mb-3"></i>
+                        <h2 class="h3 fw-bold mb-3">Parents, ce message vous concerne</h2>
+                        <p class="mb-4">
+                            Vos enfants aiment nager, vous êtes fiers d'eux, vous aimez les accompagner lors des compétitions…
+                            et vous pouvez y participer ! Devenez officiel ou investissez-vous dans le Comité directeur :
+                            c'est très facile. N'hésitez pas à vous renseigner.
+                        </p>
+                        <a href="{{ route('contact') }}" class="btn btn-success">
+                            <i class="fas fa-envelope me-2"></i>Je me renseigne
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Contact -->
+<section class="py-5 bg-primary text-white">
+    <div class="container-lg text-center">
+        <h2 class="display-6 fw-bold mb-3">Une question sur votre inscription ?</h2>
         <p class="lead mb-4">
-            N'hésitez pas à nous contacter ! Nous sommes là pour y répondre.
+            <a href="mailto:cnbb079@gmail.com" class="text-white">cnbb079@gmail.com</a>
+            <span class="mx-2">·</span>
+            <a href="tel:+33602350843" class="text-white">06 02 35 08 43</a>
         </p>
-        <a href="{{ route('contact') }}" class="btn btn-light btn-lg">
-            Contactez notre équipe !
-        </a>
-    </div>
-</section>
-
-<!-- Table des matières -->
-<section class="py-4 bg-light border-bottom sticky-top" style="top: 70px; z-index: 100;">
-    <div class="container-lg">
-        <nav class="d-flex flex-wrap justify-content-center gap-2">
-            <a href="#comparatif" class="btn btn-outline-primary btn-sm">📊 Comparatif</a>
-            <a href="#carnets" class="btn btn-outline-primary btn-sm">📚 Carnets</a>
-            <a href="#videos" class="btn btn-outline-primary btn-sm">🎥 Vidéos</a>
-            <a href="#exercices" class="btn btn-outline-primary btn-sm">🏋️ Exercices</a>
-            <a href="#plans" class="btn btn-outline-primary btn-sm">📅 Plans</a>
-            <a href="#ebooks" class="btn btn-outline-primary btn-sm">📖 eBooks</a>
-            <a href="#fiches" class="btn btn-outline-primary btn-sm">📋 Fiches</a>
-            <a href="#outils" class="btn btn-outline-primary btn-sm">🔧 Outils</a>
-        </nav>
-    </div>
-</section>
-
-<!-- Tableau Comparatif Visiteur vs Premium -->
-<section id="comparatif" class="py-5 bg-white">
-    <div class="container-lg">
-        <div class="text-center mb-5">
-            <i class="fas fa-balance-scale text-primary" style="font-size: 3rem;"></i>
-            <h2 class="mt-3">Visiteur vs Premium : Quelle différence ?</h2>
-            <p class="text-muted">Comparez les accès et débloquez tout le potentiel de Nataswim</p>
-        </div>
-
-        <div class="row g-4 mb-5">
-            <!-- Colonne Visiteur -->
-            <div class="col-lg-6">
-                <div class="card h-100 border-danger">
-                    <div class="card-header bg-danger text-white text-center p-4">
-                        <i class="fas fa-user fa-2x mb-2"></i>
-                        <h3 class="h4 mb-0">Compte Visiteur</h3>
-                        <p class="mb-0 small">Gratuit - Accès limité</p>
-                    </div>
-                    <div class="card-body p-4">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-times-circle text-danger me-3"></i>
-                                <span>Accès <strong>limité</strong> aux articles</span>
-                            </li>
-                            <li class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-times-circle text-danger me-3"></i>
-                                <span>Quelques vidéos gratuites seulement</span>
-                            </li>
-                            <li class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-times-circle text-danger me-3"></i>
-                                <span>Aperçu des plans d'entraînement</span>
-                            </li>
-                            <li class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-times-circle text-danger me-3"></i>
-                                <span>Extraits d'eBooks uniquement</span>
-                            </li>
-                            <li class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-times-circle text-danger me-3"></i>
-                                <span>Fiches techniques limitées</span>
-                            </li>
-                            <li class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-times-circle text-danger me-3"></i>
-                                <span><strong>Pas de carnets personnalisés</strong></span>
-                            </li>
-                            <li class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-check-circle text-success me-3"></i>
-                                <span>Outils gratuits (calculateurs)</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Colonne Premium -->
-            <div class="col-lg-6">
-                <div class="card h-100 border-success shadow-lg position-relative">
-                    <div class="position-absolute top-0 start-50 translate-middle">
-                        <span class="badge bg-warning text-dark px-4 py-2 fs-6">
-                            <i class="fas fa-star me-1"></i>Recommandé
-                        </span>
-                    </div>
-                    <div class="card-header bg-success text-white text-center p-4">
-                        <i class="fas fa-crown fa-2x mb-2"></i>
-                        <h3 class="h4 mb-0">Compte Premium</h3>
-                        <p class="mb-0 small">À partir de 5€/mois</p>
-                    </div>
-                    <div class="card-body p-4">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-check-circle text-success me-3"></i>
-                                <span><strong>Accès illimité</strong> à tous les articles</span>
-                            </li>
-                            <li class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-check-circle text-success me-3"></i>
-                                <span><strong>Bibliothèque vidéos complète</strong></span>
-                            </li>
-                            <li class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-check-circle text-success me-3"></i>
-                                <span>Plans d'entraînement complets</span>
-                            </li>
-                            <li class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-check-circle text-success me-3"></i>
-                                <span>Téléchargement illimité d'eBooks</span>
-                            </li>
-                            <li class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-check-circle text-success me-3"></i>
-                                <span>Toutes les fiches techniques</span>
-                            </li>
-                            <li class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-check-circle text-success me-3"></i>
-                                <span><strong>Carnets personnalisés illimités</strong></span>
-                            </li>
-                            <li class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-check-circle text-success me-3"></i>
-                                <span>Mises à jour et nouveaux contenus</span>
-                            </li>
-                            <li class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-check-circle text-success me-3"></i>
-                                <span>Support prioritaire</span>
-                            </li>
-                        </ul>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-
-        <div class="mb-5">
-
-            <h2 class="mt-3">Comment obtenir un compte Premium </h2>
-            <p class="text-muted">1. Créez un compte utilisateur.
-            </p>
-
-            <p class="text-muted">
-                2. Connectez-vous à votre espace avec votre adresse e-mail et votre mot de passe. </p>
-
-            <p class="text-muted"> 3. Sélectionnez une formule premium et valider.</p>
-
-            <p class="text-muted"> 4. Vous débloquerez ainsi l'accès à l'intégralité du contenu réservé aux membres premium.</p>
-
-
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+            <a href="{{ route('contact') }}" class="btn btn-light btn-lg">
+                <i class="fas fa-envelope me-2"></i>Contacter le club
+            </a>
+            <a href="{{ route('about') }}" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-water me-2"></i>Découvrir le club
+            </a>
         </div>
     </div>
 </section>
-
 
 @endsection
+
+
 @push('styles')
 <style>
-    
-
-    .bg-gradient-light {
-        background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+    /* Décalage des ancres pour ne pas passer sous le menu fixe */
+    .inscription-section {
+        scroll-margin-top: 90px;
     }
 
-    
-
-    .hover-lift {
-        transition: all 0.3s ease;
+    /* Pastilles numérotées des pièces du dossier */
+    .inscription-numero {
+        width: 48px;
+        height: 48px;
+        font-size: 1.2rem;
+        font-weight: 700;
     }
+        .hero-video {
+position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    border-top: 20px solid #ffffff;
+    border-bottom: 20px solid #ffffff;
+    border-left: 20px solid #efa525;
+    border-right: 20px solid #efa525;
+}
 
-    .hover-lift:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
-    }
-
-    .card {
-        border-radius: 1rem;
-    }
-
-    .badge {
-        font-weight: 500;
-    }
+.hero-content {
+    z-index: 3;
+}
 </style>
 @endpush

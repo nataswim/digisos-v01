@@ -8,7 +8,7 @@
 <section class="hero-video-section position-relative text-white overflow-hidden">
     <!-- Video Background -->
     <video autoplay muted loop playsinline class="hero-video">
-        <source src="{{ asset('assets/images/team/nataswim.mp4') }}" type="video/mp4">
+        <source src="{{ asset('assets/images/team/CNBB-natation-1.mp4') }}" type="video/mp4">
     </video>
 
 
@@ -18,7 +18,7 @@
             <div class="col-lg-7 mb-4 mb-lg-0">
                 <div class="d-flex align-items-center mb-4 animate-slide-up">
                     <i class="fas fa-swimmer me-3 hero-icon"></i>
-                    <h1 class="display-3 fw-bold mb-0 text-white">Plongez dans l'aventure, à votre rythme !</h1>
+                    <h1 class="display-3 fw-bold mb-0 text-white">Plongez à votre rythme !</h1>
                 </div>
 
                 <p class="lead mb-4 animate-slide-up animation-delay-1">
@@ -34,15 +34,7 @@
                     </a>
                 </div>
             </div>
-            <div class="col-lg-5 text-center animate-fade-in animation-delay-3">
-                <div class="hero-logo-wrapper">
-                    <a href="{{ route('home') }}">
-                        <img src="{{ asset('assets/images/logo/Logo-CNBB-Natation-9.png') }}"
-                             alt="Club de natation Bressuire"
-                             class="hero-logo img-fluid">
-                    </a>
-                </div>
-            </div>
+            
         </div>
     </div>
 </section>
