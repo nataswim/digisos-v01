@@ -2,12 +2,20 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use App\Models\User;
 use App\Models\Video;
 use App\Models\VideoCategory;
-use App\Models\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Vidéos « Au fil de l'eau ».
+ *
+ * Pour ajouter une vidéo, recopier le modèle commenté en fin de liste
+ * (external_id = identifiant après « v= » sur YouTube, ou le nombre à la fin de l'adresse Vimeo).
+ * Miniature laissée vide : la vue peut l'afficher depuis YouTube
+ * (https://img.youtube.com/vi/{external_id}/hqdefault.jpg).
+ */
 class VideosSeeder extends Seeder
 {
     public function run(): void
@@ -17,102 +25,88 @@ class VideosSeeder extends Seeder
         DB::table('category_video')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        $editor = User::whereHas('role', fn($q) => $q->where('slug', 'editor'))->first();
-        
-        $categoryTutoriels = VideoCategory::where('slug', 'tutoriels-techniques')->first();
-        $categoryFormations = VideoCategory::where('slug', 'formations-webinaires')->first();
-        $categoryTemoignages = VideoCategory::where('slug', 'temoignages-video')->first();
+        $author = User::whereHas('role', fn ($q) => $q->where('slug', 'editor'))->first()
+            ?? User::whereHas('role', fn ($q) => $q->where('slug', 'admin'))->first();
 
         $videos = [
             [
-                'title' => 'Technique du virage en natation : analyse complète',
-                'slug' => 'technique-virage-natation-analyse-complete',
-                'description' => 'Vidéo pédagogique détaillant les 4 phases du virage culbute en crawl avec ralentis et annotations pour optimiser vos transitions.',
+                'category' => 'entrainements',
+                'title' => 'Préparation physique du nageur',
+                'slug' => 'preparation-physique-du-nageur',
+                'description' => 'Exercices de renforcement et de préparation physique hors de l\'eau pour les nageurs (vidéo de la chaîne SwimTube, en anglais).',
                 'type' => 'youtube',
-                'external_url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-                'external_id' => 'dQw4w9WgXcQ',
-                'thumbnail' => 'videos/thumbnails/virage-natation.jpg',
-                'duration' => 480,
-                'width' => 1920,
-                'height' => 1080,
-                'visibility' => 'authenticated',
-                'is_published' => true,
+                'external_id' => 'yTUs_IlYQdc',
                 'is_featured' => true,
-                'sort_order' => 1,
-                'views_count' => 567,
-                'meta_title' => 'Technique du virage en natation - Tutoriel Digital\'SOS',
-                'meta_keywords' => 'virage, natation, culbute, technique, tutoriel',
-                'meta_description' => 'Apprenez la technique parfaite du virage culbute en crawl avec notre analyse vidéo complète.',
-                'created_by' => $editor?->id,
-                'created_by_name' => $editor?->name,
-                'updated_by' => $editor?->id,
-                'published_at' => now()->subDays(12),
             ],
             [
-                'title' => 'Webinaire : Digitaliser sa structure sportive en 2025',
-                'slug' => 'webinaire-digitaliser-structure-sportive-2025',
-                'description' => 'Enregistrement du webinaire du 15 janvier 2025 avec Hassan El Haouat : stratégies, outils et retours d\'expérience pour réussir sa transformation digitale.',
-                'type' => 'vimeo',
-                'external_url' => 'https://vimeo.com/123456789',
-                'external_id' => '123456789',
-                'thumbnail' => 'videos/thumbnails/webinaire-digitalisation.jpg',
-                'duration' => 3600,
-                'width' => 1920,
-                'height' => 1080,
-                'visibility' => 'public',
-                'is_published' => true,
+                // Titre et description à vérifier : la page YouTube n'a pas pu être lue.
+                'category' => 'entrainements',
+                'title' => 'Vidéo d\'entraînement natation',
+                'slug' => 'video-entrainement-natation',
+                'description' => 'Vidéo d\'entraînement sélectionnée par les entraîneurs du club.',
+                'type' => 'youtube',
+                'external_id' => '6AhY6oLf6PM',
                 'is_featured' => false,
-                'sort_order' => 2,
-                'views_count' => 823,
-                'meta_title' => 'Webinaire digitalisation sportive 2025 - Digital\'SOS',
-                'meta_keywords' => 'webinaire, digitalisation, transformation, 2025',
-                'meta_description' => 'Replay du webinaire sur la digitalisation des structures sportives : stratégies et outils 2025.',
-                'created_by' => $editor?->id,
-                'created_by_name' => $editor?->name,
-                'updated_by' => $editor?->id,
-                'published_at' => now()->subDays(8),
             ],
-            [
-                'title' => 'Témoignage : Le Club Aqua Sport raconte sa transformation',
-                'slug' => 'temoignage-club-aqua-sport-transformation',
-                'description' => 'Interview de Marc Durand, président du Club Aqua Sport, qui partage son expérience avec Digital\'SOS : de 50 à 150 licenciés en 18 mois.',
-                'type' => 'youtube',
-                'external_url' => 'https://www.youtube.com/watch?v=9bZkp7q19f0',
-                'external_id' => '9bZkp7q19f0',
-                'thumbnail' => 'videos/thumbnails/temoignage-aquasport.jpg',
-                'duration' => 720,
-                'width' => 1920,
-                'height' => 1080,
-                'visibility' => 'public',
-                'is_published' => true,
-                'is_featured' => true,
-                'sort_order' => 3,
-                'views_count' => 1245,
-                'meta_title' => 'Témoignage Aqua Sport - Success Story Digital\'SOS',
-                'meta_keywords' => 'témoignage, aqua sport, success story, transformation',
-                'meta_description' => 'Découvrez comment le Club Aqua Sport a triplé ses adhésions grâce à Digital\'SOS.',
-                'created_by' => $editor?->id,
-                'created_by_name' => $editor?->name,
-                'updated_by' => $editor?->id,
-                'published_at' => now()->subDays(18),
-            ],
+            // Modèle pour ajouter une vidéo :
+            // [
+            //     'category' => 'vie-du-club',   // entrainements | competitions | vie-du-club
+            //     'title' => 'Titre de la vidéo',
+            //     'slug' => 'titre-de-la-video',
+            //     'description' => 'Une ou deux phrases de présentation.',
+            //     'type' => 'youtube',             // youtube | vimeo | dailymotion
+            //     'external_id' => 'XXXXXXXXXXX',  // ce qui suit « v= » dans l'adresse YouTube
+            //     'is_featured' => false,
+            // ],
         ];
 
-        foreach ($videos as $data) {
-            $video = Video::create($data);
-            
-            // Attacher catégories
-            if ($data['slug'] === 'technique-virage-natation-analyse-complete') {
-                $video->categories()->attach($categoryTutoriels->id);
-            } elseif ($data['slug'] === 'webinaire-digitaliser-structure-sportive-2025') {
-                $video->categories()->attach($categoryFormations->id);
-            } elseif ($data['slug'] === 'temoignage-club-aqua-sport-transformation') {
-                $video->categories()->attach($categoryTemoignages->id);
-            }
-            
-            $this->command->info("✅ Vidéo créée : {$video->title}");
+        if ($videos === []) {
+            $this->command->warn('⚠️  VideosSeeder : aucune vidéo du club renseignée, rubrique « Au fil de l\'eau » vide.');
+            return;
         }
 
-        $this->command->info('🎉 VideosSeeder terminé : 3 vidéos créées');
+        foreach ($videos as $i => $v) {
+            $url = match ($v['type']) {
+                'vimeo' => "https://vimeo.com/{$v['external_id']}",
+                'dailymotion' => "https://www.dailymotion.com/video/{$v['external_id']}",
+                default => "https://www.youtube.com/watch?v={$v['external_id']}",
+            };
+
+            $video = Video::create([
+                'title' => $v['title'],
+                'slug' => $v['slug'],
+                'description' => $v['description'],
+                'type' => $v['type'],
+                'external_url' => $url,
+                'external_id' => $v['external_id'],
+                'thumbnail' => null,
+                'duration' => $v['duration'] ?? null,
+                'width' => 1920,
+                'height' => 1080,
+                'visibility' => 'public',
+                'is_published' => true,
+                'is_featured' => $v['is_featured'] ?? false,
+                'sort_order' => $i + 1,
+                'views_count' => 0,
+                'meta_title' => mb_strimwidth($v['title'], 0, 55, '…') . ' - CNBB',
+                'meta_keywords' => 'vidéo, natation, CNBB, Bressuire',
+                'meta_description' => mb_strimwidth($v['description'], 0, 160, '…'),
+                'created_by' => $author?->id,
+                'created_by_name' => $author?->name,
+                'updated_by' => $author?->id,
+                'published_at' => now(),
+            ]);
+
+            $category = VideoCategory::where('slug', $v['category'])->first();
+            if ($category) {
+                $video->categories()->attach($category->id);
+            } else {
+                $this->command->warn("⚠️  Catégorie vidéo introuvable : {$v['category']}");
+            }
+
+            $this->command->info("✅ Vidéo : {$video->title}");
+        }
+
+        $this->command->info('🎉 VideosSeeder : ' . count($videos) . ' vidéos créées');
     }
 }

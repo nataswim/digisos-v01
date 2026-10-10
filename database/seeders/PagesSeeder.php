@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Page;
 use App\Models\PagesCategory;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class PagesSeeder extends Seeder
@@ -16,221 +16,120 @@ class PagesSeeder extends Seeder
         Page::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        $admin = User::whereHas('role', fn($q) => $q->where('slug', 'admin'))->first();
-        
-        $categoryAPropos = PagesCategory::where('slug', 'a-propos')->first();
-        $categoryLegal = PagesCategory::where('slug', 'informations-legales')->first();
-        $categorySupport = PagesCategory::where('slug', 'support-aide')->first();
+        $admin = User::whereHas('role', fn ($q) => $q->where('slug', 'admin'))->first();
+
+        $cat = fn (string $slug) => PagesCategory::where('slug', $slug)->first()
+            ?? throw new \RuntimeException("Catégorie de pages « {$slug} » absente : lancer PagesCategoriesSeeder d'abord.");
 
         $pages = [
             [
-                'title' => 'Notre Mission',
-                'slug' => 'notre-mission',
-                'short_description' => 'Digital\'SOS accompagne les structures sportives dans leur transformation digitale pour une gestion maîtrisée et performante.',
-                'long_description' => '<h1>Digital\'SOS : Révolutionner la gestion sportive</h1>
+                'category' => 'le-club',
+                'title' => 'Le club en bref',
+                'slug' => 'le-club-en-bref',
+                'short_description' => 'Le Cercle des Nageurs du Bocage Bressuirais : un club de natation course affilié à la FFN depuis 1954.',
+                'long_description' => <<<'HTML'
+<p>Le <strong>Cercle des Nageurs du Bocage Bressuirais (CNBB)</strong> est une association loi 1901 fondée le 22 mars 1954 à Bressuire. Affilié à la <strong>Fédération Française de Natation</strong>, le club est spécialisé en <strong>natation course</strong>.</p>
 
-<h2>Notre Vision</h2>
-<p>Nous croyons qu\'une structure sportive performante est une structure bien organisée. Digital\'SOS est né d\'un constat simple : les managers sportifs passent trop de temps sur des tâches administratives au détriment de l\'essentiel.</p>
+<h2>Où nager ?</h2>
+<p>Les entraînements ont lieu au <strong>centre aquatique Cœur d'O</strong> (Agglo 2B), à Bressuire.</p>
 
-<h2>La Méthode M2PC</h2>
-<p>Notre approche innovante repose sur 4 piliers complémentaires :</p>
+<h2>Pour qui ?</h2>
+<p>Le club accueille toute personne sachant nager 25 mètres : enfants de l'école de natation, jeunes et étudiants, adultes.</p>
 
-<h3>🔧 Matériel</h3>
-<p>Inventaire en temps réel, traçabilité complète et alertes de maintenance pour optimiser votre parc d\'équipements.</p>
+<h2>Coordonnées</h2>
+<p>CNBB — 40 boulevard de la République, 79300 Bressuire<br>
+Courriel : <a href="mailto:cnbb079@gmail.com">cnbb079@gmail.com</a><br>
+Téléphone : 06 02 35 08 43</p>
 
-<h3>📅 Planning</h3>
-<p>Synchronisation intelligente des entraînements, matchs et événements avec détection automatique des conflits.</p>
+<p>Président : Sébastien Chevalier (depuis 2018).</p>
+HTML,
+            ],
+            [
+                'category' => 'le-club',
+                'title' => 'Notre histoire',
+                'slug' => 'notre-histoire',
+                'short_description' => 'Du Club Nautique Bressuirais de 1954 au CNBB d\'aujourd\'hui : sept décennies de natation à Bressuire.',
+                'long_description' => <<<'HTML'
+<h2>Les débuts</h2>
+<p>Le club est fondé le <strong>22 mars 1954</strong> sous le nom de <strong>Club Nautique Bressuirais</strong> ; sa déclaration paraît au Journal officiel du 12 mai 1954. Une école de sauvetage est créée en 1963 et le club est reconnu d'utilité publique en 1964.</p>
 
-<h3>👥 Personnel</h3>
-<p>Gestion simplifiée des coachs, bénévoles et salariés : missions, contrats, présences et communications centralisées.</p>
+<h2>Le CNBB</h2>
+<p>En <strong>1987</strong>, le club devient le <strong>Cercle des Nageurs du Bocage Bressuirais</strong>. À la fin des années 1980, il lance l'aquagym et les « 12 heures de natation ». Il compte 504 adhérents en 1994 et 580 en 1998.</p>
 
-<h3>📚 Contenu</h3>
-<p>Bibliothèque numérique de supports pédagogiques, fiches techniques et ressources pour vos équipes.</p>
+<h2>Des années 2000 à aujourd'hui</h2>
+<p>De 2001 à 2011, une section de natation synchronisée est animée par Emmanuelle Babin. Le club fête ses 50 ans en 2004. En 2009, le centre aquatique Cœur d'O ouvre ses portes. Le 12 juillet 2013, le club organise le premier Aquathlon du Bocage.</p>
+<p>En 2015-2016, le club réunit plus de 200 licenciés, dont 9 nageurs de niveau régional, et ouvre des sections sport adapté et triathlon.</p>
+<p>Depuis 2018, le club est présidé par Sébastien Chevalier.</p>
+HTML,
+            ],
+            [
+                'category' => 'vie-associative',
+                'title' => 'S\'engager au club',
+                'slug' => 's-engager-au-club',
+                'short_description' => 'Officiels, bénévoles, membres du comité directeur : le club a besoin de chacun.',
+                'long_description' => <<<'HTML'
+<p>Le CNBB est une association : son fonctionnement repose sur des bénévoles.</p>
+<h2>Officiels</h2>
+<p>Chaque compétition FFN a besoin d'officiels. Les parents de nageurs sont invités à se former pour accompagner le club au bord des bassins.</p>
+<h2>Comité directeur</h2>
+<p>Le comité directeur prend les décisions de l'association et organise la saison. Les parents qui le souhaitent peuvent le rejoindre.</p>
+<h2>Coups de main ponctuels</h2>
+<p>Événements, déplacements, buvette : toute aide, même occasionnelle, est précieuse.</p>
+<p>Pour vous proposer : <a href="mailto:cnbb079@gmail.com">cnbb079@gmail.com</a>.</p>
+HTML,
+            ],
+            [
+                'category' => 'questions-frequentes',
+                'title' => 'Questions fréquentes sur l\'inscription',
+                'slug' => 'questions-frequentes-inscription',
+                'short_description' => 'Niveau requis, certificat médical, paiement, vacances : les réponses aux questions des familles.',
+                'long_description' => <<<'HTML'
+<h2>Faut-il savoir nager pour s'inscrire ?</h2>
+<p>Oui : l'adhésion est réservée aux personnes sachant nager 25 mètres. Une évaluation peut être proposée lors d'une première adhésion.</p>
 
-<h2>Nos Valeurs</h2>
-<ul>
-<li><strong>Simplicité :</strong> Une interface intuitive accessible à tous</li>
-<li><strong>Efficacité :</strong> Automatisation des tâches répétitives</li>
-<li><strong>Transparence :</strong> Visibilité totale sur vos opérations</li>
-<li><strong>Accompagnement :</strong> Support dédié et formation continue</li>
-</ul>
+<h2>Un certificat médical est-il obligatoire ?</h2>
+<p>Pour une première adhésion, oui. Les adultes le renouvellent tous les 3 ans ; pour les mineurs, une attestation (CERFA n° 15699-01) suffit.</p>
 
-<h2>Notre Impact</h2>
-<p>Depuis 2024, Digital\'SOS accompagne plus de 150 structures sportives en France :</p>
-<ul>
-<li>-60% de temps consacré aux tâches administratives</li>
-<li>+40% de satisfaction des adhérents</li>
-<li>95% de taux de renouvellement client</li>
-</ul>
+<h2>Peut-on payer en plusieurs fois ?</h2>
+<p>Oui, en 1 à 4 chèques encaissés le 15 septembre, le 15 octobre, le 15 novembre et le 15 décembre. Le club accepte aussi les espèces, le virement, les coupons sport et les chèques-vacances ANCV (avant le 30 octobre).</p>
 
-<h2>L\'Équipe</h2>
-<p>Digital\'SOS réunit des experts en gestion sportive, développeurs passionnés et coachs de terrain pour créer la solution que nous aurions rêvé d\'avoir.</p>',
-                'image' => 'pages/notre-mission.jpg',
+<h2>Y a-t-il des réductions pour les familles ?</h2>
+<p>10 € de remise pour 2 adhésions, 10 % à partir de 3 adhésions, en début de saison.</p>
+
+<h2>Le club fonctionne-t-il pendant les vacances scolaires ?</h2>
+<p>Non, les activités s'arrêtent pendant les vacances scolaires.</p>
+
+<h2>Créer un compte sur le site, est-ce s'inscrire au club ?</h2>
+<p>Non. Le compte donne accès au site ; l'adhésion se fait par le dossier d'inscription déposé au club.</p>
+HTML,
+            ],
+        ];
+
+        $order = [];
+        foreach ($pages as $p) {
+            $order[$p['category']] = ($order[$p['category']] ?? 0) + 1;
+
+            Page::create([
+                'title' => $p['title'],
+                'slug' => $p['slug'],
+                'short_description' => $p['short_description'],
+                'long_description' => trim($p['long_description']),
+                'image' => null,
                 'visibility' => 'public',
                 'is_published' => true,
-                'sort_order' => 1,
-                'pages_category_id' => $categoryAPropos->id,
-                'meta_title' => 'Notre Mission - Digital\'SOS',
-                'meta_keywords' => 'mission, vision, m2pc, gestion sportive',
-                'meta_description' => 'Découvrez la mission de Digital\'SOS : révolutionner la gestion sportive avec la méthode M2PC.',
+                'sort_order' => $order[$p['category']],
+                'pages_category_id' => $cat($p['category'])->id,
+                'meta_title' => mb_strimwidth($p['title'], 0, 55, '…') . ' - CNBB',
+                'meta_keywords' => 'CNBB, club de natation, Bressuire',
+                'meta_description' => mb_strimwidth($p['short_description'], 0, 160, '…'),
                 'created_by' => $admin?->id,
                 'created_by_name' => $admin?->name,
                 'updated_by' => $admin?->id,
                 'published_at' => now()->subDays(60),
-            ],
-            [
-                'title' => 'Mentions Légales',
-                'slug' => 'mentions-legales',
-                'short_description' => 'Informations légales et conditions d\'utilisation de la plateforme Digital\'SOS.',
-                'long_description' => '<h1>Mentions Légales</h1>
-
-<h2>Éditeur du site</h2>
-<p><strong>Raison sociale :</strong> Digital\'SOS SAS<br>
-<strong>Capital social :</strong> 50 000 €<br>
-<strong>SIRET :</strong> 123 456 789 00012<br>
-<strong>RCS :</strong> Paris B 123 456 789<br>
-<strong>Siège social :</strong> 123 Avenue des Sports, 75000 Paris, France<br>
-<strong>Téléphone :</strong> +33 1 23 45 67 89<br>
-<strong>Email :</strong> contact@digitalsos.fr</p>
-
-<h2>Directeur de publication</h2>
-<p>Hassan El Haouat, Président</p>
-
-<h2>Hébergement</h2>
-<p><strong>Hébergeur :</strong> OVH SAS<br>
-<strong>Siège social :</strong> 2 rue Kellermann, 59100 Roubaix, France<br>
-<strong>Téléphone :</strong> +33 9 72 10 10 07</p>
-
-<h2>Propriété intellectuelle</h2>
-<p>L\'ensemble du contenu de ce site (textes, images, logos, vidéos) est la propriété exclusive de Digital\'SOS SAS, sauf mention contraire.</p>
-<p>Toute reproduction, représentation, modification, publication ou adaptation sans autorisation écrite préalable est strictement interdite.</p>
-
-<h2>Protection des données personnelles</h2>
-<p>Conformément au RGPD (Règlement Général sur la Protection des Données), vous disposez d\'un droit d\'accès, de rectification et de suppression de vos données.</p>
-<p>Pour exercer ces droits : <a href="mailto:rgpd@digitalsos.fr">rgpd@digitalsos.fr</a></p>
-
-<h2>Cookies</h2>
-<p>Ce site utilise des cookies pour améliorer votre expérience. Consultez notre <a href="/cookies">politique de cookies</a> pour plus d\'informations.</p>
-
-<h2>Responsabilité</h2>
-<p>Digital\'SOS s\'efforce d\'assurer l\'exactitude des informations diffusées mais ne peut garantir l\'absence d\'erreurs ou d\'omissions.</p>
-
-<h2>Droit applicable</h2>
-<p>Les présentes mentions sont régies par le droit français. Tout litige relève de la compétence exclusive des tribunaux de Paris.</p>
-
-<p><em>Dernière mise à jour : ' . now()->format('d/m/Y') . '</em></p>',
-                'image' => 'pages/mentions-legales.jpg',
-                'visibility' => 'public',
-                'is_published' => true,
-                'sort_order' => 1,
-                'pages_category_id' => $categoryLegal->id,
-                'meta_title' => 'Mentions Légales - Digital\'SOS',
-                'meta_keywords' => 'mentions légales, rgpd, propriété intellectuelle',
-                'meta_description' => 'Consultez les mentions légales de Digital\'SOS : éditeur, hébergeur, propriété intellectuelle et RGPD.',
-                'created_by' => $admin?->id,
-                'created_by_name' => $admin?->name,
-                'updated_by' => $admin?->id,
-                'published_at' => now()->subDays(90),
-            ],
-            [
-                'title' => 'Guide de Démarrage Rapide',
-                'slug' => 'guide-demarrage-rapide',
-                'short_description' => 'Tutoriel complet pour bien démarrer avec Digital\'SOS en 5 étapes simples.',
-                'long_description' => '<h1>Guide de Démarrage Rapide</h1>
-
-<p>Bienvenue sur Digital\'SOS ! Ce guide vous accompagne dans vos premiers pas sur la plateforme.</p>
-
-<h2>Étape 1 : Créer votre compte (5 min)</h2>
-<ol>
-<li>Cliquez sur "Inscription" en haut à droite</li>
-<li>Renseignez vos informations (email, nom, structure)</li>
-<li>Validez votre email via le lien de confirmation</li>
-<li>Complétez votre profil dans "Mon compte"</li>
-</ol>
-
-<h2>Étape 2 : Configurer votre structure (10 min)</h2>
-<h3>Informations générales</h3>
-<p>Accédez à <strong>Paramètres > Structure</strong> pour renseigner :</p>
-<ul>
-<li>Nom officiel et logo</li>
-<li>Adresse et coordonnées</li>
-<li>Disciplines sportives pratiquées</li>
-<li>Horaires d\'ouverture</li>
-</ul>
-
-<h3>Gestion des utilisateurs</h3>
-<p>Invitez votre équipe depuis <strong>Personnel > Inviter</strong> :</p>
-<ul>
-<li>Attribuez les rôles (Admin, Coach, Bénévole)</li>
-<li>Définissez les permissions par rôle</li>
-</ul>
-
-<h2>Étape 3 : Inventorier votre matériel (15 min)</h2>
-<p>Depuis <strong>Matériel > Ajouter équipement</strong> :</p>
-<ol>
-<li>Scannez les codes-barres ou saisissez manuellement</li>
-<li>Catégorisez par type (Balles, Maillots, etc.)</li>
-<li>Définissez l\'état et la localisation</li>
-<li>Programmez les rappels de maintenance</li>
-</ol>
-
-<h2>Étape 4 : Créer votre premier planning (20 min)</h2>
-<p>Accédez à <strong>Planning > Nouveau créneau</strong> :</p>
-<ol>
-<li>Sélectionnez date, heure, durée</li>
-<li>Choisissez l\'installation et le matériel nécessaire</li>
-<li>Assignez le(s) encadrant(s)</li>
-<li>Ajoutez les participants</li>
-<li>Digital\'SOS détecte automatiquement les conflits !</li>
-</ol>
-
-<h2>Étape 5 : Explorer les ressources (10 min)</h2>
-<p>Découvrez notre bibliothèque de contenus :</p>
-<ul>
-<li><strong>Fiches techniques :</strong> Protocoles d\'entraînement, exercices</li>
-<li><strong>Vidéos :</strong> Tutoriels et démonstrations</li>
-<li><strong>E-books :</strong> Guides complets téléchargeables</li>
-<li><strong>Formulaires :</strong> Documents administratifs types</li>
-</ul>
-
-<h2>Besoin d\'aide ?</h2>
-<p>Notre support est disponible 7j/7 :</p>
-<ul>
-<li>📧 Email : <a href="mailto:support@digitalsos.fr">support@digitalsos.fr</a></li>
-<li>💬 Chat en direct (coin inférieur droit)</li>
-<li>📞 Téléphone : +33 1 23 45 67 89</li>
-<li>📚 <a href="/support-aide">Centre d\'aide complet</a></li>
-</ul>
-
-<h2>Prochaines étapes recommandées</h2>
-<ol>
-<li>Personnaliser les notifications (emails, SMS)</li>
-<li>Importer vos données existantes (Excel, CSV)</li>
-<li>Configurer les paiements en ligne</li>
-<li>Explorer les statistiques et rapports</li>
-</ol>
-
-<p><strong>Astuce :</strong> Activez le mode "Visite guidée" dans Paramètres pour un tutoriel interactif complet !</p>',
-                'image' => 'pages/guide-demarrage.jpg',
-                'visibility' => 'public',
-                'is_published' => true,
-                'sort_order' => 1,
-                'pages_category_id' => $categorySupport->id,
-                'meta_title' => 'Guide de démarrage rapide - Digital\'SOS',
-                'meta_keywords' => 'guide, tutoriel, démarrage, aide, support',
-                'meta_description' => 'Démarrez avec Digital\'SOS en 5 étapes simples : création compte, configuration, matériel, planning et ressources.',
-                'created_by' => $admin?->id,
-                'created_by_name' => $admin?->name,
-                'updated_by' => $admin?->id,
-                'published_at' => now()->subDays(45),
-            ],
-        ];
-
-        foreach ($pages as $data) {
-            $page = Page::create($data);
-            $this->command->info("✅ Page créée : {$page->title}");
+            ]);
+            $this->command->info("✅ Page : {$p['title']}");
         }
 
-        $this->command->info('🎉 PagesSeeder terminé : 3 pages créées');
+        $this->command->info('🎉 PagesSeeder : ' . count($pages) . ' pages créées');
     }
 }

@@ -2,115 +2,56 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Role;
 use App\Models\Permission;
+use App\Models\Role;
+use Illuminate\Database\Seeder;
 
 /**
- * 🇬🇧 Role-Permission Table Seeder - Assigns permissions to roles
- * 🇫🇷 Seeder de la table role_permission - Attribue les permissions aux rôles
- * 
- * @file database/seeders/RolePermissionTableSeeder.php
+ * Attribution des permissions aux rôles.
+ * Correction : l'ancienne version donnait à l'éditeur des slugs inexistants
+ * (posts.manage, downloads.view…), il ne recevait donc qu'une partie de ses droits.
  */
 class RolePermissionTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+    /** Groupes de contenu gérés par l'éditeur (toutes les actions du groupe). */
+    public const EDITOR_GROUPS = [
+        'posts', 'categories', 'tags',
+        'pages', 'pages-categories',
+        'fiches', 'fiches-categories', 'fiches-sous-categories',
+        'videos', 'video-categories', 'video-library',
+        'media', 'media-categories',
+        'downloadables', 'download-categories',
+        'photo-galleries', 'banners',
+    ];
+
     public function run(): void
     {
-        // 🇬🇧 Get all roles / 🇫🇷 Récupérer tous les rôles
-        $admin = Role::where('slug', 'admin')->first();
-        $editor = Role::where('slug', 'editor')->first();
-        $user = Role::where('slug', 'user')->first();
-        $visitor = Role::where('slug', 'visitor')->first();
+        $roles = Role::whereIn('slug', ['admin', 'editor', 'user', 'visitor'])->get()->keyBy('slug');
 
-        if (!$admin || !$editor || !$user || !$visitor) {
-            $this->command->error('❌ Erreur : Les rôles doivent être créés avant d\'exécuter ce seeder !');
-            $this->command->error('➡️  Exécutez d\'abord : php artisan db:seed --class=RolesTableSeeder');
+        if ($roles->count() < 4) {
+            $this->command->error('❌ Rôles manquants : lancer RolesTableSeeder avant ce seeder.');
             return;
         }
 
-        // ========== ADMIN : TOUTES LES PERMISSIONS ==========
-        $this->command->info('🔧 Configuration du rôle Admin...');
-        
-        $allPermissions = Permission::all()->pluck('id');
-        $admin->permissions()->sync($allPermissions);
-        
-        $this->command->info("✅ Admin : {$allPermissions->count()} permissions attribuées (TOUTES)");
+        $all = Permission::pluck('id');
+        $roles['admin']->permissions()->sync($all);
 
-        // ========== EDITOR : PERMISSIONS CONTENU UNIQUEMENT ==========
-        $this->command->info('🔧 Configuration du rôle Editor...');
-        
-        $editorPermissionSlugs = [
-            // Posts
-            'posts.view',
-            'posts.manage',
-            'posts.delete',
-            
-            // Catégories (Posts)
-            'categories.view',
-            'categories.manage',
-            'categories.delete',
-            
-            // Tags
-            'tags.view',
-            'tags.manage',
-            'tags.delete',
-            
-            // Fiches
-            'fiches.view',
-            'fiches.manage',
-            'fiches.delete',
-            
-            // Pages
-            'pages.view',
-            'pages.manage',
-            'pages.delete',
-            
-            // Vidéos
-            'videos.view',
-            'videos.manage',
-            'videos.delete',
-            
-            // Téléchargements
-            'downloads.view',
-            'downloads.manage',
-            'downloads.delete',
-        ];
-        
-        $editorPermissions = Permission::whereIn('slug', $editorPermissionSlugs)->pluck('id');
-        $editor->permissions()->sync($editorPermissions);
-        
-        $this->command->info("✅ Editor : {$editorPermissions->count()} permissions attribuées (Contenu uniquement)");
+        $editor = Permission::whereIn('group', self::EDITOR_GROUPS)
+            ->orWhere('slug', 'editor.dashboard')
+            ->pluck('id');
+        $roles['editor']->permissions()->sync($editor);
 
-        // ========== USER : AUCUNE PERMISSION ==========
-        $this->command->info('🔧 Configuration du rôle User...');
-        
-        $user->permissions()->sync([]);
-        
-        $this->command->info("✅ User : 0 permission (Accès contenu via logique métier)");
+        // Adhérents et visiteurs : aucun droit d'administration,
+        // l'accès aux contenus réservés passe par la visibilité des contenus.
+        $roles['user']->permissions()->sync([]);
+        $roles['visitor']->permissions()->sync([]);
 
-        // ========== VISITOR : AUCUNE PERMISSION ==========
-        $this->command->info('🔧 Configuration du rôle Visitor...');
-        
-        $visitor->permissions()->sync([]);
-        
-        $this->command->info("✅ Visitor : 0 permission (Accès public uniquement)");
-
-        // ========== RÉSUMÉ ==========
-        $this->command->info('');
-        $this->command->info('🎉 RolePermissionTableSeeder terminé avec succès !');
-        $this->command->info('📊 Matrice des permissions :');
-        $this->command->info('');
-        $this->command->table(
-            ['Rôle', 'Level', 'Permissions', 'Détails'],
-            [
-                ['Admin', '100', $allPermissions->count(), 'Accès total système'],
-                ['Editor', '50', $editorPermissions->count(), 'Gestion contenu (posts, fiches, pages, vidéos, downloads)'],
-                ['User', '10', '0', 'Accès contenu premium via model policies'],
-                ['Visitor', '0', '0', 'Accès public uniquement'],
-            ]
-        );
+        $this->command->info('🎉 RolePermissionTableSeeder terminé');
+        $this->command->table(['Rôle', 'Permissions'], [
+            ['Administrateur', $all->count()],
+            ['Éditeur', $editor->count()],
+            ['Adhérent', 0],
+            ['Visiteur', 0],
+        ]);
     }
 }

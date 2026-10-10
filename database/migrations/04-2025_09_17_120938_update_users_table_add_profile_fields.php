@@ -55,27 +55,19 @@ return new class extends Migration
      * Annule les migrations.
      */
     public function down(): void
-    {
-        Schema::table('users', function (Blueprint $table) {
-            // Suppression des colonnes ajoutees
-            $table->dropColumn([
-                'username',
-                'first_name',
-                'last_name',
-                'role_id',
-                'avatar',
-                'bio',
-                'phone',
-                'date_of_birth',
-                'status',
-                'last_login_at',
-                'last_login_ip',
-                'login_count',
-                'preferences',
-                'locale',
-                'timezone',
-                'deleted_at'
-            ]);
-        });
-    }
+{
+    Schema::table('users', function (Blueprint $table) {
+        $table->dropForeign(['role_id']);   // à retirer avant la colonne
+        $table->dropIndex(['status', 'deleted_at']);
+        $table->dropIndex(['status']);
+        $table->dropIndex(['last_login_at']);
+        $table->dropUnique(['username']);
+
+        $table->dropColumn([
+            'username', 'first_name', 'last_name', 'role_id', 'avatar', 'bio',
+            'phone', 'date_of_birth', 'status', 'last_login_at', 'last_login_ip',
+            'login_count', 'preferences', 'locale', 'timezone', 'deleted_at',
+        ]);
+    });
+}
 };

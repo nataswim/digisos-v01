@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Post;
 use App\Models\Tag;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class TaggablesTableSeeder extends Seeder
@@ -15,32 +15,30 @@ class TaggablesTableSeeder extends Seeder
         DB::table('taggables')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        $tagPerformance = Tag::where('slug', 'performance')->first();
-        $tagGestion = Tag::where('slug', 'gestion')->first();
-        $tagTechnologie = Tag::where('slug', 'technologie')->first();
+        $tags = Tag::pluck('id', 'slug');
+        $posts = Post::pluck('id', 'slug');
+        $rows = [];
 
-        $post1 = Post::where('slug', 'digitalsos-revolutionne-gestion-sportive')->first();
-        $post2 = Post::where('slug', '5-astuces-optimiser-plannings-entrainement')->first();
-        $post3 = Post::where('slug', 'club-aquasport-triple-adhesions')->first();
-
-        $taggables = [
-            // Post 1 : Gestion + Technologie
-            ['tag_id' => $tagGestion->id, 'taggable_id' => $post1->id, 'taggable_type' => 'App\Models\Post'],
-            ['tag_id' => $tagTechnologie->id, 'taggable_id' => $post1->id, 'taggable_type' => 'App\Models\Post'],
-            
-            // Post 2 : Performance + Gestion
-            ['tag_id' => $tagPerformance->id, 'taggable_id' => $post2->id, 'taggable_type' => 'App\Models\Post'],
-            ['tag_id' => $tagGestion->id, 'taggable_id' => $post2->id, 'taggable_type' => 'App\Models\Post'],
-            
-            // Post 3 : Gestion + Technologie
-            ['tag_id' => $tagGestion->id, 'taggable_id' => $post3->id, 'taggable_type' => 'App\Models\Post'],
-            ['tag_id' => $tagTechnologie->id, 'taggable_id' => $post3->id, 'taggable_type' => 'App\Models\Post'],
-        ];
-
-        foreach ($taggables as $data) {
-            DB::table('taggables')->insert($data);
+        foreach (PostsTableSeeder::tagMap() as $postSlug => $tagSlugs) {
+            if (! isset($posts[$postSlug])) {
+                $this->command->warn("⚠️  Article introuvable : {$postSlug}");
+                continue;
+            }
+            foreach ($tagSlugs as $tagSlug) {
+                if (! isset($tags[$tagSlug])) {
+                    $this->command->warn("⚠️  Tag introuvable : {$tagSlug}");
+                    continue;
+                }
+                $rows[] = [
+                    'tag_id' => $tags[$tagSlug],
+                    'taggable_id' => $posts[$postSlug],
+                    'taggable_type' => Post::class,
+                ];
+            }
         }
 
-        $this->command->info('🎉 TaggablesTableSeeder terminé : 6 associations tags-posts créées');
+        DB::table('taggables')->insert($rows);
+
+        $this->command->info('🎉 TaggablesTableSeeder : ' . count($rows) . ' associations tags-articles créées');
     }
 }

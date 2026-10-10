@@ -2,39 +2,28 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Role;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 /**
- * 🇬🇧 Roles Table Seeder - Creates the 4 base roles for Mon Club de Natation
- * 🇫🇷 Seeder de la table roles - Crée les 4 rôles de base pour Mon Club de Natation
- * 
- * @file database/seeders/RolesTableSeeder.php
+ * Les 4 rôles du site du CNBB.
+ * Les slugs (admin, editor, user, visitor) sont utilisés dans le code : ne pas les modifier.
  */
 class RolesTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // 🇬🇧 Disable foreign key checks / 🇫🇷 Désactiver les vérifications de clés étrangères
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        
-        // 🇬🇧 Truncate table / 🇫🇷 Vider la table
         Role::truncate();
-        
-        // 🇬🇧 Re-enable foreign key checks / 🇫🇷 Réactiver les vérifications
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        // 🇬🇧 Define base roles / 🇫🇷 Définir les rôles de base
         $roles = [
             [
                 'name' => 'Administrateur',
                 'slug' => 'admin',
                 'display_name' => 'Admin',
-                'description' => 'Accès complet au système avec gestion des utilisateurs, permissions et configuration globale.',
+                'description' => 'Membre du bureau ou webmestre : accès complet au site (comptes, rôles, contenus, réglages).',
                 'level' => 100,
                 'is_default' => false,
             ],
@@ -42,37 +31,33 @@ class RolesTableSeeder extends Seeder
                 'name' => 'Éditeur',
                 'slug' => 'editor',
                 'display_name' => 'Editor',
-                'description' => 'Rédacteur pouvant créer, modifier et publier du contenu (posts, fiches, pages, vidéos).',
+                'description' => 'Bénévole chargé de la communication : publie les actualités, fiches, pages, vidéos, galeries et documents.',
                 'level' => 50,
                 'is_default' => false,
             ],
             [
-                'name' => 'Utilisateur',
+                'name' => 'Adhérent',
                 'slug' => 'user',
-                'display_name' => 'User',
-                'description' => 'Utilisateur vérifié avec accès au contenu premium et aux fonctionnalités avancées.',
+                'display_name' => 'Adhérent',
+                'description' => 'Nageur ou famille adhérente du club : accès aux contenus réservés et aux documents à télécharger.',
                 'level' => 10,
                 'is_default' => false,
             ],
             [
                 'name' => 'Visiteur',
                 'slug' => 'visitor',
-                'display_name' => 'Visitor',
-                'description' => 'Visiteur non-vérifié avec accès limité au contenu public uniquement.',
+                'display_name' => 'Visiteur',
+                'description' => 'Compte créé sur le site, adhésion non validée : accès aux contenus publics uniquement.',
                 'level' => 0,
-                'is_default' => true, // 🇬🇧 Default role for new registrations / 🇫🇷 Rôle par défaut à l'inscription
+                'is_default' => true, // rôle attribué à l'inscription sur le site
             ],
         ];
 
-        // 🇬🇧 Create roles / 🇫🇷 Créer les rôles
-        foreach ($roles as $roleData) {
-            Role::create($roleData);
-            
-            $this->command->info("✅ Rôle créé : {$roleData['display_name']} (level {$roleData['level']})");
+        foreach ($roles as $data) {
+            Role::create($data);
+            $this->command->info("✅ Rôle : {$data['name']} (niveau {$data['level']})");
         }
 
-        $this->command->info('');
-        $this->command->info('🎉 RolesTableSeeder terminé avec succès !');
-        $this->command->info('📊 4 rôles créés : Admin, Editor, User, Visitor');
+        $this->command->info('🎉 RolesTableSeeder : ' . count($roles) . ' rôles créés');
     }
 }

@@ -2,107 +2,80 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Category;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 /**
- * 🇬🇧 Categories Table Seeder - Creates post categories for Mon Club de Natation
- * 🇫🇷 Seeder de la table categories - Crée les catégories de posts pour Mon Club de Natation
- * 
- * @file database/seeders/CategoriesTableSeeder.php
+ * Catégories des articles (menu « Vie du club » et « Médias > Revue de presse »).
+ * Le slug « presse » est utilisé par PublicController::PRESS_CATEGORY_SLUG : ne pas le modifier.
  */
 class CategoriesTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // 🇬🇧 Disable foreign key checks / 🇫🇷 Désactiver les vérifications de clés étrangères
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        
-        // 🇬🇧 Truncate table / 🇫🇷 Vider la table
         Category::truncate();
-        
-        // 🇬🇧 Re-enable foreign key checks / 🇫🇷 Réactiver les vérifications
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        // 🇬🇧 Get first admin user as creator / 🇫🇷 Récupérer le premier admin comme créateur
-        $admin = User::whereHas('role', function ($query) {
-            $query->where('slug', 'admin');
-        })->first();
+        $admin = User::whereHas('role', fn ($q) => $q->where('slug', 'admin'))->first();
 
-        if (!$admin) {
-            $this->command->warn('⚠️  Aucun admin trouvé. Les catégories seront créées sans créateur.');
-        }
-
-        // 🇬🇧 Define categories / 🇫🇷 Définir les catégories
         $categories = [
             [
-                'name' => 'Actualités',
-                'slug' => 'actualites',
-                'description' => 'Dernières nouvelles et événements du monde sportif. Suivez les actualités des clubs, compétitions et innovations dans le secteur.',
-                'group_name' => 'blog',
-                'image' => 'categories/actualites.jpg',
-                'meta_title' => 'Actualités sportives - Digital\'SOS',
-                'meta_description' => 'Restez informé des dernières actualités sportives, événements et nouveautés dans la gestion de structures sportives.',
-                'meta_keywords' => 'actualités sportives, événements, compétitions, news sport',
-                'order' => 1,
-                'status' => 'active',
-                'created_by' => $admin?->id,
-                'updated_by' => $admin?->id,
+                'name' => 'Vie du club',
+                'slug' => 'vie-du-club',
+                'description' => 'Les nouvelles du Cercle des Nageurs du Bocage Bressuirais : inscriptions, assemblée générale, bénévolat, informations aux familles.',
+                'meta_title' => 'Vie du club - CNBB Natation Bressuire',
+                'meta_description' => 'Actualités du Cercle des Nageurs du Bocage Bressuirais : inscriptions, vie associative et informations aux familles.',
+                'meta_keywords' => 'CNBB, club de natation, Bressuire, actualités, vie associative',
             ],
             [
-                'name' => 'Conseils & Méthodologie',
-                'slug' => 'conseils-methodologie',
-                'description' => 'Guides pratiques, méthodes d\'entraînement et conseils d\'experts pour optimiser la gestion de votre structure sportive et améliorer les performances.',
-                'group_name' => 'blog',
-                'image' => 'categories/conseils-methodologie.jpg',
-                'meta_title' => 'Conseils et méthodologie sportive - Digital\'SOS',
-                'meta_description' => 'Découvrez nos conseils d\'experts et méthodologies éprouvées pour optimiser votre organisation sportive et vos entraînements.',
-                'meta_keywords' => 'conseils sportifs, méthodologie, gestion sportive, entraînement, performance',
-                'order' => 2,
-                'status' => 'active',
-                'created_by' => $admin?->id,
-                'updated_by' => $admin?->id,
+                'name' => 'Compétitions',
+                'slug' => 'competitions',
+                'description' => 'Calendrier, comptes rendus et résultats des nageurs du CNBB en compétitions FFN départementales, régionales et nationales.',
+                'meta_title' => 'Compétitions et résultats - CNBB Natation',
+                'meta_description' => 'Résultats et comptes rendus des compétitions de natation course des nageurs du CNBB.',
+                'meta_keywords' => 'compétition natation, résultats, FFN, natation course, Deux-Sèvres',
             ],
             [
-                'name' => 'Témoignages & Success Stories',
-                'slug' => 'temoignages-success-stories',
-                'description' => 'Retours d\'expérience de coachs, clubs et athlètes utilisant Digital\'SOS. Découvrez comment nos solutions transforment la gestion sportive au quotidien.',
-                'group_name' => 'blog',
-                'image' => 'categories/temoignages.jpg',
-                'meta_title' => 'Témoignages clients - Digital\'SOS',
-                'meta_description' => 'Lisez les témoignages de nos utilisateurs : coachs, clubs et athlètes qui ont révolutionné leur gestion avec Digital\'SOS.',
-                'meta_keywords' => 'témoignages, success stories, retour expérience, avis clients',
-                'order' => 3,
-                'status' => 'active',
-                'created_by' => $admin?->id,
-                'updated_by' => $admin?->id,
+                'name' => 'École de natation',
+                'slug' => 'ecole-de-natation',
+                'description' => 'Apprentissage et perfectionnement des jeunes nageurs : groupes, tests fédéraux (Sauv\'nage, Pass\'sports de l\'eau, Pass\'compétition) et progression.',
+                'meta_title' => 'École de natation - CNBB Bressuire',
+                'meta_description' => 'L\'école de natation du CNBB : apprentissage, tests fédéraux et progression des jeunes nageurs.',
+                'meta_keywords' => 'école de natation, Sauv\'nage, Pass\'sports de l\'eau, Pass\'compétition, enfants',
+            ],
+            [
+                'name' => 'Événements',
+                'slug' => 'evenements',
+                'description' => 'Les rendez-vous organisés ou soutenus par le club : Aquathlon du Bocage, journées portes ouvertes, fêtes du club.',
+                'meta_title' => 'Événements - CNBB Natation',
+                'meta_description' => 'Les événements du Cercle des Nageurs du Bocage Bressuirais.',
+                'meta_keywords' => 'événement, Aquathlon du Bocage, fête du club, Bressuire',
+            ],
+            [
+                'name' => 'Revue de presse',
+                'slug' => 'presse',
+                'description' => 'Les articles de presse et publications officielles consacrés au club depuis sa création en 1954.',
+                'meta_title' => 'Revue de presse - CNBB Natation',
+                'meta_description' => 'Le CNBB dans la presse : articles et publications consacrés au club de natation de Bressuire.',
+                'meta_keywords' => 'revue de presse, CNBB, natation Bressuire, article',
             ],
         ];
 
-        // 🇬🇧 Create categories / 🇫🇷 Créer les catégories
-        foreach ($categories as $categoryData) {
-            $category = Category::create($categoryData);
-            
-            $this->command->info("✅ Catégorie créée : {$category->name} (slug: {$category->slug})");
+        foreach ($categories as $i => $data) {
+            Category::create($data + [
+                'group_name' => 'blog',
+                'image' => null,
+                'order' => $i + 1,
+                'status' => 'active',
+                'created_by' => $admin?->id,
+                'updated_by' => $admin?->id,
+            ]);
+            $this->command->info("✅ Catégorie : {$data['name']}");
         }
 
-        $this->command->info('');
-        $this->command->info('🎉 CategoriesTableSeeder terminé avec succès !');
-        $this->command->info('📊 3 catégories de posts créées :');
-        $this->command->info('');
-        $this->command->table(
-            ['Nom', 'Slug', 'Ordre', 'Statut'],
-            [
-                ['Actualités', 'actualites', '1', '✅ Active'],
-                ['Conseils & Méthodologie', 'conseils-methodologie', '2', '✅ Active'],
-                ['Témoignages & Success Stories', 'temoignages-success-stories', '3', '✅ Active'],
-            ]
-        );
+        $this->command->info('🎉 CategoriesTableSeeder : ' . count($categories) . ' catégories créées');
     }
 }

@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\FichesSousCategory;
 use App\Models\FichesCategory;
+use App\Models\FichesSousCategory;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class FichesSousCategoriesSeeder extends Seeder
@@ -16,62 +16,41 @@ class FichesSousCategoriesSeeder extends Seeder
         FichesSousCategory::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        $admin = User::whereHas('role', fn($q) => $q->where('slug', 'admin'))->first();
+        $admin = User::whereHas('role', fn ($q) => $q->where('slug', 'admin'))->first();
 
-        $categoriesTechniques = FichesCategory::where('slug', 'techniques-entrainement')->first();
-        $categoriesGestion = FichesCategory::where('slug', 'gestion-administrative')->first();
-        $categoriesMateriel = FichesCategory::where('slug', 'materiel-equipement')->first();
+        $cat = fn (string $slug) => FichesCategory::where('slug', $slug)->first()
+            ?? throw new \RuntimeException("Catégorie de fiches « {$slug} » absente : lancer FichesCategoriesSeeder d'abord.");
 
+        // [catégorie parente, nom, slug, description]
         $sousCategories = [
-            [
-                'name' => 'Natation',
-                'slug' => 'natation',
-                'description' => 'Exercices techniques, protocoles d\'entraînement et programmes spécifiques pour la natation sportive et de loisir.',
-                'image' => 'fiches-sous-categories/natation.jpg',
-                'fiches_category_id' => $categoriesTechniques->id,
-                'meta_title' => 'Techniques natation - Digital\'SOS',
-                'meta_description' => 'Fiches techniques natation : exercices, protocoles et programmes d\'entraînement.',
-                'meta_keywords' => 'natation, techniques, exercices, entraînement',
-                'is_active' => true,
-                'sort_order' => 1,
-                'created_by' => $admin?->id,
-                'updated_by' => $admin?->id,
-            ],
-            [
-                'name' => 'Inscriptions',
-                'slug' => 'inscriptions',
-                'description' => 'Formulaires types, procédures d\'inscription, documents obligatoires et processus de validation des adhésions.',
-                'image' => 'fiches-sous-categories/inscriptions.jpg',
-                'fiches_category_id' => $categoriesGestion->id,
-                'meta_title' => 'Gestion inscriptions - Digital\'SOS',
-                'meta_description' => 'Fiches pratiques : formulaires, procédures et documents pour gérer les inscriptions.',
-                'meta_keywords' => 'inscriptions, formulaires, adhésions, procédures',
-                'is_active' => true,
-                'sort_order' => 1,
-                'created_by' => $admin?->id,
-                'updated_by' => $admin?->id,
-            ],
-            [
-                'name' => 'Bassins',
-                'slug' => 'bassins',
-                'description' => 'Maintenance des équipements aquatiques, normes de sécurité, entretien et gestion des installations de baignade.',
-                'image' => 'fiches-sous-categories/bassins.jpg',
-                'fiches_category_id' => $categoriesMateriel->id,
-                'meta_title' => 'Gestion bassins - Digital\'SOS',
-                'meta_description' => 'Fiches maintenance et sécurité des bassins et équipements aquatiques.',
-                'meta_keywords' => 'bassins, maintenance, sécurité, équipements aquatiques',
-                'is_active' => true,
-                'sort_order' => 1,
-                'created_by' => $admin?->id,
-                'updated_by' => $admin?->id,
-            ],
+            ['inscription-adhesion', 'Dossier d\'inscription', 'dossier-inscription', 'Les pièces à fournir, le certificat médical et le dépôt du dossier.'],
+            ['inscription-adhesion', 'Tarifs & paiement', 'tarifs-paiement', 'Tarifs de la saison, réductions familles et moyens de paiement acceptés.'],
+            ['vie-sportive', 'École de natation', 'ecole-de-natation', 'Apprentissage et tests de l\'École de Natation Française.'],
+            ['vie-sportive', 'Compétition', 'competition', 'Natation course, compétitions FFN et officiels.'],
+            ['piscine-fonctionnement', 'Centre aquatique Cœur d\'O', 'centre-aquatique', 'Accès au bassin, badge et calendrier des activités.'],
         ];
 
-        foreach ($sousCategories as $data) {
-            $sousCategory = FichesSousCategory::create($data);
-            $this->command->info("✅ Sous-catégorie : {$sousCategory->name}");
+        $order = [];
+        foreach ($sousCategories as [$parent, $name, $slug, $description]) {
+            $order[$parent] = ($order[$parent] ?? 0) + 1;
+
+            FichesSousCategory::create([
+                'name' => $name,
+                'slug' => $slug,
+                'description' => $description,
+                'image' => null,
+                'fiches_category_id' => $cat($parent)->id,
+                'meta_title' => "{$name} - Infos pratiques CNBB",
+                'meta_description' => $description,
+                'meta_keywords' => mb_strtolower($name) . ', CNBB, natation, Bressuire',
+                'is_active' => true,
+                'sort_order' => $order[$parent],
+                'created_by' => $admin?->id,
+                'updated_by' => $admin?->id,
+            ]);
+            $this->command->info("✅ Sous-catégorie : {$name}");
         }
 
-        $this->command->info('🎉 FichesSousCategoriesSeeder terminé : 3 sous-catégories créées');
+        $this->command->info('🎉 FichesSousCategoriesSeeder : ' . count($sousCategories) . ' sous-catégories créées');
     }
 }

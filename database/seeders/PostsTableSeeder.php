@@ -2,13 +2,17 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Post;
 use App\Models\Category;
+use App\Models\Post;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
+/**
+ * Articles de démonstration du CNBB.
+ * Contenu tiré uniquement des informations fournies par le club (historique, inscription 2026-2027).
+ * Les articles de la catégorie « presse » alimentent la page /revue-de-presse.
+ */
 class PostsTableSeeder extends Seeder
 {
     public function run(): void
@@ -17,138 +21,182 @@ class PostsTableSeeder extends Seeder
         Post::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        $editor = User::whereHas('role', fn($q) => $q->where('slug', 'editor'))->first();
-        $categoryActu = Category::where('slug', 'actualites')->first();
-        $categoryConseils = Category::where('slug', 'conseils-methodologie')->first();
-        $categoryTemoignages = Category::where('slug', 'temoignages-success-stories')->first();
+        $author = User::whereHas('role', fn ($q) => $q->where('slug', 'editor'))->first()
+            ?? User::whereHas('role', fn ($q) => $q->where('slug', 'admin'))->first();
+
+        $cat = fn (string $slug) => Category::where('slug', $slug)->first()
+            ?? throw new \RuntimeException("Catégorie « {$slug} » absente : lancer CategoriesTableSeeder avant PostsTableSeeder.");
 
         $posts = [
             [
-                'name' => 'Digital\'SOS révolutionne la gestion sportive',
-                'slug' => 'digitalsos-revolutionne-gestion-sportive',
-                'intro' => 'Découvrez comment notre plateforme transforme le quotidien des structures sportives avec la méthode M2PC : Matériel, Planning, Personnel, Contenu.',
-                'content' => '<h2>Une solution complète pour les managers sportifs</h2>
-<p>Digital\'SOS centralise tous les aspects de la gestion sportive dans une interface unique et intuitive. Fini les tableaux Excel dispersés et les emails perdus !</p>
+                'category' => 'vie-du-club',
+                'name' => 'Inscriptions saison 2026-2027 : tout ce qu\'il faut savoir',
+                'slug' => 'inscriptions-saison-2026-2027',
+                'intro' => 'Tarifs, réductions familles, pièces du dossier et date limite : le point complet pour s\'inscrire ou se réinscrire au CNBB cette saison.',
+                'content' => <<<'HTML'
+<p>Les inscriptions pour la saison 2026-2027 sont ouvertes. L'adhésion au CNBB est réservée aux personnes <strong>sachant nager 25 mètres</strong> ; une évaluation peut être proposée lors d'une première adhésion.</p>
 
-<h3>Les 4 piliers de Digital\'SOS</h3>
+<h2>Les tarifs</h2>
 <ul>
-<li><strong>Matériel :</strong> Inventaire en temps réel et traçabilité complète de vos équipements</li>
-<li><strong>Planning :</strong> Synchronisation intelligente des entraînements, matchs et événements</li>
-<li><strong>Personnel :</strong> Gestion simplifiée des coachs, bénévoles et salariés</li>
-<li><strong>Contenu :</strong> Bibliothèque numérique de supports pédagogiques</li>
+<li>École de natation : <strong>175 €</strong></li>
+<li>Natation jeunes et étudiants (18-25 ans) : <strong>190 €</strong></li>
+<li>Anciens nageurs étudiants hors Bressuire : <strong>110 €</strong></li>
+<li>Adultes : <strong>210 €</strong></li>
 </ul>
+<p>Pour une même famille : <strong>10 € de remise</strong> pour 2 adhésions, <strong>10 %</strong> à partir de 3 adhésions (en début de saison uniquement).</p>
+<p><strong>Attention :</strong> toute réinscription après le <strong>30 septembre 2026</strong> est majorée de 10 €.</p>
 
-<h3>Des résultats concrets</h3>
-<p>Nos premiers utilisateurs rapportent une réduction de 40% du temps consacré aux tâches administratives, permettant de se recentrer sur l\'essentiel : le terrain et les athlètes.</p>
-
-<blockquote>
-"Digital\'SOS a transformé notre club. Nous gérons maintenant 200 licenciés avec une efficacité jamais atteinte." - Pierre Dubois, Coach
-</blockquote>',
-                'type' => 'article',
-                'category_id' => $categoryActu->id,
-                'category_name' => $categoryActu->name,
+<h2>Le dossier</h2>
+<ul>
+<li>la fiche d'inscription (et la fiche sanitaire pour les compétiteurs) ;</li>
+<li>le règlement ;</li>
+<li>le certificat médical pour une première adhésion (ou l'attestation de santé pour les mineurs) ;</li>
+<li>une photo pour les nouveaux adhérents ;</li>
+<li>5 € de caution pour le badge d'accès.</li>
+</ul>
+<p>Le dossier complet est à déposer dans la <strong>boîte aux lettres du club</strong>, derrière l'abribus en bas du centre aquatique Cœur d'O.</p>
+<p>Le détail de chaque pièce et des moyens de paiement est disponible dans la rubrique Infos pratiques.</p>
+HTML,
                 'is_featured' => true,
-                'image' => 'posts/digitalsos-revolution.jpg',
-                'meta_title' => 'Digital\'SOS révolutionne la gestion sportive',
-                'meta_keywords' => 'gestion sportive, digital, m2pc, révolution',
-                'meta_description' => 'Découvrez comment Digital\'SOS transforme la gestion des structures sportives avec la méthode M2PC.',
-                'hits' => 234,
-                'order' => 1,
-                'status' => 'published',
-                'visibility' => 'public',
-                'created_by' => $editor?->id,
-                'created_by_name' => $editor?->name,
-                'updated_by' => $editor?->id,
-                'published_at' => now()->subDays(5),
+                'days' => 30,
             ],
             [
-                'name' => '5 astuces pour optimiser vos plannings d\'entraînement',
-                'slug' => '5-astuces-optimiser-plannings-entrainement',
-                'intro' => 'Les meilleurs coachs utilisent ces techniques éprouvées pour maximiser l\'efficacité de leurs séances et prévenir le surentraînement.',
-                'content' => '<h2>Optimisez vos plannings comme un pro</h2>
-<p>Un planning bien conçu est la clé du succès sportif. Voici nos 5 conseils d\'experts pour structurer vos entraînements.</p>
+                'category' => 'vie-du-club',
+                'name' => 'Parents : devenez officiels ou rejoignez le comité directeur',
+                'slug' => 'parents-devenez-officiels-comite-directeur',
+                'intro' => 'Sans officiels, pas de compétition ; sans bénévoles, pas de club. Le CNBB invite les parents de nageurs à s\'engager à leurs côtés.',
+                'content' => <<<'HTML'
+<p>Le Cercle des Nageurs du Bocage Bressuirais est une association : il fonctionne grâce à l'engagement de ses bénévoles.</p>
 
-<h3>1. Alterner intensité et récupération</h3>
-<p>Le principe de surcompensation nécessite des phases de repos. Planifiez 1 journée de récupération active tous les 3 jours d\'entraînement intensif.</p>
+<h2>Devenir officiel</h2>
+<p>Chaque compétition de la Fédération Française de Natation a besoin d'officiels au bord du bassin (chronométreurs, juges). Un club qui engage des nageurs doit présenter des officiels. Aucune connaissance préalable n'est nécessaire : une formation est proposée et l'on apprend au contact des officiels expérimentés.</p>
 
-<h3>2. Bloquer des créneaux fixes</h3>
-<p>La régularité crée des habitudes. Fixez les mêmes horaires chaque semaine pour installer une routine performante.</p>
+<h2>Rejoindre le comité directeur</h2>
+<p>Le comité directeur organise la vie du club : inscriptions, relations avec la piscine et l'agglomération, organisation des événements, budget. Les parents y sont les bienvenus, quel que soit le temps dont ils disposent.</p>
 
-<h3>3. Anticiper les imprévus</h3>
-<p>Prévoyez toujours un plan B en cas d\'indisponibilité de matériel ou d\'installations. Digital\'SOS vous alerte automatiquement des conflits.</p>
-
-<h3>4. Varier les types de séances</h3>
-<p>Technique, endurance, vitesse, force : la diversification prévient la monotonie et optimise le développement global.</p>
-
-<h3>5. Évaluer et ajuster</h3>
-<p>Analysez mensuellement vos résultats pour adapter votre planification. Les meilleurs plans évoluent avec vos athlètes.</p>',
-                'type' => 'article',
-                'category_id' => $categoryConseils->id,
-                'category_name' => $categoryConseils->name,
+<p>Intéressé ? Parlez-en aux entraîneurs ou écrivez au club depuis la page Contact.</p>
+HTML,
                 'is_featured' => false,
-                'image' => 'posts/optimiser-plannings.jpg',
-                'meta_title' => '5 astuces pour optimiser vos plannings d\'entraînement',
-                'meta_keywords' => 'plannings, entraînement, optimisation, conseils',
-                'meta_description' => 'Découvrez 5 techniques éprouvées pour maximiser l\'efficacité de vos plannings d\'entraînement.',
-                'hits' => 156,
-                'order' => 2,
-                'status' => 'published',
-                'visibility' => 'authenticated',
-                'created_by' => $editor?->id,
-                'created_by_name' => $editor?->name,
-                'updated_by' => $editor?->id,
-                'published_at' => now()->subDays(10),
+                'days' => 21,
             ],
             [
-                'name' => 'Comment le club AquaSport a triplé ses adhésions',
-                'slug' => 'club-aquasport-triple-adhesions',
-                'intro' => 'Retour sur la transformation digitale du club AquaSport qui est passé de 50 à 150 licenciés en 18 mois grâce à Digital\'SOS.',
-                'content' => '<h2>Success Story : AquaSport</h2>
-<p>Le club AquaSport, basé à Lyon, faisait face à des défis de croissance majeurs. Direction débordée, plannings confus, matériel égaré... La situation devenait ingérable.</p>
+                'category' => 'ecole-de-natation',
+                'name' => 'Sauv\'nage, Pass\'sports de l\'eau, Pass\'compétition : les étapes de l\'école de natation',
+                'slug' => 'tests-ecole-de-natation-francaise',
+                'intro' => 'À l\'école de natation, les enfants progressent en validant les trois tests de l\'École de Natation Française (ENF).',
+                'content' => <<<'HTML'
+<p>Le parcours des jeunes nageurs du club suit les trois étapes de l'École de Natation Française (ENF), mises en place par la Fédération Française de Natation.</p>
 
-<h3>Le diagnostic initial</h3>
-<p>En 2024, AquaSport comptait 50 licenciés mais perdait 30% de ses membres chaque année par manque d\'organisation. Les entraînements étaient improvisés, le matériel mal géré.</p>
+<h2>1. Le Sauv'nage</h2>
+<p>Première étape : l'enfant apprend à être à l'aise et en sécurité dans l'eau (entrer dans l'eau, s'immerger, flotter, se déplacer, se laisser remonter).</p>
 
-<h3>La solution Digital\'SOS</h3>
-<p>En mars 2024, le club a adopté notre plateforme. Résultats après 18 mois :</p>
-<ul>
-<li>📈 Licenciés : 50 → 150 (+200%)</li>
-<li>⏱️ Temps admin : -60%</li>
-<li>💰 Chiffre d\'affaires : +180%</li>
-<li>😊 Satisfaction : 4.8/5</li>
-</ul>
+<h2>2. Le Pass'sports de l'eau</h2>
+<p>L'enfant découvre plusieurs disciplines aquatiques et développe des habiletés variées.</p>
 
-<h3>Le témoignage du président</h3>
-<blockquote>
-"Digital\'SOS nous a permis de professionnaliser notre gestion sans perdre notre âme associative. Les bénévoles se concentrent enfin sur l\'accompagnement des nageurs plutôt que sur la paperasse." - Marc Durand, Président AquaSport
-</blockquote>
+<h2>3. Le Pass'compétition</h2>
+<p>Dernière étape avant la compétition : le nageur montre qu'il maîtrise les règles et les bases techniques de la natation course.</p>
 
-<h3>Les clés du succès</h3>
-<p>La centralisation des données et l\'automatisation des tâches répétitives ont libéré du temps pour développer l\'offre sportive et améliorer l\'expérience adhérent.</p>',
-                'type' => 'article',
-                'category_id' => $categoryTemoignages->id,
-                'category_name' => $categoryTemoignages->name,
+<p>Les entraîneurs font passer les tests au fil de la saison et informent les familles des résultats.</p>
+HTML,
                 'is_featured' => true,
-                'image' => 'posts/aquasport-success.jpg',
-                'meta_title' => 'Success Story : AquaSport triple ses adhésions avec Digital\'SOS',
-                'meta_keywords' => 'témoignage, aquasport, success story, adhésions',
-                'meta_description' => 'Découvrez comment le club AquaSport a triplé ses adhésions en 18 mois grâce à Digital\'SOS.',
-                'hits' => 189,
-                'order' => 3,
-                'status' => 'published',
-                'visibility' => 'public',
-                'created_by' => $editor?->id,
-                'created_by_name' => $editor?->name,
-                'updated_by' => $editor?->id,
-                'published_at' => now()->subDays(15),
+                'days' => 14,
+            ],
+            [
+                'category' => 'vie-du-club',
+                'name' => 'De 1954 à aujourd\'hui : l\'histoire du club',
+                'slug' => 'histoire-du-club-1954-aujourd-hui',
+                'intro' => 'Fondé le 22 mars 1954, le club de natation de Bressuire a traversé sept décennies. Retour sur les grandes dates.',
+                'content' => <<<'HTML'
+<ul>
+<li><strong>22 mars 1954</strong> : fondation du Club Nautique Bressuirais, déclaré au Journal officiel du 12 mai 1954.</li>
+<li><strong>1963</strong> : création d'une école de sauvetage.</li>
+<li><strong>1964</strong> : le club est reconnu d'utilité publique.</li>
+<li><strong>1987</strong> : le club devient le Cercle des Nageurs du Bocage Bressuirais (CNBB).</li>
+<li><strong>1989-1990</strong> : lancement de l'aquagym et des « 12 heures de natation ».</li>
+<li><strong>1994</strong> : 504 adhérents ; <strong>1998</strong> : 580 adhérents.</li>
+<li><strong>2001-2011</strong> : une section de natation synchronisée, animée par Emmanuelle Babin.</li>
+<li><strong>2004</strong> : le club fête ses 50 ans.</li>
+<li><strong>2009</strong> : ouverture du centre aquatique Cœur d'O.</li>
+<li><strong>12 juillet 2013</strong> : 1<sup>er</sup> Aquathlon du Bocage.</li>
+<li><strong>2015-2016</strong> : plus de 200 licenciés, 9 nageurs au niveau régional, sections sport adapté et triathlon.</li>
+<li><strong>Depuis 2018</strong> : Sébastien Chevalier préside le club.</li>
+</ul>
+<p>Vous avez des photos ou des souvenirs du club ? Contactez-nous pour enrichir cette histoire.</p>
+HTML,
+                'is_featured' => false,
+                'days' => 45,
+            ],
+            [
+                'category' => 'evenements',
+                'name' => 'L\'Aquathlon du Bocage, né au club en 2013',
+                'slug' => 'aquathlon-du-bocage-2013',
+                'intro' => 'Le 12 juillet 2013, le CNBB organisait le premier Aquathlon du Bocage : une épreuve qui enchaîne natation et course à pied.',
+                'content' => <<<'HTML'
+<p>Le <strong>12 juillet 2013</strong>, le club a organisé le <strong>premier Aquathlon du Bocage</strong>. Le principe : enchaîner une épreuve de natation et une course à pied.</p>
+<p>Cet événement illustre l'ouverture du club vers les disciplines enchaînées, qui a conduit à la création d'une section triathlon.</p>
+<p><em>Photos, résultats ou souvenirs de cette édition : envoyez-les au club pour compléter cet article.</em></p>
+HTML,
+                'is_featured' => false,
+                'days' => 40,
+            ],
+            [
+                'category' => 'presse',
+                'name' => 'Journal officiel du 12 mai 1954 : la déclaration du club',
+                'slug' => 'journal-officiel-12-mai-1954-declaration-du-club',
+                'intro' => 'Le Journal officiel de la République française n° 843 du 12 mai 1954 publie la déclaration de l\'association fondée à Bressuire le 22 mars 1954.',
+                'content' => <<<'HTML'
+<p>La toute première trace écrite du club se trouve au <strong>Journal officiel de la République française du 12 mai 1954 (n° 843)</strong>, qui publie la déclaration de l'association fondée à Bressuire le <strong>22 mars 1954</strong> sous le nom de Club Nautique Bressuirais.</p>
+<p>Le club prendra en 1987 son nom actuel : Cercle des Nageurs du Bocage Bressuirais.</p>
+<p><em>La revue de presse s'enrichira des articles de la presse locale consacrés au club. Vous en conservez ? Transmettez-les au club.</em></p>
+HTML,
+                'is_featured' => false,
+                'days' => 50,
             ],
         ];
 
-        foreach ($posts as $data) {
-            $post = Post::create($data);
-            $this->command->info("✅ Post créé : {$post->name}");
+        foreach ($posts as $i => $p) {
+            $category = $cat($p['category']);
+
+            Post::create([
+                'name' => $p['name'],
+                'slug' => $p['slug'],
+                'intro' => $p['intro'],
+                'content' => trim($p['content']),
+                'type' => 'article',
+                'category_id' => $category->id,
+                'category_name' => $category->name,
+                'is_featured' => $p['is_featured'],
+                'image' => null,
+                'meta_title' => mb_strimwidth($p['name'], 0, 55, '…') . ' - CNBB',
+                'meta_keywords' => 'CNBB, natation, Bressuire, ' . implode(', ', self::tagMap()[$p['slug']] ?? []),
+                'meta_description' => mb_strimwidth($p['intro'], 0, 160, '…'),
+                'hits' => 0,
+                'order' => $i + 1,
+                'status' => 'published',
+                'visibility' => 'public',
+                'created_by' => $author?->id,
+                'created_by_name' => $author?->name,
+                'updated_by' => $author?->id,
+                'published_at' => now()->subDays($p['days']),
+            ]);
+            $this->command->info("✅ Article : {$p['name']}");
         }
 
-        $this->command->info('🎉 PostsTableSeeder terminé : 3 posts créés');
+        $this->command->info('🎉 PostsTableSeeder : ' . count($posts) . ' articles créés');
+    }
+
+    /**
+     * Associations article → tags, lues par TaggablesTableSeeder (une seule source de vérité).
+     */
+    public static function tagMap(): array
+    {
+        return [
+            'inscriptions-saison-2026-2027' => ['inscriptions', 'coeur-d-o'],
+            'parents-devenez-officiels-comite-directeur' => ['benevolat', 'natation-course'],
+            'tests-ecole-de-natation-francaise' => ['ecole-de-natation'],
+            'histoire-du-club-1954-aujourd-hui' => ['histoire-du-club', 'coeur-d-o'],
+            'aquathlon-du-bocage-2013' => ['aquathlon', 'histoire-du-club'],
+            'journal-officiel-12-mai-1954-declaration-du-club' => ['histoire-du-club'],
+        ];
     }
 }

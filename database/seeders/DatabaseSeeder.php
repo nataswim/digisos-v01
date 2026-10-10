@@ -2,47 +2,32 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 /**
- * 🇬🇧 Database Seeder - Main orchestrator for all Mon Club de Natation seeders
- * 🇫🇷 Seeder principal - Orchestrateur de tous les seeders Mon Club de Natation
- * 
- * @file database/seeders/DatabaseSeeder.php
+ * Site du Cercle des Nageurs du Bocage Bressuirais (CNBB).
+ * Usage : php artisan migrate:fresh --seed
  */
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
         $this->command->info('');
-        $this->command->info('╔════════════════════════════════════════════════════════════╗');
-        $this->command->info('║         DIGITAL\'SOS - DATABASE SEEDING                     ║');
-        $this->command->info('║         Système de gestion sportive M2PC                   ║');
-        $this->command->info('╚════════════════════════════════════════════════════════════╝');
+        $this->command->info('🏊 CNBB — Cercle des Nageurs du Bocage Bressuirais : initialisation de la base');
         $this->command->info('');
 
-        // ========== PHASE 1 : FONDATIONS ==========
-        $this->command->info('🔷 PHASE 1 : FONDATIONS (Rôles, Permissions, Utilisateurs)');
-        $this->command->info('');
-        
+        $this->command->info('— Phase 1 : rôles, permissions, comptes');
         $this->call([
             RolesTableSeeder::class,
             PermissionsTableSeeder::class,
             RolePermissionTableSeeder::class,
             UsersTableSeeder::class,
+            UserProfilesSeeder::class,
         ]);
 
-        $this->command->info('');
-        $this->command->info('✅ Phase 1 terminée !');
-        $this->command->info('');
-
-        // ========== PHASE 2 : TAXONOMIE ==========
-        $this->command->info('🔷 PHASE 2 : TAXONOMIE (Catégories & Sous-catégories)');
-        $this->command->info('');
-        
+        $this->command->info('— Phase 2 : catégories');
         $this->call([
             CategoriesTableSeeder::class,
             TagsTableSeeder::class,
@@ -53,14 +38,7 @@ class DatabaseSeeder extends Seeder
             DownloadCategoriesSeeder::class,
         ]);
 
-        $this->command->info('');
-        $this->command->info('✅ Phase 2 terminée !');
-        $this->command->info('');
-
-        // ========== PHASE 3 : CONTENU ==========
-        $this->command->info('🔷 PHASE 3 : CONTENU (Posts, Fiches, Pages, Vidéos, Downloads)');
-        $this->command->info('');
-        
+        $this->command->info('— Phase 3 : contenus');
         $this->call([
             PostsTableSeeder::class,
             TaggablesTableSeeder::class,
@@ -70,43 +48,50 @@ class DatabaseSeeder extends Seeder
             DownloadablesSeeder::class,
         ]);
 
-        $this->command->info('');
-        $this->command->info('✅ Phase 3 terminée !');
-        $this->command->info('');
+        $this->summary();
+    }
 
-        // ========== RÉSUMÉ FINAL ==========
-        $this->command->info('╔════════════════════════════════════════════════════════════╗');
-        $this->command->info('║                  SEEDING TERMINÉ AVEC SUCCÈS               ║');
-        $this->command->info('╚════════════════════════════════════════════════════════════╝');
+    /** Récapitulatif calculé à partir de la base (aucun chiffre écrit en dur). */
+    private function summary(): void
+    {
+        $tables = [
+            'roles' => 'Rôles',
+            'permissions' => 'Permissions',
+            'users' => 'Comptes',
+            'user_profiles' => 'Fiches personnelles',
+            'profile_items' => 'Éléments de fiche',
+            'categories' => 'Catégories d\'articles',
+            'tags' => 'Tags',
+            'posts' => 'Articles',
+            'fiches_categories' => 'Catégories de fiches',
+            'fiches_sous_categories' => 'Sous-catégories de fiches',
+            'fiches' => 'Fiches',
+            'pages_categories' => 'Catégories de pages',
+            'pages' => 'Pages',
+            'video_categories' => 'Catégories vidéo',
+            'videos' => 'Vidéos',
+            'download_categories' => 'Catégories de ressources',
+            'downloadables' => 'Documents',
+        ];
+
+        $rows = [];
+        foreach ($tables as $table => $label) {
+            try {
+                $rows[] = [$label, DB::table($table)->count()];
+            } catch (\Throwable) {
+                $rows[] = [$label, '— (table ' . $table . ' introuvable)'];
+            }
+        }
+
         $this->command->info('');
-        $this->command->table(
-            ['Module', 'Éléments créés'],
-            [
-                ['👥 Rôles', '4 (admin, editor, user, visitor)'],
-                ['🔐 Permissions', '30 (CRUD par module)'],
-                ['👤 Utilisateurs', '8 (2 par rôle)'],
-                ['📁 Catégories Posts', '3'],
-                ['🏷️  Tags', '3'],
-                ['📂 Catégories Fiches', '3'],
-                ['📂 Sous-catégories Fiches', '3'],
-                ['📂 Catégories Pages', '3'],
-                ['📂 Catégories Vidéos', '3'],
-                ['📂 Catégories Downloads', '3'],
-                ['📰 Posts', '3'],
-                ['📚 Fiches', '3'],
-                ['📄 Pages', '3'],
-                ['🎬 Vidéos', '3'],
-                ['📥 Téléchargements', '3'],
-            ]
-        );
-        $this->command->info('');
-        $this->command->info('🎉 Base de données peuplée avec succès pour Digital\'SOS !');
-        $this->command->info('🔑 Mot de passe par défaut : password');
-        $this->command->info('📧 Comptes de test disponibles :');
-        $this->command->info('   → hassan@digitalsos.fr (Admin)');
-        $this->command->info('   → jean.dupont@digitalsos.fr (Editor)');
-        $this->command->info('   → pierre.dubois@example.com (User)');
-        $this->command->info('   → lucas.petit@example.com (Visitor)');
-        $this->command->info('');
+        $this->command->table(['Contenu', 'Nombre'], $rows);
+
+        $accounts = User::with('role')->orderBy('id')->get()
+            ->map(fn ($u) => [$u->role?->name ?? '—', $u->email])->all();
+
+        if ($accounts) {
+            $this->command->table(['Rôle', 'Compte'], $accounts);
+            $this->command->warn('⚠️  Comptes de test : changer les mots de passe avant toute mise en ligne.');
+        }
     }
 }

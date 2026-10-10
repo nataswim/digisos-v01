@@ -2,11 +2,14 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\DownloadCategory;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Catégories de la rubrique « Ressources » (documents à télécharger).
+ */
 class DownloadCategoriesSeeder extends Seeder
 {
     public function run(): void
@@ -15,49 +18,42 @@ class DownloadCategoriesSeeder extends Seeder
         DownloadCategory::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        $admin = User::whereHas('role', fn($q) => $q->where('slug', 'admin'))->first();
+        $admin = User::whereHas('role', fn ($q) => $q->where('slug', 'admin'))->first();
 
         $categories = [
             [
-                'name' => 'E-books & Guides',
-                'slug' => 'ebooks-guides',
-                'short_description' => 'Livres numériques et guides complets',
-                'description' => 'E-books, manuels et guides complets sur la gestion sportive, l\'entraînement et l\'organisation de structures.',
-                'icon' => 'fa-book',
-                'order' => 1,
-                'status' => 'active',
-                'created_by' => $admin?->id,
-                'updated_by' => $admin?->id,
+                'name' => 'Documents d\'inscription',
+                'slug' => 'documents-inscription',
+                'short_description' => 'Fiche d\'inscription, fiche sanitaire et attestation de santé.',
+                'description' => 'Les formulaires à imprimer, compléter et joindre au dossier d\'inscription déposé dans la boîte aux lettres du club.',
+                'icon' => 'fas fa-file-signature',
             ],
             [
-                'name' => 'Formulaires & Modèles',
-                'slug' => 'formulaires-modeles',
-                'short_description' => 'Documents types prêts à l\'emploi',
-                'description' => 'Formulaires administratifs, modèles de contrats, documents types pour simplifier la gestion quotidienne.',
-                'icon' => 'fa-file-alt',
-                'order' => 2,
-                'status' => 'active',
-                'created_by' => $admin?->id,
-                'updated_by' => $admin?->id,
+                'name' => 'Vie du club',
+                'slug' => 'vie-du-club',
+                'description' => 'Statuts, règlement intérieur, comptes rendus d\'assemblée générale et documents de l\'association.',
+                'short_description' => 'Statuts, règlement intérieur et comptes rendus.',
+                'icon' => 'fas fa-users',
             ],
             [
-                'name' => 'Plans d\'Entraînement',
-                'slug' => 'plans-entrainement',
-                'short_description' => 'Programmes structurés pour tous niveaux',
-                'description' => 'Plans d\'entraînement détaillés, programmes de préparation et cycles de développement pour différentes disciplines.',
-                'icon' => 'fa-calendar-alt',
-                'order' => 3,
-                'status' => 'active',
-                'created_by' => $admin?->id,
-                'updated_by' => $admin?->id,
+                'name' => 'Compétitions',
+                'slug' => 'competitions',
+                'short_description' => 'Calendriers et documents liés aux compétitions.',
+                'description' => 'Calendriers de la saison, convocations et documents pour les nageurs compétiteurs et les officiels.',
+                'icon' => 'fas fa-stopwatch',
             ],
         ];
 
-        foreach ($categories as $data) {
-            $category = DownloadCategory::create($data);
-            $this->command->info("✅ Catégorie download : {$category->name}");
+        foreach ($categories as $i => $data) {
+            DownloadCategory::create($data + [
+                'order' => $i + 1,
+                'status' => 'active',
+                'created_by' => $admin?->id,
+                'updated_by' => $admin?->id,
+            ]);
+            $this->command->info("✅ Catégorie de ressources : {$data['name']}");
         }
 
-        $this->command->info('🎉 DownloadCategoriesSeeder terminé : 3 catégories créées');
+        $this->command->info('🎉 DownloadCategoriesSeeder : ' . count($categories) . ' catégories créées');
     }
 }
