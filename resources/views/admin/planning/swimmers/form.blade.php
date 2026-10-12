@@ -35,9 +35,24 @@
                                class="form-control @error('birth_year') is-invalid @enderror"
                                value="{{ old('birth_year', $swimmer->birth_year) }}">
                     </div>
+                    <div class="col-md-4">
+                        <label for="gender" class="form-label fw-semibold">Sexe <span class="text-muted fw-normal">(engagements)</span></label>
+                        <select id="gender" name="gender" class="form-select @error('gender') is-invalid @enderror">
+                            <option value="">—</option>
+                            @foreach (\App\Models\PlanningSwimmer::GENDERS as $cle => $libelle)
+                                <option value="{{ $cle }}" @selected(old('gender', $swimmer->gender) === $cle)>{{ $libelle }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="license_number" class="form-label fw-semibold">N° de licence FFN</label>
+                        <input type="text" id="license_number" name="license_number" maxlength="20" autocomplete="off"
+                               class="form-control @error('license_number') is-invalid @enderror"
+                               value="{{ old('license_number', $swimmer->license_number) }}">
+                    </div>
 
-                    <div class="col-md-8">
-                        <label for="user_id" class="form-label fw-semibold">Compte du site <span class="text-muted fw-normal">(facultatif)</span></label>
+                    <div class="col-12">
+                        <label for="user_id" class="form-label fw-semibold">Compte du site <span class="text-muted fw-normal">(facultatif : la famille pourra répondre aux convocations)</span></label>
                         <select id="user_id" name="user_id" class="form-select @error('user_id') is-invalid @enderror">
                             <option value="">— Aucun compte lié —</option>
                             @foreach ($users as $user)

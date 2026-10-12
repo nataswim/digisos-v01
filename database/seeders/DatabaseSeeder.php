@@ -47,6 +47,7 @@ class DatabaseSeeder extends Seeder
             PagesOrganisationSeeder::class,
             GroupesPagesSeeder::class,
             PlanningSeeder::class,
+            SwimEventsSeeder::class,
             VideosSeeder::class,
             DownloadablesSeeder::class,
         ]);
@@ -74,6 +75,8 @@ class DatabaseSeeder extends Seeder
             'planning_groups' => 'Groupes du planning',
             'planning_slots' => 'Créneaux du planning',
             'planning_swimmers' => 'Nageurs du planning',
+            'competitions' => 'Compétitions',
+            'swim_events' => 'Épreuves (référentiel)',
             'video_categories' => 'Catégories vidéo',
             'videos' => 'Vidéos',
             'download_categories' => 'Catégories de ressources',

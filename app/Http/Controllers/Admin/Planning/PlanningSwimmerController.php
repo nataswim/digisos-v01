@@ -95,10 +95,14 @@ class PlanningSwimmerController extends PlanningController
             'first_name' => ['required', 'string', 'max:100'],
             'last_name' => ['required', 'string', 'max:100'],
             'birth_year' => ['nullable', 'integer', 'min:1920', 'max:' . now()->year],
+            'gender' => ['nullable', \Illuminate\Validation\Rule::in(array_keys(PlanningSwimmer::GENDERS))],
+            'license_number' => ['nullable', 'string', 'max:20', 'regex:/^[0-9A-Za-z -]*$/'],
             'user_id' => ['nullable', 'integer', 'exists:users,id'],
             'notes' => ['nullable', 'string', 'max:2000'],
             'groups' => ['nullable', 'array'],
             'groups.*' => ['integer', 'exists:planning_groups,id'],
+        ], [
+            'license_number.regex' => 'Le numéro de licence ne doit contenir que des chiffres et des lettres.',
         ]);
 
         unset($data['groups']);

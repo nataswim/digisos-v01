@@ -221,13 +221,34 @@
                     </ul>
                 </li>
 
-                <!-- PLANNING (module Planning) -->
+                <!-- SPORTIF : planning des entraînements et compétitions -->
                 <li class="nav-item dropdown admin-menu">
-                    @php $planningActive = request()->routeIs('admin.planning.*'); @endphp
-                    <a class="nav-link dropdown-toggle {{ $planningActive ? 'active fw-bold text-white' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-calendar-week me-1"></i>Planning
+                    @php $sportifActive = request()->routeIs('admin.planning.*', 'admin.competitions.*', 'admin.ffn-licenses.*'); @endphp
+                    <a class="nav-link dropdown-toggle {{ $sportifActive ? 'active fw-bold text-white' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-person-swimming me-1"></i>Sportif
                     </a>
                     <ul class="dropdown-menu">
+                        <!-- Compétitions -->
+                        <li><h6 class="dropdown-header"><i class="fas fa-trophy me-2"></i>Compétitions</h6></li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('admin.competitions.index', 'admin.competitions.edit') ? 'active' : '' }}" href="{{ route('admin.competitions.index') }}">
+                                <i class="fas fa-list fa-fw me-2"></i>Calendrier
+                                @php $competitionsCount = App\Models\Competition::whereDate('ends_on', '>=', today())->count(); @endphp
+                                @if($competitionsCount > 0)
+                                    <span class="badge bg-primary ms-2" title="À venir">{{ $competitionsCount }}</span>
+                                @endif
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('admin.competitions.create') ? 'active' : '' }}" href="{{ route('admin.competitions.create') }}">
+                                <i class="fas fa-plus fa-fw me-2"></i>Nouvelle compétition
+                            </a>
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <!-- Planning -->
+                        <li><h6 class="dropdown-header"><i class="fas fa-calendar-week me-2"></i>Planning des entraînements</h6></li>
                         <li>
                             <a class="dropdown-item {{ request()->routeIs('admin.planning.slots.*') ? 'active' : '' }}" href="{{ route('admin.planning.slots.index') }}">
                                 <i class="fas fa-calendar-alt fa-fw me-2"></i>Créneaux
@@ -255,10 +276,31 @@
                                 @endif
                             </a>
                         </li>
+
                         <li><hr class="dropdown-divider"></li>
+
+                        <!-- Licences FFN (admin uniquement) -->
+                        <li><h6 class="dropdown-header"><i class="fas fa-id-card me-2"></i>Licences FFN</h6></li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('admin.ffn-licenses.index', 'admin.ffn-licenses.show') ? 'active' : '' }}" href="{{ route('admin.ffn-licenses.index') }}">
+                                <i class="fas fa-id-card fa-fw me-2"></i>Licenciés
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('admin.ffn-licenses.import.*') ? 'active' : '' }}" href="{{ route('admin.ffn-licenses.import.create') }}">
+                                <i class="fas fa-file-import fa-fw me-2"></i>Importer depuis extraNat
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+
+                        <li>
+                            <a class="dropdown-item" href="{{ route('competitions.index') }}" target="_blank" rel="noopener">
+                                <i class="fas fa-external-link-alt fa-fw me-2"></i>Calendrier public
+                            </a>
+                        </li>
                         <li>
                             <a class="dropdown-item" href="{{ route('schedule') }}" target="_blank" rel="noopener">
-                                <i class="fas fa-external-link-alt fa-fw me-2"></i>Voir le planning public
+                                <i class="fas fa-external-link-alt fa-fw me-2"></i>Planning public
                             </a>
                         </li>
                     </ul>

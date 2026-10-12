@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Nageur du module Planning (saisi par l'administration, compte du site facultatif).
@@ -12,8 +13,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class PlanningSwimmer extends Model
 {
+    public const GENDERS = [
+        'F' => 'Fille / femme',
+        'M' => 'Garçon / homme',
+    ];
+
     protected $fillable = [
-        'first_name', 'last_name', 'birth_year', 'user_id', 'notes', 'is_active',
+        'first_name', 'last_name', 'birth_year', 'gender', 'license_number', 'user_id', 'notes', 'is_active',
     ];
 
     protected $casts = [
@@ -31,6 +37,18 @@ class PlanningSwimmer extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /** Convocations aux compétitions (module Compétitions, V2). */
+    public function attendances(): HasMany
+    {
+        return $this->hasMany(CompetitionAttendance::class);
+    }
+
+    /** Licences FFN importées (une par saison), la plus récente en premier. */
+    public function ffnLicenses(): HasMany
+    {
+        return $this->hasMany(FfnLicense::class)->orderByDesc('season');
     }
 
     public function scopeActive($query)

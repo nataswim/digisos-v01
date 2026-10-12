@@ -9,7 +9,14 @@
 --}}
 @php
     $menu = [
-        ['label' => 'Vie du club',     'route' => 'posts.public.index',  'active' => ['posts.public.*']],
+        [
+            'label'    => 'Vie du club',
+            'id'       => 'vieDuClubDropdown',
+            'children' => [
+                ['label' => 'Actualités',   'icon' => 'fa-newspaper', 'route' => 'posts.public.index', 'active' => ['posts.public.*']],
+                ['label' => 'Compétitions', 'icon' => 'fa-trophy',    'route' => 'competitions.index', 'active' => ['competitions.*']],
+            ],
+        ],
         ['label' => 'Infos pratiques', 'route' => 'public.fiches.index', 'active' => ['public.fiches.*']],
 
         [
@@ -29,7 +36,7 @@
             'id'       => 'clubDropdown',
             'children' => [
                 ['label' => 'Présentation et historique', 'icon' => 'fa-water',         'route' => 'about',                      'active' => ['about']],
-                   ['label' => 'Groupes et horaires', 'icon' => 'fa-calendar-alt', 'route' => 'schedule', 'active' => ['schedule']],
+                ['label' => 'Groupes et horaires',        'icon' => 'fa-calendar-alt',  'route' => 'schedule',                   'active' => ['schedule']],
                 ['label' => 'Informations du club',       'icon' => 'fa-file-alt',      'route' => 'public.pages.index',         'active' => ['public.pages.*']],
                 ['label' => 'Installations',              'icon' => 'fa-swimming-pool', 'route' => 'public.installations.index', 'active' => ['public.installations.*']],
                 ['label' => 'Contact',                    'icon' => 'fa-envelope',      'route' => 'contact',                    'active' => ['contact']],
@@ -42,7 +49,7 @@
     <div class="container-lg">
         <!-- Logo -->
         <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
-            <img src="{{ asset('assets/images/logo/logo_cnbb_natation.png') }}"
+            <img src="{{ asset('assets/images/logo/Logo-CNBB-Natation-9.png') }}"
                  alt="CNBB — accueil du site"
                  class="img-fluid" style=" background: #f0f1f0; padding: 5px; border-radius: 20px; ">
         </a>
@@ -130,6 +137,13 @@
                                     <i class="fas fa-tachometer-alt text-dark me-2" aria-hidden="true"></i>Mon tableau de bord
                                 </a>
                             </li>
+                            @if (! auth()->user()->hasRole('visitor'))
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('user.competitions.index') }}">
+                                        <i class="fas fa-trophy text-warning me-2" aria-hidden="true"></i>Mes compétitions
+                                    </a>
+                                </li>
+                            @endif
                             <li>
                                 <a class="dropdown-item" href="{{ route('profile.edit') }}">
                                     <i class="fas fa-user text-info me-2" aria-hidden="true"></i>Mon profil

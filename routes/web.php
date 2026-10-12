@@ -10,6 +10,8 @@ use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\PublicGalleryController;
 use App\Http\Controllers\PublicInstallationController;
 use App\Http\Controllers\PublicPlanningController;
+use App\Http\Controllers\PublicCompetitionController;
+use App\Http\Controllers\MemberCompetitionController;
 use App\Http\Controllers\EbookController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PostController;
@@ -101,6 +103,13 @@ Route::get('/revue-de-presse',           [PublicController::class, 'press'])->na
 // ========== PLANNING (module Planning, géré dans l'administration) ==========
 Route::get('/groupes-et-horaires', PublicPlanningController::class)->name('schedule');
 
+// ========== COMPÉTITIONS (module Compétitions) ==========
+Route::get('/competitions',                                        [PublicCompetitionController::class, 'index'])->name('competitions.index');
+Route::get('/competitions.ics',                                    [PublicCompetitionController::class, 'calendar'])->name('competitions.calendar');
+Route::get('/competitions/{competition}',                          [PublicCompetitionController::class, 'show'])->name('competitions.show');
+Route::get('/competitions/{competition}/agenda.ics',               [PublicCompetitionController::class, 'calendarOne'])->name('competitions.calendar.one');
+Route::get('/competitions/{competition}/documents/{document}',     [PublicCompetitionController::class, 'document'])->name('competitions.document');
+
 // ========== POSTS PUBLICS ==========
 Route::get('/posts',                     [PostController::class, 'indexPublic'])->name('posts.public.index');
 Route::get('/posts/tag/{tag}',           [PostController::class, 'byTag'])->name('posts.public.tag');
@@ -177,6 +186,11 @@ Route::middleware(['auth', 'verified'])->prefix('user')->name('user.')->group(fu
 
     // Fiche de profil enrichi (lecture seule)
     Route::get('/ma-fiche', [UserUserProfileController::class, 'show'])->name('user-profile.show');
+
+    // Mes compétitions : convocations des nageurs rattachés au compte (module Compétitions, V2)
+    Route::get('/mes-competitions', [MemberCompetitionController::class, 'index'])->name('competitions.index');
+    Route::put('/mes-competitions/{attendance}', [MemberCompetitionController::class, 'respond'])
+        ->whereNumber('attendance')->middleware('throttle:30,1')->name('competitions.respond');
 
     // Profil utilisateur (édition des infos de base)
     Route::get('/profile/edit', [ProfileController::class, 'editUser'])->name('profile.edit');
@@ -336,6 +350,12 @@ Route::middleware(['auth', 'verified', 'can:access-admin'])->prefix('admin')->na
 
     // ========== PLANNING (routes admin.planning.*) ==========
     require __DIR__.'/planning.php';
+
+    // ========== COMPÉTITIONS (routes admin.competitions.*) ==========
+    require __DIR__.'/competitions.php';
+
+    // ========== LICENCES FFN — import extraNat (admin uniquement, routes admin.ffn-licenses.*) ==========
+    require __DIR__.'/ffn-licenses.php';
 });
 
 // =============================================================================
@@ -396,4 +416,7 @@ Route::middleware(['auth', 'verified', 'can:access-editor'])->prefix('editor')->
 
     // ========== PLANNING (routes editor.planning.*) ==========
     require __DIR__.'/planning.php';
+
+    // ========== COMPÉTITIONS (routes editor.competitions.*) ==========
+    require __DIR__.'/competitions.php';
 });

@@ -22,7 +22,7 @@ class RolePermissionTableSeeder extends Seeder
         'media', 'media-categories',
         'downloadables', 'download-categories',
         'photo-galleries', 'banners',
-        'planning',
+        'planning', 'competitions',
     ];
 
     public function run(): void

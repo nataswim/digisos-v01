@@ -22,6 +22,7 @@ class PermissionsTableSeeder extends Seeder
         'bulk' => ['Actions groupées', 'Effectuer des actions groupées sur'],
         'duplicate' => ['Dupliquer', 'Dupliquer'],
         'upload' => ['Téléverser dans', 'Téléverser des fichiers dans'],
+        'import' => ['Importer', 'Importer'],
     ];
 
     /**
@@ -49,6 +50,9 @@ class PermissionsTableSeeder extends Seeder
         'banners' => ['les bannières', ['view', 'create', 'edit', 'delete']],
         'photo-galleries' => ['les galeries photo', ['view', 'create', 'edit', 'delete', 'duplicate', 'bulk']],
         'planning' => ['le planning des entraînements', ['view', 'create', 'edit', 'delete']],
+        'competitions' => ['les compétitions', ['view', 'create', 'edit', 'delete', 'duplicate']],
+        // Données personnelles : réservé aux administrateurs (absent de RolePermissionTableSeeder::EDITOR_GROUPS)
+        'ffn-licenses' => ['les licences FFN', ['view', 'import', 'delete']],
         // Nouveaux modules (routes existantes sans permission jusqu'ici)
         'services' => ['les services', ['view', 'create', 'edit', 'delete']],
         'structures' => ['les structures', ['view', 'create', 'edit', 'delete']],
@@ -70,6 +74,7 @@ class PermissionsTableSeeder extends Seeder
         ['sitemap.generate', 'sitemap', 'Générer le fichier sitemap.xml'],
         ['sitemap.manage', 'sitemap', 'Découvrir, approuver et nettoyer les URL du sitemap'],
         ['stats.view', 'stats', 'Consulter les statistiques du site'],
+        ['competitions.entries', 'competitions', 'Gérer les convocations et engagements aux compétitions'],
     ];
 
     public function run(): void

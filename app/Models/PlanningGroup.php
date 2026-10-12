@@ -52,6 +52,12 @@ class PlanningGroup extends Model
         return $this->hasMany(PlanningSlot::class);
     }
 
+    /** Compétitions qui concernent ce groupe (module Compétitions). */
+    public function competitions(): BelongsToMany
+    {
+        return $this->belongsToMany(Competition::class, 'competition_planning_group');
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
