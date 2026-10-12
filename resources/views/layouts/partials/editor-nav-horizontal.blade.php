@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-lg" style="border-bottom: 10px solid #4aabca;border-top: 10px solid #4aabca;background-image: linear-gradient(161deg, rgb(255 255 255) 85%, rgb(74 171 202) 70px);background-attachment: scroll;background-position: bottom;">
     <div class="container-lg">
-        <button class="navbar-toggler border-0" 
-                type="button" 
-                data-bs-toggle="collapse" 
-                data-bs-target="#mainNavbar" 
-                aria-controls="mainNavbar" 
-                aria-expanded="false" 
-                aria-label="Toggle navigation">
+        <button class="navbar-toggler border-0"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar"
+                aria-expanded="false"
+                aria-label="Ouvrir le menu">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -15,7 +15,7 @@
 
                 {{-- Dashboard --}}
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('editor.dashboard') ? 'active fw-bold text-primary' : '' }}" 
+                    <a class="nav-link {{ request()->routeIs('editor.dashboard') ? 'active fw-bold text-primary' : '' }}"
                        href="{{ route('editor.dashboard') }}">
                         <i class="fas fa-home me-1"></i>Dashboard
                     </a>
@@ -23,17 +23,17 @@
 
                 {{-- Contenus (Articles, Fiches, Pages) --}}
                 <li class="nav-item dropdown admin-menu">
-                    @php 
+                    @php
                         $contenusActive = request()->routeIs(
-                            'editor.posts.*', 
+                            'editor.posts.*',
                             'editor.fiches.*',
                             'editor.pages.*'
-                        ); 
+                        );
                     @endphp
-                    <a class="nav-link dropdown-toggle {{ $contenusActive ? 'active fw-bold text-primary' : '' }}" 
-                       href="#" 
-                       role="button" 
-                       data-bs-toggle="dropdown" 
+                    <a class="nav-link dropdown-toggle {{ $contenusActive ? 'active fw-bold text-white' : '' }}"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown"
                        aria-expanded="false">
                         <i class="fas fa-file-alt me-1"></i>Contenus
                     </a>
@@ -41,7 +41,7 @@
                         {{-- Articles --}}
                         <li><h6 class="dropdown-header"><i class="fas fa-newspaper me-2"></i>Articles</h6></li>
                         <li>
-                            <a class="dropdown-item {{ request()->routeIs('editor.posts.*') ? 'active' : '' }}" 
+                            <a class="dropdown-item {{ request()->routeIs('editor.posts.*') ? 'active' : '' }}"
                                href="{{ route('editor.posts.index') }}">
                                 <i class="fas fa-list fa-fw me-2"></i>Liste des articles
                                 @php $postsCount = App\Models\Post::count(); @endphp
@@ -55,13 +55,13 @@
                                 <i class="fas fa-plus fa-fw me-2"></i>Nouvel article
                             </a>
                         </li>
-                        
+
                         <li><hr class="dropdown-divider"></li>
-                        
+
                         {{-- Fiches --}}
                         <li><h6 class="dropdown-header"><i class="fas fa-file-invoice me-2"></i>Fiches</h6></li>
                         <li>
-                            <a class="dropdown-item {{ request()->routeIs('editor.fiches.*') ? 'active' : '' }}" 
+                            <a class="dropdown-item {{ request()->routeIs('editor.fiches.*') ? 'active' : '' }}"
                                href="{{ route('editor.fiches.index') }}">
                                 <i class="fas fa-list fa-fw me-2"></i>Liste des fiches
                                 @php $fichesCount = App\Models\Fiche::count(); @endphp
@@ -75,13 +75,13 @@
                                 <i class="fas fa-plus fa-fw me-2"></i>Nouvelle fiche
                             </a>
                         </li>
-                        
+
                         <li><hr class="dropdown-divider"></li>
-                        
+
                         {{-- Pages --}}
                         <li><h6 class="dropdown-header"><i class="fas fa-copy me-2"></i>Pages</h6></li>
                         <li>
-                            <a class="dropdown-item {{ request()->routeIs('editor.pages.*') ? 'active' : '' }}" 
+                            <a class="dropdown-item {{ request()->routeIs('editor.pages.*') ? 'active' : '' }}"
                                href="{{ route('editor.pages.index') }}">
                                 <i class="fas fa-list fa-fw me-2"></i>Liste des pages
                                 @php $pagesCount = App\Models\Page::count(); @endphp
@@ -100,17 +100,17 @@
 
                 {{-- Multimédia (Vidéos, Galeries, Médiathèque) --}}
                 <li class="nav-item dropdown admin-menu">
-                    @php 
+                    @php
                         $multimediaActive = request()->routeIs(
-                            'editor.videos.*', 
+                            'editor.videos.*',
                             'editor.photo-galleries.*',
                             'editor.media.*'
-                        ); 
+                        );
                     @endphp
-                    <a class="nav-link dropdown-toggle {{ $multimediaActive ? 'active fw-bold text-primary' : '' }}" 
-                       href="#" 
-                       role="button" 
-                       data-bs-toggle="dropdown" 
+                    <a class="nav-link dropdown-toggle {{ $multimediaActive ? 'active fw-bold text-white' : '' }}"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown"
                        aria-expanded="false">
                         <i class="fas fa-photo-video me-1"></i>Multimédia
                     </a>
@@ -118,7 +118,7 @@
                         {{-- Vidéos --}}
                         <li><h6 class="dropdown-header"><i class="fas fa-video me-2"></i>Vidéos</h6></li>
                         <li>
-                            <a class="dropdown-item {{ request()->routeIs('editor.videos.*') ? 'active' : '' }}" 
+                            <a class="dropdown-item {{ request()->routeIs('editor.videos.*') ? 'active' : '' }}"
                                href="{{ route('editor.videos.index') }}">
                                 <i class="fas fa-list fa-fw me-2"></i>Liste des vidéos
                                 @php $videosCount = App\Models\Video::count(); @endphp
@@ -132,13 +132,13 @@
                                 <i class="fas fa-plus fa-fw me-2"></i>Nouvelle vidéo
                             </a>
                         </li>
-                        
+
                         <li><hr class="dropdown-divider"></li>
-                        
+
                         {{-- Galeries Photos --}}
                         <li><h6 class="dropdown-header"><i class="fas fa-images me-2"></i>Galeries Photos</h6></li>
                         <li>
-                            <a class="dropdown-item {{ request()->routeIs('editor.photo-galleries.*') ? 'active' : '' }}" 
+                            <a class="dropdown-item {{ request()->routeIs('editor.photo-galleries.*') ? 'active' : '' }}"
                                href="{{ route('editor.photo-galleries.index') }}">
                                 <i class="fas fa-list fa-fw me-2"></i>Liste des galeries
                                 @php $galleriesCount = App\Models\PhotoGallery::count(); @endphp
@@ -152,13 +152,13 @@
                                 <i class="fas fa-plus fa-fw me-2"></i>Nouvelle galerie
                             </a>
                         </li>
-                        
+
                         <li><hr class="dropdown-divider"></li>
 
                         {{-- Médiathèque --}}
                         <li><h6 class="dropdown-header"><i class="fas fa-folder-open me-2"></i>Médiathèque</h6></li>
                         <li>
-                            <a class="dropdown-item {{ request()->routeIs('editor.media.index') ? 'active' : '' }}" 
+                            <a class="dropdown-item {{ request()->routeIs('editor.media.index') ? 'active' : '' }}"
                                href="{{ route('editor.media.index') }}">
                                 <i class="fas fa-images fa-fw me-2"></i>Tous les médias
                                 @php $mediaCount = App\Models\Media::count(); @endphp
@@ -170,9 +170,52 @@
                     </ul>
                 </li>
 
+                <!-- PLANNING (module Planning) -->
+                <li class="nav-item dropdown admin-menu">
+                    @php $planningActive = request()->routeIs('editor.planning.*'); @endphp
+                    <a class="nav-link dropdown-toggle {{ $planningActive ? 'active fw-bold text-white' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-calendar-week me-1"></i>Planning
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('editor.planning.slots.*') ? 'active' : '' }}" href="{{ route('editor.planning.slots.index') }}">
+                                <i class="fas fa-calendar-alt fa-fw me-2"></i>Créneaux
+                                @php $planningSlotsCount = App\Models\PlanningSlot::count(); @endphp
+                                @if($planningSlotsCount > 0)
+                                    <span class="badge bg-primary ms-2">{{ $planningSlotsCount }}</span>
+                                @endif
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('editor.planning.groups.*') ? 'active' : '' }}" href="{{ route('editor.planning.groups.index') }}">
+                                <i class="fas fa-layer-group fa-fw me-2"></i>Groupes
+                                @php $planningGroupsCount = App\Models\PlanningGroup::count(); @endphp
+                                @if($planningGroupsCount > 0)
+                                    <span class="badge bg-info ms-2">{{ $planningGroupsCount }}</span>
+                                @endif
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('editor.planning.swimmers.*') ? 'active' : '' }}" href="{{ route('editor.planning.swimmers.index') }}">
+                                <i class="fas fa-person-swimming fa-fw me-2"></i>Nageurs
+                                @php $planningSwimmersCount = App\Models\PlanningSwimmer::count(); @endphp
+                                @if($planningSwimmersCount > 0)
+                                    <span class="badge bg-success ms-2">{{ $planningSwimmersCount }}</span>
+                                @endif
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('schedule') }}" target="_blank" rel="noopener">
+                                <i class="fas fa-external-link-alt fa-fw me-2"></i>Voir le planning public
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 {{-- Statistiques --}}
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('editor.stats') ? 'active fw-bold text-primary' : '' }}" 
+                    <a class="nav-link {{ request()->routeIs('editor.stats') ? 'active fw-bold text-primary' : '' }}"
                        href="{{ route('editor.stats') }}">
                         <i class="fas fa-chart-bar me-1"></i>Statistiques
                     </a>
@@ -188,7 +231,7 @@
                             aria-expanded="false">
                         <div class="bg-light text-danger rounded-circle d-flex align-items-center justify-content-center me-2"
                              style="width: 28px; height: 28px; font-size: 12px;">
-                            {{ substr(auth()->user()->name, 0, 1) }}
+                            {{ mb_substr(auth()->user()->name, 0, 1) }}
                         </div>
                         <span class="d-none d-xl-inline">{{ auth()->user()->name }}</span>
                     </button>

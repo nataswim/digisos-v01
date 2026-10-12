@@ -48,6 +48,7 @@ class PermissionsTableSeeder extends Seeder
         'download-categories' => ['les catégories de documents', ['view', 'create', 'edit', 'delete']],
         'banners' => ['les bannières', ['view', 'create', 'edit', 'delete']],
         'photo-galleries' => ['les galeries photo', ['view', 'create', 'edit', 'delete', 'duplicate', 'bulk']],
+        'planning' => ['le planning des entraînements', ['view', 'create', 'edit', 'delete']],
         // Nouveaux modules (routes existantes sans permission jusqu'ici)
         'services' => ['les services', ['view', 'create', 'edit', 'delete']],
         'structures' => ['les structures', ['view', 'create', 'edit', 'delete']],

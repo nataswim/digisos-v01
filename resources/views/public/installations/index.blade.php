@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Nos Installations')
+@section('title', 'Ou nager Bressuire')
 @section('meta_description', 'Découvrez l\'ensemble de nos installations sportives : services, structures, espaces et zones.')
 
 @section('content')
@@ -15,27 +15,27 @@
             <div class="col-lg-12">
                 <div class="d-flex align-items-center mb-4 animate-slide-up">
                     <i class="fas fa-building me-3" style="font-size: 2.5rem;"></i>
-                    <h1 class="text-white display-3 fw-bold mb-0">Nos Installations</h1>
+                    <h1 class="text-white display-3 fw-bold mb-0">Ou nager</h1>
                 </div>
                 <p class="lead mb-4 animate-slide-up animation-delay-1">
-                    Explorez l'ensemble de nos équipements et découvrez chaque espace.
+                    Explorez l'ensemble des équipements aquatiques de la region.
                 </p>
                 {{-- Fil d'ariane hiérarchique --}}
                 <div class="d-flex flex-wrap gap-2 animate-slide-up animation-delay-1">
                     <span class="badge bg-white text-primary px-3 py-2">
-                        <i class="fas fa-building me-1"></i>Services
+                        <i class="fas fa-building me-1"></i>Centres aquatiques
                     </span>
                     <i class="fas fa-chevron-right text-white opacity-50 align-self-center"></i>
                     <span class="badge bg-white bg-opacity-25 text-primary px-3 py-2">
-                        <i class="fas fa-layer-group me-1"></i>Structures
+                        <i class="fas fa-layer-group me-1"></i>Piscines
                     </span>
                     <i class="fas fa-chevron-right text-white opacity-50 align-self-center"></i>
                     <span class="badge bg-white bg-opacity-25 text-primary px-3 py-2">
-                        <i class="fas fa-th-large me-1"></i>Espaces
+                        <i class="fas fa-th-large me-1"></i>Bassins
                     </span>
                     <i class="fas fa-chevron-right text-white opacity-50 align-self-center"></i>
                     <span class="badge bg-white bg-opacity-25 text-primary px-3 py-2">
-                        <i class="fas fa-map-marker-alt me-1"></i>Zones
+                        <i class="fas fa-map-marker-alt me-1"></i>Espace de nage
                     </span>
                 </div>
             </div>
@@ -47,8 +47,8 @@
 <section class="py-5 bg-white">
     <div class="container-lg">
 
-        <h2 class="mb-2 text-center">Nos Services</h2>
-        <p class="text-muted text-center mb-5">Sélectionnez une installation pour explorer ses espaces</p>
+        <h2 class="mb-2 text-center">Ou nager</h2>
+        <p class="text-muted text-center mb-5">Sélectionnez une structure</p>
 
         @if($services->count() > 0)
             <div class="row g-4">

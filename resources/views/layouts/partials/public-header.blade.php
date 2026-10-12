@@ -29,6 +29,7 @@
             'id'       => 'clubDropdown',
             'children' => [
                 ['label' => 'Présentation et historique', 'icon' => 'fa-water',         'route' => 'about',                      'active' => ['about']],
+                   ['label' => 'Groupes et horaires', 'icon' => 'fa-calendar-alt', 'route' => 'schedule', 'active' => ['schedule']],
                 ['label' => 'Informations du club',       'icon' => 'fa-file-alt',      'route' => 'public.pages.index',         'active' => ['public.pages.*']],
                 ['label' => 'Installations',              'icon' => 'fa-swimming-pool', 'route' => 'public.installations.index', 'active' => ['public.installations.*']],
                 ['label' => 'Contact',                    'icon' => 'fa-envelope',      'route' => 'contact',                    'active' => ['contact']],
@@ -41,7 +42,7 @@
     <div class="container-lg">
         <!-- Logo -->
         <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
-            <img src="{{ asset('assets/images/logo/Logo-CNBB-Natation-9.png') }}"
+            <img src="{{ asset('assets/images/logo/logo_cnbb_natation.png') }}"
                  alt="CNBB — accueil du site"
                  class="img-fluid" style=" background: #f0f1f0; padding: 5px; border-radius: 20px; ">
         </a>

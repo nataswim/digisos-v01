@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Le club — Présentation et historique')
-@section('meta_description', 'Découvrez le Cercle des Nageurs du Bocage Bressuirais : club de natation de Bressuire fondé en 1954, affilié à la FFN. Présentation, historique, présidents et coordonnées.')
+@section('meta_description', 'Découvrez le Cercle des Nageurs du Bocage Bressuirais : club de natation de Bressuire fondé en 1954, affilié à la Fédération Française de Natation, à la Fédération Française Handisport, à la Fédération Française du Sport Adapté et à la Fédération Française de Sauvetage et de Secourisme. Présentation, historique, présidents et coordonnées.')
 
 @section('content')
 
@@ -12,28 +12,24 @@
     // Les publics accueillis
     $publics = [
         [
-            'icon'    => 'fa-child',
-            'couleur' => 'info',
-            'titre'   => 'École de natation',
-            'texte'   => 'Les plus jeunes préparent les épreuves mises en place par la Fédération : Sauv\'nage, Pass\'sports de l\'eau et Pass\'compétition.',
+            'icon'  => 'fa-child',
+            'titre' => 'École de natation',
+            'texte' => 'Les plus jeunes préparent les épreuves mises en place par la Fédération : Sauv\'nage, Pass\'sports de l\'eau et Pass\'compétition.',
         ],
         [
-            'icon'    => 'fa-swimmer',
-            'couleur' => 'primary',
-            'titre'   => 'Natation course',
-            'texte'   => 'C\'est le cœur de l\'activité du club : l\'entraînement et la compétition, du niveau départemental au niveau régional.',
+            'icon'  => 'fa-swimmer',
+            'titre' => 'Natation course',
+            'texte' => 'C\'est le cœur de l\'activité du club : l\'entraînement et la compétition, du niveau départemental au niveau régional.',
         ],
         [
-            'icon'    => 'fa-user-graduate',
-            'couleur' => 'success',
-            'titre'   => 'Jeunes et étudiants',
-            'texte'   => 'Les jeunes nageurs et les étudiants s\'entraînent au club. Les jeunes sont aussi formés à l\'encadrement des plus petits.',
+            'icon'  => 'fa-user-graduate',
+            'titre' => 'Jeunes et étudiants',
+            'texte' => 'Les jeunes nageurs et les étudiants s\'entraînent au club. Les jeunes sont aussi formés à l\'encadrement des plus petits.',
         ],
         [
-            'icon'    => 'fa-users',
-            'couleur' => 'warning',
-            'titre'   => 'Adultes',
-            'texte'   => 'Le club accueille les adultes sachant nager qui souhaitent pratiquer et progresser dans un cadre associatif.',
+            'icon'  => 'fa-users',
+            'titre' => 'Adultes',
+            'texte' => 'Le club accueille les adultes sachant nager qui souhaitent pratiquer et progresser dans un cadre associatif.',
         ],
     ];
 
@@ -132,17 +128,15 @@
 
 
 <x-public.hero
+    class="about-hero"
     title="Cercle des Nageurs du Bocage Bressuirais"
     eyebrow="Le club"
     lead="Fondé en 1954, le CNBB reste l'un des clubs les plus dynamiques des Deux-Sèvres.">
-    <a href="#presentation" class="btn btn-primary btn-lg text-white">
+    <a href="#presentation" class="btn btn-primary btn-lg about-btn">
         <i class="fas fa-water me-2" aria-hidden="true"></i>Présentation
     </a>
     <a href="#historique" class="btn btn-light btn-lg">
         <i class="fas fa-history me-2" aria-hidden="true"></i>Historique
-    </a>
-    <a href="{{ route('pricing') }}" class="btn btn-outline-light btn-lg">
-        <i class="fas fa-clipboard-check me-2" aria-hidden="true"></i>S'inscrire
     </a>
 </x-public.hero>
 
@@ -155,6 +149,8 @@
                     <h2 class="display-5 fw-bold mb-4">Présentation</h2>
                     <p class="lead text-muted">
                         Association sportive affiliée à la Fédération Française de Natation,
+                        à la Fédération Française Handisport, à la Fédération Française du Sport Adapté
+                        et à la Fédération Française de Sauvetage et de Secourisme,
                         le CNBB est essentiellement spécialisé dans la natation course.
                     </p>
                 </header>
@@ -164,9 +160,8 @@
                         <div class="col-md-6 col-lg-3">
                             <article class="card border-0 shadow-sm h-100 text-center">
                                 <div class="card-body p-4">
-                                    <div class="bg-{{ $public['couleur'] }} bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4"
-                                         style="width: 80px; height: 80px;">
-                                        <i class="fas {{ $public['icon'] }} text-{{ $public['couleur'] }} fa-2x"></i>
+                                    <div class="about-public-icon rounded-circle d-inline-flex align-items-center justify-content-center mb-4">
+                                        <i class="fas {{ $public['icon'] }} fa-2x" aria-hidden="true"></i>
                                     </div>
                                     <h3 class="h5 fw-bold mb-3">{{ $public['titre'] }}</h3>
                                     <p class="text-muted mb-0">{{ $public['texte'] }}</p>
@@ -205,8 +200,8 @@
             </div>
             <div class="col-6 col-lg-3">
                 <div class="card border-0 shadow-sm text-center p-4 h-100">
-                    <div class="display-5 fw-bold text-info mb-2">FFN</div>
-                    <small class="text-muted">Club affilié à la Fédération Française de Natation</small>
+                    <div class="display-5 fw-bold text-info mb-2">4</div>
+                    <small class="text-muted">Fédérations : natation, handisport, sport adapté, sauvetage et secourisme</small>
                 </div>
             </div>
         </div>
@@ -292,7 +287,7 @@
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm text-center h-100">
                     <div class="card-body p-4">
-                        <i class="fas fa-map-marker-alt text-primary fa-2x mb-3"></i>
+                        <i class="fas fa-map-marker-alt text-primary fa-2x mb-3" aria-hidden="true"></i>
                         <h3 class="h5 fw-bold mb-2">Adresse</h3>
                         <address class="text-muted mb-0">
                             Cercle des Nageurs du Bocage Bressuirais<br>
@@ -306,7 +301,7 @@
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm text-center h-100">
                     <div class="card-body p-4">
-                        <i class="fas fa-envelope text-success fa-2x mb-3"></i>
+                        <i class="fas fa-envelope text-success fa-2x mb-3" aria-hidden="true"></i>
                         <h3 class="h5 fw-bold mb-2">E-mail</h3>
                         <p class="mb-0">
                             <a href="mailto:cnbb079@gmail.com" class="text-decoration-none">cnbb079@gmail.com</a>
@@ -318,7 +313,7 @@
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm text-center h-100">
                     <div class="card-body p-4">
-                        <i class="fas fa-phone text-info fa-2x mb-3"></i>
+                        <i class="fas fa-phone text-info fa-2x mb-3" aria-hidden="true"></i>
                         <h3 class="h5 fw-bold mb-2">Téléphone</h3>
                         <p class="mb-0">
                             <a href="tel:+33602350843" class="text-decoration-none">06 02 35 08 43</a>
@@ -332,16 +327,16 @@
 
 
 <!-- Rejoindre le club -->
-<section class="py-5 bg-primary text-white">
+<section class="py-5 bg-primary text-white about-join">
     <div class="container-lg text-center">
-        <h2 class="display-6 fw-bold mb-3">Envie de nager avec nous ?</h2>
+        <h2 class="display-6 fw-bold mb-3 text-white">Envie de nager avec nous ?</h2>
         <p class="lead mb-4">Retrouvez les tarifs et les modalités d'inscription de la saison.</p>
         <div class="d-flex flex-wrap justify-content-center gap-2">
             <a href="{{ route('pricing') }}" class="btn btn-light btn-lg">
-                <i class="fas fa-clipboard-check me-2"></i>S'inscrire au club
+                <i class="fas fa-clipboard-check me-2" aria-hidden="true"></i>S'inscrire au club
             </a>
             <a href="{{ route('contact') }}" class="btn btn-outline-light btn-lg">
-                <i class="fas fa-envelope me-2"></i>Nous contacter
+                <i class="fas fa-envelope me-2" aria-hidden="true"></i>Nous contacter
             </a>
         </div>
     </div>
@@ -352,6 +347,54 @@
 
 @push('styles')
 <style>
+    /* En-tête vidéo plus haut */
+    .about-hero .min-vh-50 {
+        min-height: 80vh;
+    }
+
+    @media (max-width: 768px) {
+        .about-hero .min-vh-50 {
+            min-height: 65vh;
+        }
+    }
+
+    /* Bouton bleu : texte et icône toujours blancs */
+    .about-btn,
+    .about-btn:visited,
+    .about-btn:hover,
+    .about-btn:focus {
+        background-color: #2f80b8;
+        border-color: #2f80b8;
+        color: #fff !important;
+    }
+
+    .about-btn:hover,
+    .about-btn:focus {
+        background-color: #24668f;
+        border-color: #24668f;
+    }
+
+    .about-btn i {
+        color: #fff !important;
+    }
+
+    /* Pastilles des publics : fond bleu, icône blanche */
+    .about-public-icon {
+        width: 80px;
+        height: 80px;
+        background-color: #2f80b8 !important;
+    }
+
+    .about-public-icon i {
+        color: #fff !important;
+    }
+
+    /* Bandeau « Envie de nager avec nous ? » en blanc */
+    .about-join h2,
+    .about-join .lead {
+        color: #fff !important;
+    }
+
     /* Pastille de l'année dans la frise */
     .club-timeline-annee {
         width: 68px;

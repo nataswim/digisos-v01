@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * Catégories des pages du menu « Le Club ».
+ * Les slugs sont utilisés par PagesSeeder, PagesOrganisationSeeder et GroupesPagesSeeder.
  * Les pages légales (mentions, confidentialité, cookies, accessibilité) sont des vues fixes :
  * elles ne sont plus en base.
  */
@@ -24,7 +25,9 @@ class PagesCategoriesSeeder extends Seeder
 
         $categories = [
             ['Le club', 'le-club', 'Histoire, identité et fonctionnement du Cercle des Nageurs du Bocage Bressuirais.'],
-            ['Vie associative', 'vie-associative', 'Bénévolat, officiels et comité directeur : comment s\'impliquer dans le club.'],
+            ['Nos groupes', 'nos-groupes', 'Le parcours du nageur et chaque groupe du club : prérequis, contenu des séances, compétitions et horaires.'],
+            ['Règles du club', 'regles-du-club', 'Règlement de fonctionnement, engagements des compétiteurs et code de conduite.'],
+            ['Vie associative', 'vie-associative', 'Bénévolat, officiels, partenariat et comité directeur : comment s\'impliquer dans le club.'],
             ['Questions fréquentes', 'questions-frequentes', 'Les réponses aux questions les plus posées par les familles et les nageurs.'],
         ];
 

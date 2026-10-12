@@ -8,6 +8,8 @@ use App\Http\Controllers\PublicFicheController;
 use App\Http\Controllers\PublicVideoController;
 use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\PublicGalleryController;
+use App\Http\Controllers\PublicInstallationController;
+use App\Http\Controllers\PublicPlanningController;
 use App\Http\Controllers\EbookController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PostController;
@@ -40,7 +42,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserProfileController;
 use App\Http\Controllers\Admin\ProfileItemController;
 
-// Architecture Spatiale 
+// Architecture spatiale
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\StructureController;
 use App\Http\Controllers\Admin\EspaceController;
@@ -60,9 +62,6 @@ use App\Http\Controllers\Editor\EditorPhotoGalleryController;
 use App\Http\Controllers\User\UserDashboardController;
 use App\Http\Controllers\Visitor\VisitorDashboardController;
 use App\Http\Controllers\User\UserProfileController as UserUserProfileController;
-
-use App\Http\Controllers\PublicInstallationController;
-use App\Models\Category;
 
 // =============================================================================
 // ROUTES PUBLIQUES
@@ -85,8 +84,8 @@ Route::get('/sitemap.xml', function () {
     ]);
 })->name('sitemap.xml');
 
-// ========== PAGES STATIQUES ==========
-Route::view('/', 'public.home')->name('home');
+// ========== PAGES DU SITE ==========
+Route::get('/', [PublicController::class, 'home'])->name('home');
 Route::view('/about', 'public.about')->name('about');
 Route::view('/accessibilite', 'public.accessibility')->name('accessibility');
 Route::get('/cookies',                   [PublicController::class, 'cookies'])->name('cookies');
@@ -96,17 +95,18 @@ Route::get('/politique-confidentialite', [PublicController::class, 'privacy'])->
 Route::get('/plans-inscription',         [PublicController::class, 'pricing'])->name('pricing');
 Route::get('/guide-utilisation',         [PublicController::class, 'guide'])->name('guide');
 Route::get('/contact',                   [PublicController::class, 'contact'])->name('contact');
-Route::post('/contact',                  [PublicController::class, 'contactSend'])->name('contact.send');
+Route::post('/contact',                  [PublicController::class, 'contactSend'])->middleware('throttle:5,1')->name('contact.send');
+Route::get('/revue-de-presse',           [PublicController::class, 'press'])->name('press');
 
-  Route::get('/', [PublicController::class, 'home'])->name('home');
-  Route::post('/contact', [PublicController::class, 'contactSend'])->middleware('throttle:5,1')->name('contact.send');
-  
+// ========== PLANNING (module Planning, géré dans l'administration) ==========
+Route::get('/groupes-et-horaires', PublicPlanningController::class)->name('schedule');
+
 // ========== POSTS PUBLICS ==========
 Route::get('/posts',                     [PostController::class, 'indexPublic'])->name('posts.public.index');
 Route::get('/posts/tag/{tag}',           [PostController::class, 'byTag'])->name('posts.public.tag');
 Route::get('/posts/category/{category}', [PostController::class, 'byCategory'])->name('posts.public.category');
 Route::get('/posts/{post}',              [PostController::class, 'showPublic'])->name('posts.public.show');
-Route::get('/revue-de-presse', [PublicController::class, 'press'])->name('press');
+
 // ========== VIDÉOS PUBLIQUES ==========
 Route::prefix('videos')->name('public.videos.')->group(function () {
     Route::get('/',                    [PublicVideoController::class, 'index'])->name('index');
@@ -144,13 +144,13 @@ Route::prefix('galeries')->name('galleries.')->group(function () {
     Route::get('/{photoGallery}', [PublicGalleryController::class, 'show'])->name('show');
 });
 
-// ========== INSTALLATIONS PUBLIQUES (Architecture Spatiale M2PC) ==========
+// ========== INSTALLATIONS PUBLIQUES ==========
 Route::prefix('installations')->name('public.installations.')->group(function () {
     Route::get('/',                         [PublicInstallationController::class, 'index'])->name('index');
-    Route::get('/{service}',                [PublicInstallationController::class, 'showService'])->name('service');
     Route::get('/structures/{structure}',   [PublicInstallationController::class, 'showStructure'])->name('structure');
     Route::get('/espaces/{espace}',         [PublicInstallationController::class, 'showEspace'])->name('espace');
     Route::get('/zones/{zone}',             [PublicInstallationController::class, 'showZone'])->name('zone');
+    Route::get('/{service}',                [PublicInstallationController::class, 'showService'])->name('service');
 });
 
 
@@ -174,16 +174,13 @@ Route::middleware(['auth', 'verified'])->prefix('visitor')->name('visitor.')->gr
 
 Route::middleware(['auth', 'verified'])->prefix('user')->name('user.')->group(function () {
     Route::get('/dashboard', UserDashboardController::class)->name('dashboard');
-        // ========== FICHE PROFIL ENRICHI (lecture seule) ==========
-    Route::get('/ma-fiche', [UserUserProfileController::class, 'show'])
-         ->name('user-profile.show');
-             // Profil utilisateur (édition des infos de base)
-    Route::get('/profile/edit', [ProfileController::class, 'editUser'])->name('profile.edit');
-    Route::patch('/profile',    [ProfileController::class, 'updateUserProfile'])->name('profile.update');
 
     // Fiche de profil enrichi (lecture seule)
-    Route::get('/ma-fiche', [\App\Http\Controllers\User\UserProfileController::class, 'show'])
-         ->name('user-profile.show');
+    Route::get('/ma-fiche', [UserUserProfileController::class, 'show'])->name('user-profile.show');
+
+    // Profil utilisateur (édition des infos de base)
+    Route::get('/profile/edit', [ProfileController::class, 'editUser'])->name('profile.edit');
+    Route::patch('/profile',    [ProfileController::class, 'updateUserProfile'])->name('profile.update');
 });
 
 // =============================================================================
@@ -247,7 +244,8 @@ Route::middleware(['auth', 'verified', 'can:access-admin'])->prefix('admin')->na
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
-        // ========== FICHES UTILISATEURS ==========
+
+    // ========== FICHES UTILISATEURS ==========
     Route::resource('user-profiles', UserProfileController::class)
          ->parameters(['user-profiles' => 'user'])
          ->except(['index']);
@@ -330,11 +328,14 @@ Route::middleware(['auth', 'verified', 'can:access-admin'])->prefix('admin')->na
     Route::resource('photo-galleries', PhotoGalleryController::class)
          ->parameters(['photo-galleries' => 'photoGallery']);
 
-         // ========== ARCHITECTURE SPATIALE  ==========
+    // ========== ARCHITECTURE SPATIALE ==========
     Route::resource('services',   ServiceController::class);
     Route::resource('structures', StructureController::class);
     Route::resource('espaces',    EspaceController::class);
     Route::resource('zones',      ZoneController::class);
+
+    // ========== PLANNING (routes admin.planning.*) ==========
+    require __DIR__.'/planning.php';
 });
 
 // =============================================================================
@@ -392,4 +393,7 @@ Route::middleware(['auth', 'verified', 'can:access-editor'])->prefix('editor')->
 
     // ========== STATISTIQUES ÉDITEUR ==========
     Route::get('/stats', [EditorStatsController::class, 'index'])->name('stats');
+
+    // ========== PLANNING (routes editor.planning.*) ==========
+    require __DIR__.'/planning.php';
 });

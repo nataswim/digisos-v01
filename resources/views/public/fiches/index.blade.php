@@ -17,7 +17,7 @@
 <!-- Catégories -->
 <section class="py-5 {{ $featuredFiches->count() > 0 ? '' : 'bg-aqua-light' }}">
     <div class="container-lg">
-        <h2 class="title-aqua-secondary mb-5">Toutes les fiches, par thème</h2>
+        <h2 class="title-aqua-secondary mb-5">Toutes les infos, par thème</h2>
 
         @if ($categories->count() > 0)
             <div class="row g-4">

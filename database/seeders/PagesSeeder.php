@@ -8,6 +8,11 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Pages de présentation du club. La FAQ complète, le règlement, le code de conduite,
+ * les officiels et le partenariat sont dans PagesOrganisationSeeder ; les groupes dans GroupesPagesSeeder.
+ * Ce seeder vide la table pages : il doit être lancé AVANT les deux autres.
+ */
 class PagesSeeder extends Seeder
 {
     public function run(): void
@@ -76,31 +81,6 @@ HTML,
 <h2>Coups de main ponctuels</h2>
 <p>Événements, déplacements, buvette : toute aide, même occasionnelle, est précieuse.</p>
 <p>Pour vous proposer : <a href="mailto:cnbb079@gmail.com">cnbb079@gmail.com</a>.</p>
-HTML,
-            ],
-            [
-                'category' => 'questions-frequentes',
-                'title' => 'Questions fréquentes sur l\'inscription',
-                'slug' => 'questions-frequentes-inscription',
-                'short_description' => 'Niveau requis, certificat médical, paiement, vacances : les réponses aux questions des familles.',
-                'long_description' => <<<'HTML'
-<h2>Faut-il savoir nager pour s'inscrire ?</h2>
-<p>Oui : l'adhésion est réservée aux personnes sachant nager 25 mètres. Une évaluation peut être proposée lors d'une première adhésion.</p>
-
-<h2>Un certificat médical est-il obligatoire ?</h2>
-<p>Pour une première adhésion, oui. Les adultes le renouvellent tous les 3 ans ; pour les mineurs, une attestation (CERFA n° 15699-01) suffit.</p>
-
-<h2>Peut-on payer en plusieurs fois ?</h2>
-<p>Oui, en 1 à 4 chèques encaissés le 15 septembre, le 15 octobre, le 15 novembre et le 15 décembre. Le club accepte aussi les espèces, le virement, les coupons sport et les chèques-vacances ANCV (avant le 30 octobre).</p>
-
-<h2>Y a-t-il des réductions pour les familles ?</h2>
-<p>10 € de remise pour 2 adhésions, 10 % à partir de 3 adhésions, en début de saison.</p>
-
-<h2>Le club fonctionne-t-il pendant les vacances scolaires ?</h2>
-<p>Non, les activités s'arrêtent pendant les vacances scolaires.</p>
-
-<h2>Créer un compte sur le site, est-ce s'inscrire au club ?</h2>
-<p>Non. Le compte donne accès au site ; l'adhésion se fait par le dossier d'inscription déposé au club.</p>
 HTML,
             ],
         ];

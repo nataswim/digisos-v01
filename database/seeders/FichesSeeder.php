@@ -96,7 +96,12 @@ HTML,
 
 <h2>Majoration</h2>
 <p>Toute réinscription après le <strong>30 septembre 2026</strong> est majorée de <strong>10 €</strong>.</p>
-<p>À ajouter : 5 € de caution pour le badge d'accès.</p>
+<h2>Inclus et à prévoir</h2>
+<ul>
+<li>La licence de la Fédération Française de Natation est <strong>incluse dans l'adhésion</strong> (61,20 € pour 2026-2027).</li>
+<li>Le bonnet du club est <strong>offert à la première adhésion</strong>.</li>
+<li>À ajouter : 5 € de caution pour le badge d'accès.</li>
+</ul>
 HTML,
             ],
             [
@@ -151,7 +156,7 @@ HTML,
                 'sous' => 'centre-aquatique',
                 'title' => 'Cœur d\'O, badge d\'accès et vacances scolaires',
                 'slug' => 'coeur-d-o-badge-vacances-scolaires',
-                'short_description' => 'Les entraînements ont lieu au centre aquatique Cœur d\'O ; les activités s\'arrêtent pendant les vacances scolaires.',
+                'short_description' => 'Les entraînements ont lieu au centre aquatique Cœur d\'O : badge d\'accès, boîte aux lettres du club et fonctionnement pendant les vacances scolaires.',
                 'featured' => false,
                 'long_description' => <<<'HTML'
 <h2>La piscine du club</h2>
@@ -161,7 +166,7 @@ HTML,
 <p>Chaque adhérent reçoit un badge d'accès contre une <strong>caution de 5 €</strong>, versée avec le dossier d'inscription.</p>
 
 <h2>Vacances scolaires</h2>
-<p>Les activités du club <strong>s'arrêtent pendant les vacances scolaires</strong>.</p>
+<p>L'école de natation, la Jeunesse et les Maîtres ne s'entraînent pas pendant les vacances scolaires, sauf information spécifique et convocations. Les groupes Relève, Pré-ligue et Ligue peuvent être convoqués à des stages.</p>
 
 <h2>Boîte aux lettres</h2>
 <p>La boîte aux lettres du club se trouve derrière l'abribus, en bas de Cœur d'O.</p>
