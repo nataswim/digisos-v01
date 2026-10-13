@@ -26,7 +26,7 @@
     <x-slot:aside>
         <div class="hero-logo-badge bg-white text-dark rounded-circle d-inline-flex align-items-center justify-content-center p-3 shadow"
              style="width: 200px; height: 200px;">
-            <img src="{{ asset('assets/images/logo/Logo-CNBB-Natation-9.png') }}"
+            <img src="{{ asset('assets/images/logo/cnbb-logo-800.png') }}"
                  alt="Logo du Cercle des Nageurs du Bocage Bressuirais"
                  class="img-fluid"
                  style="max-width: 160px; max-height: 160px;">

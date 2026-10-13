@@ -6,7 +6,7 @@
     $siteName        = 'CNBB — Cercle des Nageurs du Bocage Bressuirais';
     $siteDescription = 'Site officiel du Cercle des Nageurs du Bocage Bressuirais (CNBB), club de natation de Bressuire affilié à la Fédération Française de Natation : actualités, infos pratiques, inscriptions.';
     $siteKeywords    = 'CNBB, club de natation, Bressuire, Deux-Sèvres, natation course, école de natation, Cœur d\'O, FFN';
-    $siteImage       = asset('assets/images/logo/Logo-CNBB-Natation-9.png');
+    $siteImage       = asset('assets/images/logo/cnbb-logo-800.png');
 
     // Mesure d'audience : désactivée tant qu'aucun identifiant n'est configuré.
     // Pour l'activer : GOOGLE_ANALYTICS_ID dans .env + entrée « google_analytics » dans config/services.php.

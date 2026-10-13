@@ -11,6 +11,7 @@ use App\Http\Controllers\PublicGalleryController;
 use App\Http\Controllers\PublicInstallationController;
 use App\Http\Controllers\PublicPlanningController;
 use App\Http\Controllers\PublicCompetitionController;
+use App\Http\Controllers\PublicPartnerController;
 use App\Http\Controllers\MemberCompetitionController;
 use App\Http\Controllers\EbookController;
 use App\Http\Controllers\SearchController;
@@ -109,6 +110,10 @@ Route::get('/competitions.ics',                                    [PublicCompet
 Route::get('/competitions/{competition}',                          [PublicCompetitionController::class, 'show'])->name('competitions.show');
 Route::get('/competitions/{competition}/agenda.ics',               [PublicCompetitionController::class, 'calendarOne'])->name('competitions.calendar.one');
 Route::get('/competitions/{competition}/documents/{document}',     [PublicCompetitionController::class, 'document'])->name('competitions.document');
+
+// ========== PARTENAIRES (module Partenaires) ==========
+Route::get('/partenaires',           [PublicPartnerController::class, 'index'])->name('partners.index');
+Route::get('/partenaires/{partner}', [PublicPartnerController::class, 'show'])->name('partners.show');
 
 // ========== POSTS PUBLICS ==========
 Route::get('/posts',                     [PostController::class, 'indexPublic'])->name('posts.public.index');
@@ -354,6 +359,9 @@ Route::middleware(['auth', 'verified', 'can:access-admin'])->prefix('admin')->na
     // ========== COMPÉTITIONS (routes admin.competitions.*) ==========
     require __DIR__.'/competitions.php';
 
+    // ========== PARTENAIRES (routes admin.partners.*) ==========
+    require __DIR__.'/partners.php';
+
     // ========== LICENCES FFN — import extraNat (admin uniquement, routes admin.ffn-licenses.*) ==========
     require __DIR__.'/ffn-licenses.php';
 });
@@ -419,4 +427,7 @@ Route::middleware(['auth', 'verified', 'can:access-editor'])->prefix('editor')->
 
     // ========== COMPÉTITIONS (routes editor.competitions.*) ==========
     require __DIR__.'/competitions.php';
+
+    // ========== PARTENAIRES (routes editor.partners.*) ==========
+    require __DIR__.'/partners.php';
 });

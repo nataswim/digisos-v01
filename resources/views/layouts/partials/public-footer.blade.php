@@ -47,7 +47,7 @@
                 <!-- Le club -->
                 <div class="col-lg-3 col-md-6">
                     <a href="{{ route('home') }}" class="d-inline-block mb-3">
-                        <img src="{{ asset('assets/images/logo/Logo-CNBB-Natation-9.png') }}"
+                        <img src="{{ asset('assets/images/logo/cnbb-logo-800.png') }}"
                              alt="CNBB — Cercle des Nageurs du Bocage Bressuirais"
                              class="public-footer-logo img-fluid" loading="lazy">
                     </a>

@@ -29,7 +29,8 @@
                             'admin.fiches-categories.*',
                             'admin.fiches-sous-categories.*',
                             'admin.pages.*',
-                            'admin.pages-categories.*'
+                            'admin.pages-categories.*',
+                            'admin.partners.*'
                         );
                     @endphp
                     <a class="nav-link dropdown-toggle {{ $contenusActive ? 'active fw-bold text-white' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -108,6 +109,25 @@
                                 @if($pagesCategoriesCount > 0)
                                     <span class="badge bg-info ms-2">{{ $pagesCategoriesCount }}</span>
                                 @endif
+                            </a>
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <!-- Partenaires -->
+                        <li><h6 class="dropdown-header"><i class="fas fa-handshake me-2"></i>Partenaires</h6></li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('admin.partners.index', 'admin.partners.edit') ? 'active' : '' }}" href="{{ route('admin.partners.index') }}">
+                                <i class="fas fa-list fa-fw me-2"></i>Liste des partenaires
+                                @php $partnersCount = App\Models\Partner::count(); @endphp
+                                @if($partnersCount > 0)
+                                    <span class="badge bg-warning text-dark ms-2">{{ $partnersCount }}</span>
+                                @endif
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('admin.partners.create') ? 'active' : '' }}" href="{{ route('admin.partners.create') }}">
+                                <i class="fas fa-plus fa-fw me-2"></i>Nouveau partenaire
                             </a>
                         </li>
 

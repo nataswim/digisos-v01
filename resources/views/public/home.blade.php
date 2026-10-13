@@ -94,6 +94,89 @@
 </x-public.hero>
 
 
+<!-- Actualités -->
+<section id="actualites" class="anchor-section py-5 bg-aqua-light">
+    <div class="container-lg">
+        <div class="text-center mb-5">
+            <h2 class="title-aqua-secondary home-banner-title py-4">
+                <i class="fas fa-newspaper me-2" aria-hidden="true"></i>La passion de l'eau, l'esprit d'équipe.
+            </h2>
+            <p class="text-muted">Résultats, événements et informations pratiques : restez informés de la vie du club.</p>
+        </div>
+
+        {{-- Deux articles mis en avant, avec un extrait de 200 mots --}}
+        @if ($articlesUne->isNotEmpty())
+            <div class="row g-4 mb-5">
+                @foreach ($articlesUne as $article)
+                    @php $date = $article->published_at ?? $article->created_at; @endphp
+                    <div class="col-lg-6">
+                        <article class="card border-0 shadow-sm h-100 home-article-une">
+                            @if ($article->image)
+                                <img src="{{ $article->image }}" class="card-img-top home-article-une-img" alt="" loading="lazy">
+                            @endif
+                            <div class="card-body p-4 d-flex flex-column">
+                                <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                                    <span class="badge badge-primary">{{ $article->category->name ?? 'Actualité' }}</span>
+                                    @if ($article->is_featured)
+                                        <span class="badge badge-warning">
+                                            <i class="fas fa-star me-1" aria-hidden="true"></i>À la une
+                                        </span>
+                                    @endif
+                                    @if ($date)
+                                        <small class="text-muted ms-auto">
+                                            <time datetime="{{ $date->format('Y-m-d') }}">{{ $date->format('d/m/Y') }}</time>
+                                        </small>
+                                    @endif
+                                </div>
+
+                                <h3 class="h4 fw-bold mb-3">
+                                    <a href="{{ route('posts.public.show', $article) }}" class="text-decoration-none text-dark hover-primary">
+                                        {{ $article->name }}
+                                    </a>
+                                </h3>
+
+                                <p class="text-muted mb-4">{{ $extrait($article) }}</p>
+
+                                <div class="mt-auto">
+                                    <a href="{{ route('posts.public.show', $article) }}" class="btn btn-primary home-btn">
+                                        Lire l'article<span class="visually-hidden"> : {{ $article->name }}</span>
+                                        <i class="fas fa-arrow-right ms-2" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+
+        {{-- Les 4 articles suivants --}}
+        <div class="row g-4 mb-4">
+            @forelse ($recentArticles as $article)
+                <div class="col-md-6 col-lg-3">
+                    <x-public.post-card :post="$article" :intro-limit="80" />
+                </div>
+            @empty
+                @if ($articlesUne->isEmpty())
+                    <div class="col-12">
+                        <div class="text-center py-5 text-muted">
+                            <i class="fas fa-newspaper fa-3x mb-3 opacity-25" aria-hidden="true"></i>
+                            <p class="mb-0">Les premières actualités arrivent bientôt.</p>
+                        </div>
+                    </div>
+                @endif
+            @endforelse
+        </div>
+
+        <div class="text-center">
+            <a href="{{ route('posts.public.index') }}" class="btn btn-primary btn-lg home-btn">
+                <i class="fas fa-arrow-right me-2" aria-hidden="true"></i>Toute la vie du club
+            </a>
+        </div>
+    </div>
+</section>
+
+
 <!-- Le club en bref -->
 <section id="le-club" class="anchor-section py-5 bg-white">
     <div class="container-lg">
@@ -177,89 +260,6 @@
         <div class="text-center mt-5">
             <a href="{{ route('pricing') }}" class="btn btn-primary btn-lg home-btn">
                 <i class="fas fa-euro-sign me-2" aria-hidden="true"></i>Tarifs et inscription
-            </a>
-        </div>
-    </div>
-</section>
-
-
-<!-- Actualités -->
-<section id="actualites" class="anchor-section py-5 bg-aqua-light">
-    <div class="container-lg">
-        <div class="text-center mb-5">
-            <h2 class="title-aqua-secondary home-banner-title py-4">
-                <i class="fas fa-newspaper me-2" aria-hidden="true"></i>La passion de l'eau, l'esprit d'équipe.
-            </h2>
-            <p class="text-muted">Résultats, événements et informations pratiques : restez informés de la vie du club.</p>
-        </div>
-
-        {{-- Deux articles mis en avant, avec un extrait de 200 mots --}}
-        @if ($articlesUne->isNotEmpty())
-            <div class="row g-4 mb-5">
-                @foreach ($articlesUne as $article)
-                    @php $date = $article->published_at ?? $article->created_at; @endphp
-                    <div class="col-lg-6">
-                        <article class="card border-0 shadow-sm h-100 home-article-une">
-                            @if ($article->image)
-                                <img src="{{ $article->image }}" class="card-img-top home-article-une-img" alt="" loading="lazy">
-                            @endif
-                            <div class="card-body p-4 d-flex flex-column">
-                                <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
-                                    <span class="badge badge-primary">{{ $article->category->name ?? 'Actualité' }}</span>
-                                    @if ($article->is_featured)
-                                        <span class="badge badge-warning">
-                                            <i class="fas fa-star me-1" aria-hidden="true"></i>À la une
-                                        </span>
-                                    @endif
-                                    @if ($date)
-                                        <small class="text-muted ms-auto">
-                                            <time datetime="{{ $date->format('Y-m-d') }}">{{ $date->format('d/m/Y') }}</time>
-                                        </small>
-                                    @endif
-                                </div>
-
-                                <h3 class="h4 fw-bold mb-3">
-                                    <a href="{{ route('posts.public.show', $article) }}" class="text-decoration-none text-dark hover-primary">
-                                        {{ $article->name }}
-                                    </a>
-                                </h3>
-
-                                <p class="text-muted mb-4">{{ $extrait($article) }}</p>
-
-                                <div class="mt-auto">
-                                    <a href="{{ route('posts.public.show', $article) }}" class="btn btn-primary home-btn">
-                                        Lire l'article<span class="visually-hidden"> : {{ $article->name }}</span>
-                                        <i class="fas fa-arrow-right ms-2" aria-hidden="true"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                @endforeach
-            </div>
-        @endif
-
-        {{-- Les 4 articles suivants --}}
-        <div class="row g-4 mb-4">
-            @forelse ($recentArticles as $article)
-                <div class="col-md-6 col-lg-3">
-                    <x-public.post-card :post="$article" :intro-limit="80" />
-                </div>
-            @empty
-                @if ($articlesUne->isEmpty())
-                    <div class="col-12">
-                        <div class="text-center py-5 text-muted">
-                            <i class="fas fa-newspaper fa-3x mb-3 opacity-25" aria-hidden="true"></i>
-                            <p class="mb-0">Les premières actualités arrivent bientôt.</p>
-                        </div>
-                    </div>
-                @endif
-            @endforelse
-        </div>
-
-        <div class="text-center">
-            <a href="{{ route('posts.public.index') }}" class="btn btn-primary btn-lg home-btn">
-                <i class="fas fa-arrow-right me-2" aria-hidden="true"></i>Toute la vie du club
             </a>
         </div>
     </div>

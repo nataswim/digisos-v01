@@ -51,6 +51,7 @@ class PermissionsTableSeeder extends Seeder
         'photo-galleries' => ['les galeries photo', ['view', 'create', 'edit', 'delete', 'duplicate', 'bulk']],
         'planning' => ['le planning des entraînements', ['view', 'create', 'edit', 'delete']],
         'competitions' => ['les compétitions', ['view', 'create', 'edit', 'delete', 'duplicate']],
+        'partners' => ['les partenaires', ['view', 'create', 'edit', 'delete']],
         // Données personnelles : réservé aux administrateurs (absent de RolePermissionTableSeeder::EDITOR_GROUPS)
         'ffn-licenses' => ['les licences FFN', ['view', 'import', 'delete']],
         // Nouveaux modules (routes existantes sans permission jusqu'ici)

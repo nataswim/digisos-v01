@@ -6,7 +6,7 @@
 
         {{-- Logo --}}
         <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
-            <img src="{{ asset('assets/images/logo/Logo-CNBB-Natation-9.png') }}"
+            <img src="{{ asset('assets/images/logo/cnbb-logo-800.png') }}"
                  alt="Club de natation Bressuire"
                  class="img-fluid"
                  style="height:80px;width:auto;">

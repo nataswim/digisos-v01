@@ -27,7 +27,8 @@
                         $contenusActive = request()->routeIs(
                             'editor.posts.*',
                             'editor.fiches.*',
-                            'editor.pages.*'
+                            'editor.pages.*',
+                            'editor.partners.*'
                         );
                     @endphp
                     <a class="nav-link dropdown-toggle {{ $contenusActive ? 'active fw-bold text-white' : '' }}"
@@ -93,6 +94,25 @@
                         <li>
                             <a class="dropdown-item" href="{{ route('editor.pages.create') }}">
                                 <i class="fas fa-plus fa-fw me-2"></i>Nouvelle page
+                            </a>
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <!-- Partenaires -->
+                        <li><h6 class="dropdown-header"><i class="fas fa-handshake me-2"></i>Partenaires</h6></li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('editor.partners.index', 'editor.partners.edit') ? 'active' : '' }}" href="{{ route('editor.partners.index') }}">
+                                <i class="fas fa-list fa-fw me-2"></i>Liste des partenaires
+                                @php $partnersCount = App\Models\Partner::count(); @endphp
+                                @if($partnersCount > 0)
+                                    <span class="badge bg-warning text-dark ms-2">{{ $partnersCount }}</span>
+                                @endif
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('editor.partners.create') ? 'active' : '' }}" href="{{ route('editor.partners.create') }}">
+                                <i class="fas fa-plus fa-fw me-2"></i>Nouveau partenaire
                             </a>
                         </li>
                     </ul>

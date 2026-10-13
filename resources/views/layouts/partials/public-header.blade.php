@@ -4,7 +4,8 @@
 
     Pour modifier le menu, il suffit de changer le tableau $menu ci-dessous :
       - une entrée avec « route » est un lien simple ;
-      - une entrée avec « children » est un sous-menu déroulant.
+      - une entrée avec « children » est un sous-menu déroulant ;
+      - dans un sous-menu, ['divider' => true] ajoute un trait de séparation.
     « active » indique les routes pour lesquelles l'entrée est surlignée.
 --}}
 @php
@@ -13,35 +14,32 @@
             'label'    => 'Vie du club',
             'id'       => 'vieDuClubDropdown',
             'children' => [
-                ['label' => 'Actualités',   'icon' => 'fa-newspaper', 'route' => 'posts.public.index', 'active' => ['posts.public.*']],
-                ['label' => 'Compétitions', 'icon' => 'fa-trophy',    'route' => 'competitions.index', 'active' => ['competitions.*']],
-            ],
-        ],
-        ['label' => 'Infos pratiques', 'route' => 'public.fiches.index', 'active' => ['public.fiches.*']],
-
-        [
-            'label'    => 'Médias',
-            'id'       => 'mediasDropdown',
-            'children' => [
+                ['label' => 'Actualités',       'icon' => 'fa-newspaper',   'route' => 'posts.public.index',  'active' => ['posts.public.*']],
+                ['label' => 'Infos pratiques',  'icon' => 'fa-info-circle', 'route' => 'public.fiches.index', 'active' => ['public.fiches.*']],
+                ['label' => 'Ressources',       'icon' => 'fa-download',    'route' => 'ebook.index',         'active' => ['ebook.*']],
+                ['divider' => true],
                 ['label' => 'Au fil de l\'eau', 'icon' => 'fa-play-circle', 'route' => 'public.videos.index', 'active' => ['public.videos.*']],
                 ['label' => 'Galeries photo',   'icon' => 'fa-images',      'route' => 'galleries.index',     'active' => ['galleries.*']],
                 ['label' => 'Revue de presse',  'icon' => 'fa-newspaper',   'route' => 'press',               'active' => ['press']],
             ],
         ],
 
-        ['label' => 'Ressources', 'route' => 'ebook.index', 'active' => ['ebook.*']],
+        ['label' => 'Compétitions',        'route' => 'competitions.index', 'active' => ['competitions.*']],
+        ['label' => 'Groupes et horaires', 'route' => 'schedule',           'active' => ['schedule']],
 
         [
             'label'    => 'Le Club',
             'id'       => 'clubDropdown',
             'children' => [
                 ['label' => 'Présentation et historique', 'icon' => 'fa-water',         'route' => 'about',                      'active' => ['about']],
-                ['label' => 'Groupes et horaires',        'icon' => 'fa-calendar-alt',  'route' => 'schedule',                   'active' => ['schedule']],
                 ['label' => 'Informations du club',       'icon' => 'fa-file-alt',      'route' => 'public.pages.index',         'active' => ['public.pages.*']],
                 ['label' => 'Installations',              'icon' => 'fa-swimming-pool', 'route' => 'public.installations.index', 'active' => ['public.installations.*']],
+                ['label' => 'Partenaires',                'icon' => 'fa-handshake',     'route' => 'partners.index',             'active' => ['partners.*']],
                 ['label' => 'Contact',                    'icon' => 'fa-envelope',      'route' => 'contact',                    'active' => ['contact']],
             ],
         ],
+
+        ['label' => 'S\'inscrire au club', 'route' => 'pricing', 'active' => ['pricing']],
     ];
 @endphp
 
@@ -49,9 +47,9 @@
     <div class="container-lg">
         <!-- Logo -->
         <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
-            <img src="{{ asset('assets/images/logo/Logo-CNBB-Natation-9.png') }}"
+            <img src="{{ asset('assets/images/logo/cnbb-logo-800.png') }}"
                  alt="CNBB — accueil du site"
-                 class="img-fluid" style=" background: #f0f1f0; padding: 5px; border-radius: 20px; ">
+                 class="img-fluid">
         </a>
 
         <!-- Bouton du menu sur mobile -->
@@ -68,7 +66,9 @@
                     @if (isset($item['children']))
                         @php
                             // Le sous-menu est surligné quand l'une de ses pages est affichée
-                            $groupActive = collect($item['children'])->contains(fn ($child) => request()->routeIs(...$child['active']));
+                            $groupActive = collect($item['children'])
+                                ->filter(fn ($child) => isset($child['active']))
+                                ->contains(fn ($child) => request()->routeIs(...$child['active']));
                         @endphp
                         <li class="nav-item dropdown">
                             <a class="nav-link navurl dropdown-toggle {{ $groupActive ? 'active' : '' }}"
@@ -78,13 +78,17 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="{{ $item['id'] }}">
                                 @foreach ($item['children'] as $child)
-                                    <li>
-                                        <a class="dropdown-item {{ request()->routeIs(...$child['active']) ? 'active' : '' }}"
-                                           href="{{ route($child['route']) }}"
-                                           @if (request()->routeIs(...$child['active'])) aria-current="page" @endif>
-                                            <i class="fas {{ $child['icon'] }} me-2" aria-hidden="true"></i>{{ $child['label'] }}
-                                        </a>
-                                    </li>
+                                    @if (! empty($child['divider']))
+                                        <li><hr class="dropdown-divider"></li>
+                                    @else
+                                        <li>
+                                            <a class="dropdown-item {{ request()->routeIs(...$child['active']) ? 'active' : '' }}"
+                                               href="{{ route($child['route']) }}"
+                                               @if (request()->routeIs(...$child['active'])) aria-current="page" @endif>
+                                                <i class="fas {{ $child['icon'] }} me-2" aria-hidden="true"></i>{{ $child['label'] }}
+                                            </a>
+                                        </li>
+                                    @endif
                                 @endforeach
                             </ul>
                         </li>
@@ -100,15 +104,11 @@
                 @endforeach
             </ul>
 
-            <!-- Actions : recherche, inscription au club, compte -->
+            <!-- Actions : recherche, compte -->
             <div class="public-navbar-actions d-flex align-items-center gap-2">
                 <a href="{{ route('search') }}" class="btn btn-sm btn-light border" title="Rechercher sur le site">
                     <i class="fas fa-search" aria-hidden="true"></i>
                     <span class="visually-hidden">Rechercher sur le site</span>
-                </a>
-
-                <a href="{{ route('pricing') }}" class="btn btn-sm btn-primary text-white">
-                    <i class="fas fa-clipboard-check me-1" aria-hidden="true"></i>S'inscrire au club
                 </a>
 
                 @auth
