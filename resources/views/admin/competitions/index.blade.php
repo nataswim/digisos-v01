@@ -64,6 +64,9 @@
                                 @endif
                             </td>
                             <td>
+                                @if ($competition->image)
+                                    <img src="{{ $competition->image }}" alt="" class="rounded float-start me-2" style="width: 60px; height: 45px; object-fit: cover;">
+                                @endif
                                 <strong>{{ $competition->title }}</strong>
                                 <small class="text-muted d-block">{{ $competition->venue }}, {{ $competition->city }}</small>
                                 @foreach ($competition->groups as $groupe)

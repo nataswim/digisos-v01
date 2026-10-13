@@ -1,7 +1,16 @@
 @extends('layouts.public')
 
 @section('title', $competition->title)
-@section('meta_description', \Illuminate\Support\Str::limit($competition->title . ' — ' . $competition->date_range . ', ' . $competition->venue . ', ' . $competition->city . '. Programme et informations pratiques pour les nageurs du CNBB.', 160))
+@section('meta_description', \Illuminate\Support\Str::limit($competition->excerpt ?: $competition->title . ' — ' . $competition->date_range . ', ' . $competition->venue . ', ' . $competition->city . '. Programme et informations pratiques pour les nageurs du CNBB.', 160))
+@if ($competition->image_url)
+    @section('og_image', $competition->image_url)
+    @section('twitter_image', $competition->image_url)
+    @section('og_image_alt', $competition->title)
+@endif
+@if ($competition->excerpt)
+    @section('og_description', $competition->excerpt)
+@endif
+@section('og_title', $competition->title)
 
 @section('content')
 
@@ -53,7 +62,10 @@
             <div class="col-lg-8">
 
                 {{-- En-tête --}}
-                <article class="card border-0 shadow-sm mb-4">
+                <article class="card border-0 shadow-sm mb-4 overflow-hidden">
+                    @if ($competition->image)
+                        <img src="{{ $competition->image }}" alt="" class="competition-cover" loading="eager">
+                    @endif
                     <div class="card-body p-4">
                         <div class="d-flex flex-wrap gap-1 mb-3">
                             <span class="badge {{ $competition->state_badge }}">{{ $competition->state_label }}</span>
@@ -87,9 +99,9 @@
                             @endif
                         </dl>
 
-                        @if ($competition->description)
+                        @if ($competition->description_html)
                             <hr>
-                            <div class="competition-description">{!! nl2br(e($competition->description)) !!}</div>
+                            <div class="competition-description competition-content">{!! $competition->description_html !!}</div>
                         @endif
                     </div>
                 </article>
@@ -344,6 +356,28 @@
 
 @push('styles')
 <style>
+    /* Image de couverture */
+    .competition-cover { display: block; width: 100%; max-height: 360px; object-fit: cover; }
+
+    /* Présentation saisie avec l'éditeur (classes produites par Quill) */
+    .competition-content img { max-width: 100%; height: auto; border-radius: .375rem; }
+    .competition-content iframe.ql-video,
+    .competition-content iframe { display: block; width: 100%; max-width: 720px; aspect-ratio: 16 / 9; height: auto; border: 0; margin: 1rem auto; }
+    .competition-content table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    .competition-content th, .competition-content td { border: 1px solid #dee2e6; padding: .5rem; }
+    .competition-content .ql-table-wrapper { overflow-x: auto; }
+    .competition-content blockquote { border-left: 4px solid #2f80b8; padding-left: 1rem; color: #495057; }
+    .competition-content .ql-align-center { text-align: center; }
+    .competition-content .ql-align-right { text-align: right; }
+    .competition-content .ql-align-justify { text-align: justify; }
+    .competition-content .ql-size-small { font-size: .85em; }
+    .competition-content .ql-size-large { font-size: 1.4em; }
+    .competition-content .ql-size-huge { font-size: 2em; }
+    .competition-content .ql-indent-1 { padding-left: 3em; }
+    .competition-content .ql-indent-2 { padding-left: 6em; }
+    .competition-content .ql-indent-3 { padding-left: 9em; }
+    .competition-content p:last-child { margin-bottom: 0; }
+
     .competitions-btn,
     .competitions-btn i {
         background-color: #2f80b8;

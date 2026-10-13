@@ -160,7 +160,8 @@ class CompetitionController extends Controller
             'pool_length' => ['nullable', Rule::in([25, 50])],
             'lanes' => ['nullable', 'integer', 'between:1,12'],
             'organizer' => ['nullable', 'string', 'max:150'],
-            'description' => ['nullable', 'string', 'max:5000'],
+            'description' => ['nullable', 'string', 'max:200000'],
+            'image' => ['nullable', 'string', 'max:255', 'regex:#^(https?://|/)[^\s<>"\']+$#i'],
             'extranat_url' => ['nullable', 'url', 'max:255'],
             'live_url' => ['nullable', 'url', 'max:255'],
             'state_override' => ['nullable', Rule::in(array_keys(Competition::STATE_OVERRIDES))],
@@ -205,9 +206,12 @@ class CompetitionController extends Controller
             'staff.*.phone.regex' => 'Un numéro de téléphone de l\'encadrement contient des caractères non valides.',
             'new_documents.*.file.mimes' => 'Les documents doivent être au format PDF.',
             'new_documents.*.file.max' => 'Un document dépasse 10 Mo.',
+            'image.regex' => 'L\'image doit être une adresse web (https://…) ou un chemin de la médiathèque (/storage/…).',
+            'description.max' => 'La présentation est trop longue.',
         ]);
 
         $data['is_published'] = $request->boolean('is_published');
+        $data['description'] = \App\Support\HtmlSanitizer::clean($data['description'] ?? null);   // HTML de l'éditeur nettoyé
         $data['entries_visible'] = $request->boolean('entries_visible');
 
         // Les tableaux sont enregistrés par syncChildren()

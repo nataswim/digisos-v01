@@ -58,7 +58,7 @@ class Competition extends Model
 
     protected $fillable = [
         'title', 'slug', 'season', 'level', 'kind', 'starts_on', 'ends_on', 'venue', 'city', 'address',
-        'pool_length', 'lanes', 'organizer', 'description', 'extranat_url', 'live_url', 'state_override',
+        'pool_length', 'lanes', 'organizer', 'description', 'image', 'extranat_url', 'live_url', 'state_override',
         'meeting_point', 'departure_at', 'return_at', 'transport', 'accommodation', 'meals', 'logistics_notes',
         'response_deadline', 'entries_visible', 'is_published', 'created_by', 'updated_by',
     ];
@@ -238,6 +238,40 @@ class Competition extends Model
         ]);
 
         return $parts ? implode(' — ', $parts) : null;
+    }
+
+    /**
+     * Présentation prête à afficher : HTML enrichi (éditeur) nettoyé,
+     * ou texte simple d'avant l'éditeur converti (retours à la ligne).
+     */
+    public function getDescriptionHtmlAttribute(): ?string
+    {
+        if (blank($this->description)) {
+            return null;
+        }
+        if ($this->description === strip_tags($this->description)) {
+            return nl2br(e($this->description));
+        }
+
+        return \App\Support\HtmlSanitizer::clean($this->description);
+    }
+
+    /** Résumé en texte brut (cartes, balise meta description) */
+    public function getExcerptAttribute(): ?string
+    {
+        $texte = trim(preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags(str_replace('<', ' <', (string) $this->description)), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
+
+        return $texte !== '' ? Str::limit($texte, 160) : null;
+    }
+
+    /** URL absolue de l'image de couverture (partage sur les réseaux sociaux) */
+    public function getImageUrlAttribute(): ?string
+    {
+        if (blank($this->image)) {
+            return null;
+        }
+
+        return preg_match('#^https?://#i', $this->image) ? $this->image : url($this->image);
     }
 
     public function hasLogistics(): bool

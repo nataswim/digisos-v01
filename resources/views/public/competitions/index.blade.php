@@ -135,6 +135,9 @@
                                         @endif
                                     </div>
 
+                                    @if ($competition->image)
+                                        <img src="{{ $competition->image }}" alt="" loading="lazy" class="competition-thumb rounded d-none d-sm-block flex-shrink-0">
+                                    @endif
                                     <i class="fas fa-chevron-right text-muted d-none d-md-block" aria-hidden="true"></i>
                                 </div>
                             </article>
@@ -188,6 +191,8 @@
         padding-bottom: 0.4rem;
         letter-spacing: 0.04em;
     }
+
+    .competition-thumb { width: 140px; height: 90px; object-fit: cover; }
 
     .competition-card {
         border-left: 6px solid #2f80b8 !important;

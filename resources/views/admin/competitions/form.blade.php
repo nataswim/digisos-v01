@@ -184,10 +184,40 @@
                                value="{{ old('live_url', $competition->live_url) }}">
                     </div>
 
-                    <div class="col-12">
+                    <div class="col-lg-8">
                         <label for="description" class="form-label fw-semibold">Présentation publique <span class="text-muted fw-normal">(facultatif)</span></label>
-                        <textarea id="description" name="description" rows="4" maxlength="5000"
-                                  class="form-control @error('description') is-invalid @enderror">{{ old('description', $competition->description) }}</textarea>
+                        {{-- Éditeur Quill (mêmes outils que les fiches : titres, listes, liens, images de la médiathèque, vidéos, tableaux) --}}
+                        <div id="description-editor" class="competition-editor @error('description') is-invalid @enderror"></div>
+                        <textarea id="description" name="description" class="d-none">{{ old('description', $competition->description) }}</textarea>
+                        <div class="form-text">Affichée sur la fiche publique de la compétition : présentation, consignes, liens utiles…</div>
+                        @error('description')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label for="image" class="form-label fw-semibold">Image de couverture <span class="text-muted fw-normal">(facultatif)</span></label>
+                        <div class="input-group">
+                            <input type="text" id="image" name="image" maxlength="255"
+                                   class="form-control @error('image') is-invalid @enderror"
+                                   value="{{ old('image', $competition->image) }}"
+                                   placeholder="/storage/media/… ou https://…" aria-describedby="image_aide">
+                            <button type="button" class="btn btn-outline-primary" onclick="openMediaSelector('image', 'imagePreview')" title="Choisir dans la médiathèque">
+                                <i class="fas fa-images" aria-hidden="true"></i><span class="visually-hidden">Choisir dans la médiathèque</span>
+                            </button>
+                        </div>
+                        <div id="image_aide" class="form-text">Médiathèque ou adresse d'une image. Format paysage conseillé (1200 × 630 px).</div>
+                        @error('image')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                        @php $imageActuelle = old('image', $competition->image); @endphp
+                        <div id="currentImagePreview" class="mt-3 {{ $imageActuelle ? '' : 'd-none' }}">
+                            <img id="imagePreview" src="{{ $imageActuelle }}" alt="Aperçu de l'image de couverture"
+                                 class="img-fluid rounded shadow-sm competition-cover-preview">
+                            <button type="button" class="btn btn-sm btn-link text-danger px-0 d-block" id="retirer-image">
+                                <i class="fas fa-times me-1" aria-hidden="true"></i>Retirer l'image
+                            </button>
+                        </div>
                     </div>
 
                     <div class="col-12">
@@ -409,7 +439,51 @@
 </div>
 @endsection
 
+@push('styles')
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<style>
+    .competitions-admin .competition-editor { height: 360px; background: #fff; }
+    .competitions-admin .competition-editor.is-invalid { border-color: #dc3545; }
+    .competitions-admin .competition-cover-preview { max-height: 160px; width: 100%; object-fit: cover; }
+</style>
+@endpush
+
 @push('scripts')
+@once
+<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+<script src="{{ asset('js/media-selector.js') }}"></script>
+<script src="{{ asset('js/quill-advanced.js') }}"></script>
+@endonce
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Éditeur de la présentation (même configuration que les fiches)
+        var editeur = null;
+        if (document.getElementById('description-editor') && typeof initQuillEditor === 'function') {
+            editeur = initQuillEditor('#description-editor', 'description');
+        }
+        var formulaire = document.getElementById('description').form;
+        formulaire.addEventListener('submit', function () {
+            if (editeur) {
+                document.getElementById('description').value = editeur.root.innerHTML;
+            }
+        });
+
+        // Image de couverture : aperçu et retrait
+        var champ = document.getElementById('image');
+        var apercu = document.getElementById('imagePreview');
+        var bloc = document.getElementById('currentImagePreview');
+        champ.addEventListener('input', function () {
+            var url = champ.value.trim();
+            apercu.src = url;
+            bloc.classList.toggle('d-none', url === '');
+        });
+        document.getElementById('retirer-image').addEventListener('click', function () {
+            champ.value = '';
+            apercu.removeAttribute('src');
+            bloc.classList.add('d-none');
+        });
+    });
+</script>
 <script>
     (function () {
         // Ajout d'une ligne (encadrement, réunion, document) à partir de son modèle <template>
