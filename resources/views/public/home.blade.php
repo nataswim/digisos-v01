@@ -27,19 +27,31 @@
     $recentArticles = $publies()->whereNotIn('id', $articlesUne->pluck('id'))
         ->latest('published_at')->limit(4)->get();
 
-    // Extrait de 200 mots en texte brut.
-    // Article réservé aux adhérents et visiteur non autorisé : on n'affiche que l'introduction.
-    $extrait = function ($post) {
-        $reserve = $post->visibility === 'authenticated'
-            && (auth()->guest() || auth()->user()->hasRole('visitor'));
-        $source = $reserve ? $post->intro : ($post->content ?: $post->intro);
-        // Une balise devient un espace (sinon « Titre</h2><p>Texte » donne « TitreTexte »)
-        $texte  = preg_replace('/<[^>]*>/', ' ', (string) $source);
-        $texte  = html_entity_decode($texte, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        $texte  = trim(preg_replace('/\s+([,.)])/u', '$1', preg_replace('/\s+/u', ' ', $texte)));
+    // Introduction de l'article en texte brut, comme sur les cartes du bas.
+    // Une balise devient un espace (sinon « Titre</h2><p>Texte » donne « TitreTexte »).
+    $introduction = function ($post) {
+        $texte = preg_replace('/<[^>]*>/', ' ', (string) $post->intro);
+        $texte = html_entity_decode($texte, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
-        return Str::words($texte, 200, ' […]');
+        return trim(preg_replace('/\s+([,.)])/u', '$1', preg_replace('/\s+/u', ' ', $texte)));
     };
+
+
+    // Bloc « Le club en pratique » : données des modules Planning, Compétitions et Partenaires
+    $nbGroupes = App\Models\PlanningGroup::where('is_active', true)->count();
+    $nbCreneaux = App\Models\PlanningSlot::active()->period('scolaire')
+        ->whereHas('group', fn ($q) => $q->where('is_active', true))
+        ->count();
+
+    $prochaineCompetition = App\Models\Competition::published()->upcoming()->first();
+    $nbCompetitions = App\Models\Competition::published()->upcoming()->count();
+
+    // Module Partenaires : la carte n'apparaît qu'une fois le module installé
+    $partenairesActifs = Route::has('partners.index') && Schema::hasTable('partners');
+    $logosPartenaires = $partenairesActifs
+        ? App\Models\Partner::active()->ordered()->limit(4)->get()
+        : collect();
+    $nbPartenaires = $partenairesActifs ? App\Models\Partner::active()->count() : 0;
 
 
     // Les groupes du club
@@ -94,6 +106,8 @@
 </x-public.hero>
 
 
+
+
 <!-- Actualités -->
 <section id="actualites" class="anchor-section py-5 bg-aqua-light">
     <div class="container-lg">
@@ -104,7 +118,7 @@
             <p class="text-muted">Résultats, événements et informations pratiques : restez informés de la vie du club.</p>
         </div>
 
-        {{-- Deux articles mis en avant, avec un extrait de 200 mots --}}
+        {{-- Deux articles mis en avant, avec leur texte d'introduction --}}
         @if ($articlesUne->isNotEmpty())
             <div class="row g-4 mb-5">
                 @foreach ($articlesUne as $article)
@@ -135,7 +149,9 @@
                                     </a>
                                 </h3>
 
-                                <p class="text-muted mb-4">{{ $extrait($article) }}</p>
+                                @if ($introduction($article) !== '')
+                                    <p class="text-muted mb-4">{{ $introduction($article) }}</p>
+                                @endif
 
                                 <div class="mt-auto">
                                     <a href="{{ route('posts.public.show', $article) }}" class="btn btn-primary home-btn">
@@ -176,9 +192,104 @@
     </div>
 </section>
 
+<!-- Le club en pratique : horaires, calendrier, partenaires -->
+<section id="en-pratique" class="anchor-section py-5 bg-white" style=" background-image: linear-gradient(45deg,#e9f7fa 85%,#fff 0); border-color: #f2f1f2 #f0a833 #f0f1f0 #f0a733; border-width: 20px; border-style: solid; ">
+    <div class="container-lg">
+        <div class="row g-4 justify-content-center">
+
+            {{-- Horaires des activités --}}
+            <div class="col-md-6 col-lg-4">
+                <a href="{{ route('schedule') }}" class="home-practical card border-0 shadow-sm h-100 text-decoration-none">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <div class="home-practical-icon mb-3" aria-hidden="true"><i class="fas fa-clock"></i></div>
+                        <h2 class="h4 fw-bold text-dark mb-2">Horaires des activités</h2>
+                        <p class="text-muted mb-3">
+                            Les créneaux d'entraînement de chaque groupe au centre aquatique Cœur d'O,
+                            en période scolaire et pendant les vacances.
+                        </p>
+                        @if ($nbCreneaux > 0)
+                            <p class="home-practical-info mb-3">
+                                <i class="fas fa-calendar-week me-2" aria-hidden="true"></i>{{ $nbGroupes }} {{ $nbGroupes > 1 ? 'groupes' : 'groupe' }},
+                                {{ $nbCreneaux }} {{ $nbCreneaux > 1 ? 'créneaux' : 'créneau' }} par semaine
+                            </p>
+                        @endif
+                        <span class="home-practical-link mt-auto">
+                            Voir les horaires<i class="fas fa-arrow-right ms-2" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </a>
+            </div>
+
+            {{-- Calendrier des événements --}}
+            <div class="col-md-6 col-lg-4">
+                <a href="{{ route('competitions.index') }}" class="home-practical card border-0 shadow-sm h-100 text-decoration-none">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <div class="home-practical-icon mb-3" aria-hidden="true"><i class="fas fa-calendar-alt"></i></div>
+                        <h2 class="h4 fw-bold text-dark mb-2">Calendrier des événements</h2>
+                        <p class="text-muted mb-3">
+                            Compétitions, meetings et rendez-vous du club tout au long de la saison.
+                        </p>
+                        @if ($prochaineCompetition)
+                            <p class="home-practical-info mb-3">
+                                <span class="d-block small text-uppercase fw-semibold mb-1">Prochain rendez-vous</span>
+                                <strong class="text-dark">{{ $prochaineCompetition->title }}</strong><br>
+                                <time datetime="{{ $prochaineCompetition->starts_on->format('Y-m-d') }}">
+                                    {{ $prochaineCompetition->starts_on->translatedFormat('j F Y') }}
+                                </time>
+                                @if ($prochaineCompetition->city) · {{ $prochaineCompetition->city }}@endif
+                            </p>
+                        @endif
+                        <span class="home-practical-link mt-auto">
+                            Voir le calendrier
+                            @if ($nbCompetitions > 1)<span class="fw-normal">({{ $nbCompetitions }} à venir)</span>@endif
+                            <i class="fas fa-arrow-right ms-2" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </a>
+            </div>
+
+            {{-- Nos partenaires --}}
+            @if ($partenairesActifs)
+                <div class="col-md-6 col-lg-4">
+                    <a href="{{ route('partners.index') }}" class="home-practical card border-0 shadow-sm h-100 text-decoration-none">
+                        <div class="card-body p-4 d-flex flex-column">
+                            <div class="home-practical-icon mb-3" aria-hidden="true"><i class="fas fa-handshake"></i></div>
+                            <h2 class="h4 fw-bold text-dark mb-2">Nos partenaires</h2>
+                            <p class="text-muted mb-3">
+                                Entreprises, collectivités et mécènes qui soutiennent le club
+                                et la formation de ses nageurs.
+                            </p>
+                            @if ($logosPartenaires->isNotEmpty())
+                                <div class="home-practical-logos mb-3">
+                                    @foreach ($logosPartenaires as $partenaire)
+                                        <span class="home-practical-logo" title="{{ $partenaire->name }}">
+                                            @if ($partenaire->logo_url)
+                                                <img src="{{ $partenaire->logo_url }}" alt="{{ $partenaire->name }}" loading="lazy">
+                                            @else
+                                                <span class="fw-bold">{{ $partenaire->initials }}</span>
+                                                <span class="visually-hidden">{{ $partenaire->name }}</span>
+                                            @endif
+                                        </span>
+                                    @endforeach
+                                </div>
+                            @endif
+                            <span class="home-practical-link mt-auto">
+                                Découvrir nos partenaires
+                                @if ($nbPartenaires > 4)<span class="fw-normal">({{ $nbPartenaires }})</span>@endif
+                                <i class="fas fa-arrow-right ms-2" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+            @endif
+
+        </div>
+    </div>
+</section>
+
 
 <!-- Le club en bref -->
-<section id="le-club" class="anchor-section py-5 bg-white">
+<section id="le-club" class="anchor-section py-5">
     <div class="container-lg">
         <div class="row align-items-center g-4 g-lg-5">
             <div class="col-lg-6">
@@ -383,6 +494,74 @@
         border-radius: 15px 0 15px 0;
     }
 
+    /* Le club en pratique : trois cartes cliquables */
+    .home-practical {
+        border-top: 5px solid #f9be38 !important;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .home-practical:hover,
+    .home-practical:focus {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 20px rgba(47, 128, 184, 0.18) !important;
+    }
+
+    .home-practical:focus-visible {
+        outline: 3px solid #2f80b8;
+        outline-offset: 3px;
+    }
+
+    .home-practical-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 56px;
+        height: 56px;
+        border-radius: 15px 0 15px 0;
+        background: #2f80b8;
+        color: #fff;
+        font-size: 1.5rem;
+    }
+
+    .home-practical-info {
+        background: #f3f8fc;
+        border-left: 3px solid #2f80b8;
+        border-radius: 0 8px 8px 0;
+        padding: 0.6rem 0.85rem;
+        color: #4a5560;
+        font-size: 0.9rem;
+    }
+
+    .home-practical-link {
+        color: #2f80b8;
+        font-weight: 600;
+    }
+
+    .home-practical-logos {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .home-practical-logo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 70px;
+        height: 44px;
+        padding: 4px;
+        background: #fff;
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        color: #2f80b8;
+    }
+
+    .home-practical-logo img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
     /* Tuiles d'accès rapide */
     .home-quick-link {
         transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -395,12 +574,15 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-        .home-quick-link {
+        .home-quick-link,
+        .home-practical {
             transition: none;
         }
 
         .home-quick-link:hover,
-        .home-quick-link:focus {
+        .home-quick-link:focus,
+        .home-practical:hover,
+        .home-practical:focus {
             transform: none;
         }
     }
