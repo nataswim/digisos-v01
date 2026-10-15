@@ -95,12 +95,15 @@ class PartnersModuleTest extends TestCase
         $this->assertSame('club-sport-2', $b->slug);
     }
 
-    public function test_admin_can_create_update_and_delete_partner_with_logo(): void
+    public function test_admin_can_create_update_and_delete_partner_with_uploaded_logo(): void
     {
         $admin = $this->userWithRole('admin');
 
         $this->actingAs($admin)->get('/admin/partenaires')->assertOk()->assertSee('Partenaires du club');
-        $this->actingAs($admin)->get('/admin/partenaires/create')->assertOk()->assertSee('Nouveau partenaire');
+        $this->actingAs($admin)->get('/admin/partenaires/create')->assertOk()
+            ->assertSee('Nouveau partenaire')
+            ->assertSee('presentation-editor', false)
+            ->assertSee("openMediaSelector('logo', 'logo-preview')", false);
 
         $this->actingAs($admin)->post('/admin/partenaires', [
             'name' => 'Imprimerie Moderne',
@@ -109,37 +112,103 @@ class PartnersModuleTest extends TestCase
             'website' => 'https://imprimerie.example.fr',
             'partner_since' => 2021,
             'is_active' => '1',
-            'logo' => UploadedFile::fake()->image('logo.png', 300, 120),
+            'logo_file' => UploadedFile::fake()->image('logo.png', 300, 120),
         ])->assertRedirect('/admin/partenaires');
 
         $partner = Partner::firstWhere('name', 'Imprimerie Moderne');
-        $this->assertNotNull($partner->logo_path);
-        Storage::disk('public')->assertExists($partner->logo_path);
-        $ancienLogo = $partner->logo_path;
+        $this->assertStringStartsWith('/storage/partners/', $partner->logo);
+        $ancienFichier = substr($partner->logo, strlen('/storage/'));
+        Storage::disk('public')->assertExists($ancienFichier);
 
         $this->actingAs($admin)->get("/admin/partenaires/{$partner->slug}/edit")->assertOk()->assertSee('Imprimerie Moderne');
 
-        // Remplacement du logo : l'ancien fichier est supprimé
+        // Remplacement par une image de la médiathèque : l'ancien fichier envoyé est supprimé
         $this->actingAs($admin)->put("/admin/partenaires/{$partner->slug}", [
             'name' => 'Imprimerie Moderne',
             'level' => 'or',
             'is_active' => '1',
-            'logo' => UploadedFile::fake()->image('nouveau.jpg', 300, 120),
+            'logo' => 'http://localhost/storage/media/logo-imprimerie.png',
         ])->assertRedirect('/admin/partenaires');
 
         $partner->refresh();
         $this->assertSame('or', $partner->level);
-        Storage::disk('public')->assertMissing($ancienLogo);
-        Storage::disk('public')->assertExists($partner->logo_path);
+        $this->assertSame('http://localhost/storage/media/logo-imprimerie.png', $partner->logo);
+        Storage::disk('public')->assertMissing($ancienFichier);
 
-        // Suppression du logo par la case à cocher
+        // Retirer le logo : l'image de la médiathèque, elle, n'est jamais supprimée
+        Storage::disk('public')->put('media/logo-imprimerie.png', 'x');
         $this->actingAs($admin)->put("/admin/partenaires/{$partner->slug}", [
             'name' => 'Imprimerie Moderne', 'level' => 'or', 'is_active' => '1', 'remove_logo' => '1',
         ]);
-        $this->assertNull($partner->fresh()->logo_path);
+        $this->assertNull($partner->fresh()->logo);
+        Storage::disk('public')->assertExists('media/logo-imprimerie.png');
 
         $this->actingAs($admin)->delete("/admin/partenaires/{$partner->slug}")->assertRedirect('/admin/partenaires');
         $this->assertDatabaseMissing('partners', ['id' => $partner->id]);
+    }
+
+    public function test_logo_chosen_in_media_library_is_shown_publicly(): void
+    {
+        $admin = $this->userWithRole('admin');
+
+        $this->actingAs($admin)->post('/admin/partenaires', [
+            'name' => 'Optique Vision', 'level' => 'or', 'is_active' => '1',
+            'logo' => '/storage/media/optique.png',
+        ])->assertRedirect('/admin/partenaires');
+
+        $this->get('/partenaires')->assertSee('/storage/media/optique.png', false);
+        $this->get('/partenaires/optique-vision')->assertSee('/storage/media/optique.png', false);
+    }
+
+    public function test_editor_text_is_kept_formatted_and_cleaned(): void
+    {
+        $admin = $this->userWithRole('admin');
+
+        $this->actingAs($admin)->post('/admin/partenaires', [
+            'name' => 'Garage Martin', 'level' => 'or', 'is_active' => '1',
+            'presentation' => '<h2>Un garage local</h2><p>Depuis <strong>1990</strong> à Bressuire.</p>'
+                . '<script>alert(1)</script><p><a href="javascript:alert(2)">piège</a> <img src="x.png" onerror="alert(3)"></p>',
+            'actions' => '<ul><li>Lots pour le meeting</li><li>Transport des nageurs</li></ul>',
+        ])->assertRedirect('/admin/partenaires');
+
+        $partner = Partner::firstWhere('name', 'Garage Martin');
+        $this->assertStringContainsString('<strong>1990</strong>', $partner->presentation);
+        $this->assertStringNotContainsString('<script', $partner->presentation);
+        $this->assertStringNotContainsString('javascript:', $partner->presentation);
+        $this->assertStringNotContainsString('onerror', $partner->presentation);
+
+        $this->get('/partenaires/garage-martin')
+            ->assertOk()
+            ->assertSee('<h2>Un garage local</h2>', false)
+            ->assertSee('<li>Transport des nageurs</li>', false)
+            ->assertDontSee('alert(1)', false);
+    }
+
+    public function test_old_plain_text_is_still_displayed(): void
+    {
+        Partner::create([
+            'name' => 'Ancien Texte', 'level' => 'bronze',
+            'presentation' => "Premier paragraphe.\n\nDeuxième paragraphe.",
+            'actions' => "- Lots pour le meeting\nFinancement des bonnets",
+        ]);
+
+        $this->get('/partenaires/ancien-texte')
+            ->assertSee('<p>Deuxième paragraphe.</p>', false)
+            ->assertSee('<li>Financement des bonnets</li>', false);
+    }
+
+    public function test_empty_editor_is_saved_as_empty(): void
+    {
+        $admin = $this->userWithRole('admin');
+
+        $this->actingAs($admin)->post('/admin/partenaires', [
+            'name' => 'Mairie', 'level' => 'principal', 'is_active' => '1',
+            'presentation' => '<p><br></p>', 'actions' => '<p><br></p>',
+        ]);
+
+        $partner = Partner::firstWhere('name', 'Mairie');
+        $this->assertNull($partner->presentation);
+        $this->assertNull($partner->actions);
     }
 
     public function test_validation_rejects_bad_website_year_and_svg(): void
@@ -151,8 +220,9 @@ class PartnersModuleTest extends TestCase
             'level' => 'or',
             'website' => 'javascript:alert(1)',
             'partner_since' => 1900,
-            'logo' => UploadedFile::fake()->create('logo.svg', 10, 'image/svg+xml'),
-        ])->assertSessionHasErrors(['website', 'partner_since', 'logo']);
+            'logo' => 'javascript:alert(1)',
+            'logo_file' => UploadedFile::fake()->create('logo.svg', 10, 'image/svg+xml'),
+        ])->assertSessionHasErrors(['website', 'partner_since', 'logo', 'logo_file']);
 
         $this->assertDatabaseCount('partners', 0);
     }
@@ -162,6 +232,8 @@ class PartnersModuleTest extends TestCase
         $editor = $this->userWithRole('editor');
 
         $this->actingAs($editor)->get('/editor/partenaires')->assertOk();
+        // La médiathèque est accessible depuis l'espace éditeur (sélecteur d'image)
+        $this->actingAs($editor)->getJson('/editor/media-api')->assertOk();
         $this->actingAs($editor)->post('/editor/partenaires', ['name' => 'Mairie', 'level' => 'principal', 'is_active' => '1'])
             ->assertRedirect('/editor/partenaires');
 

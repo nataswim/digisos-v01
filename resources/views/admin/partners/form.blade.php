@@ -34,20 +34,18 @@
                             <div class="form-text">Affichée sous le logo sur la page des partenaires.</div>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="presentation" class="form-label fw-semibold">Présentation <span class="text-muted fw-normal">(facultatif)</span></label>
-                            <textarea id="presentation" name="presentation" rows="7" maxlength="10000"
-                                      class="form-control @error('presentation') is-invalid @enderror"
-                                      placeholder="Activité, histoire, lien avec le Bocage Bressuirais…">{{ old('presentation', $partner->presentation) }}</textarea>
-                            <div class="form-text">Texte simple ; une ligne vide crée un nouveau paragraphe.</div>
+                            <div id="presentation-editor" class="partners-editor partners-editor--lg @error('presentation') is-invalid @enderror"></div>
+                            <textarea id="presentation" name="presentation" class="d-none">{{ old('presentation', $partner->presentation_html) }}</textarea>
+                            <div class="form-text">Activité, histoire, lien avec le Bocage Bressuirais… Le bouton image de la barre d'outils insère une image de la médiathèque.</div>
                         </div>
 
                         <div class="mb-0">
                             <label for="actions" class="form-label fw-semibold">Actions auprès du club <span class="text-muted fw-normal">(facultatif)</span></label>
-                            <textarea id="actions" name="actions" rows="5" maxlength="5000"
-                                      class="form-control @error('actions') is-invalid @enderror"
-                                      placeholder="Une action par ligne, par exemple :&#10;Financement des bonnets du club&#10;Lots pour le meeting de printemps">{{ old('actions', $partner->actions) }}</textarea>
-                            <div class="form-text">Une action par ligne : chaque ligne devient un point de liste sur la fiche publique.</div>
+                            <div id="actions-editor" class="partners-editor @error('actions') is-invalid @enderror"></div>
+                            <textarea id="actions" name="actions" class="d-none">{{ old('actions', $partner->actions_html) }}</textarea>
+                            <div class="form-text">Conseil : utilisez la liste à puces de la barre d'outils, une action par puce.</div>
                         </div>
                     </div>
                 </div>
@@ -60,23 +58,34 @@
                         <h2 class="h6 fw-bold mb-3">Logo</h2>
 
                         <div class="partners-form-preview mb-3">
-                            @if ($partner->logo_url)
-                                <img src="{{ $partner->logo_url }}" alt="Logo actuel de {{ $partner->name }}" id="logo-preview">
-                            @else
-                                <img src="" alt="" id="logo-preview" hidden>
-                                <span class="text-muted small" id="logo-empty">Aucun logo</span>
-                            @endif
+                            <img src="{{ old('logo', $partner->logo) }}" alt="Aperçu du logo" id="logo-preview" @if (! old('logo', $partner->logo)) hidden @endif>
+                            <span class="text-muted small" id="logo-empty" @if (old('logo', $partner->logo)) hidden @endif>Aucun logo</span>
                         </div>
 
-                        <label for="logo" class="form-label">{{ $partner->logo_path ? 'Remplacer le logo' : 'Choisir une image' }}</label>
-                        <input type="file" id="logo" name="logo" accept="image/png,image/jpeg,image/webp,image/gif"
-                               class="form-control @error('logo') is-invalid @enderror">
-                        <div class="form-text">PNG, JPG, WebP ou GIF, 2 Mo maximum. Un fond transparent ou blanc rend mieux.</div>
+                        <label for="logo" class="form-label fw-semibold">Image de la médiathèque</label>
+                        <div class="input-group">
+                            <input type="text" id="logo" name="logo" maxlength="500"
+                                   class="form-control @error('logo') is-invalid @enderror"
+                                   value="{{ old('logo', $partner->logo) }}" placeholder="Choisir une image…">
+                            <button type="button" class="btn btn-primary" onclick="openMediaSelector('logo', 'logo-preview')"
+                                    title="Choisir dans la médiathèque">
+                                <i class="fas fa-images" aria-hidden="true"></i><span class="visually-hidden">Choisir dans la médiathèque</span>
+                            </button>
+                        </div>
+                        <div class="form-text mb-3">Cliquez sur <i class="fas fa-images" aria-hidden="true"></i> pour choisir un logo déjà présent sur le site.</div>
 
-                        @if ($partner->logo_path)
-                            <div class="form-check mt-2">
+                        <details class="partners-upload" @if ($errors->has('logo_file')) open @endif>
+                            <summary class="small fw-semibold">… ou envoyer une image depuis l'ordinateur</summary>
+                            <input type="file" id="logo_file" name="logo_file" accept="image/png,image/jpeg,image/webp,image/gif"
+                                   class="form-control form-control-sm mt-2 @error('logo_file') is-invalid @enderror"
+                                   aria-label="Envoyer une image depuis l'ordinateur">
+                            <div class="form-text">PNG, JPG, WebP ou GIF, 2 Mo maximum. Un fond transparent ou blanc rend mieux.</div>
+                        </details>
+
+                        @if ($partner->logo)
+                            <div class="form-check mt-3">
                                 <input class="form-check-input" type="checkbox" id="remove_logo" name="remove_logo" value="1">
-                                <label class="form-check-label" for="remove_logo">Supprimer le logo actuel</label>
+                                <label class="form-check-label" for="remove_logo">Retirer le logo</label>
                             </div>
                         @endif
                     </div>
@@ -162,6 +171,27 @@
         padding: 10px;
     }
 
+    .partners-editor {
+        height: 280px;
+        background: #fff;
+        border: 1px solid #ced4da;
+        border-radius: 0 0 0.375rem 0.375rem;
+    }
+
+    .partners-editor--lg {
+        height: 380px;
+    }
+
+    .partners-editor.is-invalid,
+    .partners-editor.is-invalid + .ql-toolbar {
+        border-color: #dc3545;
+    }
+
+    .partners-upload summary {
+        cursor: pointer;
+        color: #2f80b8;
+    }
+
     .partners-form-preview img {
         max-width: 100%;
         max-height: 100%;
@@ -172,21 +202,43 @@
 
 @push('scripts')
 <script>
-    // Aperçu du logo choisi, avant l'enregistrement
-    (function () {
+    // L'éditeur de texte (quill-advanced.js) et la médiathèque (media-selector.js)
+    // sont chargés par les gabarits layouts.admin et layouts.editor, comme pour les fiches.
+    document.addEventListener('DOMContentLoaded', function () {
+        var editeurs = {};
+        if (typeof initQuillEditor === 'function') {
+            editeurs.presentation = initQuillEditor('#presentation-editor', 'presentation');
+            editeurs.actions = initQuillEditor('#actions-editor', 'actions');
+        }
+
+        // Recopie le contenu des éditeurs dans le formulaire à l'enregistrement
+        var formulaire = document.querySelector('form[enctype="multipart/form-data"]');
+        if (formulaire) {
+            formulaire.addEventListener('submit', function () {
+                Object.keys(editeurs).forEach(function (champ) {
+                    if (editeurs[champ]) {
+                        document.getElementById(champ).value = editeurs[champ].root.innerHTML;
+                    }
+                });
+            });
+        }
+
+        // Aperçu du logo : image de la médiathèque, adresse saisie ou fichier choisi
         var champ = document.getElementById('logo');
+        var fichier = document.getElementById('logo_file');
         var apercu = document.getElementById('logo-preview');
         var vide = document.getElementById('logo-empty');
-        if (!champ || !apercu) return;
 
-        champ.addEventListener('change', function () {
-            var fichier = champ.files && champ.files[0];
-            if (!fichier) return;
-            apercu.src = URL.createObjectURL(fichier);
-            apercu.alt = 'Aperçu du nouveau logo';
-            apercu.hidden = false;
-            if (vide) vide.hidden = true;
+        function afficher(src) {
+            apercu.hidden = !src;
+            vide.hidden = !!src;
+            if (src) { apercu.src = src; }
+        }
+
+        champ && champ.addEventListener('input', function () { afficher(champ.value.trim()); });
+        fichier && fichier.addEventListener('change', function () {
+            if (fichier.files && fichier.files[0]) { afficher(URL.createObjectURL(fichier.files[0])); }
         });
-    })();
+    });
 </script>
 @endpush

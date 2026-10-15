@@ -47,9 +47,9 @@
     <div class="container-lg">
         <!-- Logo -->
         <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
-            <img src="{{ asset('assets/images/logo/cnbb-logo-800.png') }}"
+            <img src="{{ asset('assets/images/logo/Logo-CNBB-Natation-9.png') }}"
                  alt="CNBB — accueil du site"
-                 class="img-fluid">
+                 class="img-fluid" style=" background: #f0f1f0; padding: 5px; border-radius: 20px; ">
         </a>
 
         <!-- Bouton du menu sur mobile -->

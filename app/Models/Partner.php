@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\RichText;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -30,12 +31,12 @@ class Partner extends Model
         'media'          => 'Partenaire média',
     ];
 
-    /** Dossier des logos sur le disque « public ». */
+    /** Dossier des logos envoyés depuis l'ordinateur, sur le disque « public ». */
     public const LOGO_DIR = 'partners';
 
     protected $fillable = [
         'name', 'slug', 'level', 'category', 'summary', 'presentation', 'actions',
-        'website', 'partner_since', 'logo_path', 'sort_order', 'is_active',
+        'website', 'partner_since', 'logo', 'sort_order', 'is_active',
     ];
 
     protected $casts = [
@@ -59,7 +60,16 @@ class Partner extends Model
             }
         });
 
-        // Le logo part avec le partenaire
+        // Présentation et actions : HTML de l'éditeur nettoyé à l'enregistrement
+        static::saving(function (Partner $partner) {
+            foreach (['presentation', 'actions'] as $field) {
+                if ($partner->isDirty($field) && RichText::isHtml($partner->{$field})) {
+                    $partner->{$field} = RichText::clean($partner->{$field}) ?: null;
+                }
+            }
+        });
+
+        // Un logo envoyé depuis l'ordinateur part avec le partenaire (pas une image de la médiathèque)
         static::deleted(function (Partner $partner) {
             $partner->deleteLogoFile();
         });
@@ -100,7 +110,44 @@ class Partner extends Model
 
     public function getLogoUrlAttribute(): ?string
     {
-        return $this->logo_path ? Storage::disk('public')->url($this->logo_path) : null;
+        return $this->logo ?: null;
+    }
+
+    /** Présentation prête à afficher : HTML de l'éditeur, ou ancien texte brut mis en paragraphes. */
+    public function getPresentationHtmlAttribute(): string
+    {
+        $text = (string) $this->presentation;
+
+        if (RichText::isHtml($text)) {
+            return RichText::clean($text);
+        }
+
+        return collect(preg_split("/\R\s*\R/u", trim($text)))
+            ->filter(fn ($p) => trim($p) !== '')
+            ->map(fn ($p) => '<p>' . nl2br(e(trim($p))) . '</p>')
+            ->implode("\n");
+    }
+
+    /** Actions prêtes à afficher : HTML de l'éditeur, ou ancien texte brut (une action par ligne) mis en liste. */
+    public function getActionsHtmlAttribute(): string
+    {
+        $text = (string) $this->actions;
+
+        if (RichText::isHtml($text)) {
+            return RichText::clean($text);
+        }
+
+        $lines = collect(preg_split("/\R/u", trim($text)))
+            ->map(fn ($l) => trim(ltrim(trim($l), "-•*–")))
+            ->filter();
+
+        return $lines->isEmpty() ? '' : '<ul>' . $lines->map(fn ($l) => '<li>' . e($l) . '</li>')->implode('') . '</ul>';
+    }
+
+    /** Vrai si le logo est un fichier envoyé pour ce partenaire (et non une image de la médiathèque). */
+    public function hasUploadedLogo(): bool
+    {
+        return (bool) $this->uploadedLogoPath();
     }
 
     /** Adresse du site sans « https:// » ni « www. », pour l'affichage. */
@@ -125,10 +172,27 @@ class Partner extends Model
             ->implode('');
     }
 
-    public function deleteLogoFile(): void
+    /** Supprime le fichier du logo s'il a été envoyé pour ce partenaire ; les images de la médiathèque ne sont jamais supprimées. */
+    public function deleteLogoFile(?string $logo = null): void
     {
-        if ($this->logo_path && Storage::disk('public')->exists($this->logo_path)) {
-            Storage::disk('public')->delete($this->logo_path);
+        $path = $this->uploadedLogoPath($logo ?? $this->getOriginal('logo') ?? $this->logo);
+
+        if ($path && Storage::disk('public')->exists($path)) {
+            Storage::disk('public')->delete($path);
         }
+    }
+
+    /** « /storage/partners/x.png » (ou l'adresse complète) → « partners/x.png » ; null pour une autre image. */
+    private function uploadedLogoPath(?string $logo = null): ?string
+    {
+        $logo = $logo ?? $this->logo;
+        if (! $logo) {
+            return null;
+        }
+
+        $path = parse_url($logo, PHP_URL_PATH) ?: '';
+        $prefix = '/storage/' . self::LOGO_DIR . '/';
+
+        return str_starts_with($path, $prefix) ? substr($path, strlen('/storage/')) : null;
     }
 }

@@ -1,20 +1,16 @@
 @extends('layouts.public')
 
 @section('title', $partner->name . ' — Partenaire du club')
-@section('meta_description', Str::limit($partner->summary ?: strip_tags((string) $partner->presentation) ?: $partner->name . ', partenaire du Cercle des Nageurs du Bocage Bressuirais.', 155))
+@section('meta_description', Str::limit($partner->summary ?: trim(html_entity_decode(strip_tags((string) $partner->presentation), ENT_QUOTES | ENT_HTML5, 'UTF-8')) ?: $partner->name . ', partenaire du Cercle des Nageurs du Bocage Bressuirais.', 155))
 
 @section('content')
 
 @php
     $info = $partner->level_info;
 
-    // Présentation : une ligne vide sépare deux paragraphes
-    $paragraphes = collect(preg_split("/\R\s*\R/u", trim((string) $partner->presentation)))->filter(fn ($p) => trim($p) !== '');
-
-    // Actions : une action par ligne
-    $actions = collect(preg_split("/\R/u", trim((string) $partner->actions)))
-        ->map(fn ($ligne) => trim(ltrim(trim($ligne), "-•*–")))
-        ->filter();
+    // Textes de l'éditeur, nettoyés par le modèle (App\Support\RichText)
+    $presentation = $partner->presentation_html;
+    $actions = $partner->actions_html;
 
     $canManage = auth()->check()
         && (auth()->user()->hasRole('admin') || auth()->user()->hasRole('editor'));
@@ -89,21 +85,15 @@
             {{-- Présentation et actions --}}
             <div class="col-lg-8 order-lg-1">
                 <h2 class="h3 fw-bold mb-3">Présentation</h2>
-                @forelse ($paragraphes as $paragraphe)
-                    <p class="partners-text">{!! nl2br(e(trim($paragraphe))) !!}</p>
-                @empty
+                @if ($presentation !== '')
+                    <div class="partners-text">{!! $presentation !!}</div>
+                @else
                     <p class="text-muted">{{ $partner->name }} soutient le Cercle des Nageurs du Bocage Bressuirais.</p>
-                @endforelse
+                @endif
 
-                @if ($actions->isNotEmpty())
+                @if ($actions !== '')
                     <h2 class="h3 fw-bold mt-5 mb-3">Ses actions auprès du club</h2>
-                    <ul class="list-unstyled partners-actions mb-0">
-                        @foreach ($actions as $action)
-                            <li>
-                                <i class="fas fa-check-circle text-success me-2" aria-hidden="true"></i>{{ $action }}
-                            </li>
-                        @endforeach
-                    </ul>
+                    <div class="partners-text partners-actions">{!! $actions !!}</div>
                 @endif
             </div>
         </div>
@@ -200,13 +190,40 @@
         line-height: 1.75;
     }
 
-    .partners-actions li {
-        padding: 0.6rem 0;
+    .partners-text img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+
+    .partners-text iframe {
+        max-width: 100%;
+    }
+
+    /* Listes d'actions : coche verte à la place de la puce */
+    .partners-actions ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .partners-actions ul > li {
+        position: relative;
+        padding: 0.6rem 0 0.6rem 1.9rem;
         border-bottom: 1px solid #f0f0f0;
     }
 
-    .partners-actions li:last-child {
+    .partners-actions ul > li:last-child {
         border-bottom: 0;
+    }
+
+    .partners-actions ul > li::before {
+        content: "\f058";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        position: absolute;
+        left: 0;
+        top: 0.6rem;
+        color: #198754;
     }
 
     .partners-mini {

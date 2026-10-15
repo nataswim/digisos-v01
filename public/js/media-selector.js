@@ -1,6 +1,11 @@
 // ========================================
 // Protection contre la redéclaration
 // ========================================
+// Espace de l'utilisateur : les éditeurs n'ont pas accès à /admin, ils passent par /editor
+function mediaSelectorBase() {
+    return window.location.pathname.indexOf('/editor/') === 0 ? '/editor' : '/admin';
+}
+
 if (typeof window.MediaFieldSelector === 'undefined') {
 
 // Selecteur de medias reutilisable avec pagination
@@ -137,7 +142,7 @@ class MediaFieldSelector {
         try {
             const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
             
-            const response = await fetch('/admin/media-categories-api', {
+            const response = await fetch(mediaSelectorBase() + '/media-categories-api', {
                 headers: {
                     'X-CSRF-TOKEN': token,
                     'Accept': 'application/json',
@@ -187,7 +192,7 @@ class MediaFieldSelector {
             
             this.showLoader();
             
-            const response = await fetch(`/admin/media-api?${params}`, {
+            const response = await fetch(`${mediaSelectorBase()}/media-api?${params}`, {
                 headers: {
                     'X-CSRF-TOKEN': token,
                     'Accept': 'application/json',
@@ -233,7 +238,7 @@ class MediaFieldSelector {
                     <i class="fas fa-images fa-3x text-muted mb-3"></i>
                     <h5 class="text-muted">Aucune image trouvee</h5>
                     <p class="text-muted">Uploadez des images dans votre mediatheque.</p>
-                    <a href="/admin/media" class="btn btn-primary" target="_blank">
+                    <a href="${mediaSelectorBase()}/media" class="btn btn-primary" target="_blank">
                         <i class="fas fa-upload me-2"></i>Gerer les medias
                     </a>
                 </div>

@@ -37,21 +37,16 @@
     };
 
 
-    // Bloc « Le club en pratique » : données des modules Planning, Compétitions et Partenaires
-    $nbGroupes = App\Models\PlanningGroup::where('is_active', true)->count();
-    $nbCreneaux = App\Models\PlanningSlot::active()->period('scolaire')
-        ->whereHas('group', fn ($q) => $q->where('is_active', true))
-        ->count();
-
-    $prochaineCompetition = App\Models\Competition::published()->upcoming()->first();
-    $nbCompetitions = App\Models\Competition::published()->upcoming()->count();
-
-    // Module Partenaires : la carte n'apparaît qu'une fois le module installé
-    $partenairesActifs = Route::has('partners.index') && Schema::hasTable('partners');
-    $logosPartenaires = $partenairesActifs
-        ? App\Models\Partner::active()->ordered()->limit(4)->get()
+    // Bandeau des partenaires en bas de page (module Partenaires ; masqué tant qu'il n'est pas installé)
+    $partenaires = Route::has('partners.index') && Schema::hasTable('partners')
+        ? App\Models\Partner::active()->ordered()->get()
         : collect();
-    $nbPartenaires = $partenairesActifs ? App\Models\Partner::active()->count() : 0;
+
+    // Lien « Devenir partenaire » : page créée par les seeders si elle est publiée, sinon le formulaire de contact
+    $pageDevenirPartenaire = App\Models\Page::with('category')->where('slug', 'devenir-partenaire')->where('is_published', true)->first();
+    $devenirPartenaire = $pageDevenirPartenaire && $pageDevenirPartenaire->category
+        ? route('public.pages.show', [$pageDevenirPartenaire->category->slug, $pageDevenirPartenaire->slug])
+        : route('contact');
 
 
     // Les groupes du club
@@ -104,8 +99,6 @@
         <i class="fas fa-newspaper me-2" aria-hidden="true"></i>Vie du club
     </a>
 </x-public.hero>
-
-
 
 
 <!-- Actualités -->
@@ -192,104 +185,9 @@
     </div>
 </section>
 
-<!-- Le club en pratique : horaires, calendrier, partenaires -->
-<section id="en-pratique" class="anchor-section py-5 bg-white" style=" background-image: linear-gradient(45deg,#e9f7fa 85%,#fff 0); border-color: #f2f1f2 #f0a833 #f0f1f0 #f0a733; border-width: 20px; border-style: solid; ">
-    <div class="container-lg">
-        <div class="row g-4 justify-content-center">
-
-            {{-- Horaires des activités --}}
-            <div class="col-md-6 col-lg-4">
-                <a href="{{ route('schedule') }}" class="home-practical card border-0 shadow-sm h-100 text-decoration-none">
-                    <div class="card-body p-4 d-flex flex-column">
-                        <div class="home-practical-icon mb-3" aria-hidden="true"><i class="fas fa-clock"></i></div>
-                        <h2 class="h4 fw-bold text-dark mb-2">Horaires des activités</h2>
-                        <p class="text-muted mb-3">
-                            Les créneaux d'entraînement de chaque groupe au centre aquatique Cœur d'O,
-                            en période scolaire et pendant les vacances.
-                        </p>
-                        @if ($nbCreneaux > 0)
-                            <p class="home-practical-info mb-3">
-                                <i class="fas fa-calendar-week me-2" aria-hidden="true"></i>{{ $nbGroupes }} {{ $nbGroupes > 1 ? 'groupes' : 'groupe' }},
-                                {{ $nbCreneaux }} {{ $nbCreneaux > 1 ? 'créneaux' : 'créneau' }} par semaine
-                            </p>
-                        @endif
-                        <span class="home-practical-link mt-auto">
-                            Voir les horaires<i class="fas fa-arrow-right ms-2" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                </a>
-            </div>
-
-            {{-- Calendrier des événements --}}
-            <div class="col-md-6 col-lg-4">
-                <a href="{{ route('competitions.index') }}" class="home-practical card border-0 shadow-sm h-100 text-decoration-none">
-                    <div class="card-body p-4 d-flex flex-column">
-                        <div class="home-practical-icon mb-3" aria-hidden="true"><i class="fas fa-calendar-alt"></i></div>
-                        <h2 class="h4 fw-bold text-dark mb-2">Calendrier des événements</h2>
-                        <p class="text-muted mb-3">
-                            Compétitions, meetings et rendez-vous du club tout au long de la saison.
-                        </p>
-                        @if ($prochaineCompetition)
-                            <p class="home-practical-info mb-3">
-                                <span class="d-block small text-uppercase fw-semibold mb-1">Prochain rendez-vous</span>
-                                <strong class="text-dark">{{ $prochaineCompetition->title }}</strong><br>
-                                <time datetime="{{ $prochaineCompetition->starts_on->format('Y-m-d') }}">
-                                    {{ $prochaineCompetition->starts_on->translatedFormat('j F Y') }}
-                                </time>
-                                @if ($prochaineCompetition->city) · {{ $prochaineCompetition->city }}@endif
-                            </p>
-                        @endif
-                        <span class="home-practical-link mt-auto">
-                            Voir le calendrier
-                            @if ($nbCompetitions > 1)<span class="fw-normal">({{ $nbCompetitions }} à venir)</span>@endif
-                            <i class="fas fa-arrow-right ms-2" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                </a>
-            </div>
-
-            {{-- Nos partenaires --}}
-            @if ($partenairesActifs)
-                <div class="col-md-6 col-lg-4">
-                    <a href="{{ route('partners.index') }}" class="home-practical card border-0 shadow-sm h-100 text-decoration-none">
-                        <div class="card-body p-4 d-flex flex-column">
-                            <div class="home-practical-icon mb-3" aria-hidden="true"><i class="fas fa-handshake"></i></div>
-                            <h2 class="h4 fw-bold text-dark mb-2">Nos partenaires</h2>
-                            <p class="text-muted mb-3">
-                                Entreprises, collectivités et mécènes qui soutiennent le club
-                                et la formation de ses nageurs.
-                            </p>
-                            @if ($logosPartenaires->isNotEmpty())
-                                <div class="home-practical-logos mb-3">
-                                    @foreach ($logosPartenaires as $partenaire)
-                                        <span class="home-practical-logo" title="{{ $partenaire->name }}">
-                                            @if ($partenaire->logo_url)
-                                                <img src="{{ $partenaire->logo_url }}" alt="{{ $partenaire->name }}" loading="lazy">
-                                            @else
-                                                <span class="fw-bold">{{ $partenaire->initials }}</span>
-                                                <span class="visually-hidden">{{ $partenaire->name }}</span>
-                                            @endif
-                                        </span>
-                                    @endforeach
-                                </div>
-                            @endif
-                            <span class="home-practical-link mt-auto">
-                                Découvrir nos partenaires
-                                @if ($nbPartenaires > 4)<span class="fw-normal">({{ $nbPartenaires }})</span>@endif
-                                <i class="fas fa-arrow-right ms-2" aria-hidden="true"></i>
-                            </span>
-                        </div>
-                    </a>
-                </div>
-            @endif
-
-        </div>
-    </div>
-</section>
-
 
 <!-- Le club en bref -->
-<section id="le-club" class="anchor-section py-5">
+<section id="le-club" class="anchor-section py-5 bg-white">
     <div class="container-lg">
         <div class="row align-items-center g-4 g-lg-5">
             <div class="col-lg-6">
@@ -422,6 +320,46 @@
     </div>
 </section>
 
+
+<!-- Bandeau des partenaires -->
+@if ($partenaires->isNotEmpty())
+    <section class="py-5 bg-white home-partners" aria-labelledby="home-partners-title">
+        <div class="container-lg">
+            <div class="text-center mb-4">
+                <h2 id="home-partners-title" class="h3 fw-bold mb-2">
+                    <i class="fas fa-handshake text-primary me-2" aria-hidden="true"></i>Ils soutiennent le club
+                </h2>
+                <p class="text-muted mb-0">Merci à nos partenaires pour leur engagement aux côtés des nageurs du CNBB.</p>
+            </div>
+
+            <ul class="home-partners-list list-unstyled d-flex flex-wrap justify-content-center align-items-stretch gap-3 mb-4">
+                @foreach ($partenaires as $partenaire)
+                    <li>
+                        <a href="{{ route('partners.show', $partenaire) }}"
+                           class="home-partners-logo home-partners-logo--{{ $partenaire->level }}"
+                           title="{{ $partenaire->name }}">
+                            @if ($partenaire->logo_url)
+                                <img src="{{ $partenaire->logo_url }}" alt="{{ $partenaire->name }}" loading="lazy">
+                            @else
+                                <span class="home-partners-name">{{ $partenaire->name }}</span>
+                            @endif
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+
+            <div class="d-flex flex-wrap justify-content-center gap-2">
+                <a href="{{ route('partners.index') }}" class="btn btn-primary home-btn">
+                    <i class="fas fa-arrow-right me-2" aria-hidden="true"></i>Tous nos partenaires
+                </a>
+                <a href="{{ $devenirPartenaire }}" class="btn btn-outline-primary">
+                    <i class="fas fa-hands-helping me-2" aria-hidden="true"></i>Devenir partenaire
+                </a>
+            </div>
+        </div>
+    </section>
+@endif
+
 @endsection
 
 
@@ -494,72 +432,69 @@
         border-radius: 15px 0 15px 0;
     }
 
-    /* Le club en pratique : trois cartes cliquables */
-    .home-practical {
-        border-top: 5px solid #f9be38 !important;
+    /* Bandeau des partenaires : logos en gris, en couleur au survol */
+    .home-partners {
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .home-partners-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 160px;
+        height: 90px;
+        padding: 0.75rem;
+        background: #fff;
+        border: 1px solid #e9ecef;
+        border-radius: 10px;
+        text-decoration: none;
         transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
-    .home-practical:hover,
-    .home-practical:focus {
-        transform: translateY(-4px);
-        box-shadow: 0 10px 20px rgba(47, 128, 184, 0.18) !important;
+    /* Partenaire principal et partenaires Or un peu plus grands */
+    .home-partners-logo--principal { width: 220px; height: 110px; }
+    .home-partners-logo--or        { width: 180px; height: 100px; }
+
+    .home-partners-logo img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        filter: grayscale(100%);
+        opacity: 0.75;
+        transition: filter 0.25s ease, opacity 0.25s ease;
     }
 
-    .home-practical:focus-visible {
+    .home-partners-logo:hover,
+    .home-partners-logo:focus {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 16px rgba(47, 128, 184, 0.15);
+    }
+
+    .home-partners-logo:hover img,
+    .home-partners-logo:focus img {
+        filter: none;
+        opacity: 1;
+    }
+
+    .home-partners-logo:focus-visible {
         outline: 3px solid #2f80b8;
         outline-offset: 3px;
     }
 
-    .home-practical-icon {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 56px;
-        height: 56px;
-        border-radius: 15px 0 15px 0;
-        background: #2f80b8;
-        color: #fff;
-        font-size: 1.5rem;
-    }
-
-    .home-practical-info {
-        background: #f3f8fc;
-        border-left: 3px solid #2f80b8;
-        border-radius: 0 8px 8px 0;
-        padding: 0.6rem 0.85rem;
-        color: #4a5560;
-        font-size: 0.9rem;
-    }
-
-    .home-practical-link {
+    .home-partners-name {
         color: #2f80b8;
-        font-weight: 600;
+        font-weight: 700;
+        text-align: center;
+        line-height: 1.2;
     }
 
-    .home-practical-logos {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-    }
-
-    .home-practical-logo {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 70px;
-        height: 44px;
-        padding: 4px;
-        background: #fff;
-        border: 1px solid #e9ecef;
-        border-radius: 6px;
-        color: #2f80b8;
-    }
-
-    .home-practical-logo img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
+    @media (max-width: 576px) {
+        .home-partners-logo,
+        .home-partners-logo--principal,
+        .home-partners-logo--or {
+            width: 140px;
+            height: 80px;
+        }
     }
 
     /* Tuiles d'accès rapide */
@@ -575,14 +510,14 @@
 
     @media (prefers-reduced-motion: reduce) {
         .home-quick-link,
-        .home-practical {
+        .home-partners-logo {
             transition: none;
         }
 
         .home-quick-link:hover,
         .home-quick-link:focus,
-        .home-practical:hover,
-        .home-practical:focus {
+        .home-partners-logo:hover,
+        .home-partners-logo:focus {
             transform: none;
         }
     }

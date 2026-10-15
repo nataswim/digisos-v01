@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Partner;
+use App\Support\RichText;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -86,38 +87,59 @@ class PartnerController extends Controller
             'level' => ['required', Rule::in(array_keys(Partner::LEVELS))],
             'category' => ['nullable', Rule::in(array_keys(Partner::CATEGORIES))],
             'summary' => ['nullable', 'string', 'max:255'],
-            'presentation' => ['nullable', 'string', 'max:10000'],
-            'actions' => ['nullable', 'string', 'max:5000'],
+            'presentation' => ['nullable', 'string', 'max:50000'],
+            'actions' => ['nullable', 'string', 'max:20000'],
             'website' => ['nullable', 'string', 'max:255', 'url:http,https'],
             'partner_since' => ['nullable', 'integer', 'min:1954', 'max:' . (now()->year + 1)],
             'sort_order' => ['nullable', 'integer', 'min:0', 'max:65000'],
-            // Pas de SVG : un SVG peut contenir du script
-            'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:2048'],
+            // Image de la médiathèque (ou adresse d'image) …
+            'logo' => ['nullable', 'string', 'max:500', 'regex:#^(https?://|/)#i'],
+            // … ou fichier envoyé depuis l'ordinateur. Pas de SVG : un SVG peut contenir du script
+            'logo_file' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:2048'],
         ], [
             'website.url' => 'Le site internet doit être une adresse complète, commençant par https://',
             'partner_since.min' => 'L\'année ne peut pas être antérieure à la création du club (1954).',
-            'logo.image' => 'Le logo doit être une image (JPG, PNG, WebP ou GIF).',
-            'logo.mimes' => 'Le logo doit être une image JPG, PNG, WebP ou GIF.',
-            'logo.max' => 'Le logo ne doit pas dépasser 2 Mo.',
+            'logo.regex' => 'Le logo doit être choisi dans la médiathèque ou être une adresse commençant par https://',
+            'logo_file.image' => 'Le logo doit être une image (JPG, PNG, WebP ou GIF).',
+            'logo_file.mimes' => 'Le logo doit être une image JPG, PNG, WebP ou GIF.',
+            'logo_file.max' => 'Le logo ne doit pas dépasser 2 Mo.',
         ]);
 
-        unset($data['logo']);
+        unset($data['logo'], $data['logo_file']);
+        // Éditeur vide (« <p><br></p> ») = champ vide
+        foreach (['presentation', 'actions'] as $field) {
+            if (RichText::isEmpty($data[$field] ?? null)) {
+                $data[$field] = null;
+            }
+        }
         $data['is_active'] = $request->boolean('is_active');
         $data['sort_order'] = $data['sort_order'] ?? 0;
 
         return $data;
     }
 
-    /** Nouveau logo envoyé, ou case « supprimer le logo » cochée. */
+    /**
+     * Logo : fichier envoyé depuis l'ordinateur (prioritaire), sinon image choisie dans la médiathèque,
+     * ou case « retirer le logo ». L'ancien fichier envoyé pour ce partenaire est supprimé ;
+     * une image de la médiathèque, elle, n'est jamais supprimée.
+     */
     private function handleLogo(Request $request, Partner $partner): void
     {
-        if ($request->hasFile('logo')) {
-            $partner->deleteLogoFile();
-            $partner->logo_path = $request->file('logo')->store(Partner::LOGO_DIR, 'public');
+        $ancien = $partner->getOriginal('logo');
+
+        if ($request->hasFile('logo_file')) {
+            $nouveau = '/storage/' . $request->file('logo_file')->store(Partner::LOGO_DIR, 'public');
         } elseif ($request->boolean('remove_logo')) {
-            $partner->deleteLogoFile();
-            $partner->logo_path = null;
+            $nouveau = null;
+        } else {
+            $nouveau = trim((string) $request->input('logo')) ?: null;
         }
+
+        if ($ancien && $ancien !== $nouveau) {
+            $partner->deleteLogoFile($ancien);
+        }
+
+        $partner->logo = $nouveau;
     }
 
     private function area(): string
