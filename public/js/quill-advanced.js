@@ -94,51 +94,60 @@ class QuillMediaManager {
             textarea.value = quill.root.innerHTML;
         });
 
-        // Charger le contenu initial
+        // Charger le contenu initial (tableaux compris)
         if (textarea.value) {
-            // Préserver les tableaux en les convertissant en format personnalisé
-            let content = textarea.value;
-            
-            // Rechercher et préserver les tableaux
-            const tableRegex = /<table[^>]*>[\s\S]*?<\/table>/gi;
-            const tables = content.match(tableRegex);
-            
-            if (tables) {
-                tables.forEach((tableHtml, index) => {
-                    const placeholder = `___TABLE_PLACEHOLDER_${index}___`;
-                    content = content.replace(tableHtml, placeholder);
-                });
-                
-                // Charger le contenu sans les tableaux
-                quill.root.innerHTML = content;
-                
-                // Réinsérer les tableaux avec le format personnalisé
-                tables.forEach((tableHtml, index) => {
-                    const placeholder = `___TABLE_PLACEHOLDER_${index}___`;
-                    const placeholderElement = Array.from(quill.root.querySelectorAll('*')).find(
-                        el => el.textContent.includes(placeholder)
-                    );
-                    
-                    if (placeholderElement) {
-                        const range = quill.getSelection();
-                        const text = quill.getText();
-                        const placeholderIndex = text.indexOf(placeholder);
-                        
-                        if (placeholderIndex !== -1) {
-                            quill.deleteText(placeholderIndex, placeholder.length);
-                            quill.insertEmbed(placeholderIndex, 'table', tableHtml, Quill.sources.USER);
-                        }
-                    }
-                });
-            } else {
-                quill.root.innerHTML = textarea.value;
-            }
-            
-            this.makeImagesResponsive(quill);
+            this.loadHtml(quill, textarea.value);
         }
 
         this.quillInstances.set(textareaId, quill);
         return quill;
+    }
+
+    /**
+     * Charge du HTML dans l'éditeur en conservant les tableaux.
+     *
+     * Quill ne sait pas afficher un tableau : chaque tableau est remplacé par un repère
+     * (___TABLE_PLACEHOLDER_n___), le reste du HTML est chargé, puis chaque repère est
+     * remplacé par un bloc « table » (TableBlot) qui contient le tableau intact.
+     *
+     * Correctif : l'ancienne version chargeait le HTML avec quill.root.innerHTML = …,
+     * que Quill ne prend en compte qu'un instant plus tard ; les repères n'étaient donc
+     * pas encore « vus » et restaient affichés à la place des tableaux.
+     */
+    loadHtml(quill, html) {
+        const tables = [];
+
+        // Le tableau, avec le bloc qui l'entoure s'il a déjà été enregistré depuis l'éditeur
+        const tableRegex = /(?:<div[^>]*ql-table-wrapper[^>]*>\s*)?(<table[^>]*>[\s\S]*?<\/table>)(?:\s*<\/div>)?/gi;
+        const content = String(html).replace(tableRegex, (match, tableHtml) => {
+            tables.push(tableHtml);
+            return `<p>___TABLE_PLACEHOLDER_${tables.length - 1}___</p>`;
+        });
+
+        // Chargement synchrone : le texte est immédiatement connu de Quill
+        quill.setContents([], Quill.sources.SILENT);
+        quill.clipboard.dangerouslyPasteHTML(0, content, Quill.sources.SILENT);
+
+        // Du dernier au premier, pour que les positions déjà calculées restent justes
+        for (let index = tables.length - 1; index >= 0; index--) {
+            const placeholder = `___TABLE_PLACEHOLDER_${index}___`;
+            const position = quill.getText().indexOf(placeholder);
+
+            if (position !== -1) {
+                quill.deleteText(position, placeholder.length, Quill.sources.SILENT);
+                quill.insertEmbed(position, 'table', tables[index], Quill.sources.SILENT);
+            }
+        }
+
+        // Ligne vide laissée par le repère, juste après chaque tableau
+        quill.root.querySelectorAll('.ql-table-wrapper + p').forEach((p) => {
+            if (p.innerHTML === '<br>') {
+                p.remove();
+            }
+        });
+        quill.update(Quill.sources.SILENT);
+
+        this.makeImagesResponsive(quill);
     }
 
     /**
@@ -573,12 +582,11 @@ class QuillMediaManager {
                 return;
             }
             
-            quillInstance.root.innerHTML = newHtml;
+            // Même chargement qu'à l'ouverture : les tableaux sont conservés
+            this.loadHtml(quillInstance, newHtml);
             if (textarea) {
-                textarea.value = newHtml;
+                textarea.value = quillInstance.root.innerHTML;
             }
-            
-            this.makeImagesResponsive(quillInstance);
             
             modal.hide();
             this.showNotification('✅ HTML mis à jour avec succès', 'success');
