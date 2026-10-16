@@ -219,7 +219,7 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/media-selector.js') }}"></script>
+<script src="{{ asset('js/media-selector.js').'?v='.filemtime(public_path('js/media-selector.js')) }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Auto-génération du slug

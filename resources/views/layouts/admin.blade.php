@@ -45,8 +45,8 @@
     
     <script src="{{ mix('js/app.js') }}"></script>
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
-    <script src="{{ asset('js/quill-advanced.js') }}"></script>
-    <script src="{{ asset('js/media-selector.js') }}"></script>
+    <script src="{{ asset('js/quill-advanced.js').'?v='.filemtime(public_path('js/quill-advanced.js')) }}"></script>
+    <script src="{{ asset('js/media-selector.js').'?v='.filemtime(public_path('js/media-selector.js')) }}"></script>
 
     @stack('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>

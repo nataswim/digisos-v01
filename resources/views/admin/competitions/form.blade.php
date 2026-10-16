@@ -451,8 +451,8 @@
 @push('scripts')
 @once
 <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
-<script src="{{ asset('js/media-selector.js') }}"></script>
-<script src="{{ asset('js/quill-advanced.js') }}"></script>
+<script src="{{ asset('js/media-selector.js').'?v='.filemtime(public_path('js/media-selector.js')) }}"></script>
+<script src="{{ asset('js/quill-advanced.js').'?v='.filemtime(public_path('js/quill-advanced.js')) }}"></script>
 @endonce
 <script>
     document.addEventListener('DOMContentLoaded', function () {

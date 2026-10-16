@@ -531,8 +531,8 @@
 {{-- Scripts Quill + IA (chargés UNE FOIS) --}}
 @once
 <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
-<script src="{{ asset('js/media-selector.js') }}"></script>
-<script src="{{ asset('js/quill-advanced.js') }}"></script>
+<script src="{{ asset('js/media-selector.js').'?v='.filemtime(public_path('js/media-selector.js')) }}"></script>
+<script src="{{ asset('js/quill-advanced.js').'?v='.filemtime(public_path('js/quill-advanced.js')) }}"></script>
 <script src="{{ asset('js/quill-ai-optimizer.js') }}"></script>
 <script src="{{ asset('js/video-library-selector.js') }}"></script>
 @endonce
