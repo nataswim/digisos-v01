@@ -12,6 +12,7 @@ use App\Http\Controllers\PublicInstallationController;
 use App\Http\Controllers\PublicPlanningController;
 use App\Http\Controllers\PublicCompetitionController;
 use App\Http\Controllers\PublicPartnerController;
+use App\Http\Controllers\PublicShopController;
 use App\Http\Controllers\MemberCompetitionController;
 use App\Http\Controllers\EbookController;
 use App\Http\Controllers\SearchController;
@@ -115,6 +116,11 @@ Route::get('/competitions/{competition}/documents/{document}',     [PublicCompet
 Route::get('/partenaires',           [PublicPartnerController::class, 'index'])->name('partners.index');
 Route::get('/partenaires/{partner}', [PublicPartnerController::class, 'show'])->name('partners.show');
 
+// ========== BOUTIQUE VITRINE (module Boutique) ==========
+Route::get('/boutique',                         [PublicShopController::class, 'index'])->name('shop.index');
+Route::get('/boutique/{category}',              [PublicShopController::class, 'category'])->name('shop.category');
+Route::get('/boutique/{category}/{product}',    [PublicShopController::class, 'show'])->name('shop.show');
+
 // ========== POSTS PUBLICS ==========
 Route::get('/posts',                     [PostController::class, 'indexPublic'])->name('posts.public.index');
 Route::get('/posts/tag/{tag}',           [PostController::class, 'byTag'])->name('posts.public.tag');
@@ -145,6 +151,8 @@ Route::prefix('ebook')->name('ebook.')->group(function () {
 });
 
 // ========== FICHES PUBLIQUES ==========
+// Fiche rangée dans une catégorie mais sans sous-catégorie (redirige vers l'adresse complète si elle en a une)
+Route::get('/fiche/{fiche}', [PublicFicheController::class, 'direct'])->name('public.fiches.direct');
 Route::prefix('fiches')->name('public.fiches.')->group(function () {
     Route::get('/',                                  [PublicFicheController::class, 'index'])->name('index');
     Route::get('/{category}',                        [PublicFicheController::class, 'category'])->name('category');
@@ -361,6 +369,9 @@ Route::middleware(['auth', 'verified', 'can:access-admin'])->prefix('admin')->na
 
     // ========== PARTENAIRES (routes admin.partners.*) ==========
     require __DIR__.'/partners.php';
+
+    // ========== BOUTIQUE VITRINE (admin uniquement, routes admin.shop.*) ==========
+    require __DIR__.'/shop.php';
 
     // ========== LICENCES FFN — import extraNat (admin uniquement, routes admin.ffn-licenses.*) ==========
     require __DIR__.'/ffn-licenses.php';

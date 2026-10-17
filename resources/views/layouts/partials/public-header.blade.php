@@ -35,6 +35,7 @@
                 ['label' => 'Informations du club',       'icon' => 'fa-file-alt',      'route' => 'public.pages.index',         'active' => ['public.pages.*']],
                 ['label' => 'Installations',              'icon' => 'fa-swimming-pool', 'route' => 'public.installations.index', 'active' => ['public.installations.*']],
                 ['label' => 'Partenaires',                'icon' => 'fa-handshake',     'route' => 'partners.index',             'active' => ['partners.*']],
+                ['label' => 'Boutique',                   'icon' => 'fa-shopping-bag',  'route' => 'shop.index',                 'active' => ['shop.*']],
                 ['label' => 'Contact',                    'icon' => 'fa-envelope',      'route' => 'contact',                    'active' => ['contact']],
             ],
         ],

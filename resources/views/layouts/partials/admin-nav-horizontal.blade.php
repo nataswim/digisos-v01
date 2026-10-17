@@ -30,7 +30,8 @@
                             'admin.fiches-sous-categories.*',
                             'admin.pages.*',
                             'admin.pages-categories.*',
-                            'admin.partners.*'
+                            'admin.partners.*',
+                            'admin.shop.*'
                         );
                     @endphp
                     <a class="nav-link dropdown-toggle {{ $contenusActive ? 'active fw-bold text-white' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -128,6 +129,30 @@
                         <li>
                             <a class="dropdown-item {{ request()->routeIs('admin.partners.create') ? 'active' : '' }}" href="{{ route('admin.partners.create') }}">
                                 <i class="fas fa-plus fa-fw me-2"></i>Nouveau partenaire
+                            </a>
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <!-- Boutique vitrine (administrateurs uniquement) -->
+                        <li><h6 class="dropdown-header"><i class="fas fa-shopping-bag me-2"></i>Boutique</h6></li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('admin.shop.products.index', 'admin.shop.products.edit') ? 'active' : '' }}" href="{{ route('admin.shop.products.index') }}">
+                                <i class="fas fa-list fa-fw me-2"></i>Produits
+                                @php $shopProductsCount = App\Models\ShopProduct::count(); @endphp
+                                @if($shopProductsCount > 0)
+                                    <span class="badge bg-success ms-2">{{ $shopProductsCount }}</span>
+                                @endif
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('admin.shop.categories.*') ? 'active' : '' }}" href="{{ route('admin.shop.categories.index') }}">
+                                <i class="fas fa-folder-open fa-fw me-2"></i>Catégories
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('admin.shop.products.create') ? 'active' : '' }}" href="{{ route('admin.shop.products.create') }}">
+                                <i class="fas fa-plus fa-fw me-2"></i>Nouveau produit
                             </a>
                         </li>
 
