@@ -3,6 +3,27 @@
 @section('title', $current ? $current->name . ' — Boutique du club' : 'Boutique du club')
 @section('meta_description', $current?->description ?: 'La boutique du Cercle des Nageurs du Bocage Bressuirais : textile, matériel et accessoires aux couleurs du club de natation de Bressuire.')
 
+{{-- Partage sur les réseaux sociaux : image de la catégorie, sinon photo du premier produit (mis en avant d'abord) --}}
+@php
+    $produitsDePartage = $categories->flatMap(fn ($c) => $c->products);
+    $imageDePartage = $current?->image
+        ?: ($produitsDePartage->first(fn ($p) => $p->is_featured && $p->image)?->image
+        ?: $produitsDePartage->first(fn ($p) => $p->image)?->image);
+    $imageDePartage = $imageDePartage ? url($imageDePartage) : null;
+    $titreDePartage = $current ? $current->name . ' — Boutique du CNBB' : 'La boutique du CNBB';
+    $resumeDePartage = Str::limit($current?->description ?: 'Textile, matériel et accessoires aux couleurs du Cercle des Nageurs du Bocage Bressuirais.', 200);
+@endphp
+@section('og_title', $titreDePartage)
+@section('og_description', $resumeDePartage)
+@section('twitter_title', $titreDePartage)
+@section('twitter_description', $resumeDePartage)
+@if ($imageDePartage)
+    @section('og_image', $imageDePartage)
+    @section('og_image_alt', $titreDePartage)
+    @section('twitter_image', $imageDePartage)
+    @section('twitter_image_alt', $titreDePartage)
+@endif
+
 @section('content')
 
 @php

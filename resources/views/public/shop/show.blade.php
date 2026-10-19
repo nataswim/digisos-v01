@@ -2,9 +2,25 @@
 
 @section('title', $product->name . ' — Boutique du club')
 @section('meta_description', Str::limit($product->summary ?: trim(html_entity_decode(strip_tags((string) $product->description), ENT_QUOTES | ENT_HTML5, 'UTF-8')) ?: $product->name . ', boutique du CNBB.', 155))
-@if ($product->image)
-    @section('og_image', $product->image)
+{{-- Partage sur les réseaux sociaux : photo du produit, nom, prix et accroche --}}
+@php
+    $imageDePartage = $product->images[0] ?? null;
+    $imageDePartage = $imageDePartage ? url($imageDePartage) : null;   // adresse complète, même si l'image a été saisie en « /storage/… »
+    $resumeDePartage = Str::limit(trim(implode(' — ', array_filter([
+        $product->price_label,
+        $product->summary ?: trim(html_entity_decode(strip_tags((string) $product->description), ENT_QUOTES | ENT_HTML5, 'UTF-8')),
+    ]))) ?: 'Boutique du Cercle des Nageurs du Bocage Bressuirais.', 200);
+@endphp
+@section('og_type', 'website')
+@section('og_title', $product->name . ' — Boutique du CNBB')
+@section('og_description', $resumeDePartage)
+@section('twitter_title', $product->name . ' — Boutique du CNBB')
+@section('twitter_description', $resumeDePartage)
+@if ($imageDePartage)
+    @section('og_image', $imageDePartage)
     @section('og_image_alt', $product->name)
+    @section('twitter_image', $imageDePartage)
+    @section('twitter_image_alt', $product->name)
 @endif
 
 @section('content')
