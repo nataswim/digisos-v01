@@ -97,6 +97,29 @@ class ShopModuleTest extends TestCase
         $this->get('/boutique/textile/bonnet-silicone-cnbb')->assertNotFound();
     }
 
+    public function test_ticker_before_footer_on_public_pages(): void
+    {
+        // Sans produit nouveau ni à la une : pas de bandeau
+        $this->get('/contact')->assertOk()->assertDontSee('À découvrir à la boutique');
+
+        ['bonnet' => $bonnet] = $this->catalogue();
+
+        // « Sweat du club » a le badge Nouveau ; le bonnet n'est pas encore à la une
+        $this->get('/contact')->assertOk()
+            ->assertSee('À découvrir à la boutique')
+            ->assertSee('Sweat du club')
+            ->assertSee('/boutique/textile/sweat-du-club', false)
+            ->assertDontSee('Bonnet silicone CNBB')
+            ->assertDontSee('Serviette épuisée');
+
+        $bonnet->update(['is_featured' => true]);
+        $this->get('/contact')->assertSee('Bonnet silicone CNBB');
+
+        // Pas de bandeau sur les pages de la boutique, qui montrent déjà ces produits
+        $this->get('/boutique')->assertDontSee('À découvrir à la boutique');
+        $this->get('/boutique/materiel/bonnet-silicone-cnbb')->assertDontSee('À découvrir à la boutique');
+    }
+
     public function test_empty_shop(): void
     {
         $this->get('/boutique')->assertOk()->assertSee('La boutique ouvre bientôt');

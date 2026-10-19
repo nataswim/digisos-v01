@@ -107,7 +107,7 @@
     <main id="contenu" tabindex="-1">
         @yield('content')
     </main>
-
+   @include('layouts.partials.shop-ticker')
     @include('layouts.partials.public-footer', ['gaId' => $gaId])
 
     <script type="application/ld+json">{!! json_encode($organisation, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP) !!}</script>
