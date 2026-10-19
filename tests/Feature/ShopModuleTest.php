@@ -63,18 +63,28 @@ class ShopModuleTest extends TestCase
 
     public function test_public_pages_show_only_visible_products(): void
     {
-        ['textile' => $textile, 'bonnet' => $bonnet] = $this->catalogue();
+        ['bonnet' => $bonnet] = $this->catalogue();
 
+        // Accueil : les catégories, puis seulement les produits « Nouveau » ou à la une
         $this->get('/boutique')->assertOk()
-            ->assertSeeInOrder(['Textile', 'Sweat du club', 'Matériel', 'Bonnet silicone CNBB'])
+            ->assertSeeInOrder(['Nos catégories', 'Textile', 'Matériel', 'Nouveautés et produits à la une', 'Sweat du club'])
             ->assertSee("30 à 35,50\u{00A0}€", false)
-            ->assertSee('Nouveau')
+            ->assertDontSee('Bonnet silicone CNBB')   // ni nouveau ni à la une
+            ->assertDontSee('Serviette épuisée')
             ->assertDontSee('Tee-shirt masqué')
             ->assertDontSee('Ancien maillot')
-            ->assertSee('https://www.helloasso.com/associations/cnbb/boutiques/bonnet', false)
-            ->assertDontSee('https://fournisseur.example.fr/serviette', false); // épuisé : pas de bouton
+            ->assertDontSee('Archives');
 
-        $this->get('/boutique/textile')->assertOk()->assertSee('Sweat du club')->assertDontSee('Bonnet silicone CNBB');
+        $bonnet->update(['is_featured' => true]);
+        $this->get('/boutique')->assertSee('Bonnet silicone CNBB')->assertSee('À la une');
+
+        // Page d'une catégorie : tous ses produits affichés
+        $this->get('/boutique/textile')->assertOk()
+            ->assertSee('Sweat du club')
+            ->assertSee('Serviette épuisée')
+            ->assertDontSee('https://fournisseur.example.fr/serviette', false) // épuisé : pas de bouton
+            ->assertDontSee('Bonnet silicone CNBB');
+        $this->get('/boutique/materiel')->assertSee('https://www.helloasso.com/associations/cnbb/boutiques/bonnet', false);
         $this->get('/boutique/archives')->assertNotFound();
 
         $this->get('/boutique/materiel/bonnet-silicone-cnbb')->assertOk()

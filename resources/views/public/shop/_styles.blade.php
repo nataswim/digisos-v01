@@ -75,6 +75,34 @@
         box-shadow: 0 5px 6px 4px rgba(0, 0, 0, 0.05);
     }
 
+    /* Cartes des catégories (accueil de la boutique) */
+    .shop-cat-card {
+        overflow: hidden;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .shop-cat-card:hover,
+    .shop-cat-card:focus {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 20px rgba(47, 128, 184, 0.18) !important;
+    }
+
+    .shop-cat-card:focus-visible {
+        outline: 3px solid #2f80b8;
+        outline-offset: 3px;
+    }
+
+    .shop-cat-image {
+        aspect-ratio: 4 / 3;
+        background: #f6f8fa;
+    }
+
+    .shop-cat-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
     .shop-filter .nav-link {
         border-radius: 999px;
         color: #2f80b8;
@@ -86,9 +114,12 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-        .shop-card { transition: none; }
+        .shop-card,
+        .shop-cat-card { transition: none; }
         .shop-card:hover,
-        .shop-card:focus-within { transform: none; }
+        .shop-card:focus-within,
+        .shop-cat-card:hover,
+        .shop-cat-card:focus { transform: none; }
     }
 </style>
 @endpush

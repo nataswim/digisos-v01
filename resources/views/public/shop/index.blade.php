@@ -56,7 +56,7 @@
     <div class="container-lg">
 
         {{-- Filtre par catégorie --}}
-        @if ($filtre->count() > 1)
+        @if ($current && $filtre->count() > 1)
             <nav aria-label="Catégories de la boutique" class="mb-5">
                 <ul class="nav nav-pills shop-filter justify-content-center gap-2">
                     <li class="nav-item">
@@ -76,43 +76,82 @@
             </nav>
         @endif
 
-        @forelse ($categories as $category)
-            <div class="{{ $loop->last ? '' : 'mb-5 pb-2' }}">
-                @unless ($current)
-                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
-                        <h2 class="h4 fw-bold mb-0 shop-category-title">{{ $category->name }}</h2>
-                        <a href="{{ route('shop.category', $category) }}" class="small fw-semibold">
-                            Voir la catégorie<i class="fas fa-arrow-right ms-1" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                @endunless
-
-                @if ($category->products->isNotEmpty())
-                    <div class="row g-4">
-                        @foreach ($category->products as $product)
-                            <div class="col-6 col-md-4 col-lg-3">
-                                @include('public.shop._card', ['product' => $product, 'category' => $category])
-                            </div>
-                        @endforeach
-                    </div>
-                @else
-                    <p class="text-muted">Aucun produit dans cette catégorie pour le moment.</p>
-                @endif
-            </div>
-        @empty
+        @if ($categories->isEmpty())
             <div class="card-aqua text-center py-5">
                 <i class="fas fa-shopping-bag fa-3x text-muted mb-3 opacity-25" aria-hidden="true"></i>
-                <p class="h5 text-muted mb-0">La boutique ouvre bientôt.</p>
+                <p class="h5 text-muted mb-0">{{ $current ? 'Aucun produit dans cette catégorie pour le moment.' : 'La boutique ouvre bientôt.' }}</p>
             </div>
 
-            @if ($isAdmin)
+            @if ($isAdmin && ! $current)
                 <div class="alert alert-info border-0 shadow-sm mt-4 mb-0" role="note">
                     <i class="fas fa-info-circle me-2" aria-hidden="true"></i>
                     Ajoutez une catégorie puis vos produits dans l'administration :
                     <a href="{{ route('admin.shop.products.index') }}">gérer la boutique</a>.
                 </div>
             @endif
-        @endforelse
+
+        @elseif ($current)
+            {{-- Page d'une catégorie : tous ses produits --}}
+            <div class="row g-4">
+                @foreach ($current->products as $product)
+                    <div class="col-6 col-md-4 col-lg-3">
+                        @include('public.shop._card', ['product' => $product, 'category' => $current])
+                    </div>
+                @endforeach
+            </div>
+
+        @else
+            {{-- Accueil de la boutique : les catégories, puis les nouveautés et produits à la une --}}
+            @php
+                // Produits « Nouveau » ou mis à la une, chacun avec sa catégorie ; à la une d'abord
+                $selection = $categories
+                    ->flatMap(fn ($cat) => $cat->products->map(fn ($p) => ['product' => $p, 'category' => $cat]))
+                    ->filter(fn ($item) => $item['product']->is_featured || $item['product']->badge === 'nouveau')
+                    ->sortByDesc(fn ($item) => $item['product']->is_featured ? 1 : 0)
+                    ->values();
+            @endphp
+
+            <h2 class="h4 fw-bold mb-4 shop-category-title">Nos catégories</h2>
+            <div class="row g-4 mb-5">
+                @foreach ($categories as $category)
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <a href="{{ route('shop.category', $category) }}" class="shop-cat-card card border-0 shadow-sm h-100 text-decoration-none">
+                            <div class="shop-cat-image">
+                                @if ($category->image)
+                                    <img src="{{ $category->image }}" alt="" loading="lazy">
+                                @elseif ($category->products->first(fn ($p) => $p->image))
+                                    {{-- Sans image de catégorie : photo d'un de ses produits --}}
+                                    <img src="{{ $category->products->first(fn ($p) => $p->image)->image }}" alt="" loading="lazy">
+                                @else
+                                    <span class="shop-card-placeholder"><i class="fas fa-shopping-bag fa-3x" aria-hidden="true"></i></span>
+                                @endif
+                            </div>
+                            <div class="card-body p-3 text-center">
+                                <h3 class="h6 fw-bold text-dark mb-1">{{ $category->name }}</h3>
+                                @if ($category->description)
+                                    <p class="small text-muted mb-2">{{ Str::limit($category->description, 80) }}</p>
+                                @endif
+                                <span class="small fw-semibold text-primary">
+                                    {{ $category->products->count() }} {{ $category->products->count() > 1 ? 'produits' : 'produit' }}
+                                    <i class="fas fa-arrow-right ms-1" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+
+            @if ($selection->isNotEmpty())
+                <h2 class="h4 fw-bold mb-4 shop-category-title">Nouveautés et produits à la une</h2>
+                <div class="row g-4">
+                    @foreach ($selection as $item)
+                        <div class="col-6 col-md-4 col-lg-3">
+                            @include('public.shop._card', $item)
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+        @endif
 
         @if ($total > 0)
             <p class="small text-muted text-center mt-5 mb-0">

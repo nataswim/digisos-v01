@@ -18,6 +18,10 @@
             <span class="shop-badge" style="background: {{ $product->badge_info['bg'] }}; color: {{ $product->badge_info['text'] }};">
                 {{ $product->badge_info['label'] }}
             </span>
+        @elseif ($product->is_featured)
+            <span class="shop-badge" style="background: #f9be38; color: #1c2111;">
+                <i class="fas fa-star me-1"></i>À la une
+            </span>
         @endif
     </a>
 

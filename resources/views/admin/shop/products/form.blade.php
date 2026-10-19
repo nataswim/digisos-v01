@@ -177,7 +177,7 @@
                                 <option value="{{ $cle }}" @selected(old('badge', $product->badge) === $cle)>{{ $info['label'] }}</option>
                             @endforeach
                         </select>
-                        <div class="form-text mt-n2 mb-3">« Épuisé » désactive le bouton de commande.</div>
+                        <div class="form-text mt-n2 mb-3">« Nouveau » affiche aussi le produit sur l'accueil de la boutique. « Épuisé » désactive le bouton de commande.</div>
 
                         <label for="sort_order" class="form-label">Ordre dans la catégorie</label>
                         <input type="number" id="sort_order" name="sort_order" min="0" max="65000"
@@ -188,7 +188,7 @@
                             <input type="hidden" name="is_featured" value="0">
                             <input class="form-check-input" type="checkbox" role="switch" id="is_featured" name="is_featured" value="1"
                                    @checked(old('is_featured', $product->is_featured))>
-                            <label class="form-check-label" for="is_featured">Mettre en avant (en tête de sa catégorie)</label>
+                            <label class="form-check-label" for="is_featured">À la une (accueil de la boutique, en tête de sa catégorie)</label>
                         </div>
                         <div class="form-check form-switch">
                             <input type="hidden" name="is_active" value="0">

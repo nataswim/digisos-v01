@@ -55,7 +55,7 @@
                             <td>
                                 <strong>{{ $product->name }}</strong>
                                 @if ($product->is_featured)
-                                    <span class="badge bg-warning text-dark ms-1"><i class="fas fa-star" aria-hidden="true"></i> Mis en avant</span>
+                                    <span class="badge bg-warning text-dark ms-1"><i class="fas fa-star" aria-hidden="true"></i> À la une</span>
                                 @endif
                                 @if ($product->badge_info)
                                     <span class="badge ms-1" style="background: {{ $product->badge_info['bg'] }}; color: {{ $product->badge_info['text'] }};">{{ $product->badge_info['label'] }}</span>
