@@ -6,6 +6,23 @@
 
 @section('meta_keywords', $photoGallery->meta_keywords)
 
+{{-- Partage sur les réseaux sociaux : image de couverture de la galerie, sinon sa première photo --}}
+@php
+    $imageDePartage = $photoGallery->coverImage?->url ?? $photoGallery->photos->first()?->url;
+    $resumeDePartage = Str::limit(trim(strip_tags((string) ($photoGallery->meta_description ?: $photoGallery->description))) ?: 'Galerie photos du Cercle des Nageurs du Bocage Bressuirais.', 200);
+@endphp
+@section('og_type', 'article')
+@section('og_title', $photoGallery->title)
+@section('og_description', $resumeDePartage)
+@section('twitter_title', $photoGallery->title)
+@section('twitter_description', $resumeDePartage)
+@if ($imageDePartage)
+    @section('og_image', $imageDePartage)
+    @section('og_image_alt', $photoGallery->title)
+    @section('twitter_image', $imageDePartage)
+    @section('twitter_image_alt', $photoGallery->title)
+@endif
+
 @section('content')
 
 <!-- Section Hero -->

@@ -4,6 +4,21 @@
 
 @section('meta_description', 'Découvrez nos galeries photos')
 
+{{-- Partage sur les réseaux sociaux : couverture de la première galerie en vedette, sinon de la première galerie --}}
+@php
+    $galerieDePartage = $featuredGalleries->first(fn ($g) => $g->coverImage) ?? $galleries->first(fn ($g) => $g->coverImage);
+@endphp
+@section('og_title', 'Galeries photos — CNBB')
+@section('og_description', 'Les photos du Cercle des Nageurs du Bocage Bressuirais : compétitions, entraînements et vie du club.')
+@section('twitter_title', 'Galeries photos — CNBB')
+@section('twitter_description', 'Les photos du Cercle des Nageurs du Bocage Bressuirais : compétitions, entraînements et vie du club.')
+@if ($galerieDePartage)
+    @section('og_image', $galerieDePartage->coverImage->url)
+    @section('og_image_alt', $galerieDePartage->title)
+    @section('twitter_image', $galerieDePartage->coverImage->url)
+    @section('twitter_image_alt', $galerieDePartage->title)
+@endif
+
 @section('content')
 <!-- Hero Section avec Video Background -->
 <section class="position-relative text-white overflow-hidden">
