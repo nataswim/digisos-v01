@@ -1,195 +1,99 @@
 @extends('layouts.admin')
 
-@section('title', 'Dashboard')
-@section('page-title', 'Dashboard')
-@section('page-description', 'Gestion et apercu')
+@section('title', 'Tableau de bord')
 
 @section('content')
-<div class="container-fluid">
-    <!-- Cartes statistiques -->
-    <div class="row g-4 mb-4">
-        @php
-            $stats = [
-                [
-                    'title' => 'Articles',
-                    'value' => App\Models\Post::count(),
-                    'subtitle' => 'Total articles',
-                    'icon' => 'fas fa-water',
-                    'color' => 'info',
-                    'change' => '+12%'
-                ],
-                [
-                    'title' => 'Utilisateurs',
-                    'value' => App\Models\User::count(),
-                    'subtitle' => 'Membres inscrits',
-                    'icon' => 'fas fa-users',
-                    'color' => 'info',
-                    'change' => '+8%'
-                ],
-                [
-                    'title' => 'Vues',
-                    'value' => App\Models\Post::sum('hits'),
-                    'subtitle' => 'Vues totales',
-                    'icon' => 'fas fa-eye',
-                    'color' => 'info',
-                    'change' => '+23%'
-                ],
-                [
-                    'title' => 'Categories',
-                    'value' => App\Models\Category::count(),
-                    'subtitle' => 'Categories actives',
-                    'icon' => 'fas fa-folder',
-                    'color' => 'info',
-                    'change' => '+5%'
-                ]
-            ];
-        @endphp
-        
-        @foreach($stats as $stat)
-            <div class="col-xl-3 col-md-6">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body p-4">
-                        <div class="d-flex align-items-center">
-                            <div class="text-white bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" 
-                                 style="width: 50px;height: 50px;background-color: #378093;">
-                                <i class="{{ $stat['icon'] }}"></i>
-                            </div>
-                            <div class="flex-fill">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <h3 class="fw-bold mb-0">{{ number_format($stat['value']) }}</h3>
-                                    <span class="badge bg-success-subtle text-success">{{ $stat['change'] }}</span>
-                                </div>
-                                <p class="text-muted mb-0">{{ $stat['subtitle'] }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endforeach
+<div class="container-fluid dashboard-modules">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+        <h1 class="h3 fw-bold mb-0">Tableau de bord</h1>
+        <a href="{{ route('home') }}" class="btn btn-outline-secondary btn-sm" target="_blank" rel="noopener">
+            <i class="fas fa-external-link-alt me-1" aria-hidden="true"></i>Voir le site
+        </a>
     </div>
-    
-    <div class="row g-4">
-        <!-- Articles recents -->
-        <div class="col-lg-8">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white border-bottom-0 p-4">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0">Articles recents</h5>
-                        <a href="{{ route('admin.posts.index') }}" class="btn btn-sm btn-outline-primary">Voir tout</a>
-                    </div>
-                </div>
-                <div class="card-body p-0">
-                    @php
-                        $recentPosts = App\Models\Post::with(['category', 'creator'])
-                            ->orderBy('created_at', 'desc')
-                            ->limit(5)
-                            ->get();
-                    @endphp
-                    
-                    @forelse($recentPosts as $post)
-                        <div class="d-flex align-items-center p-4 {{ !$loop->last ? 'border-bottom' : '' }}">
-                            <div class="bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" 
-                                 style="width: 40px;height: 40px;background-color: #378093;">
-                                <i class="fas fa-file-alt text-white"></i>
-                            </div>
-                            <div class="flex-fill">
-                                <h6 class="mb-1">
-                                    <a href="{{ route('admin.posts.show', $post) }}" class="text-decoration-none">
-                                        {!! Str::limit($post->name, 50) !!}
-                                    </a>
-                                </h6>
-                                <div class="d-flex align-items-center text-muted">
-                                    <small>{{ $post->category->name ?? 'Non categorise' }}</small>
-                                    <span class="mx-2">•</span>
-                                    <small>{{ $post->created_at?->format('d/m/Y') ?? 'N/A' }}</small>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <span class="badge bg-{{ $post->status === 'published' ? 'success' : 'warning' }}-subtle text-{{ $post->status === 'published' ? 'success' : 'warning' }}">
-                                    {{ ucfirst($post->status) }}
+
+    @foreach ($groups as $group)
+        <section class="mb-5" aria-labelledby="rubrique-{{ $loop->index }}">
+            <h2 id="rubrique-{{ $loop->index }}" class="h5 fw-bold mb-3 dashboard-group-title">
+                <i class="fas {{ $group['icon'] }} me-2" aria-hidden="true"></i>{{ $group['title'] }}
+            </h2>
+
+            <ul class="row g-3 list-unstyled mb-0">
+                @foreach ($group['cards'] as $card)
+                    <li class="col-6 col-md-4 col-lg-3 col-xl-2">
+                        <a href="{{ $card['url'] }}" class="dashboard-card card border-0 shadow-sm h-100 text-decoration-none">
+                            <span class="card-body p-3 d-flex flex-column align-items-center text-center">
+                                <span class="dashboard-card-icon mb-2" aria-hidden="true">
+                                    <i class="fas {{ $card['icon'] }}"></i>
                                 </span>
-                                <div class="dropdown">
-                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="dropdown">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{{ route('admin.posts.edit', $post) }}">Modifier</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('posts.public.show', $post) }}" target="_blank">Voir</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="p-4 text-center text-muted">
-                            Aucun article pour le moment
-                        </div>
-                    @endforelse
-                </div>
-            </div>
-        </div>
-        
-        <!-- Actions rapides -->
-        <div class="col-lg-4">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white border-bottom-0 p-4">
-                    <h5 class="mb-0">Actions rapides</h5>
-                </div>
-                <div class="card-body p-4">
-                    <div class="d-grid gap-3">
-                        <a href="{{ route('admin.posts.create') }}" class="btn btn-success text-white p-3 d-flex align-items-center">
-                            <i class="fas fa-plus me-2"></i>
-                            <div class="text-start">
-                                <div class="fw-semibold">Nouvel article</div>
-                                <small class="opacity-75">Creer un article</small>
-                            </div>
+                                <span class="dashboard-card-title fw-bold">{{ $card['label'] }}</span>
+                                @if ($card['count_label'])
+                                    <span class="dashboard-card-count small text-muted mt-1">{{ $card['count_label'] }}</span>
+                                @endif
+                            </span>
                         </a>
-                        
-                        <a href="{{ route('admin.categories.create') }}" class="btn btn-success text-white p-3 d-flex align-items-center">
-                            <i class="fas fa-folder-plus me-2"></i>
-                            <div class="text-start">
-                                <div class="fw-semibold">Nouvelle categorie</div>
-                                <small class="opacity-75">Organiser le contenu</small>
-                            </div>
-                        </a>
-                        
-                        <a href="{{ route('admin.users.create') }}" class="btn btn-success text-white p-3 d-flex align-items-center">
-                            <i class="fas fa-user-plus me-2"></i>
-                            <div class="text-start">
-                                <div class="fw-semibold">Nouvel utilisateur</div>
-                                <small class="opacity-75">Ajouter un membre</small>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Activite recente -->
-            <div class="card border-0 shadow-sm mt-4">
-                <div class="card-header bg-white border-bottom-0 p-4">
-                    <h5 class="mb-0">Activite recente</h5>
-                </div>
-                <div class="card-body p-4">
-                    <div class="timeline">
-                        @php
-                            $recentUsers = App\Models\User::orderBy('created_at', 'desc')->limit(3)->get();
-                        @endphp
-                        
-                        @foreach($recentUsers as $user)
-                            <div class="d-flex align-items-start {{ !$loop->last ? 'mb-3' : '' }}">
-                                <div class="bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" 
-                                     style="width: 30px; height: 30px;">
-                                    <i class="fas fa-user text-white" style="font-size: 12px;"></i>
-                                </div>
-                                <div class="flex-fill">
-                                    <div class="fw-semibold">{{ $user->name }}</div>
-                                    <small class="text-muted">Inscrit {{ $user->created_at->diffForHumans() }}</small>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                    </li>
+                @endforeach
+            </ul>
+        </section>
+    @endforeach
 </div>
 @endsection
+
+@push('styles')
+<style>
+    .dashboard-group-title {
+        display: inline-block;
+        padding: 0.4rem 1.1rem;
+        border-radius: 15px 0 15px 0;
+        background-image: linear-gradient(129deg, #f9be38 85%, #2f80b8 0);
+        color: #1c2111;
+        box-shadow: 0 5px 6px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .dashboard-card {
+        border-radius: 15px;
+        color: #1c2111;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .dashboard-card:hover,
+    .dashboard-card:focus {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(47, 128, 184, 0.18) !important;
+        color: #1c2111;
+    }
+
+    .dashboard-card:focus-visible {
+        outline: 3px solid #2f80b8;
+        outline-offset: 2px;
+    }
+
+    .dashboard-card-icon {
+        display: inline-flex;
+        width: 56px;
+        height: 56px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #e8f2f9;
+        color: #2f80b8;
+        font-size: 1.4rem;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .dashboard-card:hover .dashboard-card-icon,
+    .dashboard-card:focus .dashboard-card-icon {
+        background: #2f80b8;
+        color: #fff;
+    }
+
+    .dashboard-card-title {
+        line-height: 1.25;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .dashboard-card, .dashboard-card-icon { transition: none; }
+        .dashboard-card:hover, .dashboard-card:focus { transform: none; }
+    }
+</style>
+@endpush
