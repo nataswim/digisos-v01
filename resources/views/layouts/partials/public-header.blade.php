@@ -33,6 +33,7 @@
             'children' => [
                 ['label' => 'Présentation et historique', 'icon' => 'fa-water',         'route' => 'about',                      'active' => ['about']],
                 ['label' => 'Informations du club',       'icon' => 'fa-file-alt',      'route' => 'public.pages.index',         'active' => ['public.pages.*']],
+                ['label' => 'L\'équipe du club',          'icon' => 'fa-users',         'route' => 'team.index',                 'active' => ['team.*']],
                 ['label' => 'Installations',              'icon' => 'fa-swimming-pool', 'route' => 'public.installations.index', 'active' => ['public.installations.*']],
                 ['label' => 'Partenaires',                'icon' => 'fa-handshake',     'route' => 'partners.index',             'active' => ['partners.*']],
                 ['label' => 'Boutique',                   'icon' => 'fa-shopping-bag',  'route' => 'shop.index',                 'active' => ['shop.*']],

@@ -31,7 +31,8 @@
                             'admin.pages.*',
                             'admin.pages-categories.*',
                             'admin.partners.*',
-                            'admin.shop.*'
+                            'admin.shop.*',
+                            'admin.team.*'
                         );
                     @endphp
                     <a class="nav-link dropdown-toggle {{ $contenusActive ? 'active fw-bold text-white' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -153,6 +154,30 @@
                         <li>
                             <a class="dropdown-item {{ request()->routeIs('admin.shop.products.create') ? 'active' : '' }}" href="{{ route('admin.shop.products.create') }}">
                                 <i class="fas fa-plus fa-fw me-2"></i>Nouveau produit
+                            </a>
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <!-- L'équipe du club (administrateurs uniquement) -->
+                        <li><h6 class="dropdown-header"><i class="fas fa-users me-2"></i>L'équipe du club</h6></li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('admin.team.members.index', 'admin.team.members.edit') ? 'active' : '' }}" href="{{ route('admin.team.members.index') }}">
+                                <i class="fas fa-id-badge fa-fw me-2"></i>Membres
+                                @php $teamMembersCount = App\Models\TeamMember::count(); @endphp
+                                @if($teamMembersCount > 0)
+                                    <span class="badge bg-success ms-2">{{ $teamMembersCount }}</span>
+                                @endif
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('admin.team.sections.*') ? 'active' : '' }}" href="{{ route('admin.team.sections.index') }}">
+                                <i class="fas fa-layer-group fa-fw me-2"></i>Sections
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('admin.team.members.create') ? 'active' : '' }}" href="{{ route('admin.team.members.create') }}">
+                                <i class="fas fa-plus fa-fw me-2"></i>Nouveau membre
                             </a>
                         </li>
 
