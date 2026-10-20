@@ -24,8 +24,16 @@
             ],
         ],
 
-        ['label' => 'Compétitions',        'route' => 'competitions.index', 'active' => ['competitions.*']],
-        ['label' => 'Groupes et horaires', 'route' => 'schedule',           'active' => ['schedule']],
+        ['label' => 'Calendrier', 'route' => 'competitions.index', 'active' => ['competitions.*']],
+
+        [
+            'label'    => 'Créneaux',
+            'id'       => 'creneauxDropdown',
+            'children' => [
+                ['label' => 'Groupes et horaires', 'icon' => 'fa-calendar-alt', 'route' => 'schedule', 'active' => ['schedule']],
+                ['label' => 'S\'inscrire au club', 'icon' => 'fa-user-plus',    'route' => 'pricing',  'active' => ['pricing']],
+            ],
+        ],
 
         [
             'label'    => 'Le Club',
@@ -35,13 +43,12 @@
                 ['label' => 'Informations du club',       'icon' => 'fa-file-alt',      'route' => 'public.pages.index',         'active' => ['public.pages.*']],
                 ['label' => 'L\'équipe du club',          'icon' => 'fa-users',         'route' => 'team.index',                 'active' => ['team.*']],
                 ['label' => 'Installations',              'icon' => 'fa-swimming-pool', 'route' => 'public.installations.index', 'active' => ['public.installations.*']],
-                ['label' => 'Partenaires',                'icon' => 'fa-handshake',     'route' => 'partners.index',             'active' => ['partners.*']],
-                ['label' => 'Boutique',                   'icon' => 'fa-shopping-bag',  'route' => 'shop.index',                 'active' => ['shop.*']],
                 ['label' => 'Contact',                    'icon' => 'fa-envelope',      'route' => 'contact',                    'active' => ['contact']],
             ],
         ],
 
-        ['label' => 'S\'inscrire au club', 'route' => 'pricing', 'active' => ['pricing']],
+        ['label' => 'Partenaires', 'route' => 'partners.index', 'active' => ['partners.*']],
+        ['label' => 'Boutique',    'route' => 'shop.index',     'active' => ['shop.*']],
     ];
 @endphp
 
