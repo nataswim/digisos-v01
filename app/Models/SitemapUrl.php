@@ -66,17 +66,7 @@ class SitemapUrl extends Model
 
     public function getSourceLabelAttribute()
     {
-        return match($this->source) {
-            'posts' => 'Article',
-            'fiches' => 'Fiche',
-            'downloadables' => 'Téléchargement',
-            'exercices' => 'Exercice',
-            'plans' => 'Plan',
-            'workouts' => 'Workout',
-            'workout_sections' => 'Section Workout',
-            'workout_categories' => 'Catégorie Workout',
-            default => ucfirst($this->source ?? 'Inconnu')
-        };
+        return \App\Services\SitemapService::SOURCES[$this->source] ?? ($this->type === 'manual' ? 'Ajoutée à la main' : ucfirst($this->source ?? '—'));
     }
 
     public function getTypeBadgeAttribute()

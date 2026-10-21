@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://nataswim.fr/sitemap.xml
+Sitemap: https://natation-bressuire.fr/sitemap.xml
 
 # Désindexer les pages admin
 Disallow: /admin/

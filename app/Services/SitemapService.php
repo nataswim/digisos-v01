@@ -2,589 +2,396 @@
 
 namespace App\Services;
 
+use App\Models;
 use App\Models\SitemapUrl;
-use App\Models\Post;
-use App\Models\Downloadable;
-use App\Models\DownloadCategory;
-use App\Models\Fiche;
-use App\Models\FichesCategory;
-use App\Models\Plan;
-use App\Models\Exercice;
-use App\Models\Workout;
-use App\Models\WorkoutSection;
-use App\Models\WorkoutCategory;
-use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
 
+/**
+ * Plan du site (sitemap.xml) du CNBB.
+ *
+ * Fonctionnement « avec validation » :
+ *   1. discoverUrls() recense les pages publiques du site (pages fixes + contenus publiés) ;
+ *      les pages fixes sont approuvées d'office, les contenus attendent une approbation ;
+ *      les approbations déjà données sont conservées d'une découverte à l'autre ;
+ *      les adresses qui n'existent plus (contenu supprimé ou dépublié, ancien domaine) sont retirées.
+ *   2. L'administrateur approuve ou écarte les adresses.
+ *   3. generateXml() écrit storage/app/sitemap.xml, servi par la route /sitemap.xml.
+ *
+ * Contenus réservés aux membres (visibilité ≠ public) : jamais inclus.
+ */
 class SitemapService
 {
-    private $baseUrl;
-    private $staticRoutes;
+    /** Fichier généré (hors de public/ : pas de conflit avec git sur le serveur). */
+    public const FILE = 'app/sitemap.xml';
 
-    public function __construct()
-    {
-        $this->baseUrl = config('app.url');
-        
-        // Routes statiques du site
-        $this->staticRoutes = [
-            '/' => ['priority' => 1.0, 'changefreq' => 'daily'],
-            '/about' => ['priority' => 0.8, 'changefreq' => 'monthly'],
-            '/contact' => ['priority' => 0.7, 'changefreq' => 'monthly'],
-            '/accessibilite' => ['priority' => 0.3, 'changefreq' => 'yearly'],
-            '/cookies' => ['priority' => 0.3, 'changefreq' => 'yearly'],
-            '/fonctionnalites' => ['priority' => 0.6, 'changefreq' => 'monthly'],
-            '/mentions-legales' => ['priority' => 0.3, 'changefreq' => 'yearly'],
-            '/politique-confidentialite' => ['priority' => 0.3, 'changefreq' => 'yearly'],
-            '/plans-inscription' => ['priority' => 0.7, 'changefreq' => 'weekly'],
-            '/guide-utilisation' => ['priority' => 0.6, 'changefreq' => 'monthly'],
-            
-            // Index des sections
-            '/articles' => ['priority' => 0.9, 'changefreq' => 'daily'],
-            '/ebook' => ['priority' => 0.8, 'changefreq' => 'weekly'],
-            '/fiches' => ['priority' => 0.8, 'changefreq' => 'weekly'],
-            '/exercices' => ['priority' => 0.8, 'changefreq' => 'weekly'],
-            '/plans' => ['priority' => 0.8, 'changefreq' => 'weekly'],
-            '/workouts' => ['priority' => 0.8, 'changefreq' => 'weekly'],
-            '/outils' => ['priority' => 0.8, 'changefreq' => 'monthly'],
-        ];
-    }
+    /** Sources reconnues : clé => libellé (filtres et statistiques de la page d'administration). */
+    public const SOURCES = [
+        'pages_fixes'         => 'Pages fixes',
+        'posts'               => 'Articles',
+        'post_categories'     => 'Catégories d\'articles',
+        'fiches'              => 'Fiches',
+        'fiches_categories'   => 'Catégories de fiches',
+        'fiches_sous_categories' => 'Sous-catégories de fiches',
+        'pages'               => 'Pages',
+        'pages_categories'    => 'Catégories de pages',
+        'videos'              => 'Vidéos',
+        'video_categories'    => 'Catégories de vidéos',
+        'galleries'           => 'Galeries photo',
+        'downloadables'       => 'Documents',
+        'download_categories' => 'Catégories de documents',
+        'competitions'        => 'Compétitions',
+        'partners'            => 'Partenaires',
+        'shop_categories'     => 'Catégories de la boutique',
+        'shop_products'       => 'Produits de la boutique',
+        'installations'       => 'Installations',
+    ];
+
+    /** Pages fixes : nom de route => [priorité, fréquence]. Les routes absentes sont ignorées. */
+    private const STATIC_ROUTES = [
+        'home'                       => [1.0, 'daily'],
+        'posts.public.index'         => [0.9, 'daily'],
+        'competitions.index'         => [0.9, 'weekly'],
+        'schedule'                   => [0.9, 'monthly'],
+        'pricing'                    => [0.9, 'monthly'],
+        'about'                      => [0.8, 'monthly'],
+        'team.index'                 => [0.8, 'monthly'],
+        'public.fiches.index'        => [0.8, 'weekly'],
+        'public.pages.index'         => [0.8, 'monthly'],
+        'public.installations.index' => [0.7, 'monthly'],
+        'partners.index'             => [0.7, 'monthly'],
+        'shop.index'                 => [0.7, 'weekly'],
+        'galleries.index'            => [0.7, 'weekly'],
+        'public.videos.index'        => [0.7, 'weekly'],
+        'ebook.index'                => [0.6, 'monthly'],
+        'press'                      => [0.6, 'monthly'],
+        'contact'                    => [0.6, 'yearly'],
+        'legal'                      => [0.2, 'yearly'],
+        'privacy'                    => [0.2, 'yearly'],
+        'cookies'                    => [0.2, 'yearly'],
+        'accessibility'              => [0.2, 'yearly'],
+    ];
+
+    /** Adresses vues pendant la découverte en cours. */
+    private array $seen = [];
+
+    private array $stats = ['static' => 0, 'dynamic' => 0, 'new' => 0, 'removed' => 0, 'errors' => []];
 
     /**
-     * Découvrir toutes les URLs (statiques + dynamiques)
+     * Recenser les pages publiques du site.
+     *
+     * @return array{static: int, dynamic: int, new: int, removed: int, total: int, errors: array<string>}
      */
     public function discoverUrls(): array
     {
-        $stats = [
-            'static' => 0,
-            'dynamic' => 0,
-            'total' => 0
-        ];
+        $this->seen = [];
+        $this->stats = ['static' => 0, 'dynamic' => 0, 'new' => 0, 'removed' => 0, 'errors' => []];
 
-        try {
-            $stats['static'] = $this->addStaticRoutes();
-            $stats['dynamic'] = $this->addDynamicRoutes();
-            $stats['total'] = $stats['static'] + $stats['dynamic'];
-
-            Log::info('Sitemap discovery completed', $stats);
-        } catch (\Exception $e) {
-            Log::error('Sitemap discovery error: ' . $e->getMessage());
-            throw $e;
-        }
-
-        return $stats;
-    }
-
-    /**
-     * Ajouter les routes statiques
-     */
-    private function addStaticRoutes(): int
-    {
-        $count = 0;
-
-        foreach ($this->staticRoutes as $path => $config) {
-            try {
-                $url = $this->baseUrl . $path;
-                
-                SitemapUrl::updateOrCreate(
-                    ['url' => $url],
-                    [
-                        'type' => 'static',
-                        'priority' => $config['priority'],
-                        'changefreq' => $config['changefreq'],
-                        'is_approved' => true, // Auto-approuver les routes statiques
-                        'is_active' => true,
-                        'last_modified' => now()
-                    ]
-                );
-                
-                $count++;
-            } catch (\Exception $e) {
-                Log::warning("Failed to add static route {$path}: " . $e->getMessage());
+        // Pages fixes
+        foreach (self::STATIC_ROUTES as $name => [$priority, $changefreq]) {
+            if (Route::has($name)) {
+                $this->put(route($name), 'static', 'pages_fixes', null, $priority, $changefreq, null);
             }
         }
 
-        // Ajouter les outils individuels
-        $count += $this->addToolsRoutes();
-
-        return $count;
-    }
-
-    /**
-     * Ajouter les routes des outils
-     */
-    private function addToolsRoutes(): int
-    {
-        $count = 0;
-        
-        $tools = [
-            '/outils/calculateur-imc',
-            '/outils/calculateur-masse-grasse',
-            '/outils/calculateur-calories',
-            '/outils/chronometre-natation',
-            '/outils/chronometre-pro',
-            '/outils/calculateur-vnc',
-            '/outils/calculateur-fitness',
-            '/outils/coherence-cardiaque',
-            '/outils/calculateur-hydratation',
-            '/outils/carte-interactive',
-            '/outils/convertisseur-kcal-macros',
-            '/outils/calculateur-rm-charge-maximale',
-            '/outils/planificateur-course-a-pieds',
-            '/outils/predicteur-natation',
-            '/outils/planificateur-natation',
-            '/outils/zones-cardiaques',
-            '/outils/calculateur-tdee',
-            '/outils/planificateur-triathlon',
-            '/outils/efficacite-technique-natation',
-        ];
-
-        foreach ($tools as $tool) {
+        // Contenus : chaque module est traité à part, une erreur dans l'un n'arrête pas les autres
+        foreach ([
+            'posts' => fn () => $this->posts(),
+            'fiches' => fn () => $this->fiches(),
+            'pages' => fn () => $this->pages(),
+            'videos' => fn () => $this->videos(),
+            'galleries' => fn () => $this->galleries(),
+            'downloadables' => fn () => $this->downloadables(),
+            'competitions' => fn () => $this->competitions(),
+            'partners' => fn () => $this->partners(),
+            'shop' => fn () => $this->shop(),
+            'installations' => fn () => $this->installations(),
+        ] as $module => $discover) {
             try {
-                SitemapUrl::updateOrCreate(
-                    ['url' => $this->baseUrl . $tool],
-                    [
-                        'type' => 'static',
-                        'priority' => 0.6,
-                        'changefreq' => 'monthly',
-                        'is_approved' => true,
-                        'is_active' => true,
-                        'last_modified' => now()
-                    ]
-                );
-                $count++;
-            } catch (\Exception $e) {
-                Log::warning("Failed to add tool route {$tool}: " . $e->getMessage());
+                $discover();
+            } catch (\Throwable $e) {
+                Log::warning("Sitemap : module {$module} ignoré : " . $e->getMessage());
+                $this->stats['errors'][] = $module;
             }
         }
 
-        return $count;
+        // Retirer les adresses découvertes auparavant qui n'existent plus (contenu supprimé ou
+        // dépublié, ancien domaine, anciennes pages) ; les adresses ajoutées à la main sont gardées.
+        // Si un module a échoué, on ne retire rien, pour ne pas perdre ses adresses par erreur.
+        if (empty($this->stats['errors'])) {
+            $stale = SitemapUrl::where('type', '!=', 'manual')->get(['id', 'url'])
+                ->reject(fn ($row) => isset($this->seen[$row->url]));
+            if ($stale->isNotEmpty()) {
+                $this->stats['removed'] = SitemapUrl::whereIn('id', $stale->pluck('id'))->delete();
+            }
+        }
+
+        $this->stats['total'] = $this->stats['static'] + $this->stats['dynamic'];
+        Log::info('Sitemap : découverte terminée', $this->stats);
+
+        return $this->stats;
     }
 
-    /**
-     * Ajouter les routes dynamiques depuis la base de données
-     */
-    private function addDynamicRoutes(): int
+    // ------------------------------------------------------------------ modules
+
+    private function posts(): void
     {
-        $count = 0;
+        Models\Post::published()->where('visibility', 'public')->with('category')
+            ->each(function ($post) {
+                $this->put(route('posts.public.show', $post), 'dynamic', 'posts', $post->id,
+                    $post->is_featured ? 0.8 : 0.7, 'monthly', $post->updated_at ?? $post->published_at);
+            });
 
-        $count += $this->addPostsUrls();
-        $count += $this->addDownloadablesUrls();
-        $count += $this->addFichesUrls();
-        $count += $this->addPlansUrls();
-        $count += $this->addExercicesUrls();
-        $count += $this->addWorkoutsUrls();
-
-        return $count;
+        Models\Category::where('status', 'active')
+            ->whereHas('posts', fn (Builder $q) => $q->published()->where('visibility', 'public'))
+            ->each(function ($category) {
+                $this->put(route('posts.public.category', $category), 'dynamic', 'post_categories', $category->id,
+                    0.5, 'weekly', $category->updated_at);
+            });
     }
 
-    /**
-     * Ajouter les URLs des articles
-     */
-    private function addPostsUrls(): int
+    private function fiches(): void
     {
-        $count = 0;
+        Models\FichesCategory::active()->each(function ($category) {
+            $this->put(route('public.fiches.category', $category), 'dynamic', 'fiches_categories', $category->id,
+                0.6, 'weekly', $category->updated_at);
+        });
 
-        Post::published()
-            ->where('visibility', 'public')
-            ->chunk(50, function ($posts) use (&$count) {
-                foreach ($posts as $post) {
-                    try {
-                        $url = route('public.show', $post->slug);
-                        
-                        SitemapUrl::updateOrCreate(
-                            ['url' => $url],
-                            [
-                                'type' => 'dynamic',
-                                'source' => 'posts',
-                                'source_id' => $post->id,
-                                'priority' => $post->is_featured ? 0.9 : 0.8,
-                                'changefreq' => 'weekly',
-                                'is_approved' => false, // Nécessite approbation manuelle
-                                'is_active' => true,
-                                'last_modified' => $post->updated_at ?? $post->published_at
-                            ]
-                        );
-                        
-                        $count++;
-                    } catch (\Exception $e) {
-                        Log::warning("Failed to add post {$post->id}: " . $e->getMessage());
-                    }
+        Models\FichesSousCategory::active()->with('category')->each(function ($sous) {
+            if ($sous->category && $sous->category->is_active) {
+                $this->put(route('public.fiches.sous-category', [$sous->category, $sous]), 'dynamic',
+                    'fiches_sous_categories', $sous->id, 0.6, 'weekly', $sous->updated_at);
+            }
+        });
+
+        Models\Fiche::published()->where('visibility', 'public')->with(['category', 'sousCategory'])
+            ->each(function ($fiche) {
+                // Seules les fiches rangées dans une catégorie et une sous-catégorie ont une page
+                if ($fiche->category && $fiche->sousCategory) {
+                    $this->put(route('public.fiches.show', [$fiche->category, $fiche->sousCategory, $fiche]), 'dynamic',
+                        'fiches', $fiche->id, $fiche->is_featured ? 0.8 : 0.7, 'monthly', $fiche->updated_at ?? $fiche->published_at);
                 }
             });
-
-        return $count;
     }
 
-    /**
-     * Ajouter les URLs des téléchargements
-     */
-    private function addDownloadablesUrls(): int
+    private function pages(): void
     {
-        $count = 0;
+        Models\PagesCategory::active()->each(function ($category) {
+            $this->put(route('public.pages.category', $category), 'dynamic', 'pages_categories', $category->id,
+                0.6, 'monthly', $category->updated_at);
+        });
 
-        // Catégories de téléchargements
-        DownloadCategory::active()
-            ->chunk(50, function ($categories) use (&$count) {
-                foreach ($categories as $category) {
-                    try {
-                        $url = route('ebook.category', $category->slug);
-                        
-                        SitemapUrl::updateOrCreate(
-                            ['url' => $url],
-                            [
-                                'type' => 'dynamic',
-                                'source' => 'download_categories',
-                                'source_id' => $category->id,
-                                'priority' => 0.7,
-                                'changefreq' => 'weekly',
-                                'is_approved' => false,
-                                'is_active' => true,
-                                'last_modified' => $category->updated_at
-                            ]
-                        );
-                        
-                        $count++;
-                    } catch (\Exception $e) {
-                        Log::warning("Failed to add download category {$category->id}: " . $e->getMessage());
-                    }
+        Models\Page::where('is_published', true)->where('visibility', 'public')->with('category')
+            ->each(function ($page) {
+                // Les pages sont publiées à l'adresse /pages/{catégorie}/{page} : une page sans catégorie n'a pas d'adresse
+                if ($page->category) {
+                    $this->put(route('public.pages.show', [$page->category->slug, $page->slug]), 'dynamic', 'pages', $page->id,
+                        0.7, 'monthly', $page->updated_at);
                 }
             });
-
-        // Téléchargements individuels
-        Downloadable::active()
-            ->with('category')
-            ->chunk(50, function ($downloadables) use (&$count) {
-                foreach ($downloadables as $downloadable) {
-                    if (!$downloadable->category) continue;
-                    
-                    try {
-                        $url = route('ebook.show', [
-                            $downloadable->category->slug,
-                            $downloadable->slug
-                        ]);
-                        
-                        SitemapUrl::updateOrCreate(
-                            ['url' => $url],
-                            [
-                                'type' => 'dynamic',
-                                'source' => 'downloadables',
-                                'source_id' => $downloadable->id,
-                                'priority' => $downloadable->is_featured ? 0.7 : 0.6,
-                                'changefreq' => 'monthly',
-                                'is_approved' => false,
-                                'is_active' => true,
-                                'last_modified' => $downloadable->updated_at
-                            ]
-                        );
-                        
-                        $count++;
-                    } catch (\Exception $e) {
-                        Log::warning("Failed to add downloadable {$downloadable->id}: " . $e->getMessage());
-                    }
-                }
-            });
-
-        return $count;
     }
 
-    /**
-     * Ajouter les URLs des fiches
-     */
-    private function addFichesUrls(): int
+    private function videos(): void
     {
-        $count = 0;
+        Models\VideoCategory::active()->each(function ($category) {
+            $this->put(route('public.videos.category', $category), 'dynamic', 'video_categories', $category->id,
+                0.5, 'weekly', $category->updated_at);
+        });
 
-        // Catégories de fiches
-        FichesCategory::active()
-            ->chunk(50, function ($categories) use (&$count) {
-                foreach ($categories as $category) {
-                    try {
-                        $url = route('public.fiches.category', $category->slug);
-                        
-                        SitemapUrl::updateOrCreate(
-                            ['url' => $url],
-                            [
-                                'type' => 'dynamic',
-                                'source' => 'fiches_categories',
-                                'source_id' => $category->id,
-                                'priority' => 0.7,
-                                'changefreq' => 'weekly',
-                                'is_approved' => false,
-                                'is_active' => true,
-                                'last_modified' => $category->updated_at
-                            ]
-                        );
-                        
-                        $count++;
-                    } catch (\Exception $e) {
-                        Log::warning("Failed to add fiches category {$category->id}: " . $e->getMessage());
-                    }
-                }
-            });
-
-        // Fiches individuelles
-        Fiche::published()
-            ->where('visibility', 'public')
-            ->with('category')
-            ->chunk(50, function ($fiches) use (&$count) {
-                foreach ($fiches as $fiche) {
-                    if (!$fiche->category) continue;
-                    
-                    try {
-                        $url = route('public.fiches.show', [
-                            $fiche->category->slug,
-                            $fiche->slug
-                        ]);
-                        
-                        SitemapUrl::updateOrCreate(
-                            ['url' => $url],
-                            [
-                                'type' => 'dynamic',
-                                'source' => 'fiches',
-                                'source_id' => $fiche->id,
-                                'priority' => $fiche->is_featured ? 0.8 : 0.6,
-                                'changefreq' => 'monthly',
-                                'is_approved' => false,
-                                'is_active' => true,
-                                'last_modified' => $fiche->updated_at ?? $fiche->published_at
-                            ]
-                        );
-                        
-                        $count++;
-                    } catch (\Exception $e) {
-                        Log::warning("Failed to add fiche {$fiche->id}: " . $e->getMessage());
-                    }
-                }
-            });
-
-        return $count;
+        Models\Video::published()->where('visibility', 'public')->each(function ($video) {
+            $this->put(route('public.videos.show', $video), 'dynamic', 'videos', $video->id,
+                0.6, 'monthly', $video->updated_at ?? $video->published_at);
+        });
     }
 
-    /**
-     * Ajouter les URLs des plans
-     */
-    private function addPlansUrls(): int
+    private function galleries(): void
     {
-        $count = 0;
-
-        Plan::public()
-            ->active()
-            ->chunk(50, function ($plans) use (&$count) {
-                foreach ($plans as $plan) {
-                    try {
-                        $url = route('plans.show', $plan->id);
-                        
-                        SitemapUrl::updateOrCreate(
-                            ['url' => $url],
-                            [
-                                'type' => 'dynamic',
-                                'source' => 'plans',
-                                'source_id' => $plan->id,
-                                'priority' => $plan->is_featured ? 0.8 : 0.7,
-                                'changefreq' => 'monthly',
-                                'is_approved' => false,
-                                'is_active' => true,
-                                'last_modified' => $plan->updated_at
-                            ]
-                        );
-                        
-                        $count++;
-                    } catch (\Exception $e) {
-                        Log::warning("Failed to add plan {$plan->id}: " . $e->getMessage());
-                    }
-                }
-            });
-
-        return $count;
+        Models\PhotoGallery::published()->where('visibility', 'public')->each(function ($gallery) {
+            $this->put(route('galleries.show', $gallery), 'dynamic', 'galleries', $gallery->id,
+                0.6, 'monthly', $gallery->updated_at ?? $gallery->published_at);
+        });
     }
 
-    /**
-     * Ajouter les URLs des exercices
-     */
-    private function addExercicesUrls(): int
+    private function downloadables(): void
     {
-        $count = 0;
+        Models\DownloadCategory::active()->each(function ($category) {
+            $this->put(route('ebook.category', $category->slug), 'dynamic', 'download_categories', $category->id,
+                0.5, 'monthly', $category->updated_at);
+        });
 
-        Exercice::active()
-            ->chunk(50, function ($exercices) use (&$count) {
-                foreach ($exercices as $exercice) {
-                    try {
-                        $url = route('exercices.show', $exercice->id);
-                        
-                        SitemapUrl::updateOrCreate(
-                            ['url' => $url],
-                            [
-                                'type' => 'dynamic',
-                                'source' => 'exercices',
-                                'source_id' => $exercice->id,
-                                'priority' => 0.6,
-                                'changefreq' => 'monthly',
-                                'is_approved' => false,
-                                'is_active' => true,
-                                'last_modified' => $exercice->updated_at
-                            ]
-                        );
-                        
-                        $count++;
-                    } catch (\Exception $e) {
-                        Log::warning("Failed to add exercice {$exercice->id}: " . $e->getMessage());
-                    }
-                }
-            });
-
-        return $count;
+        Models\Downloadable::active()->with('category')->each(function ($doc) {
+            if ($doc->category && $doc->category->status === 'active') {
+                $this->put(route('ebook.show', [$doc->category->slug, $doc->slug]), 'dynamic', 'downloadables', $doc->id,
+                    0.5, 'monthly', $doc->updated_at);
+            }
+        });
     }
 
-    /**
-     * Ajouter les URLs des workouts
-     */
-    private function addWorkoutsUrls(): int
+    private function competitions(): void
     {
-        $count = 0;
+        if (! Route::has('competitions.show')) {
+            return;
+        }
 
-        // Sections de workouts
-        WorkoutSection::active()
-            ->with('activeCategories.workouts')
-            ->chunk(50, function ($sections) use (&$count) {
-                foreach ($sections as $section) {
-                    try {
-                        $url = route('public.workouts.section', $section->slug);
-                        
-                        SitemapUrl::updateOrCreate(
-                            ['url' => $url],
-                            [
-                                'type' => 'dynamic',
-                                'source' => 'workout_sections',
-                                'source_id' => $section->id,
-                                'priority' => 0.7,
-                                'changefreq' => 'weekly',
-                                'is_approved' => false,
-                                'is_active' => true,
-                                'last_modified' => $section->updated_at
-                            ]
-                        );
-                        
-                        $count++;
-
-                        // Catégories dans chaque section
-                        foreach ($section->activeCategories as $category) {
-                            try {
-                                $url = route('public.workouts.category', [
-                                    $section->slug,
-                                    $category->slug
-                                ]);
-                                
-                                SitemapUrl::updateOrCreate(
-                                    ['url' => $url],
-                                    [
-                                        'type' => 'dynamic',
-                                        'source' => 'workout_categories',
-                                        'source_id' => $category->id,
-                                        'priority' => 0.65,
-                                        'changefreq' => 'weekly',
-                                        'is_approved' => false,
-                                        'is_active' => true,
-                                        'last_modified' => $category->updated_at
-                                    ]
-                                );
-                                
-                                $count++;
-
-                                // Workouts individuels
-                                foreach ($category->workouts as $workout) {
-                                    try {
-                                        $url = route('public.workouts.show', [
-                                            $section->slug,
-                                            $category->slug,
-                                            $workout->slug
-                                        ]);
-                                        
-                                        SitemapUrl::updateOrCreate(
-                                            ['url' => $url],
-                                            [
-                                                'type' => 'dynamic',
-                                                'source' => 'workouts',
-                                                'source_id' => $workout->id,
-                                                'priority' => 0.6,
-                                                'changefreq' => 'monthly',
-                                                'is_approved' => false,
-                                                'is_active' => true,
-                                                'last_modified' => $workout->updated_at
-                                            ]
-                                        );
-                                        
-                                        $count++;
-                                    } catch (\Exception $e) {
-                                        Log::warning("Failed to add workout {$workout->id}: " . $e->getMessage());
-                                    }
-                                }
-                            } catch (\Exception $e) {
-                                Log::warning("Failed to add workout category {$category->id}: " . $e->getMessage());
-                            }
-                        }
-                    } catch (\Exception $e) {
-                        Log::warning("Failed to add workout section {$section->id}: " . $e->getMessage());
-                    }
-                }
-            });
-
-        return $count;
+        Models\Competition::published()->each(function ($competition) {
+            $this->put(route('competitions.show', $competition), 'dynamic', 'competitions', $competition->id,
+                0.7, 'weekly', $competition->updated_at);
+        });
     }
 
+    private function partners(): void
+    {
+        if (! Route::has('partners.show')) {
+            return;
+        }
+
+        Models\Partner::where('is_active', true)->each(function ($partner) {
+            $this->put(route('partners.show', $partner), 'dynamic', 'partners', $partner->id,
+                0.5, 'monthly', $partner->updated_at);
+        });
+    }
+
+    private function shop(): void
+    {
+        if (! Route::has('shop.show')) {
+            return;
+        }
+
+        Models\ShopCategory::active()->whereHas('products', fn (Builder $q) => $q->where('is_active', true))
+            ->each(function ($category) {
+                $this->put(route('shop.category', $category), 'dynamic', 'shop_categories', $category->id,
+                    0.6, 'weekly', $category->updated_at);
+            });
+
+        Models\ShopProduct::visible()->with('category')->each(function ($product) {
+            $this->put(route('shop.show', [$product->category, $product]), 'dynamic', 'shop_products', $product->id,
+                0.6, 'monthly', $product->updated_at);
+        });
+    }
+
+    private function installations(): void
+    {
+        foreach ([
+            [Models\Service::class,   'public.installations.service'],
+            [Models\Structure::class, 'public.installations.structure'],
+            [Models\Espace::class,    'public.installations.espace'],
+            [Models\Zone::class,      'public.installations.zone'],
+        ] as [$model, $route]) {
+            if (! Route::has($route)) {
+                continue;
+            }
+            $model::where('is_active', true)->each(function ($item) use ($route) {
+                $this->put(route($route, $item), 'dynamic', 'installations', $item->id, 0.5, 'monthly', $item->updated_at);
+            });
+        }
+    }
+
+    // ------------------------------------------------------------------ enregistrement
+
     /**
-     * Générer le fichier sitemap.xml
+     * Enregistrer une adresse. Nouvelle adresse : pages fixes approuvées, contenus en attente.
+     * Adresse connue : l'approbation, la priorité et la fréquence choisies par l'administrateur sont gardées.
      */
+    private function put(string $url, string $type, string $source, ?int $sourceId, float $priority, string $changefreq, $lastModified): void
+    {
+        if ($url === '' || $url === '#' || isset($this->seen[$url])) {
+            return;
+        }
+        $this->seen[$url] = true;
+        $this->stats[$type]++;
+
+        $row = SitemapUrl::where('url', $url)->first();
+
+        if (! $row) {
+            SitemapUrl::create([
+                'url' => $url,
+                'type' => $type,
+                'source' => $source,
+                'source_id' => $sourceId,
+                'priority' => $priority,
+                'changefreq' => $changefreq,
+                'is_approved' => $type === 'static',
+                'is_active' => true,
+                'last_modified' => $lastModified ?? now(),
+            ]);
+            $this->stats['new']++;
+
+            return;
+        }
+
+        if ($row->type === 'manual') {
+            return;   // ajoutée à la main : on n'y touche pas
+        }
+
+        $row->update([
+            'type' => $type,
+            'source' => $source,
+            'source_id' => $sourceId,
+            'last_modified' => $lastModified ?? $row->last_modified,
+        ]);
+    }
+
+    // ------------------------------------------------------------------ fichier XML
+
+    public static function filePath(): string
+    {
+        return storage_path(self::FILE);
+    }
+
+    /** Écrire le fichier sitemap.xml avec les adresses approuvées et actives. */
     public function generateXml(): array
     {
-        $urls = SitemapUrl::forSitemap()
-            ->orderBy('priority', 'desc')
-            ->orderBy('url')
-            ->get();
+        $urls = SitemapUrl::forSitemap()->orderByDesc('priority')->orderBy('url')->get();
 
         if ($urls->isEmpty()) {
-            throw new \Exception('Aucune URL approuvée trouvée. Veuillez d\'abord découvrir et approuver des URLs.');
+            throw new \RuntimeException('Aucune adresse approuvée : lancez d\'abord la découverte, puis approuvez des adresses.');
         }
 
-        $xml = $this->buildXmlContent($urls);
-        
-        $path = public_path('sitemap.xml');
-        file_put_contents($path, $xml);
+        $path = self::filePath();
+        if (! is_dir(dirname($path))) {
+            mkdir(dirname($path), 0755, true);
+        }
+        file_put_contents($path, $this->buildXml($urls), LOCK_EX);
 
         return [
             'urls_count' => $urls->count(),
             'file_path' => $path,
             'file_size' => filesize($path),
-            'generated_at' => now()
+            'generated_at' => now(),
         ];
     }
 
-    /**
-     * Construire le contenu XML
-     */
-    private function buildXmlContent($urls): string
+    /** Contenu XML (utilisé aussi par la route /sitemap.xml tant que le fichier n'a pas été généré). */
+    public function buildXml($urls = null): string
     {
+        $urls ??= SitemapUrl::forSitemap()->orderByDesc('priority')->orderBy('url')->get();
+
+        $esc = fn ($v) => htmlspecialchars((string) $v, ENT_XML1 | ENT_QUOTES, 'UTF-8');
+
         $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
         $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
-
-        foreach ($urls as $urlData) {
-            $xml .= "    <url>\n";
-            $xml .= "        <loc>" . htmlspecialchars($urlData->url, ENT_XML1 | ENT_COMPAT, 'UTF-8') . "</loc>\n";
-            $xml .= "        <lastmod>" . $urlData->last_modified_formatted . "</lastmod>\n";
-            $xml .= "        <changefreq>" . htmlspecialchars($urlData->changefreq, ENT_XML1 | ENT_COMPAT, 'UTF-8') . "</changefreq>\n";
-            $xml .= "        <priority>" . number_format($urlData->priority, 1) . "</priority>\n";
-            $xml .= "    </url>\n";
+        foreach ($urls as $row) {
+            $xml .= "  <url>\n";
+            $xml .= '    <loc>' . $esc($row->url) . "</loc>\n";
+            $xml .= '    <lastmod>' . ($row->last_modified ?? $row->updated_at)->toAtomString() . "</lastmod>\n";
+            $xml .= '    <changefreq>' . $esc($row->changefreq) . "</changefreq>\n";
+            $xml .= '    <priority>' . number_format((float) $row->priority, 1, '.', '') . "</priority>\n";
+            $xml .= "  </url>\n";
         }
-
-        $xml .= "</urlset>";
+        $xml .= "</urlset>\n";
 
         return $xml;
     }
 
-    /**
-     * Obtenir les statistiques
-     */
+    // ------------------------------------------------------------------ statistiques
+
     public function getStatistics(): array
     {
+        $path = self::filePath();
+        $bySource = SitemapUrl::selectRaw('source, count(*) as total')->groupBy('source')->pluck('total', 'source');
+
         return [
             'total_urls' => SitemapUrl::count(),
             'approved_urls' => SitemapUrl::approved()->count(),
@@ -593,19 +400,12 @@ class SitemapService
             'static_urls' => SitemapUrl::where('type', 'static')->count(),
             'dynamic_urls' => SitemapUrl::where('type', 'dynamic')->count(),
             'manual_urls' => SitemapUrl::where('type', 'manual')->count(),
-            
-            // Détail par source
-            'posts_urls' => SitemapUrl::where('source', 'posts')->count(),
-            'fiches_urls' => SitemapUrl::where('source', 'fiches')->count(),
-            'downloadables_urls' => SitemapUrl::where('source', 'downloadables')->count(),
-            'exercices_urls' => SitemapUrl::where('source', 'exercices')->count(),
-            'plans_urls' => SitemapUrl::where('source', 'plans')->count(),
-            'workouts_urls' => SitemapUrl::where('source', 'workouts')->count(),
-            
-            'sitemap_exists' => file_exists(public_path('sitemap.xml')),
-            'last_generated' => file_exists(public_path('sitemap.xml')) 
-                ? Carbon::createFromTimestamp(filemtime(public_path('sitemap.xml')))
-                : null,
+            'by_source' => collect(self::SOURCES)
+                ->map(fn ($label, $key) => ['label' => $label, 'count' => (int) ($bySource[$key] ?? 0)])
+                ->filter(fn ($s) => $s['count'] > 0)
+                ->all(),
+            'sitemap_exists' => file_exists($path),
+            'last_generated' => file_exists($path) ? Carbon::createFromTimestamp(filemtime($path)) : null,
         ];
     }
 }

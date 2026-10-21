@@ -76,17 +76,18 @@ use App\Http\Controllers\User\UserProfileController as UserUserProfileController
 Route::get('/recherche', [SearchController::class, 'index'])->name('search');
 
 // ========== SITEMAP XML ==========
-Route::get('/sitemap.xml', function () {
-    $path = public_path('sitemap.xml');
+// Fichier généré depuis l'administration (storage/app/sitemap.xml) ; à défaut, construit à partir des adresses approuvées.
+Route::get('/sitemap.xml', function (\App\Services\SitemapService $sitemap) {
+    $headers = ['Content-Type' => 'application/xml; charset=UTF-8', 'Cache-Control' => 'public, max-age=3600'];
+    $path = \App\Services\SitemapService::filePath();
 
-    if (!file_exists($path)) {
-        abort(404, 'Sitemap non trouvé. Veuillez le générer depuis l\'administration.');
+    if (file_exists($path)) {
+        return response()->file($path, $headers);
     }
 
-    return response()->file($path, [
-        'Content-Type'  => 'application/xml; charset=UTF-8',
-        'Cache-Control' => 'public, max-age=3600',
-    ]);
+    abort_unless(\App\Models\SitemapUrl::forSitemap()->exists(), 404);
+
+    return response($sitemap->buildXml(), 200, $headers);
 })->name('sitemap.xml');
 
 // ========== PAGES DU SITE ==========

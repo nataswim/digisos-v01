@@ -7,9 +7,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p>Cette action va scanner votre application et ajouter toutes les URLs trouvées dans la base de données.</p>
-                <div class="alert alert-info">
-                    <strong>Note :</strong> Les URLs dynamiques nécessiteront une approbation manuelle avant d'être incluses dans le sitemap.
+                <p>Recense toutes les pages publiques du site : pages fixes, articles, fiches, pages, vidéos, galeries, documents, compétitions, partenaires, boutique et installations. Les contenus réservés aux membres ne sont pas repris.</p>
+                <div class="alert alert-info mb-0">
+                    <ul class="mb-0 ps-3">
+                        <li>Les pages fixes sont approuvées d'office ; les nouveaux contenus attendent votre approbation.</li>
+                        <li>Les approbations déjà données sont conservées.</li>
+                        <li>Les adresses qui n'existent plus (contenu supprimé ou dépublié) sont retirées. Les adresses ajoutées à la main sont gardées.</li>
+                    </ul>
                 </div>
             </div>
             <div class="modal-footer">
@@ -40,7 +44,7 @@
                 </div>
                 <div class="alert alert-info">
                     <strong>📍 Le sitemap sera accessible sur :</strong><br>
-                    <code>{{ config('app.url') }}/sitemap.xml</code>
+                    <code>{{ route('sitemap.xml') }}</code>
                 </div>
             </div>
             <div class="modal-footer">
@@ -69,7 +73,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">URL *</label>
-                        <input type="url" name="url" class="form-control" placeholder="https://votresite.com/page-exemple" required>
+                        <input type="url" name="url" class="form-control" placeholder="{{ url('/') }}/page-exemple" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Priorité</label>

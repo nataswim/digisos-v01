@@ -11,6 +11,10 @@
         <div>
             <h2><i class="fas fa-sitemap me-2"></i>Gestion du Sitemap</h2>
             <small class="text-muted">{{ $urls->total() ?? $urls->count() }} URL(s) au total</small>
+            <p class="small text-muted mb-0 mt-1">
+                1. <strong>Découvrir</strong> recense les pages du site · 2. approuvez celles à proposer à Google ·
+                3. <strong>Générer</strong> met à jour <a href="{{ route('sitemap.xml') }}" target="_blank" rel="noopener">/sitemap.xml</a>.
+            </p>
         </div>
         <div class="btn-group">
             <button type="button" class="btn bg-warning p-2" data-bs-toggle="modal" data-bs-target="#discoverModal">
@@ -162,42 +166,16 @@
                 </div>
                 <div class="card-body p-3">
                     <div class="row text-center g-2">
-                        <div class="col-6">
-                            <div class="bg-light rounded p-2">
-                                <strong class="d-block">{{ $statistics['posts_urls'] ?? 0 }}</strong>
-                                <small class="text-muted">Articles</small>
+                        @forelse ($statistics['by_source'] ?? [] as $cle => $source)
+                            <div class="col-6">
+                                <a href="{{ route('admin.sitemap.index', ['source' => $cle]) }}" class="d-block bg-light rounded p-2 text-decoration-none">
+                                    <strong class="d-block text-dark">{{ $source['count'] }}</strong>
+                                    <small class="text-muted">{{ $source['label'] }}</small>
+                                </a>
                             </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="bg-light rounded p-2">
-                                <strong class="d-block">{{ $statistics['fiches_urls'] ?? 0 }}</strong>
-                                <small class="text-muted">Fiches</small>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="bg-light rounded p-2">
-                                <strong class="d-block">{{ $statistics['downloadables_urls'] ?? 0 }}</strong>
-                                <small class="text-muted">Téléchargements</small>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="bg-light rounded p-2">
-                                <strong class="d-block">{{ $statistics['exercices_urls'] ?? 0 }}</strong>
-                                <small class="text-muted">Exercices</small>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="bg-light rounded p-2">
-                                <strong class="d-block">{{ $statistics['plans_urls'] ?? 0 }}</strong>
-                                <small class="text-muted">Plans</small>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="bg-light rounded p-2">
-                                <strong class="d-block">{{ $statistics['workouts_urls'] ?? 0 }}</strong>
-                                <small class="text-muted">Workouts</small>
-                            </div>
-                        </div>
+                        @empty
+                            <p class="text-muted small mb-0">Lancez la découverte pour recenser les pages du site.</p>
+                        @endforelse
                     </div>
                 </div>
             </div>
@@ -234,7 +212,7 @@
                 </div>
                 <div class="card-body p-3">
                     <div class="d-grid gap-2">
-                        <a href="{{ config('app.url') }}/sitemap.xml" target="_blank" class="btn btn-sm btn-outline-success">
+                        <a href="{{ route('sitemap.xml') }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-success">
                             <i class="fas fa-file-code me-2"></i>Voir le Sitemap
                         </a>
                         <a href="https://search.google.com/search-console" target="_blank" class="btn btn-sm btn-outline-primary">
@@ -292,12 +270,9 @@
                         <div class="col-md-2">
                             <select name="source" class="form-select">
                                 <option value="">Toutes sources</option>
-                                <option value="posts" {{ request('source') === 'posts' ? 'selected' : '' }}>Articles</option>
-                                <option value="fiches" {{ request('source') === 'fiches' ? 'selected' : '' }}>Fiches</option>
-                                <option value="downloadables" {{ request('source') === 'downloadables' ? 'selected' : '' }}>Téléchargements</option>
-                                <option value="exercices" {{ request('source') === 'exercices' ? 'selected' : '' }}>Exercices</option>
-                                <option value="plans" {{ request('source') === 'plans' ? 'selected' : '' }}>Plans</option>
-                                <option value="workouts" {{ request('source') === 'workouts' ? 'selected' : '' }}>Workouts</option>
+                                @foreach (App\Services\SitemapService::SOURCES as $cle => $libelle)
+                                    <option value="{{ $cle }}" @selected(request('source') === $cle)>{{ $libelle }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-3">

@@ -7,7 +7,7 @@ use App\Services\SitemapService;
 
 class GenerateSitemap extends Command
 {
-    protected $signature = 'sitemap:generate';
+    protected $signature = 'sitemap:generate {--discover : Recenser d\'abord les pages du site (les nouveaux contenus restent à approuver)}';
     protected $description = 'Génère le sitemap XML du site';
 
     protected $sitemapService;
@@ -23,6 +23,14 @@ class GenerateSitemap extends Command
         $this->info('🚀 Génération du sitemap en cours...');
 
         try {
+            if ($this->option('discover')) {
+                $stats = $this->sitemapService->discoverUrls();
+                $this->info("Découverte : {$stats['total']} adresses, {$stats['new']} nouvelles, {$stats['removed']} retirées.");
+                if ($stats['errors']) {
+                    $this->warn('Modules non lus : ' . implode(', ', $stats['errors']));
+                }
+            }
+
             // Générer le XML
             $result = $this->sitemapService->generateXml();
 
@@ -37,10 +45,10 @@ class GenerateSitemap extends Command
                 ]
             );
 
-            $this->info('📍 Le sitemap est accessible sur : ' . config('app.url') . '/sitemap.xml');
+            $this->info('📍 Le sitemap est accessible sur : ' . route('sitemap.xml'));
 
             return Command::SUCCESS;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->error('❌ Erreur lors de la génération : ' . $e->getMessage());
             return Command::FAILURE;
         }
