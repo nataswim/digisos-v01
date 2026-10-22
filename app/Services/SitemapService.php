@@ -62,6 +62,8 @@ class SitemapService
         'public.pages.index'         => [0.8, 'monthly'],
         'public.installations.index' => [0.7, 'monthly'],
         'partners.index'             => [0.7, 'monthly'],
+        'support.mecenat'            => [0.7, 'yearly'],
+        'support.donation'           => [0.7, 'yearly'],
         'shop.index'                 => [0.7, 'weekly'],
         'galleries.index'            => [0.7, 'weekly'],
         'public.videos.index'        => [0.7, 'weekly'],

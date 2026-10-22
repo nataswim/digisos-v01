@@ -47,7 +47,15 @@
             ],
         ],
 
-        ['label' => 'Partenaires', 'route' => 'partners.index', 'active' => ['partners.*']],
+        [
+            'label'    => 'Partenaires',
+            'id'       => 'partenairesDropdown',
+            'children' => [
+                ['label' => 'Nos partenaires', 'icon' => 'fa-handshake',          'route' => 'partners.index',   'active' => ['partners.*']],
+                ['label' => 'Devenir mécène',  'icon' => 'fa-hand-holding-heart', 'route' => 'support.mecenat',  'active' => ['support.mecenat']],
+                ['label' => 'Faire un don',    'icon' => 'fa-heart',              'route' => 'support.donation', 'active' => ['support.donation']],
+            ],
+        ],
         ['label' => 'Boutique',    'route' => 'shop.index',     'active' => ['shop.*']],
     ];
 @endphp

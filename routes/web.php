@@ -118,6 +118,10 @@ Route::get('/competitions/{competition}/documents/{document}',     [PublicCompet
 Route::get('/partenaires',           [PublicPartnerController::class, 'index'])->name('partners.index');
 Route::get('/partenaires/{partner}', [PublicPartnerController::class, 'show'])->name('partners.show');
 
+// ========== SOUTENIR LE CLUB (mécénat d'entreprise, dons des particuliers) ==========
+Route::view('/devenir-mecene', 'public.support.mecenat')->name('support.mecenat');
+Route::view('/faire-un-don',   'public.support.dons')->name('support.donation');
+
 // ========== BOUTIQUE VITRINE (module Boutique) ==========
 Route::get('/boutique',                         [PublicShopController::class, 'index'])->name('shop.index');
 Route::get('/boutique/{category}',              [PublicShopController::class, 'category'])->name('shop.category');
