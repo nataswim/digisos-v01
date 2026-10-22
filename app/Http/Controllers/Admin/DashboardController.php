@@ -27,6 +27,7 @@ class DashboardController extends Controller
                 ['Partenaires',       'fa-handshake',     'admin.partners.index',         Models\Partner::class,      ['partenaire', 'partenaires']],
                 ['Boutique',          'fa-shopping-bag',  'admin.shop.products.index',    Models\ShopProduct::class,  ['produit', 'produits']],
                 ['L\'équipe du club', 'fa-users',         'admin.team.members.index',     Models\TeamMember::class,   ['membre', 'membres']],
+                ['Liens utiles',      'fa-link',          'admin.links.items.index',      Models\Link::class,        ['lien', 'liens']],
             ],
         ],
         'Multimédia' => [

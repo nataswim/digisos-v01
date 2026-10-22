@@ -32,7 +32,8 @@
                             'admin.pages-categories.*',
                             'admin.partners.*',
                             'admin.shop.*',
-                            'admin.team.*'
+                            'admin.team.*',
+                            'admin.links.*'
                         );
                     @endphp
                     <a class="nav-link dropdown-toggle {{ $contenusActive ? 'active fw-bold text-white' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -178,6 +179,30 @@
                         <li>
                             <a class="dropdown-item {{ request()->routeIs('admin.team.members.create') ? 'active' : '' }}" href="{{ route('admin.team.members.create') }}">
                                 <i class="fas fa-plus fa-fw me-2"></i>Nouveau membre
+                            </a>
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <!-- Liens utiles (administrateurs uniquement) -->
+                        <li><h6 class="dropdown-header"><i class="fas fa-link me-2"></i>Liens utiles</h6></li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('admin.links.items.index', 'admin.links.items.edit') ? 'active' : '' }}" href="{{ route('admin.links.items.index') }}">
+                                <i class="fas fa-list fa-fw me-2"></i>Liens
+                                @php $linksCount = App\Models\Link::count(); @endphp
+                                @if($linksCount > 0)
+                                    <span class="badge bg-success ms-2">{{ $linksCount }}</span>
+                                @endif
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('admin.links.categories.*') ? 'active' : '' }}" href="{{ route('admin.links.categories.index') }}">
+                                <i class="fas fa-folder-open fa-fw me-2"></i>Catégories
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('admin.links.items.create') ? 'active' : '' }}" href="{{ route('admin.links.items.create') }}">
+                                <i class="fas fa-plus fa-fw me-2"></i>Nouveau lien
                             </a>
                         </li>
 

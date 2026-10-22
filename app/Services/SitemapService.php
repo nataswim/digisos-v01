@@ -68,6 +68,7 @@ class SitemapService
         'galleries.index'            => [0.7, 'weekly'],
         'public.videos.index'        => [0.7, 'weekly'],
         'ebook.index'                => [0.6, 'monthly'],
+        'links.index'                => [0.5, 'monthly'],
         'press'                      => [0.6, 'monthly'],
         'contact'                    => [0.6, 'yearly'],
         'legal'                      => [0.2, 'yearly'],

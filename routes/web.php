@@ -14,6 +14,7 @@ use App\Http\Controllers\PublicCompetitionController;
 use App\Http\Controllers\PublicPartnerController;
 use App\Http\Controllers\PublicShopController;
 use App\Http\Controllers\PublicTeamController;
+use App\Http\Controllers\PublicLinkController;
 use App\Http\Controllers\MemberCompetitionController;
 use App\Http\Controllers\EbookController;
 use App\Http\Controllers\SearchController;
@@ -129,6 +130,9 @@ Route::get('/boutique/{category}/{product}',    [PublicShopController::class, 's
 
 // ========== L'ÉQUIPE DU CLUB (module Équipe) ==========
 Route::get('/equipe-du-club', [PublicTeamController::class, 'index'])->name('team.index');
+
+// ========== LIENS UTILES (module Liens utiles) ==========
+Route::get('/liens-utiles', [PublicLinkController::class, 'index'])->name('links.index');
 
 // ========== POSTS PUBLICS ==========
 Route::get('/posts',                     [PostController::class, 'indexPublic'])->name('posts.public.index');
@@ -384,6 +388,9 @@ Route::middleware(['auth', 'verified', 'can:access-admin'])->prefix('admin')->na
 
     // ========== L'ÉQUIPE DU CLUB (admin uniquement, routes admin.team.*) ==========
     require __DIR__.'/team.php';
+
+    // ========== LIENS UTILES (admin uniquement, routes admin.links.*) ==========
+    require __DIR__.'/links.php';
 
     // ========== LICENCES FFN — import extraNat (admin uniquement, routes admin.ffn-licenses.*) ==========
     require __DIR__.'/ffn-licenses.php';
