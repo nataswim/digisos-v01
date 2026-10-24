@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers\Visitor;
 
+use App\Http\Controllers\Concerns\LatestContent;
 use App\Http\Controllers\Controller;
-use App\Models\Fiche;
-use App\Models\Page;
-use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
 /**
@@ -18,25 +15,10 @@ use Illuminate\View\View;
  */
 class VisitorDashboardController extends Controller
 {
+    use LatestContent;
+
     public function __invoke(Request $request): View
     {
-        return view('visitor.dashboard', [
-            'user' => $request->user(),
-            'posts' => $this->latest(fn () => Post::with('category')->published()->where('visibility', 'public')),
-            'fiches' => $this->latest(fn () => Fiche::with(['category', 'sousCategory'])->published()->where('visibility', 'public')),
-            'pages' => $this->latest(fn () => Page::with('category')->published()->where('visibility', 'public')),
-        ]);
-    }
-
-    /** Les 4 derniers éléments publiés ; liste vide si le module n'est pas installé. */
-    private function latest(callable $query): Collection
-    {
-        try {
-            return $query()->latest('published_at')->limit(4)->get();
-        } catch (\Throwable $e) {
-            report($e);
-
-            return collect();
-        }
+        return view('visitor.dashboard', ['user' => $request->user()] + $this->latestContent(membres: false));
     }
 }

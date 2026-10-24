@@ -1,127 +1,47 @@
-@extends('layouts.user')
+@extends('layouts.public')
 
-@section('title', 'Mon tableau de bord')
+@section('title', 'Mon espace adhérent')
 
 @section('content')
 
-{{-- Bandeau titre --}}
-<section class="position-relative text-white overflow-hidden">
-    <div class="card bg-secondary p-3 border-0 shadow-sm mb-4">
-        <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
-            <h2 class="mb-0 text-white">
-                <i class="fas fa-water me-2"></i>
-                Tableau de bord — {{ auth()->user()->first_name ?: auth()->user()->name }}
-            </h2>
+<div class="container-lg py-5">
+
+    {{-- En-tête --}}
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+            <h1 class="h2 fw-bold mb-1">Bonjour {{ $user->first_name ?: $user->name }}</h1>
+            <p class="text-muted mb-0">Bienvenue dans votre espace adhérent.</p>
         </div>
-    </div>
-</section>
-
-<div class="container-fluid">
-
-    {{-- Cartes de navigation --}}
-    <div class="row g-4 mt-2">
-
-        {{-- Ma fiche --}}
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm text-center h-100">
-                <div class="card-body d-flex flex-column justify-content-between p-4">
-                    <div>
-                        <i class="fas fa-id-card fa-3x text-primary mb-3"></i>
-                        <h5 class="fw-semibold">Ma fiche</h5>
-                        <p class="text-muted mb-3">Consultez votre fiche de profil enrichi</p>
-                    </div>
-                    <a href="{{ route('user.user-profile.show') }}" class="btn btn-outline-primary">
-                        <i class="fas fa-eye me-2"></i>Voir ma fiche
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        {{-- Mon profil --}}
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm text-center h-100">
-                <div class="card-body d-flex flex-column justify-content-between p-4">
-                    <div>
-                        <i class="fas fa-user-circle fa-3x text-secondary mb-3"></i>
-                        <h5 class="fw-semibold">Mon profil</h5>
-                        <p class="text-muted mb-3">Mettez à jour vos informations personnelles</p>
-                    </div>
-                    <a href="{{ route('user.profile.edit') }}" class="btn btn-outline-secondary">
-                        <i class="fas fa-edit me-2"></i>Modifier mon profil
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        {{-- Actualités --}}
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm text-center h-100">
-                <div class="card-body d-flex flex-column justify-content-between p-4">
-                    <div>
-                        <i class="fas fa-newspaper fa-3x text-secondary mb-3"></i>
-                        <h5 class="fw-semibold">Actualités</h5>
-                        <p class="text-muted mb-3">Consultez les derniers articles publiés</p>
-                    </div>
-                    <a href="{{ route('posts.public.index') }}" class="btn btn-outline-secondary">
-                        <i class="fas fa-eye me-2"></i>Voir les articles
-                    </a>
-                </div>
-            </div>
-        </div>
-
+        <a href="{{ route('user.profile.edit') }}" class="btn btn-outline-primary">
+            <i class="fas fa-user-edit me-2" aria-hidden="true"></i>Mon profil
+        </a>
     </div>
 
-    <div class="row g-4 mt-2">
+    {{-- Statut du compte --}}
+    @include('layouts.partials.espace-accueil-statut', [
+        'icon' => 'fa-user-check',
+        'variante' => 'membre',
+        'titre' => 'Vous êtes membre du club.',
+        'texte' => 'Votre compte est validé : vous avez accès aux contenus réservés aux adhérents, à votre fiche et aux convocations de vos nageurs.',
+    ])
 
-        {{-- Fiches pratiques --}}
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm text-center h-100">
-                <div class="card-body d-flex flex-column justify-content-between p-4">
-                    <div>
-                        <i class="fas fa-file-medical fa-3x text-secondary mb-3"></i>
-                        <h5 class="fw-semibold">Fiches pratiques</h5>
-                        <p class="text-muted mb-3">Accédez aux fiches techniques disponibles</p>
-                    </div>
-                    <a href="{{ route('public.fiches.index') }}" class="btn btn-outline-secondary">
-                        <i class="fas fa-eye me-2"></i>Voir les fiches
-                    </a>
-                </div>
-            </div>
-        </div>
+    {{-- Mon espace --}}
+    @include('layouts.partials.espace-accueil-tuiles', ['titre' => 'Mon espace', 'tuiles' => [
+        ['icon' => 'fa-id-card', 'titre' => 'Ma fiche', 'texte' => 'Votre fiche adhérent.', 'route' => 'user.user-profile.show'],
+        ['icon' => 'fa-trophy', 'titre' => 'Mes compétitions', 'texte' => 'Les convocations de vos nageurs et vos réponses.', 'route' => 'user.competitions.index'],
+        ['icon' => 'fa-user-edit', 'titre' => 'Mon profil', 'texte' => 'Vos coordonnées et votre mot de passe.', 'route' => 'user.profile.edit'],
+        ['icon' => 'fa-download', 'titre' => 'Documents', 'texte' => 'Les documents mis à disposition par le club.', 'route' => 'ebook.index'],
+    ]])
 
-        {{-- Tutoriels vidéo --}}
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm text-center h-100">
-                <div class="card-body d-flex flex-column justify-content-between p-4">
-                    <div>
-                        <i class="fas fa-video fa-3x text-secondary mb-3"></i>
-                        <h5 class="fw-semibold">Tutoriels</h5>
-                        <p class="text-muted mb-3">Visionnez les tutoriels et vidéos disponibles</p>
-                    </div>
-                    <a href="{{ route('public.videos.index') }}" class="btn btn-outline-secondary">
-                        <i class="fas fa-play me-2"></i>Voir les vidéos
-                    </a>
-                </div>
-            </div>
-        </div>
+    {{-- Le club --}}
+    @include('layouts.partials.espace-accueil-tuiles', ['titre' => 'Le club', 'tuiles' => [
+        ['icon' => 'fa-handshake', 'titre' => 'Nos partenaires', 'texte' => 'Les entreprises et collectivités qui soutiennent le club.', 'route' => 'partners.index'],
+        ['icon' => 'fa-hand-holding-heart', 'titre' => 'Devenir mécène', 'texte' => "Soutenez le club et bénéficiez d'une réduction d'impôt.", 'route' => 'support.mecenat'],
+        ['icon' => 'fa-heart', 'titre' => 'Faire un don', 'texte' => 'Un don par chèque ou par virement, avec reçu fiscal.', 'route' => 'support.donation'],
+        ['icon' => 'fa-calendar-alt', 'titre' => 'Calendrier', 'texte' => 'Les compétitions et événements à venir.', 'route' => 'competitions.index'],
+    ]])
 
-        {{-- Documents --}}
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm text-center h-100">
-                <div class="card-body d-flex flex-column justify-content-between p-4">
-                    <div>
-                        <i class="fas fa-book fa-3x text-secondary mb-3"></i>
-                        <h5 class="fw-semibold">Documents</h5>
-                        <p class="text-muted mb-3">Téléchargez les documents mis à disposition</p>
-                    </div>
-                    <a href="{{ route('ebook.index') }}" class="btn btn-outline-secondary">
-                        <i class="fas fa-download me-2"></i>Voir les documents
-                    </a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
+    {{-- 4 derniers articles, fiches et pages (y compris ceux réservés aux adhérents) --}}
+    @include('layouts.partials.espace-accueil-contenus')
 </div>
 @endsection

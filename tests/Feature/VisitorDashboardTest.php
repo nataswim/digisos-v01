@@ -55,7 +55,7 @@ class VisitorDashboardTest extends TestCase
 
         $this->actingAs($this->visitor())->get('/visitor/dashboard')->assertOk()
             ->assertSee('Vous avez le statut « visiteur »', false)
-            ->assertSee("accéder à l'espace membre du club", false)
+            ->assertSee("accéder à l'espace membre du club")
             ->assertSee('Nos partenaires')->assertSee('Devenir mécène')->assertSee('Faire un don')->assertSee('Calendrier')
             ->assertSee('Article 5')->assertSee('Article 2')->assertDontSee('Article 1<')
             ->assertDontSee('Article adhérents')
