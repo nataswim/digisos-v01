@@ -88,26 +88,36 @@ class LinkController extends Controller
     private function validated(Request $request): array
     {
         // « ffnatation.fr » saisi sans https:// : on le complète
-        $url = trim((string) $request->input('url'));
-        if ($url !== '' && ! preg_match('#^https?://#i', $url)) {
-            $request->merge(['url' => 'https://' . $url]);
+        foreach (['url', 'facebook_url', 'instagram_url'] as $champ) {
+            $valeur = trim((string) $request->input($champ));
+            if ($valeur !== '' && ! preg_match('#^https?://#i', $valeur)) {
+                $request->merge([$champ => 'https://' . $valeur]);
+            }
         }
 
         $data = $request->validate([
             'link_category_id' => ['required', 'integer', 'exists:link_categories,id'],
             'title' => ['required', 'string', 'max:150'],
             'url' => ['required', 'string', 'max:500', 'url:http,https'],
+            'facebook_url' => ['nullable', 'string', 'max:500', 'url:http,https', 'regex:#^https?://([a-z0-9-]+\.)*(facebook\.com|fb\.com|fb\.me)(/|$)#i'],
+            'instagram_url' => ['nullable', 'string', 'max:500', 'url:http,https', 'regex:#^https?://([a-z0-9-]+\.)*(instagram\.com|instagr\.am)(/|$)#i'],
             'image' => ['nullable', 'string', 'max:500', 'regex:#^(https?://|/)#i'],
             'description' => ['nullable', 'string', 'max:1000'],
             'keywords' => ['nullable', 'string', 'max:500'],
             'sort_order' => ['nullable', 'integer', 'min:0', 'max:65000'],
         ], [
             'url.url' => 'L\'adresse du site doit être une adresse internet valide (ex. https://www.ffnatation.fr).',
+            'facebook_url.regex' => 'Le lien Facebook doit être une adresse facebook.com (ex. https://www.facebook.com/ffnatation).',
+            'instagram_url.regex' => 'Le lien Instagram doit être une adresse instagram.com (ex. https://www.instagram.com/ffnatation).',
+            'facebook_url.url' => 'Le lien Facebook doit être une adresse internet valide.',
+            'instagram_url.url' => 'Le lien Instagram doit être une adresse internet valide.',
             'image.regex' => 'L\'image doit être choisie dans la médiathèque ou être une adresse commençant par https://',
         ], [
             'link_category_id' => 'catégorie',
             'title' => 'titre',
             'url' => 'adresse du site',
+            'facebook_url' => 'lien Facebook',
+            'instagram_url' => 'lien Instagram',
             'keywords' => 'mots-clés',
         ]);
 

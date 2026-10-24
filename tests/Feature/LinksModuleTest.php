@@ -107,6 +107,41 @@ class LinksModuleTest extends TestCase
         $this->assertSame(0, Link::count());
     }
 
+    public function test_facebook_and_instagram_links(): void
+    {
+        $admin = $this->userWithRole('admin');
+        $category = LinkCategory::create(['name' => 'Fédérations']);
+
+        // Adresses sans https:// : complétées ; icônes enregistrées
+        $this->actingAs($admin)->post('/admin/liens-utiles/liens', [
+            'link_category_id' => $category->id, 'title' => 'FFN', 'url' => 'https://www.ffnatation.fr',
+            'facebook_url' => 'www.facebook.com/ffnatation', 'instagram_url' => 'https://www.instagram.com/ffnatation/',
+            'is_active' => '1',
+        ])->assertRedirect()->assertSessionHasNoErrors();
+
+        $link = Link::firstOrFail();
+        $this->assertSame('https://www.facebook.com/ffnatation', $link->facebook_url);
+        $this->assertSame(['Facebook', 'Instagram'], array_column($link->social_links, 'label'));
+
+        $this->get('/liens-utiles')->assertOk()
+            ->assertSee('https://www.facebook.com/ffnatation', false)
+            ->assertSee('https://www.instagram.com/ffnatation/', false)
+            ->assertSee('links-social-btn--facebook', false)
+            ->assertSee('Instagram de FFN');
+        $this->actingAs($admin)->get('/admin/liens-utiles/liens')->assertSee('fab fa-instagram', false);
+        $this->actingAs($admin)->get("/admin/liens-utiles/liens/{$link->id}/edit")->assertSee('https://www.facebook.com/ffnatation', false);
+
+        // Mauvais site dans le champ Facebook / Instagram : refusé
+        $this->actingAs($admin)->put("/admin/liens-utiles/liens/{$link->id}", [
+            'link_category_id' => $category->id, 'title' => 'FFN', 'url' => 'https://www.ffnatation.fr',
+            'facebook_url' => 'https://www.ffnatation.fr', 'instagram_url' => 'https://fakeinstagram.com.example.org/x',
+        ])->assertSessionHasErrors(['facebook_url', 'instagram_url']);
+
+        // Sans réseaux : pas d'icônes
+        $link->update(['facebook_url' => null, 'instagram_url' => null]);
+        $this->get('/liens-utiles')->assertDontSee('https://www.facebook.com/ffnatation', false)->assertDontSee('Instagram de FFN');
+    }
+
     public function test_only_admins_manage_links(): void
     {
         $this->get('/admin/liens-utiles/liens')->assertRedirect('/login');

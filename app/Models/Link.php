@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 class Link extends Model
 {
     protected $fillable = [
-        'link_category_id', 'title', 'url', 'image', 'description', 'keywords', 'sort_order', 'is_active',
+        'link_category_id', 'title', 'url', 'facebook_url', 'instagram_url', 'image', 'description', 'keywords', 'sort_order', 'is_active',
     ];
 
     protected $casts = [
@@ -55,6 +55,22 @@ class Link extends Model
     public function scopeOrdered(Builder $query): Builder
     {
         return $query->orderBy('sort_order')->orderBy('title');
+    }
+
+    /** Réseaux sociaux renseignés : [['url' => …, 'label' => …, 'icon' => …, 'class' => …], …] */
+    public function getSocialLinksAttribute(): array
+    {
+        $reseaux = [];
+        foreach ([
+            'facebook_url' => ['Facebook', 'fab fa-facebook-f', 'facebook'],
+            'instagram_url' => ['Instagram', 'fab fa-instagram', 'instagram'],
+        ] as $champ => [$label, $icon, $class]) {
+            if (filled($this->{$champ})) {
+                $reseaux[] = ['url' => $this->{$champ}, 'label' => $label, 'icon' => $icon, 'class' => $class];
+            }
+        }
+
+        return $reseaux;
     }
 
     /** @return array<string> */
