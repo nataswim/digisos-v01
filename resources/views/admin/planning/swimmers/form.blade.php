@@ -29,6 +29,35 @@
                                value="{{ old('last_name', $swimmer->last_name) }}">
                     </div>
 
+                    {{-- Photo (médiathèque) : affichée uniquement dans l'administration --}}
+                    @php $photo = old('photo', $swimmer->photo); @endphp
+                    <div class="col-12">
+                        <span class="form-label fw-semibold d-block mb-2">Photo <span class="text-muted fw-normal">(facultatif)</span></span>
+                        <div class="d-flex flex-wrap align-items-center gap-3">
+                            <span class="swimmer-photo-preview" aria-hidden="true">
+                                <img src="{{ $photo }}" alt="" id="photo-preview" @if (! $photo) hidden @endif>
+                                <span id="photo-empty" @if ($photo) hidden @endif><i class="fas fa-user"></i></span>
+                            </span>
+                            <div style="flex: 1 1 240px;">
+                                <div class="input-group">
+                                    <input type="text" id="photo" name="photo" maxlength="500"
+                                           class="form-control @error('photo') is-invalid @enderror"
+                                           value="{{ $photo }}" placeholder="Choisir une photo…" aria-label="Photo du nageur">
+                                    <button type="button" class="btn btn-primary" onclick="openMediaSelector('photo', 'photo-preview')" title="Choisir dans la médiathèque">
+                                        <i class="fas fa-images" aria-hidden="true"></i><span class="visually-hidden">Choisir dans la médiathèque</span>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary" id="photo-clear" title="Retirer la photo">
+                                        <i class="fas fa-times" aria-hidden="true"></i><span class="visually-hidden">Retirer la photo</span>
+                                    </button>
+                                </div>
+                                <div class="form-text">
+                                    Visible seulement dans l'administration. Avec l'accord des parents pour un mineur.
+                                    Attention : une image de la médiathèque a une adresse internet.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-md-4">
                         <label for="birth_year" class="form-label fw-semibold">Année de naissance <span class="text-muted fw-normal">(facultatif)</span></label>
                         <input type="number" id="birth_year" name="birth_year" min="1920" max="{{ now()->year }}"
@@ -113,3 +142,57 @@
     </div>
 </div>
 @endsection
+
+@push('styles')
+<style>
+    .swimmer-photo-preview {
+        display: inline-flex;
+        width: 88px;
+        height: 88px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #e8f2f9;
+        color: #2f80b8;
+        font-size: 2rem;
+        flex-shrink: 0;
+        border: 3px solid #fff;
+        box-shadow: 0 0 0 2px #f9be38;
+    }
+
+    .swimmer-photo-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>
+@endpush
+
+@push('scripts')
+<script>
+    // La médiathèque (media-selector.js) est chargée par le gabarit admin / éditeur.
+    document.addEventListener('DOMContentLoaded', function () {
+        var champ = document.getElementById('photo');
+        var apercu = document.getElementById('photo-preview');
+        var vide = document.getElementById('photo-empty');
+        if (!champ) return;
+
+        function maj() {
+            var url = champ.value.trim();
+            if (url) { apercu.src = url; }
+            apercu.hidden = url === '';
+            vide.hidden = url !== '';
+        }
+        champ.addEventListener('input', maj);
+        champ.addEventListener('change', maj);
+        document.getElementById('photo-clear').addEventListener('click', function () {
+            champ.value = '';
+            apercu.removeAttribute('src');
+            maj();
+        });
+        new MutationObserver(function () { vide.hidden = !apercu.hidden && !!apercu.getAttribute('src'); })
+            .observe(apercu, { attributes: true, attributeFilter: ['src', 'hidden', 'style'] });
+    });
+</script>
+@endpush

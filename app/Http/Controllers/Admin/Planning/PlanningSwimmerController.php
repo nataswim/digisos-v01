@@ -94,6 +94,7 @@ class PlanningSwimmerController extends PlanningController
         $data = $request->validate([
             'first_name' => ['required', 'string', 'max:100'],
             'last_name' => ['required', 'string', 'max:100'],
+            'photo' => ['nullable', 'string', 'max:500', 'regex:#^(https?://|/)#i'],
             'birth_year' => ['nullable', 'integer', 'min:1920', 'max:' . now()->year],
             'gender' => ['nullable', \Illuminate\Validation\Rule::in(array_keys(PlanningSwimmer::GENDERS))],
             'license_number' => ['nullable', 'string', 'max:20', 'regex:/^[0-9A-Za-z -]*$/'],
@@ -103,6 +104,7 @@ class PlanningSwimmerController extends PlanningController
             'groups.*' => ['integer', 'exists:planning_groups,id'],
         ], [
             'license_number.regex' => 'Le numéro de licence ne doit contenir que des chiffres et des lettres.',
+            'photo.regex' => 'La photo doit être choisie dans la médiathèque.',
         ]);
 
         unset($data['groups']);

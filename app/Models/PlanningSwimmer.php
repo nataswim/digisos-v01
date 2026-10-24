@@ -19,7 +19,7 @@ class PlanningSwimmer extends Model
     ];
 
     protected $fillable = [
-        'first_name', 'last_name', 'birth_year', 'gender', 'license_number', 'user_id', 'notes', 'is_active',
+        'first_name', 'last_name', 'photo', 'birth_year', 'gender', 'license_number', 'user_id', 'notes', 'is_active',
     ];
 
     protected $casts = [
@@ -60,6 +60,12 @@ class PlanningSwimmer extends Model
     public function getFullNameAttribute(): string
     {
         return trim($this->first_name . ' ' . mb_strtoupper($this->last_name));
+    }
+
+    /** Initiales, affichées dans l'administration quand il n'y a pas de photo */
+    public function getInitialsAttribute(): string
+    {
+        return mb_strtoupper(mb_substr($this->first_name, 0, 1) . mb_substr($this->last_name, 0, 1));
     }
 
     /** « Prénom N. » : forme courte affichée sur le site */

@@ -27,9 +27,16 @@
             @endif
         </form>
 
-        <a href="{{ route($area . '.planning.swimmers.create', array_filter(['groupe' => $groupId])) }}" class="btn btn-primary">
-            <i class="fas fa-user-plus me-1" aria-hidden="true"></i>Ajouter un nageur
-        </a>
+        <div class="d-flex flex-wrap gap-2">
+            @if ($area === 'admin' && Route::has('admin.planning.swimmers.from-licenses'))
+                <a href="{{ route('admin.planning.swimmers.from-licenses', array_filter(['groupe' => $groupId])) }}" class="btn btn-outline-primary">
+                    <i class="fas fa-id-card me-1" aria-hidden="true"></i>Ajouter depuis les licences FFN
+                </a>
+            @endif
+            <a href="{{ route($area . '.planning.swimmers.create', array_filter(['groupe' => $groupId])) }}" class="btn btn-primary">
+                <i class="fas fa-user-plus me-1" aria-hidden="true"></i>Ajouter un nageur
+            </a>
+        </div>
     </div>
 
     <div class="card border-0 shadow-sm">
@@ -48,7 +55,21 @@
                 <tbody>
                     @forelse ($swimmers as $swimmer)
                         <tr>
-                            <td class="ps-3 fw-semibold">{{ $swimmer->full_name }}</td>
+                            <td class="ps-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="swimmer-thumb" aria-hidden="true">
+                                        @if ($swimmer->photo)
+                                            <img src="{{ $swimmer->photo }}" alt="">
+                                        @else
+                                            {{ $swimmer->initials }}
+                                        @endif
+                                    </span>
+                                    <span class="fw-semibold">{{ $swimmer->full_name }}</span>
+                                    @if ($swimmer->license_number)
+                                        <span class="badge bg-light text-dark border small" title="Licence FFN">FFN</span>
+                                    @endif
+                                </div>
+                            </td>
                             <td>{{ $swimmer->birth_year }}</td>
                             <td>
                                 @forelse ($swimmer->groups as $group)
@@ -98,3 +119,28 @@
     </p>
 </div>
 @endsection
+
+@push('styles')
+<style>
+    .swimmer-thumb {
+        display: inline-flex;
+        width: 40px;
+        height: 40px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #e8f2f9;
+        color: #2f80b8;
+        font-size: 0.8rem;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    .swimmer-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>
+@endpush
