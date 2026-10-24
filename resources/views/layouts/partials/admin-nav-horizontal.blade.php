@@ -110,6 +110,9 @@
                 ['label' => 'Référencement', 'icon' => 'fa-sitemap', 'links' => [
                     ['Plan du site', 'fa-sitemap', 'admin.sitemap.index', ['admin.sitemap.*']],
                 ]],
+                ['label' => 'Aperçu des espaces', 'icon' => 'fa-eye', 'links' => [
+                    ['Voir les espaces', 'fa-eye', 'admin.area-preview', ['admin.area-preview']],
+                ]],
             ],
         ],
         [

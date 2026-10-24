@@ -58,6 +58,7 @@ class DashboardController extends Controller
                 ['Rôles',               'fa-user-tag',   'admin.roles.index',          Models\Role::class,        ['rôle', 'rôles']],
                 ['Permissions',         'fa-key',        'admin.permissions.index',    Models\Permission::class,  ['permission', 'permissions']],
                 ['Plan du site',        'fa-sitemap',    'admin.sitemap.index',        Models\SitemapUrl::class,  ['adresse', 'adresses']],
+                ['Aperçu des espaces',  'fa-eye',        'admin.area-preview',         null,                      ['', '']],
             ],
         ],
         'Gestion' => [

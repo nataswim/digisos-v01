@@ -39,6 +39,7 @@ use App\Http\Controllers\FichesSousCategoryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PagesCategoryController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\Admin\AreaPreviewController;
 use App\Http\Controllers\Admin\SitemapController;
 use App\Http\Controllers\Admin\VideoController;
 use App\Http\Controllers\Admin\VideoCategoryController;
@@ -250,6 +251,9 @@ Route::middleware(['auth', 'verified', 'can:access-admin'])->prefix('admin')->na
 
     // ========== DASHBOARD ==========
     Route::get('/dashboard', AdminDashboardController::class)->name('dashboard');
+
+    // Aperçu des espaces (public, visiteur, adhérent, éditeur)
+    Route::get('/apercu-des-espaces', AreaPreviewController::class)->name('area-preview');
 
     // ========== POSTS ==========
     Route::post('posts/bulk-action', [PostController::class, 'bulkAction'])->name('posts.bulk-action');
