@@ -7,15 +7,15 @@
     <title>@yield('title') - Espace Éditeur</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    @include('layouts.partials.espace-head')
 
     @stack('styles')
 </head>
-<body style="background-color: rgb(250, 250, 245);background-image: linear-gradient(53deg, rgb(249, 245, 244) 85%, rgb(74 171 202) 70px);background-position: center top;background-attachment: fixed;border-right: 20px solid rgb(74 171 202);">
+<body class="espace espace--editor">
     @include('layouts.partials.editor-nav-horizontal')
     
     <div class="main-wrapper">

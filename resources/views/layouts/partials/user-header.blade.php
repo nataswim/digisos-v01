@@ -1,15 +1,12 @@
 {{-- Navigation principale --}}
-<nav class="navbar navbar-expand-lg"
-     style="border-left:20px solid #ffffff;border-bottom:10px solid #2f80b8;border-top:10px solid #2f80b8;background-image:linear-gradient(24deg, rgb(255 255 255) 85%, rgb(12 79 173) 70px);background-attachment:fixed;background-position:top;padding:0px;">
+<nav class="navbar navbar-expand-lg espace-nav espace-nav--member" aria-label="Menu de mon espace">
 
     <div class="container-lg">
 
         {{-- Logo --}}
-        <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
-            <img src="{{ asset('assets/images/logo/cnbb-logo-800.png') }}"
-                 alt="Club de natation Bressuire"
-                 class="img-fluid"
-                 style="height:80px;width:auto;">
+        <a class="navbar-brand espace-brand" href="{{ route('home') }}" aria-label="CNBB — retour au site">
+            <img src="{{ asset('assets/images/logo/cnbb-logo-800.png') }}" alt="" class="espace-brand-logo">
+            <span class="espace-brand-text">CNBB <span class="espace-brand-area">Mon espace</span></span>
         </a>
 
         {{-- Toggle mobile --}}
@@ -22,38 +19,38 @@
             {{-- Navigation principale --}}
             <ul class="navbar-nav me-auto ms-lg-4">
 
-                <li class="nav-item" style="font-weight:600;">
-                    <a class="nav-link navurl px-1 py-2 {{ request()->routeIs('posts.public.*') ? 'active' : 'text-primary' }}"
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('posts.public.*') ? 'active' : 'text-primary' }}"
                        href="{{ route('posts.public.index') }}">
-                        <i class="fas fa-water me-2" style="color: #eea324;"></i>Actualités
+                        <i class="fas fa-water me-2" aria-hidden="true"></i>Actualités
                     </a>
                 </li>
 
-                <li class="nav-item" style="font-weight:600;">
-                    <a class="nav-link navurl px-1 py-2 {{ request()->routeIs('public.fiches.*') ? 'active' : 'text-primary' }}"
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('public.fiches.*') ? 'active' : 'text-primary' }}"
                        href="{{ route('public.fiches.index') }}">
-                        <i class="fas fa-water me-2" style="color: #eea324;"></i>Fiches pratiques
+                        <i class="fas fa-water me-2" aria-hidden="true"></i>Fiches pratiques
                     </a>
                 </li>
 
-                <li class="nav-item" style="font-weight:600;">
-                    <a class="nav-link navurl px-1 py-2 {{ request()->routeIs('public.videos.*') ? 'active' : 'text-primary' }}"
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('public.videos.*') ? 'active' : 'text-primary' }}"
                        href="{{ route('public.videos.index') }}">
-                        <i class="fas fa-water me-2" style="color: #eea324;"></i>Tutoriels
+                        <i class="fas fa-water me-2" aria-hidden="true"></i>Tutoriels
                     </a>
                 </li>
 
-                <li class="nav-item" style="font-weight:600;">
-                    <a class="nav-link navurl px-1 py-2 {{ request()->routeIs('ebook.*') ? 'active' : 'text-primary' }}"
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('ebook.*') ? 'active' : 'text-primary' }}"
                        href="{{ route('ebook.index') }}">
-                        <i class="fas fa-water me-2" style="color: #eea324;"></i>Documents
+                        <i class="fas fa-water me-2" aria-hidden="true"></i>Documents
                     </a>
                 </li>
 
-                <li class="nav-item" style="font-weight:600;">
-                    <a class="nav-link navurl px-1 py-2 {{ request()->routeIs('public.pages.*') ? 'active' : 'text-primary' }}"
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('public.pages.*') ? 'active' : 'text-primary' }}"
                        href="{{ route('public.pages.index') }}">
-                        <i class="fas fa-water me-2" style="color: #eea324;"></i>Pages
+                        <i class="fas fa-water me-2" aria-hidden="true"></i>Pages
                     </a>
                 </li>
 
@@ -63,13 +60,12 @@
             <div class="d-flex align-items-center">
                 @auth
                     <div class="dropdown">
-                        <button class="btn btn-sm btn-warning text-white dropdown-toggle d-flex align-items-center"
+                        <button class="btn btn-sm espace-user-btn dropdown-toggle d-flex align-items-center"
                                 type="button"
                                 id="userDropdown"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false">
-                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2"
-                                 style="width:32px;height:32px;font-size:14px;">
+                            <div class="espace-avatar me-2">
                                 {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                             </div>
                             <span class="d-none d-md-inline">
@@ -129,7 +125,7 @@
                     </div>
                 @else
                     <div class="d-flex gap-2">
-                        <a href="{{ route('login') }}" class="btn btn-sm btn-warning d-flex align-items-center px-2 text-white">
+                        <a href="{{ route('login') }}" class="btn btn-sm btn-primary d-flex align-items-center px-3">
                             <i class="fas fa-user-plus me-1"></i>Connexion
                         </a>
                     </div>

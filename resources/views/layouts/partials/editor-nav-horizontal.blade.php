@@ -1,5 +1,11 @@
-<nav class="navbar navbar-expand-lg" style="border-bottom: 10px solid #4aabca;border-top: 10px solid #4aabca;background-image: linear-gradient(161deg, rgb(255 255 255) 85%, rgb(74 171 202) 70px);background-attachment: scroll;background-position: bottom;">
+<nav class="navbar navbar-expand-lg espace-nav espace-nav--editor" aria-label="Menu de l'espace éditeur">
     <div class="container-lg">
+
+        <!-- Repère de l'espace -->
+        <a class="navbar-brand espace-brand" href="{{ route('editor.dashboard') }}">
+            <img src="{{ asset('assets/images/logo/cnbb-logo-800.png') }}" alt="" class="espace-brand-logo">
+            <span class="espace-brand-text">CNBB <span class="espace-brand-area">Espace éditeur</span></span>
+        </a>
         <button class="navbar-toggler border-0"
                 type="button"
                 data-bs-toggle="collapse"
@@ -274,11 +280,10 @@
             {{-- Menu utilisateur --}}
             <div class="d-flex align-items-center gap-2">
                 <div class="dropdown">
-                    <button class="btn btn-danger text-white btn-sm dropdown-toggle d-flex align-items-center"
+                    <button class="btn btn-sm espace-user-btn dropdown-toggle d-flex align-items-center"
                             data-bs-toggle="dropdown"
                             aria-expanded="false">
-                        <div class="bg-light text-danger rounded-circle d-flex align-items-center justify-content-center me-2"
-                             style="width: 28px; height: 28px; font-size: 12px;">
+                        <div class="espace-avatar me-2">
                             {{ mb_substr(auth()->user()->name, 0, 1) }}
                         </div>
                         <span class="d-none d-xl-inline">{{ auth()->user()->name }}</span>

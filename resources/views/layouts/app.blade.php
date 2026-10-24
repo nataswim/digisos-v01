@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Bidaya 2025')</title>
+    <title>@yield('title', 'Mon espace') - CNBB</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    @include('layouts.partials.espace-head')
+    @stack('styles')
     <meta name="msvalidate.01" content="8D79868FFCAC25E19818E1971977FC3F" />
 </head>
-<body class="font-sans antialiased bg-gray-100">
+<body class="espace espace--member">
     <div class="min-h-screen">
         @include('layouts.partials.user-header')
         @include('layouts.partials.user-nav')
@@ -26,5 +30,6 @@
         </main>
     </div>
     <script src="{{ mix('js/app.js') }}"></script>
+    @stack('scripts')
 </body>
 </html>

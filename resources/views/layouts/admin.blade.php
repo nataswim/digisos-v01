@@ -7,15 +7,15 @@
     <title>@yield('title') - Administration</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    @include('layouts.partials.espace-head')
 
     @stack('styles')
 </head>
-<body style="background-image: linear-gradient(284deg, rgb(250, 251, 245) 75%, rgb(240 169 50) 0px);background-attachment: fixed;">
+<body class="espace espace--admin">
     @include('layouts.partials.admin-nav-horizontal')
     
     <div class="main-wrapper">

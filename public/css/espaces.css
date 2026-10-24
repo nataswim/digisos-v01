@@ -1,0 +1,1236 @@
+/*
+ * ==========================================================================
+ *  Style des espaces connectés du CNBB
+ *  Administration · Espace éditeur · Mon espace (adhérents et visiteurs)
+ * ==========================================================================
+ *  Chargé par layouts/partials/espace-head.blade.php, après app.css.
+ *  Toutes les règles sont limitées à <body class="espace …"> : le site public n'est pas concerné.
+ *
+ *  Repère par espace (classe du <body>) :
+ *    .espace--admin   barre de menu bleu nuit
+ *    .espace--editor  barre de menu dorée
+ *    .espace--member  barre de menu blanche (adhérents et visiteurs)
+ *
+ *  Polices : Prompt (titres), Plus Jakarta Sans (texte).
+ * ==========================================================================
+ */
+
+/* --------------------------------------------------------------------------
+ *  1. Variables
+ * ------------------------------------------------------------------------ */
+.espace {
+    /* Polices */
+    --font-display: "Prompt", "Plus Jakarta Sans", system-ui, sans-serif;
+    --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+    /* Bleu principal */
+    --c-primary-50: #f0f9ff;
+    --c-primary-100: #e0f2fe;
+    --c-primary-200: #bae6fd;
+    --c-primary-300: #7dd3fc;
+    --c-primary-400: #38bdf8;
+    --c-primary-500: #0090d4;
+    --c-primary-600: #007db8;
+    --c-primary-700: #094a84;
+    --c-primary-800: #0e1655;
+    --c-primary-900: #080c36;
+
+    /* Accent doré */
+    --c-accent-50: #faf4ea;
+    --c-accent-100: #f1dfc1;
+    --c-accent-200: #ecd4ac;
+    --c-accent-300: #e7ca97;
+    --c-accent-400: #deb56e;
+    --c-accent-500: #d49f45;
+    --c-accent-600: #b28333;
+    --c-accent-700: #916822;
+    --c-accent-800: #72511a;
+    --c-accent-900: #533b13;
+
+    /* Neutres */
+    --c-neutral-50: #f8fafc;
+    --c-neutral-100: #f1f5f9;
+    --c-neutral-200: #e2e8f0;
+    --c-neutral-300: #cad5e2;
+    --c-neutral-400: #90a1b9;
+    --c-neutral-500: #62748e;
+    --c-neutral-600: #45556c;
+    --c-neutral-700: #314158;
+    --c-neutral-800: #1d293d;
+    --c-neutral-900: #0f172b;
+    --c-neutral-950: #020618;
+
+    /* États */
+    --c-error-50: #ffe5e9;
+    --c-error-500: #e2001a;
+    --c-error-600: #ad0014;
+    --c-success-50: #e9f7e8;
+    --c-success-500: #359233;
+    --c-success-600: #297128;
+    --c-warning-50: #fef5e6;
+    --c-warning-500: #f59e0b;
+    --c-warning-700: #935f06;
+
+    /* Arrondis, ombres, transitions */
+    --radius-xs: 6px;
+    --radius-sm: 8px;
+    --radius-md: 10px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-2xl: 24px;
+    --shadow-sm: 0 1px 2px 0 rgba(10, 13, 18, 0.06);
+    --shadow-md: 0 4px 12px -2px rgba(15, 23, 43, 0.08), 0 2px 4px -2px rgba(15, 23, 43, 0.06);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --transition: 150ms var(--ease);
+
+    /* Variables Bootstrap (utilitaires bg-*, text-*, liens, bordures) */
+    --bs-body-font-family: var(--font-sans);
+    --bs-body-font-size: 0.9375rem;
+    --bs-body-line-height: 1.55;
+    --bs-body-color: var(--c-neutral-900);
+    --bs-body-color-rgb: 15, 23, 43;
+    --bs-body-bg: var(--c-neutral-50);
+    --bs-secondary-color: var(--c-neutral-500);
+    --bs-emphasis-color: var(--c-neutral-950);
+    --bs-border-color: var(--c-neutral-200);
+    --bs-border-radius: var(--radius-md);
+    --bs-border-radius-sm: var(--radius-sm);
+    --bs-border-radius-lg: var(--radius-lg);
+    --bs-border-radius-xl: var(--radius-xl);
+    --bs-primary: var(--c-primary-500);
+    --bs-primary-rgb: 0, 144, 212;
+    --bs-secondary: var(--c-neutral-600);
+    --bs-secondary-rgb: 69, 85, 108;
+    --bs-success: var(--c-success-500);
+    --bs-success-rgb: 53, 146, 51;
+    --bs-danger: var(--c-error-500);
+    --bs-danger-rgb: 226, 0, 26;
+    --bs-warning: var(--c-warning-500);
+    --bs-warning-rgb: 245, 158, 11;
+    --bs-info: var(--c-primary-400);
+    --bs-info-rgb: 56, 189, 248;
+    --bs-light: var(--c-neutral-100);
+    --bs-light-rgb: 241, 245, 249;
+    --bs-dark: var(--c-neutral-900);
+    --bs-dark-rgb: 15, 23, 43;
+    --bs-link-color: var(--c-primary-600);
+    --bs-link-color-rgb: 0, 125, 184;
+    --bs-link-hover-color: var(--c-primary-700);
+    --bs-link-hover-color-rgb: 9, 74, 132;
+    --bs-focus-ring-color: rgba(0, 144, 212, 0.25);
+
+    /* Couleur du repère d'espace (barre de menu) — voir § 4 */
+    --area-bg: var(--c-primary-800);
+    --area-fg: #ffffff;
+    --area-muted: rgba(255, 255, 255, 0.72);
+    --area-hover: rgba(255, 255, 255, 0.12);
+    --area-active-bg: #ffffff;
+    --area-active-fg: var(--c-primary-800);
+    --area-border: transparent;
+}
+
+/* Administration : barre claire, rubriques en boutons (voir § 3 bis) */
+.espace--admin {
+    --area-bg: var(--c-primary-50);
+    --area-fg: var(--c-neutral-800);
+    --area-muted: var(--c-primary-700);
+    --area-hover: #ffffff;
+    --area-active-bg: var(--c-primary-500);
+    --area-active-fg: #ffffff;
+    --area-border: var(--c-primary-100);
+}
+
+.espace--editor {
+    --area-bg: var(--c-accent-500);
+    --area-fg: var(--c-neutral-950);
+    --area-muted: rgba(2, 6, 24, 0.7);
+    --area-hover: rgba(255, 255, 255, 0.28);
+    --area-active-bg: var(--c-neutral-950);
+    --area-active-fg: #ffffff;
+}
+
+.espace--member {
+    --area-bg: #ffffff;
+    --area-fg: var(--c-neutral-800);
+    --area-muted: var(--c-neutral-500);
+    --area-hover: var(--c-primary-50);
+    --area-active-bg: var(--c-primary-500);
+    --area-active-fg: #ffffff;
+    --area-border: var(--c-neutral-200);
+}
+
+/* --------------------------------------------------------------------------
+ *  2. Base : fond, polices, titres, liens
+ * ------------------------------------------------------------------------ */
+body.espace {
+    display: block;                 /* le thème du site public met le <body> en flex */
+    min-height: 100vh;
+    background: var(--c-neutral-50) !important;
+    background-image: none !important;
+    border: 0 !important;
+    font-family: var(--font-sans);
+    font-size: var(--bs-body-font-size);
+    line-height: var(--bs-body-line-height);
+    color: var(--c-neutral-900);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.espace h1, .espace .h1,
+.espace h2, .espace .h2,
+.espace h3, .espace .h3,
+.espace h4, .espace .h4,
+.espace h5, .espace .h5,
+.espace h6, .espace .h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--c-neutral-950);
+    letter-spacing: -0.01em;
+}
+
+.espace h1, .espace .h1 { font-size: 2rem; line-height: 1.15; }
+.espace h2, .espace .h2 { font-size: 1.625rem; line-height: 1.2; }
+.espace h3, .espace .h3 { font-size: 1.25rem; line-height: 1.3; }
+.espace h4, .espace .h4 { font-size: 1.125rem; line-height: 1.35; }
+.espace h5, .espace .h5 { font-size: 1.0625rem; line-height: 1.4; }
+.espace h6, .espace .h6 { font-size: 0.9375rem; line-height: 1.4; }
+
+/* Les titres de page des modules (h1.h3) restent à taille raisonnable */
+.espace main h1.h3 { font-size: 1.5rem; }
+
+.espace a {
+    color: var(--c-primary-600);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    transition: color var(--transition);
+}
+
+.espace a:hover { color: var(--c-primary-700); }
+
+.espace .text-muted,
+.espace .text-secondary { color: var(--c-neutral-500) !important; }
+.espace .text-primary { color: var(--c-primary-600) !important; }
+.espace .text-success { color: var(--c-success-600) !important; }
+.espace .text-danger { color: var(--c-error-500) !important; }
+.espace .text-warning { color: var(--c-warning-700) !important; }
+.espace .text-info { color: var(--c-primary-500) !important; }
+.espace .text-dark { color: var(--c-neutral-900) !important; }
+
+.espace .bg-primary { background-color: var(--c-primary-500) !important; }
+.espace .bg-light { background-color: var(--c-neutral-100) !important; }
+.espace .bg-white { background-color: #ffffff !important; }
+
+.espace ::selection { background: var(--c-primary-100); color: var(--c-neutral-950); }
+
+.espace :focus-visible {
+    outline: 3px solid rgba(0, 144, 212, 0.45);
+    outline-offset: 2px;
+}
+
+.espace .main-wrapper { background: transparent; }
+.espace main { min-height: 50vh; }
+
+/* --------------------------------------------------------------------------
+ *  3. Barre de menu (admin, éditeur, mon espace)
+ * ------------------------------------------------------------------------ */
+.espace .espace-nav {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    padding: 0.5rem 0;
+    background: var(--area-bg) !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--area-border) !important;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Logo + nom de l'espace */
+.espace .espace-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-right: 1rem;
+    padding: 0;
+    color: var(--area-fg) !important;
+    text-decoration: none;
+}
+
+.espace .espace-brand-logo {
+    height: 40px;
+    width: auto;
+    padding: 3px 6px;
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+}
+
+.espace--member .espace-brand-logo { padding: 0; }
+
+.espace .espace-brand-text {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+}
+
+.espace .espace-brand-area {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--area-muted);
+}
+
+/* Liens du menu : on retire les onglets dessinés du thème du site public */
+.espace .espace-nav .navbar-nav { margin-left: 0 !important; gap: 0.15rem; }
+
+@media (min-width: 992px) {
+    .espace .espace-nav .navbar-nav { align-items: center; }
+    .espace .espace-nav .navbar-collapse { align-items: center; }
+}
+
+/* Administration : beaucoup de rubriques → le nom de l'espace n'apparaît qu'à partir de 1400 px */
+@media (min-width: 992px) and (max-width: 1399.98px) {
+    .espace--admin .espace-brand-text { display: none; }
+    .espace--admin .espace-brand { margin-right: 0.5rem; }
+}
+
+.espace .espace-nav .admin-menu,
+.espace .espace-nav .admin-menu.active,
+.espace .espace-nav .admin-menu:hover {
+    background: none !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.espace .espace-nav .nav-link {
+    margin: 0 !important;
+    padding: 0.5rem 0.8rem !important;
+    border-radius: var(--radius-md) !important;
+    background: none !important;
+    background-image: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    color: var(--area-fg) !important;
+    font-weight: 500 !important;
+    font-size: 0.9rem;
+    text-transform: none !important;
+    white-space: nowrap;
+    transition: background-color var(--transition), color var(--transition);
+}
+
+.espace .espace-nav .nav-link i { opacity: 0.85; }
+
+.espace .espace-nav .nav-link:hover,
+.espace .espace-nav .nav-link:focus,
+.espace .espace-nav .nav-link.show {
+    background-color: var(--area-hover) !important;
+    color: var(--area-fg) !important;
+}
+
+.espace .espace-nav .nav-link.active {
+    background-color: var(--area-active-bg) !important;
+    color: var(--area-active-fg) !important;
+    font-weight: 600 !important;
+}
+
+.espace .espace-nav .nav-link.active i { opacity: 1; }
+
+/* Bouton du menu mobile */
+.espace .espace-nav .navbar-toggler {
+    padding: 0.4rem 0.6rem;
+    border-radius: var(--radius-md);
+    background: var(--area-hover);
+}
+
+.espace .espace-nav .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2814, 22, 85, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+@media (max-width: 991.98px) {
+    /* Menu mobile : même couleur que la barre (le thème public le met sur fond blanc) */
+    .espace .espace-nav .navbar-collapse {
+        max-height: 75vh;
+        margin-top: 0.5rem;
+        padding: 0.5rem 0 0.75rem;
+        background: var(--area-bg) !important;
+        border-top: 1px solid var(--area-hover);
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .espace .espace-nav .navbar-nav { gap: 0.1rem; }
+    .espace .espace-nav .nav-item { margin: 0 !important; }
+
+    .espace .espace-nav .dropdown-menu {
+        margin: 0.25rem 0 0.5rem;
+        box-shadow: none !important;
+    }
+
+    .espace .espace-nav .navbar-collapse > .d-flex {
+        width: 100%;
+        margin-top: 0.5rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid var(--area-hover) !important;
+    }
+}
+
+/* Bouton du compte (en haut à droite) */
+.espace .espace-user-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0.75rem 0.3rem 0.35rem;
+    border-radius: 999px !important;
+    background: var(--area-hover) !important;
+    background-image: none !important;
+    border: 1px solid transparent !important;
+    box-shadow: none !important;
+    color: var(--area-fg) !important;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.espace--member .espace-user-btn {
+    background: var(--c-neutral-100) !important;
+    border-color: var(--c-neutral-200) !important;
+}
+
+.espace .espace-user-btn:hover,
+.espace .espace-user-btn:focus,
+.espace .espace-user-btn.show {
+    background: var(--area-active-bg) !important;
+    color: var(--area-active-fg) !important;
+    transform: none !important;
+}
+
+.espace .espace-avatar {
+    display: inline-flex;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--c-accent-500);
+    color: var(--c-neutral-950);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.espace--editor .espace-avatar { background: var(--c-neutral-950); color: #ffffff; }
+.espace--member .espace-avatar { background: var(--c-primary-500); color: #ffffff; }
+
+/* Sous-menu « Mon espace » (pages des visiteurs) */
+.espace .espace-subnav {
+    padding: 0.35rem 0;
+    background: var(--c-primary-50) !important;
+    border-bottom: 1px solid var(--c-primary-100);
+}
+
+.espace .espace-subnav .nav-link {
+    margin: 0 !important;
+    padding: 0.4rem 0.8rem !important;
+    border-radius: 999px;
+    color: var(--c-primary-700) !important;
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.espace .espace-subnav .nav-link:hover { background: var(--c-primary-100); }
+
+.espace .espace-subnav .nav-link.active {
+    background: var(--c-primary-500);
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+ *  3 bis. Menu de l'administration : barre haute et claire, rubriques en boutons,
+ *         trois niveaux (rubrique → module → pages du module)
+ * ------------------------------------------------------------------------ */
+.espace--admin .espace-nav {
+    padding: 0.9rem 0;
+    box-shadow: 0 1px 0 var(--c-primary-100), 0 6px 16px -10px rgba(14, 22, 85, 0.25);
+}
+
+.espace--admin .espace-brand-logo {
+    height: 46px;
+    border: 1px solid var(--c-primary-100);
+}
+
+/* Niveau 1 : boutons */
+.espace--admin .espace-admin-menu { gap: 0.5rem !important; }
+
+.espace--admin .espace-admin-menu > .nav-item > .nav-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 46px;
+    padding: 0.65rem 1.05rem !important;
+    border: 1px solid var(--c-neutral-200) !important;
+    border-radius: var(--radius-lg) !important;
+    background: #ffffff !important;
+    box-shadow: var(--shadow-sm) !important;
+    color: var(--c-neutral-800) !important;
+    font-weight: 600 !important;
+    font-size: 0.9rem;
+}
+
+.espace--admin .espace-admin-menu > .nav-item > .nav-link i { color: var(--c-primary-500); opacity: 1; }
+
+.espace--admin .espace-admin-menu > .nav-item > .nav-link:hover,
+.espace--admin .espace-admin-menu > .nav-item > .nav-link:focus-visible,
+.espace--admin .espace-admin-menu > .nav-item > .nav-link.show {
+    border-color: var(--c-primary-300) !important;
+    background: #ffffff !important;
+    box-shadow: 0 4px 10px -4px rgba(0, 144, 212, 0.35) !important;
+    color: var(--c-primary-700) !important;
+}
+
+.espace--admin .espace-admin-menu > .nav-item > .nav-link.active {
+    border-color: var(--c-primary-500) !important;
+    background: var(--c-primary-500) !important;
+    box-shadow: 0 4px 10px -4px rgba(0, 144, 212, 0.55) !important;
+    color: #ffffff !important;
+}
+
+.espace--admin .espace-admin-menu > .nav-item > .nav-link.active i { color: #ffffff; }
+
+.espace--admin .espace-admin-menu > .nav-item > .nav-link.dropdown-toggle::after {
+    margin-left: 0.5rem;
+    border: 0;
+    content: "\f107";
+    font-family: "Font Awesome 6 Free", "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 0.75rem;
+    vertical-align: 0;
+    transition: transform var(--transition);
+}
+
+.espace--admin .espace-admin-menu > .nav-item > .nav-link.dropdown-toggle.show::after { transform: rotate(180deg); }
+
+.espace--admin .espace-user-btn {
+    min-height: 46px;
+    padding-right: 0.9rem;
+    border: 1px solid var(--c-neutral-200) !important;
+    background: #ffffff !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+.espace--admin .espace-user-btn:hover,
+.espace--admin .espace-user-btn.show {
+    border-color: var(--c-primary-300) !important;
+    background: #ffffff !important;
+    color: var(--c-primary-700) !important;
+}
+
+/* Niveau 2 : liste des modules */
+.espace .espace-menu-l2 {
+    min-width: 16rem;
+    margin-top: 0.5rem !important;
+    padding: 0.45rem;
+}
+
+.espace .espace-submenu { position: relative; }
+
+.espace .espace-submenu-toggle {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.6rem 0.7rem;
+    border: 0;
+    background: none;
+    color: var(--c-neutral-800);
+    font-weight: 600;
+    text-align: left;
+}
+
+.espace .espace-submenu-toggle > i:first-child { color: var(--c-primary-500); }
+
+.espace .espace-submenu-caret {
+    margin-left: 0.75rem;
+    color: var(--c-neutral-400) !important;
+    font-size: 0.7rem;
+    transition: transform var(--transition);
+}
+
+.espace .espace-submenu.is-open > .espace-submenu-toggle,
+.espace .espace-submenu-toggle:hover,
+.espace .espace-submenu-toggle:focus-visible {
+    background: var(--c-primary-50);
+    color: var(--c-primary-700);
+}
+
+.espace .espace-submenu.is-open > .espace-submenu-toggle .espace-submenu-caret { color: var(--c-primary-500) !important; }
+
+/* Module de la page en cours : repère doré */
+.espace .espace-submenu.is-current > .espace-submenu-toggle {
+    box-shadow: inset 3px 0 0 var(--c-accent-500);
+}
+
+/* Niveau 3 : pages du module */
+.espace .espace-menu-l3 {
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 0.4rem;
+}
+
+.espace .espace-menu-l3-title {
+    padding: 0.45rem 0.65rem 0.4rem;
+    color: var(--c-accent-700);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.espace .espace-menu-l3-title i { color: var(--c-accent-500); }
+
+.espace .espace-menu-l3 .dropdown-item {
+    display: flex;
+    align-items: center;
+}
+
+.espace .espace-menu-count {
+    margin-left: 0.75rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    background: var(--c-neutral-100);
+    color: var(--c-neutral-600);
+    font-size: 0.6875rem;
+    font-weight: 700;
+}
+
+.espace .espace-menu-l3 .dropdown-item.active .espace-menu-count { background: #ffffff; color: var(--c-primary-700); }
+
+/* Ordinateur : le niveau 3 s'ouvre à droite du module (à gauche près du bord de l'écran) */
+@media (min-width: 992px) {
+    .espace .espace-menu-l3 {
+        position: absolute;
+        top: -0.45rem;
+        left: calc(100% + 0.45rem);
+        z-index: 1001;
+        min-width: 15.5rem;
+        border: 1px solid var(--c-neutral-200);
+        border-radius: var(--radius-lg);
+        background: #ffffff;
+        box-shadow: var(--shadow-xl);
+    }
+
+    /* Pont invisible : la souris passe du module au sous-menu sans le refermer */
+    .espace .espace-menu-l3::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: -0.6rem;
+        width: 0.6rem;
+    }
+
+    .espace .espace-submenu.open-left > .espace-menu-l3 {
+        left: auto;
+        right: calc(100% + 0.45rem);
+    }
+
+    .espace .espace-submenu.open-left > .espace-menu-l3::before { left: auto; right: -0.6rem; }
+
+    .espace .espace-submenu.is-open > .espace-menu-l3 { display: block; }
+}
+
+/* Mobile : le niveau 3 se déplie sous le module (accordéon) */
+@media (max-width: 991.98px) {
+    .espace--admin .espace-nav { padding: 0.6rem 0; }
+
+    .espace--admin .espace-admin-menu > .nav-item > .nav-link { width: 100%; }
+
+    .espace .espace-submenu.is-open > .espace-menu-l3 {
+        display: block;
+        margin: 0.15rem 0 0.35rem 1.4rem;
+        padding: 0 0 0 0.5rem;
+        border-left: 2px solid var(--c-primary-100);
+    }
+
+    .espace .espace-menu-l3-title { display: none; }
+
+    .espace .espace-submenu.is-open > .espace-submenu-toggle .espace-submenu-caret { transform: rotate(90deg); }
+}
+
+/* --------------------------------------------------------------------------
+ *  4. Menus déroulants
+ * ------------------------------------------------------------------------ */
+.espace .dropdown-menu {
+    --bs-dropdown-link-active-bg: var(--c-primary-50);
+    --bs-dropdown-link-active-color: var(--c-primary-700);
+    padding: 0.4rem;
+    min-width: 15rem;
+    border: 1px solid var(--c-neutral-200) !important;
+    border-radius: var(--radius-lg);
+    background: #ffffff;
+    box-shadow: var(--shadow-xl) !important;
+    font-size: 0.875rem;
+}
+
+.espace .dropdown-item {
+    padding: 0.45rem 0.65rem;
+    border-radius: var(--radius-sm);
+    color: var(--c-neutral-700);
+    font-weight: 500;
+    transition: background-color var(--transition), color var(--transition);
+}
+
+.espace .dropdown-item i { color: var(--c-neutral-400); }
+
+.espace .dropdown-item:hover,
+.espace .dropdown-item:focus {
+    background: var(--c-neutral-100);
+    color: var(--c-neutral-950);
+}
+
+.espace .dropdown-item.active,
+.espace .dropdown-item:active {
+    background: var(--c-primary-50) !important;
+    color: var(--c-primary-700) !important;
+    font-weight: 600;
+}
+
+.espace .dropdown-item.active i { color: var(--c-primary-500); }
+
+.espace .dropdown-header {
+    padding: 0.6rem 0.65rem 0.3rem;
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--c-accent-700);
+}
+
+.espace .dropdown-header i { color: var(--c-accent-500); }
+
+.espace .dropdown-divider {
+    margin: 0.35rem 0.25rem;
+    border-color: var(--c-neutral-200);
+}
+
+.espace .dropdown-item .badge {
+    font-size: 0.6875rem;
+    padding: 0.2em 0.55em;
+}
+
+/* --------------------------------------------------------------------------
+ *  5. Boutons
+ * ------------------------------------------------------------------------ */
+.espace .btn {
+    --bs-btn-font-weight: 600;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    letter-spacing: 0.005em;
+    box-shadow: none;
+    transition: background-color var(--transition), border-color var(--transition), color var(--transition), box-shadow var(--transition);
+}
+
+.espace .btn:hover { transform: none !important; }
+.espace .btn-sm { border-radius: var(--radius-sm); font-size: 0.8125rem; }
+.espace .btn-lg { border-radius: var(--radius-lg); }
+
+/* Boutons pleins : on retire les dégradés en biais du thème du site public */
+.espace .btn-primary,
+.espace .btn-secondary,
+.espace .btn-success,
+.espace .btn-danger,
+.espace .btn-warning,
+.espace .btn-info,
+.espace .btn-dark {
+    background-image: none !important;
+    border: 1px solid transparent !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+.espace .btn-primary { background: var(--c-primary-500) !important; color: #ffffff !important; }
+.espace .btn-primary:hover:not(:disabled),
+.espace .btn-primary:focus-visible { background: var(--c-primary-600) !important; color: #ffffff !important; }
+.espace .btn-primary:active { background: var(--c-primary-700) !important; }
+
+.espace .btn-secondary { background: var(--c-neutral-700) !important; color: #ffffff !important; }
+.espace .btn-secondary:hover:not(:disabled) { background: var(--c-neutral-800) !important; }
+
+.espace .btn-success { background: var(--c-success-500) !important; color: #ffffff !important; }
+.espace .btn-success:hover:not(:disabled) { background: var(--c-success-600) !important; }
+
+.espace .btn-danger { background: var(--c-error-500) !important; color: #ffffff !important; }
+.espace .btn-danger:hover:not(:disabled) { background: var(--c-error-600) !important; }
+
+.espace .btn-warning { background: var(--c-accent-500) !important; color: var(--c-neutral-950) !important; }
+.espace .btn-warning:hover:not(:disabled) { background: var(--c-accent-600) !important; color: #ffffff !important; }
+
+.espace .btn-info { background: var(--c-primary-100) !important; color: var(--c-primary-700) !important; }
+.espace .btn-info:hover:not(:disabled) { background: var(--c-primary-200) !important; }
+
+.espace .btn-dark { background: var(--c-neutral-900) !important; color: #ffffff !important; }
+.espace .btn-dark:hover:not(:disabled) { background: var(--c-neutral-950) !important; }
+
+.espace .btn-light {
+    background: #ffffff !important;
+    border: 1px solid var(--c-neutral-200) !important;
+    color: var(--c-neutral-800) !important;
+}
+
+.espace .btn-light:hover:not(:disabled) { background: var(--c-neutral-100) !important; }
+
+/* Boutons contour */
+.espace [class*="btn-outline-"] {
+    background: #ffffff !important;
+    background-image: none !important;
+    box-shadow: none !important;
+}
+
+.espace .btn-outline-primary { border: 1px solid var(--c-primary-300) !important; color: var(--c-primary-600) !important; }
+.espace .btn-outline-primary:hover:not(:disabled),
+.espace .btn-outline-primary.active { background: var(--c-primary-50) !important; border-color: var(--c-primary-500) !important; color: var(--c-primary-700) !important; }
+
+.espace .btn-outline-secondary { border: 1px solid var(--c-neutral-300) !important; color: var(--c-neutral-700) !important; }
+.espace .btn-outline-secondary:hover:not(:disabled) { background: var(--c-neutral-100) !important; color: var(--c-neutral-900) !important; }
+
+.espace .btn-outline-success { border: 1px solid #8cd38b !important; color: var(--c-success-600) !important; }
+.espace .btn-outline-success:hover:not(:disabled) { background: var(--c-success-50) !important; }
+
+.espace .btn-outline-danger { border: 1px solid #ffadb7 !important; color: var(--c-error-500) !important; }
+.espace .btn-outline-danger:hover:not(:disabled) { background: var(--c-error-50) !important; color: var(--c-error-600) !important; }
+
+.espace .btn-outline-warning { border: 1px solid var(--c-accent-300) !important; color: var(--c-accent-700) !important; }
+.espace .btn-outline-warning:hover:not(:disabled) { background: var(--c-accent-50) !important; }
+
+.espace .btn-outline-info { border: 1px solid var(--c-primary-200) !important; color: var(--c-primary-600) !important; }
+.espace .btn-outline-info:hover:not(:disabled) { background: var(--c-primary-50) !important; }
+
+.espace .btn-outline-dark { border: 1px solid var(--c-neutral-400) !important; color: var(--c-neutral-900) !important; }
+.espace .btn-outline-dark:hover:not(:disabled) { background: var(--c-neutral-100) !important; }
+
+.espace .btn-link { color: var(--c-primary-600); font-weight: 500; }
+
+.espace .btn:disabled,
+.espace .btn.disabled { opacity: 0.5; }
+
+/* --------------------------------------------------------------------------
+ *  6. Cartes
+ * ------------------------------------------------------------------------ */
+.espace .card {
+    border: 1px solid var(--c-neutral-200) !important;
+    border-radius: var(--radius-xl);
+    background: #ffffff;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+.espace .card.shadow-sm,
+.espace .card.shadow { box-shadow: var(--shadow-md) !important; }
+
+.espace .card-header,
+.espace .card-footer {
+    background: #ffffff !important;
+    background-image: none !important;
+    border-color: var(--c-neutral-200) !important;
+    color: var(--c-neutral-900) !important;
+}
+
+.espace .card-header { border-radius: var(--radius-xl) var(--radius-xl) 0 0 !important; }
+.espace .card-footer { border-radius: 0 0 var(--radius-xl) var(--radius-xl) !important; }
+
+.espace .card-header h5,
+.espace .card-header h6,
+.espace .card-header .h5,
+.espace .card-header .h6 { color: var(--c-neutral-900) !important; }
+
+/* Entêtes de cartes colorées (bg-primary, bg-success…) : bandeau clair et lisible */
+.espace .card-header.bg-primary,
+.espace .card-header.bg-info { background: var(--c-primary-50) !important; color: var(--c-primary-800) !important; }
+.espace .card-header.bg-success { background: var(--c-success-50) !important; color: var(--c-success-600) !important; }
+.espace .card-header.bg-warning { background: var(--c-accent-50) !important; color: var(--c-accent-800) !important; }
+.espace .card-header.bg-danger { background: var(--c-error-50) !important; color: var(--c-error-600) !important; }
+.espace .card-header.bg-primary :where(h1, h2, h3, h4, h5, h6, i, span, small, p),
+.espace .card-header.bg-info :where(h1, h2, h3, h4, h5, h6, i, span, small, p),
+.espace .card-header.bg-success :where(h1, h2, h3, h4, h5, h6, i, span, small, p),
+.espace .card-header.bg-warning :where(h1, h2, h3, h4, h5, h6, i, span, small, p),
+.espace .card-header.bg-danger :where(h1, h2, h3, h4, h5, h6, i, span, small, p) { color: inherit !important; }
+
+/* --------------------------------------------------------------------------
+ *  7. Tableaux
+ * ------------------------------------------------------------------------ */
+.espace .table {
+    --bs-table-bg: transparent;
+    --bs-table-hover-bg: var(--c-neutral-50);
+    --bs-table-striped-bg: var(--c-neutral-50);
+    --bs-table-border-color: var(--c-neutral-200);
+    margin-bottom: 0;
+    color: var(--c-neutral-800);
+    font-size: 0.875rem;
+}
+
+.espace .table > thead > tr > th,
+.espace .table thead.table-light th,
+.espace .table thead.bg-light th {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    background: var(--c-neutral-50) !important;
+    border-bottom: 1px solid var(--c-neutral-200) !important;
+    color: var(--c-neutral-500) !important;
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.espace .table > tbody > tr > td,
+.espace .table > tbody > tr > th {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-color: var(--c-neutral-100);
+}
+
+.espace .table > tbody > tr:last-child > td { border-bottom: 0; }
+
+.espace .table-hover > tbody > tr:hover > * { background-color: var(--c-neutral-50); }
+.espace .table > tbody > tr { transition: background-color var(--transition); }
+
+.espace .table-responsive { border-radius: inherit; }
+
+/* --------------------------------------------------------------------------
+ *  8. Formulaires
+ * ------------------------------------------------------------------------ */
+.espace .form-label,
+.espace label.fw-semibold {
+    color: var(--c-neutral-800);
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.espace .form-control,
+.espace .form-select {
+    min-height: 2.6rem;
+    padding: 0.5rem 0.8rem;
+    border: 1px solid var(--c-neutral-300);
+    border-radius: var(--radius-md);
+    background-color: #ffffff;
+    color: var(--c-neutral-900);
+    font-size: 0.875rem;
+    box-shadow: var(--shadow-sm);
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.espace .form-select { padding-right: 2.25rem; }
+.espace textarea.form-control { min-height: auto; }
+.espace .form-control-sm,
+.espace .form-select-sm { min-height: 2.1rem; padding: 0.3rem 0.6rem; border-radius: var(--radius-sm); font-size: 0.8125rem; }
+.espace .form-control-lg,
+.espace .form-select-lg { min-height: 3rem; font-size: 1rem; border-radius: var(--radius-lg); }
+
+.espace .form-control::placeholder { color: var(--c-neutral-400); }
+
+.espace .form-control:hover,
+.espace .form-select:hover { border-color: var(--c-neutral-400); }
+
+.espace .form-control:focus,
+.espace .form-select:focus {
+    border-color: var(--c-primary-500);
+    box-shadow: 0 0 0 4px rgba(0, 144, 212, 0.15);
+    outline: 0;
+}
+
+.espace .form-control:disabled,
+.espace .form-select:disabled,
+.espace .form-control[readonly] { background-color: var(--c-neutral-100); color: var(--c-neutral-500); }
+
+.espace .form-control.is-invalid,
+.espace .form-select.is-invalid { border-color: var(--c-error-500); }
+.espace .form-control.is-invalid:focus,
+.espace .form-select.is-invalid:focus { box-shadow: 0 0 0 4px rgba(226, 0, 26, 0.12); }
+
+.espace .invalid-feedback { color: var(--c-error-500); font-size: 0.8125rem; }
+.espace .form-text { color: var(--c-neutral-500); font-size: 0.8125rem; }
+
+.espace .input-group > .btn { box-shadow: none !important; }
+.espace .input-group-text {
+    border-color: var(--c-neutral-300);
+    border-radius: var(--radius-md);
+    background: var(--c-neutral-50);
+    color: var(--c-neutral-500);
+}
+
+.espace .form-check-input {
+    border-color: var(--c-neutral-300);
+    box-shadow: none;
+}
+
+.espace .form-check-input:checked {
+    background-color: var(--c-primary-500);
+    border-color: var(--c-primary-500);
+}
+
+.espace .form-check-input:focus {
+    border-color: var(--c-primary-400);
+    box-shadow: 0 0 0 4px rgba(0, 144, 212, 0.15);
+}
+
+.espace .form-switch .form-check-input { width: 2.4em; height: 1.3em; }
+
+/* --------------------------------------------------------------------------
+ *  9. Pastilles, alertes, onglets, pagination
+ * ------------------------------------------------------------------------ */
+.espace .badge {
+    padding: 0.35em 0.65em;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.72em;
+    letter-spacing: 0.02em;
+    text-transform: none;
+}
+
+.espace .badge.bg-primary { background-color: var(--c-primary-100) !important; color: var(--c-primary-700) !important; }
+.espace .badge.bg-success { background-color: var(--c-success-50) !important; color: var(--c-success-600) !important; }
+.espace .badge.bg-danger { background-color: var(--c-error-50) !important; color: var(--c-error-600) !important; }
+.espace .badge.bg-warning { background-color: var(--c-warning-50) !important; color: var(--c-warning-700) !important; }
+.espace .badge.bg-info { background-color: var(--c-primary-50) !important; color: var(--c-primary-600) !important; }
+.espace .badge.bg-secondary { background-color: var(--c-neutral-100) !important; color: var(--c-neutral-600) !important; }
+.espace .badge.bg-dark { background-color: var(--c-neutral-800) !important; color: #ffffff !important; }
+.espace .badge.bg-light { background-color: var(--c-neutral-100) !important; color: var(--c-neutral-700) !important; }
+
+/* Pastilles en couleur personnalisée (style="background: …") : inchangées */
+
+.espace .alert {
+    border: 1px solid transparent;
+    border-left-width: 4px;
+    border-radius: var(--radius-lg);
+    padding: 0.85rem 1rem;
+    font-size: 0.875rem;
+    box-shadow: none;
+}
+
+.espace .alert-success { background: var(--c-success-50); border-color: #c7ebc6; border-left-color: var(--c-success-500); color: var(--c-success-600); }
+.espace .alert-danger { background: var(--c-error-50); border-color: #ffadb7; border-left-color: var(--c-error-500); color: var(--c-error-600); }
+.espace .alert-warning { background: var(--c-warning-50); border-color: #fce2b5; border-left-color: var(--c-warning-500); color: var(--c-warning-700); }
+.espace .alert-info { background: var(--c-primary-50); border-color: var(--c-primary-100); border-left-color: var(--c-primary-500); color: var(--c-primary-700); }
+.espace .alert-secondary,
+.espace .alert-light { background: #ffffff; border-color: var(--c-neutral-200); border-left-color: var(--c-neutral-400); color: var(--c-neutral-700); }
+.espace .alert .alert-link,
+.espace .alert a { color: inherit; font-weight: 600; }
+
+/* Onglets */
+.espace .nav-tabs {
+    gap: 0.25rem;
+    border-bottom: 1px solid var(--c-neutral-200);
+}
+
+.espace .nav-tabs .nav-link {
+    margin: 0 0 -1px !important;
+    padding: 0.6rem 1rem !important;
+    border: 0 !important;
+    border-bottom: 2px solid transparent !important;
+    border-radius: 0 !important;
+    background: none !important;
+    color: var(--c-neutral-500) !important;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.espace .nav-tabs .nav-link:hover { color: var(--c-neutral-900) !important; border-bottom-color: var(--c-neutral-300) !important; }
+
+.espace .nav-tabs .nav-link.active {
+    border-bottom-color: var(--c-primary-500) !important;
+    color: var(--c-primary-600) !important;
+}
+
+/* Pastilles de filtre */
+.espace .nav-pills .nav-link {
+    margin: 0 !important;
+    padding: 0.4rem 0.85rem !important;
+    border-radius: 999px !important;
+    color: var(--c-neutral-600);
+    font-weight: 500;
+}
+
+.espace .nav-pills .nav-link:hover { background: var(--c-neutral-100); color: var(--c-neutral-900); }
+.espace .nav-pills .nav-link.active { background: var(--c-primary-500) !important; color: #ffffff !important; }
+.espace .nav-pills .nav-link.active .badge { background: rgba(255, 255, 255, 0.25) !important; color: #ffffff !important; }
+
+/* Pagination */
+.espace .pagination { --bs-pagination-border-radius: var(--radius-md); gap: 0.25rem; }
+
+.espace .page-link {
+    border: 1px solid var(--c-neutral-200);
+    border-radius: var(--radius-md) !important;
+    color: var(--c-neutral-700);
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.espace .page-link:hover { background: var(--c-neutral-100); color: var(--c-neutral-900); }
+
+.espace .page-item.active .page-link {
+    background: var(--c-primary-500);
+    border-color: var(--c-primary-500);
+    color: #ffffff;
+}
+
+.espace .list-group-item { border-color: var(--c-neutral-200); }
+.espace .list-group-item.active { background: var(--c-primary-500); border-color: var(--c-primary-500); }
+
+.espace .modal-content {
+    border: 0;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+}
+
+.espace .modal-header,
+.espace .modal-footer { border-color: var(--c-neutral-200); }
+
+.espace .progress { border-radius: 999px; background: var(--c-neutral-100); }
+.espace .progress-bar { background-color: var(--c-primary-500); }
+
+.espace hr { border-color: var(--c-neutral-200); opacity: 1; }
+
+/* --------------------------------------------------------------------------
+ *  10. Blocs propres aux modules
+ * ------------------------------------------------------------------------ */
+/* Cartes-liens du tableau de bord : titre foncé, pas bleu */
+.espace .dashboard-card { color: var(--c-neutral-900) !important; }
+
+/* Titres de rubrique du tableau de bord admin : sobres, avec un trait doré */
+.espace .dashboard-group-title {
+    display: flex;
+    align-items: center;
+    padding: 0 0 0 0.75rem;
+    border-left: 4px solid var(--c-accent-500);
+    border-radius: 0;
+    background: none !important;
+    box-shadow: none;
+    color: var(--c-neutral-900);
+    font-size: 1.0625rem;
+}
+
+.espace .dashboard-group-title i { color: var(--c-accent-600); }
+
+.espace .dashboard-card {
+    border-radius: var(--radius-xl) !important;
+    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.espace .dashboard-card:hover,
+.espace .dashboard-card:focus {
+    border-color: var(--c-primary-200) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+.espace .dashboard-card-icon {
+    border-radius: var(--radius-lg);
+    background: var(--c-primary-50);
+    color: var(--c-primary-500);
+}
+
+.espace .dashboard-card:hover .dashboard-card-icon,
+.espace .dashboard-card:focus .dashboard-card-icon {
+    background: var(--c-primary-500);
+    color: #ffffff;
+}
+
+/* Bandeau de titre des tableaux de bord (card bg-secondary + card-header blanc) : carte blanche simple */
+.espace .card.bg-secondary {
+    padding: 0 !important;
+    background: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+.espace .card.bg-secondary > .card-header {
+    margin-bottom: 0 !important;
+    border: 1px solid var(--c-neutral-200) !important;
+    border-left: 4px solid var(--c-accent-500) !important;
+    border-radius: var(--radius-xl) !important;
+    box-shadow: var(--shadow-sm);
+}
+
+.espace .card.bg-secondary .text-white { color: var(--c-neutral-950) !important; }
+.espace .card.bg-secondary h2 { font-size: 1.5rem; }
+.espace .card.bg-secondary h2 i { color: var(--c-accent-600); }
+
+/* Blocs « card-aqua » hérités du site public */
+.espace .card-aqua {
+    border: 1px solid var(--c-neutral-200);
+    border-radius: var(--radius-xl);
+    background: #ffffff;
+    box-shadow: var(--shadow-sm);
+}
+
+/* --------------------------------------------------------------------------
+ *  11. Pied de page des espaces
+ * ------------------------------------------------------------------------ */
+.espace .espace-footer {
+    margin-top: 3rem;
+    padding: 0 1rem;
+    background: #ffffff !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-top: 1px solid var(--c-neutral-200) !important;
+    color: var(--c-neutral-600);
+    font-size: 0.875rem;
+}
+
+.espace .espace-footer .footer-heading {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem !important;
+    padding: 0;
+    background: none !important;
+    border: 0;
+    color: var(--c-neutral-900);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.espace .espace-footer .footer-heading i { color: var(--c-accent-600); }
+
+.espace .espace-footer .footer-links li { margin-bottom: 0.35rem; }
+
+.espace .espace-footer a {
+    color: var(--c-neutral-600);
+    text-decoration: none;
+}
+
+.espace .espace-footer a:hover { color: var(--c-primary-600); }
+.espace .espace-footer .footer-links i { color: var(--c-neutral-300); }
+
+.espace .espace-footer-bottom {
+    margin-top: 1.5rem !important;
+    padding: 1rem 0 !important;
+    background: none !important;
+    border-top: 1px solid var(--c-neutral-200);
+    color: var(--c-neutral-500) !important;
+    font-size: 0.8125rem;
+}
+
+.espace .espace-footer-bottom * { color: inherit; }
+.espace .espace-footer-bottom .btn { color: inherit; }
+.espace .espace-footer-bottom .btn-warning,
+.espace .espace-footer-bottom .btn-primary { color: var(--c-neutral-950) !important; }
+
+/* --------------------------------------------------------------------------
+ *  12. Mouvement réduit
+ * ------------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+    .espace *,
+    .espace *::before,
+    .espace *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}

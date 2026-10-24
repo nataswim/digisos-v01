@@ -1,545 +1,247 @@
-<nav class="navbar navbar-expand-lg" style="border-bottom: 20px solid #fbfbf5;border-top: 20px solid #fbfbf5;background-image: linear-gradient(18deg, #4babca 85%, #f0a932 70px);background-attachment: scroll;background-position: bottom;border-left: 20px solid #4babca;">
+{{--
+    Menu de l'administration — trois niveaux :
+      1. rubrique (barre du haut)          ex. « Contenus »
+      2. module (menu déroulant)           ex. « Articles »  → au survol (ou au clic / toucher)…
+      3. pages du module (sous-menu)       ex. « Liste des articles », « Catégories », « Tags »
 
+    Pour modifier le menu : changer le tableau $menu ci-dessous.
+      - rubrique : label, icon, et soit route (lien direct), soit sections ;
+      - section  : label, icon, links (external => true : liens ouverts dans un nouvel onglet) ;
+      - lien     : [libellé, icône, route, routes actives (motifs), compteur facultatif (fonction)].
+    Les liens dont la route n'existe pas sont ignorés ; une section vide disparaît.
+    Styles : public/css/espaces.css (§ « Menu de l'administration »).
+--}}
+@php
+    $menu = [
+        [
+            'label' => 'Tableau de bord', 'icon' => 'fa-home',
+            'route' => 'admin.dashboard', 'active' => ['admin.dashboard'],
+        ],
+        [
+            'label' => 'Contenus', 'icon' => 'fa-pen-nib',
+            'sections' => [
+                ['label' => 'Articles', 'icon' => 'fa-newspaper', 'links' => [
+                    ['Liste des articles', 'fa-list', 'admin.posts.index', ['admin.posts.*'], fn () => \App\Models\Post::count()],
+                    ['Catégories', 'fa-folder-open', 'admin.categories.index', ['admin.categories.*']],
+                    ['Tags', 'fa-tags', 'admin.tags.index', ['admin.tags.*']],
+                ]],
+                ['label' => 'Fiches pratiques', 'icon' => 'fa-file-alt', 'links' => [
+                    ['Liste des fiches', 'fa-list', 'admin.fiches.index', ['admin.fiches.*'], fn () => \App\Models\Fiche::count()],
+                    ['Catégories', 'fa-folder-open', 'admin.fiches-categories.index', ['admin.fiches-categories.*'], fn () => \App\Models\FichesCategory::count()],
+                    ['Sous-catégories', 'fa-folder-tree', 'admin.fiches-sous-categories.index', ['admin.fiches-sous-categories.*'], fn () => \App\Models\FichesSousCategory::count()],
+                ]],
+                ['label' => 'Pages', 'icon' => 'fa-file', 'links' => [
+                    ['Liste des pages', 'fa-list', 'admin.pages.index', ['admin.pages.*'], fn () => \App\Models\Page::count()],
+                    ['Catégories', 'fa-folder-open', 'admin.pages-categories.index', ['admin.pages-categories.*'], fn () => \App\Models\PagesCategory::count()],
+                ]],
+                ['label' => 'Partenaires', 'icon' => 'fa-handshake', 'links' => [
+                    ['Liste des partenaires', 'fa-list', 'admin.partners.index', ['admin.partners.index', 'admin.partners.edit'], fn () => \App\Models\Partner::count()],
+                    ['Nouveau partenaire', 'fa-plus', 'admin.partners.create', ['admin.partners.create']],
+                ]],
+                ['label' => 'Boutique', 'icon' => 'fa-shopping-bag', 'links' => [
+                    ['Produits', 'fa-list', 'admin.shop.products.index', ['admin.shop.products.index', 'admin.shop.products.edit'], fn () => \App\Models\ShopProduct::count()],
+                    ['Catégories', 'fa-folder-open', 'admin.shop.categories.index', ['admin.shop.categories.*']],
+                    ['Nouveau produit', 'fa-plus', 'admin.shop.products.create', ['admin.shop.products.create']],
+                ]],
+                ['label' => 'L\'équipe du club', 'icon' => 'fa-users', 'links' => [
+                    ['Membres', 'fa-id-badge', 'admin.team.members.index', ['admin.team.members.index', 'admin.team.members.edit'], fn () => \App\Models\TeamMember::count()],
+                    ['Sections', 'fa-layer-group', 'admin.team.sections.index', ['admin.team.sections.*']],
+                    ['Nouveau membre', 'fa-plus', 'admin.team.members.create', ['admin.team.members.create']],
+                ]],
+                ['label' => 'Liens utiles', 'icon' => 'fa-link', 'links' => [
+                    ['Liens', 'fa-list', 'admin.links.items.index', ['admin.links.items.index', 'admin.links.items.edit'], fn () => \App\Models\Link::count()],
+                    ['Catégories', 'fa-folder-open', 'admin.links.categories.index', ['admin.links.categories.*']],
+                    ['Nouveau lien', 'fa-plus', 'admin.links.items.create', ['admin.links.items.create']],
+                ]],
+            ],
+        ],
+        [
+            'label' => 'Multimédia', 'icon' => 'fa-photo-video',
+            'sections' => [
+                ['label' => 'Vidéos', 'icon' => 'fa-video', 'links' => [
+                    ['Liste des vidéos', 'fa-list', 'admin.videos.index', ['admin.videos.*'], fn () => \App\Models\Video::count()],
+                    ['Catégories', 'fa-folder-open', 'admin.video-categories.index', ['admin.video-categories.*'], fn () => \App\Models\VideoCategory::count()],
+                ]],
+                ['label' => 'Images', 'icon' => 'fa-image', 'links' => [
+                    ['Médiathèque', 'fa-list', 'admin.media.index', ['admin.media.index', 'admin.media.show'], fn () => \App\Models\Media::count()],
+                    ['Catégories', 'fa-folder-open', 'admin.media.categories', ['admin.media.categories'], fn () => \App\Models\MediaCategory::count()],
+                ]],
+                ['label' => 'Galeries et bannières', 'icon' => 'fa-images', 'links' => [
+                    ['Galeries photo', 'fa-layer-group', 'admin.photo-galleries.index', ['admin.photo-galleries.*'], fn () => \App\Models\PhotoGallery::count()],
+                    ['Bannières', 'fa-panorama', 'admin.banners.index', ['admin.banners.*'], fn () => \App\Models\Banner::where('is_active', true)->count()],
+                ]],
+                ['label' => 'Documents', 'icon' => 'fa-file-pdf', 'links' => [
+                    ['Liste des documents', 'fa-list', 'admin.downloadables.index', ['admin.downloadables.*'], fn () => \App\Models\Downloadable::count()],
+                    ['Catégories', 'fa-folder', 'admin.download-categories.index', ['admin.download-categories.*']],
+                ]],
+            ],
+        ],
+        [
+            'label' => 'Sportif', 'icon' => 'fa-person-swimming',
+            'sections' => [
+                ['label' => 'Compétitions', 'icon' => 'fa-trophy', 'links' => [
+                    ['Calendrier', 'fa-list', 'admin.competitions.index', ['admin.competitions.index', 'admin.competitions.edit', 'admin.competitions.entries.*', 'admin.competitions.program.*'], fn () => \App\Models\Competition::whereDate('ends_on', '>=', today())->count()],
+                    ['Nouvelle compétition', 'fa-plus', 'admin.competitions.create', ['admin.competitions.create']],
+                ]],
+                ['label' => 'Planning des entraînements', 'icon' => 'fa-calendar-week', 'links' => [
+                    ['Créneaux', 'fa-calendar-alt', 'admin.planning.slots.index', ['admin.planning.slots.*'], fn () => \App\Models\PlanningSlot::count()],
+                    ['Groupes', 'fa-layer-group', 'admin.planning.groups.index', ['admin.planning.groups.*'], fn () => \App\Models\PlanningGroup::count()],
+                    ['Nageurs', 'fa-person-swimming', 'admin.planning.swimmers.index', ['admin.planning.swimmers.*'], fn () => \App\Models\PlanningSwimmer::count()],
+                ]],
+                ['label' => 'Licences FFN', 'icon' => 'fa-id-card', 'links' => [
+                    ['Licenciés', 'fa-id-card', 'admin.ffn-licenses.index', ['admin.ffn-licenses.index', 'admin.ffn-licenses.show']],
+                    ['Importer depuis extraNat', 'fa-file-import', 'admin.ffn-licenses.import.create', ['admin.ffn-licenses.import.*']],
+                ]],
+                ['label' => 'Pages publiques', 'icon' => 'fa-external-link-alt', 'external' => true, 'links' => [
+                    ['Calendrier public', 'fa-external-link-alt', 'competitions.index', []],
+                    ['Planning public', 'fa-external-link-alt', 'schedule', []],
+                ]],
+            ],
+        ],
+        [
+            'label' => 'Système', 'icon' => 'fa-cogs',
+            'sections' => [
+                ['label' => 'Comptes et accès', 'icon' => 'fa-users-cog', 'links' => [
+                    ['Utilisateurs', 'fa-users', 'admin.users.index', ['admin.users.*'], fn () => \App\Models\User::count()],
+                    ['Fiches utilisateurs', 'fa-id-card', 'admin.user-profiles.index', ['admin.user-profiles.*']],
+                    ['Rôles', 'fa-user-tag', 'admin.roles.index', ['admin.roles.*']],
+                    ['Permissions', 'fa-key', 'admin.permissions.index', ['admin.permissions.*']],
+                ]],
+                ['label' => 'Référencement', 'icon' => 'fa-sitemap', 'links' => [
+                    ['Plan du site', 'fa-sitemap', 'admin.sitemap.index', ['admin.sitemap.*']],
+                ]],
+            ],
+        ],
+        [
+            'label' => 'Gestion', 'icon' => 'fa-building',
+            'sections' => [
+                ['label' => 'Installations', 'icon' => 'fa-swimming-pool', 'links' => [
+                    ['Services', 'fa-building', 'admin.services.index', ['admin.services.*'], fn () => \App\Models\Service::count()],
+                    ['Structures', 'fa-layer-group', 'admin.structures.index', ['admin.structures.*'], fn () => \App\Models\Structure::count()],
+                    ['Espaces', 'fa-th-large', 'admin.espaces.index', ['admin.espaces.*'], fn () => \App\Models\Espace::count()],
+                    ['Zones', 'fa-map-marker-alt', 'admin.zones.index', ['admin.zones.*'], fn () => \App\Models\Zone::count()],
+                ]],
+            ],
+        ],
+    ];
+
+    // Préparation : liens existants, états actifs, compteurs (un compteur en erreur est simplement masqué)
+    $compter = function ($fn) {
+        if (! $fn) {
+            return null;
+        }
+        try {
+            return (int) $fn();
+        } catch (\Throwable $e) {
+            return null;
+        }
+    };
+
+    foreach ($menu as $i => $rubrique) {
+        if (isset($rubrique['route'])) {
+            $menu[$i]['is_active'] = request()->routeIs(...$rubrique['active']);
+            continue;
+        }
+        $rubriqueActive = false;
+        foreach ($rubrique['sections'] as $j => $section) {
+            $liens = [];
+            foreach ($section['links'] as $lien) {
+                [$libelle, $icone, $route, $actifs] = $lien;
+                if (! \Illuminate\Support\Facades\Route::has($route)) {
+                    continue;
+                }
+                $actif = $actifs && request()->routeIs(...$actifs);
+                $liens[] = [
+                    'label' => $libelle,
+                    'icon' => $icone,
+                    'url' => route($route),
+                    'active' => $actif,
+                    'count' => $compter($lien[4] ?? null),
+                ];
+            }
+            $menu[$i]['sections'][$j]['links'] = $liens;
+            $menu[$i]['sections'][$j]['is_active'] = collect($liens)->contains('active', true);
+            $rubriqueActive = $rubriqueActive || $menu[$i]['sections'][$j]['is_active'];
+        }
+        $menu[$i]['sections'] = array_values(array_filter($menu[$i]['sections'], fn ($s) => count($s['links']) > 0));
+        $menu[$i]['is_active'] = $rubriqueActive;
+    }
+@endphp
+
+<nav class="navbar navbar-expand-lg espace-nav espace-nav--admin" aria-label="Menu de l'administration">
     <div class="container-lg">
 
-        <!-- Bouton burger pour mobile -->
+        <!-- Repère de l'espace -->
+        <a class="navbar-brand espace-brand" href="{{ route('admin.dashboard') }}">
+            <img src="{{ asset('assets/images/logo/cnbb-logo-800.png') }}" alt="" class="espace-brand-logo">
+            <span class="espace-brand-text">CNBB <span class="espace-brand-area">Administration</span></span>
+        </a>
+
+        <!-- Bouton du menu sur mobile -->
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Ouvrir le menu">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <!-- Menu principal -->
         <div class="collapse navbar-collapse" id="mainNavbar">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-                <!-- Dashboard -->
-                <li class="nav-item">
-                    <a class="nav-link admin-menu {{ request()->routeIs('admin.dashboard') ? 'active fw-bold text-white' : '' }}" href="{{ route('admin.dashboard') }}">
-                        <i class="fas fa-home me-1"></i>Dashboard
-                    </a>
-                </li>
-
-                <!-- CONTENUS (dropdown) -->
-                <li class="nav-item dropdown admin-menu">
-                    @php
-                        $contenusActive = request()->routeIs(
-                            'admin.posts.*',
-                            'admin.categories.*',
-                            'admin.tags.*',
-                            'admin.fiches.*',
-                            'admin.fiches-categories.*',
-                            'admin.fiches-sous-categories.*',
-                            'admin.pages.*',
-                            'admin.pages-categories.*',
-                            'admin.partners.*',
-                            'admin.shop.*',
-                            'admin.team.*',
-                            'admin.links.*'
-                        );
-                    @endphp
-                    <a class="nav-link dropdown-toggle {{ $contenusActive ? 'active fw-bold text-white' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-water me-1"></i>Contenus
-                    </a>
-                    <ul class="dropdown-menu">
-
-                        <!-- Articles -->
-                        <li><h6 class="dropdown-header"><i class="fas fa-newspaper me-2"></i>Articles</h6></li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}" href="{{ route('admin.posts.index') }}">
-                                <i class="fas fa-list fa-fw me-2"></i>Liste des articles
-                                <span class="badge bg-info ms-2">{{ App\Models\Post::count() }}</span>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 espace-admin-menu">
+                @foreach ($menu as $i => $rubrique)
+                    @if (isset($rubrique['route']))
+                        {{-- Niveau 1 : lien direct --}}
+                        <li class="nav-item">
+                            <a class="nav-link {{ $rubrique['is_active'] ? 'active' : '' }}" href="{{ route($rubrique['route']) }}"
+                               @if ($rubrique['is_active']) aria-current="page" @endif>
+                                <i class="fas {{ $rubrique['icon'] }} me-2" aria-hidden="true"></i>{{ $rubrique['label'] }}
                             </a>
                         </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}">
-                                <i class="fas fa-folder-open fa-fw me-2"></i>Catégories
+                    @elseif (count($rubrique['sections']))
+                        {{-- Niveau 1 : rubrique → niveau 2 : modules --}}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {{ $rubrique['is_active'] ? 'active' : '' }}" href="#" role="button"
+                               data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" id="menu-rubrique-{{ $i }}">
+                                <i class="fas {{ $rubrique['icon'] }} me-2" aria-hidden="true"></i>{{ $rubrique['label'] }}
                             </a>
+                            <ul class="dropdown-menu espace-menu-l2" aria-labelledby="menu-rubrique-{{ $i }}">
+                                @foreach ($rubrique['sections'] as $j => $section)
+                                    {{-- Niveau 2 : module → niveau 3 : pages (au survol, au clic ou au toucher) --}}
+                                    <li class="espace-submenu {{ $section['is_active'] ? 'is-current' : '' }}">
+                                        <button type="button" class="dropdown-item espace-submenu-toggle"
+                                                aria-expanded="false" aria-controls="menu-{{ $i }}-{{ $j }}">
+                                            <i class="fas {{ $section['icon'] }} fa-fw me-2" aria-hidden="true"></i>
+                                            <span class="flex-grow-1">{{ $section['label'] }}</span>
+                                            <i class="fas fa-chevron-right espace-submenu-caret" aria-hidden="true"></i>
+                                        </button>
+                                        <ul class="espace-menu-l3" id="menu-{{ $i }}-{{ $j }}">
+                                            <li class="espace-menu-l3-title" aria-hidden="true">
+                                                <i class="fas {{ $section['icon'] }} me-2"></i>{{ $section['label'] }}
+                                            </li>
+                                            @foreach ($section['links'] as $lien)
+                                                <li>
+                                                    <a class="dropdown-item {{ $lien['active'] ? 'active' : '' }}" href="{{ $lien['url'] }}"
+                                                       @if ($lien['active']) aria-current="page" @endif
+                                                       @if (! empty($section['external'])) target="_blank" rel="noopener" @endif>
+                                                        <i class="fas {{ $lien['icon'] }} fa-fw me-2" aria-hidden="true"></i>
+                                                        <span class="flex-grow-1">{{ $lien['label'] }}</span>
+                                                        @if ($lien['count'])
+                                                            <span class="espace-menu-count">{{ $lien['count'] }}</span>
+                                                        @endif
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @endforeach
+                            </ul>
                         </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.tags.*') ? 'active' : '' }}" href="{{ route('admin.tags.index') }}">
-                                <i class="fas fa-tags fa-fw me-2"></i>Tags
-                            </a>
-                        </li>
-
-                        <li><hr class="dropdown-divider"></li>
-
-                        <!-- Fiches -->
-                        <li><h6 class="dropdown-header"><i class="fas fa-file-alt me-2"></i>Fiches</h6></li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.fiches.index', 'admin.fiches.create', 'admin.fiches.edit', 'admin.fiches.show') ? 'active' : '' }}" href="{{ route('admin.fiches.index') }}">
-                                <i class="fas fa-list fa-fw me-2"></i>Liste des fiches
-                                @php $fichesCount = App\Models\Fiche::count(); @endphp
-                                @if($fichesCount > 0)
-                                    <span class="badge bg-success ms-2">{{ $fichesCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.fiches-categories.*') ? 'active' : '' }}" href="{{ route('admin.fiches-categories.index') }}">
-                                <i class="fas fa-folder-open fa-fw me-2"></i>Catégories
-                                @php $fichesCategoriesCount = App\Models\FichesCategory::count(); @endphp
-                                @if($fichesCategoriesCount > 0)
-                                    <span class="badge bg-info ms-2">{{ $fichesCategoriesCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.fiches-sous-categories.*') ? 'active' : '' }}" href="{{ route('admin.fiches-sous-categories.index') }}">
-                                <i class="fas fa-folder-tree fa-fw me-2"></i>Sous-catégories
-                                @php $fichesSousCategoriesCount = App\Models\FichesSousCategory::count(); @endphp
-                                @if($fichesSousCategoriesCount > 0)
-                                    <span class="badge bg-secondary ms-2">{{ $fichesSousCategoriesCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-
-                        <li><hr class="dropdown-divider"></li>
-
-                        <!-- Pages -->
-                        <li><h6 class="dropdown-header"><i class="fas fa-file me-2"></i>Pages</h6></li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}" href="{{ route('admin.pages.index') }}">
-                                <i class="fas fa-list fa-fw me-2"></i>Liste des pages
-                                @php $pagesCount = App\Models\Page::count(); @endphp
-                                @if($pagesCount > 0)
-                                    <span class="badge bg-primary ms-2">{{ $pagesCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.pages-categories.*') ? 'active' : '' }}" href="{{ route('admin.pages-categories.index') }}">
-                                <i class="fas fa-folder-open fa-fw me-2"></i>Catégories
-                                @php $pagesCategoriesCount = App\Models\PagesCategory::count(); @endphp
-                                @if($pagesCategoriesCount > 0)
-                                    <span class="badge bg-info ms-2">{{ $pagesCategoriesCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-
-                        <li><hr class="dropdown-divider"></li>
-
-                        <!-- Partenaires -->
-                        <li><h6 class="dropdown-header"><i class="fas fa-handshake me-2"></i>Partenaires</h6></li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.partners.index', 'admin.partners.edit') ? 'active' : '' }}" href="{{ route('admin.partners.index') }}">
-                                <i class="fas fa-list fa-fw me-2"></i>Liste des partenaires
-                                @php $partnersCount = App\Models\Partner::count(); @endphp
-                                @if($partnersCount > 0)
-                                    <span class="badge bg-warning text-dark ms-2">{{ $partnersCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.partners.create') ? 'active' : '' }}" href="{{ route('admin.partners.create') }}">
-                                <i class="fas fa-plus fa-fw me-2"></i>Nouveau partenaire
-                            </a>
-                        </li>
-
-                        <li><hr class="dropdown-divider"></li>
-
-                        <!-- Boutique vitrine (administrateurs uniquement) -->
-                        <li><h6 class="dropdown-header"><i class="fas fa-shopping-bag me-2"></i>Boutique</h6></li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.shop.products.index', 'admin.shop.products.edit') ? 'active' : '' }}" href="{{ route('admin.shop.products.index') }}">
-                                <i class="fas fa-list fa-fw me-2"></i>Produits
-                                @php $shopProductsCount = App\Models\ShopProduct::count(); @endphp
-                                @if($shopProductsCount > 0)
-                                    <span class="badge bg-success ms-2">{{ $shopProductsCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.shop.categories.*') ? 'active' : '' }}" href="{{ route('admin.shop.categories.index') }}">
-                                <i class="fas fa-folder-open fa-fw me-2"></i>Catégories
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.shop.products.create') ? 'active' : '' }}" href="{{ route('admin.shop.products.create') }}">
-                                <i class="fas fa-plus fa-fw me-2"></i>Nouveau produit
-                            </a>
-                        </li>
-
-                        <li><hr class="dropdown-divider"></li>
-
-                        <!-- L'équipe du club (administrateurs uniquement) -->
-                        <li><h6 class="dropdown-header"><i class="fas fa-users me-2"></i>L'équipe du club</h6></li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.team.members.index', 'admin.team.members.edit') ? 'active' : '' }}" href="{{ route('admin.team.members.index') }}">
-                                <i class="fas fa-id-badge fa-fw me-2"></i>Membres
-                                @php $teamMembersCount = App\Models\TeamMember::count(); @endphp
-                                @if($teamMembersCount > 0)
-                                    <span class="badge bg-success ms-2">{{ $teamMembersCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.team.sections.*') ? 'active' : '' }}" href="{{ route('admin.team.sections.index') }}">
-                                <i class="fas fa-layer-group fa-fw me-2"></i>Sections
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.team.members.create') ? 'active' : '' }}" href="{{ route('admin.team.members.create') }}">
-                                <i class="fas fa-plus fa-fw me-2"></i>Nouveau membre
-                            </a>
-                        </li>
-
-                        <li><hr class="dropdown-divider"></li>
-
-                        <!-- Liens utiles (administrateurs uniquement) -->
-                        <li><h6 class="dropdown-header"><i class="fas fa-link me-2"></i>Liens utiles</h6></li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.links.items.index', 'admin.links.items.edit') ? 'active' : '' }}" href="{{ route('admin.links.items.index') }}">
-                                <i class="fas fa-list fa-fw me-2"></i>Liens
-                                @php $linksCount = App\Models\Link::count(); @endphp
-                                @if($linksCount > 0)
-                                    <span class="badge bg-success ms-2">{{ $linksCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.links.categories.*') ? 'active' : '' }}" href="{{ route('admin.links.categories.index') }}">
-                                <i class="fas fa-folder-open fa-fw me-2"></i>Catégories
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.links.items.create') ? 'active' : '' }}" href="{{ route('admin.links.items.create') }}">
-                                <i class="fas fa-plus fa-fw me-2"></i>Nouveau lien
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
-
-                <!-- MULTIMÉDIA (dropdown) -->
-                <li class="nav-item dropdown admin-menu">
-                    @php
-                        $multimediaActive = request()->routeIs(
-                            'admin.videos.*',
-                            'admin.video-categories.*',
-                            'admin.media.*',
-                            'admin.photo-galleries.*',
-                            'admin.banners.*',
-                            'admin.downloadables.*',
-                            'admin.download-categories.*'
-                        );
-                    @endphp
-                    <a class="nav-link dropdown-toggle {{ $multimediaActive ? 'active fw-bold text-white' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-water me-1"></i>Multimédia
-                    </a>
-                    <ul class="dropdown-menu">
-
-                        <!-- Vidéos -->
-                        <li><h6 class="dropdown-header"><i class="fas fa-video me-2"></i>Vidéos</h6></li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.videos.index', 'admin.videos.create', 'admin.videos.edit', 'admin.videos.show') ? 'active' : '' }}" href="{{ route('admin.videos.index') }}">
-                                <i class="fas fa-list fa-fw me-2"></i>Liste des vidéos
-                                @php $videosCount = App\Models\Video::count(); @endphp
-                                @if($videosCount > 0)
-                                    <span class="badge bg-danger ms-2">{{ $videosCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.video-categories.*') ? 'active' : '' }}" href="{{ route('admin.video-categories.index') }}">
-                                <i class="fas fa-folder-open fa-fw me-2"></i>Catégories
-                                @php $videoCategoriesCount = App\Models\VideoCategory::count(); @endphp
-                                @if($videoCategoriesCount > 0)
-                                    <span class="badge bg-info ms-2">{{ $videoCategoriesCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-
-                        <li><hr class="dropdown-divider"></li>
-
-                        <!-- Images -->
-                        <li><h6 class="dropdown-header"><i class="fas fa-image me-2"></i>Images</h6></li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.media.index', 'admin.media.show') ? 'active' : '' }}" href="{{ route('admin.media.index') }}">
-                                <i class="fas fa-list fa-fw me-2"></i>Liste des images
-                                @php $mediaCount = App\Models\Media::count(); @endphp
-                                @if($mediaCount > 0)
-                                    <span class="badge bg-warning ms-2">{{ $mediaCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.media.categories') ? 'active' : '' }}" href="{{ route('admin.media.categories') }}">
-                                <i class="fas fa-folder-open fa-fw me-2"></i>Catégories
-                                @php $mediaCategoriesCount = App\Models\MediaCategory::count(); @endphp
-                                @if($mediaCategoriesCount > 0)
-                                    <span class="badge bg-info ms-2">{{ $mediaCategoriesCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-
-                        <li><hr class="dropdown-divider"></li>
-
-                        <!-- Galeries photo -->
-                        <li><h6 class="dropdown-header"><i class="fas fa-images me-2"></i>Galeries photo</h6></li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.photo-galleries.*') ? 'active' : '' }}" href="{{ route('admin.photo-galleries.index') }}">
-                                <i class="fas fa-layer-group fa-fw me-2"></i>Galeries
-                                @php $photoGalleriesCount = App\Models\PhotoGallery::count(); @endphp
-                                @if($photoGalleriesCount > 0)
-                                    <span class="badge bg-purple ms-2">{{ $photoGalleriesCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.banners.*') ? 'active' : '' }}" href="{{ route('admin.banners.index') }}">
-                                <i class="fas fa-panorama fa-fw me-2"></i>Bannières
-                                @php $bannersCount = App\Models\Banner::where('is_active', true)->count(); @endphp
-                                @if($bannersCount > 0)
-                                    <span class="badge bg-primary ms-2">{{ $bannersCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-
-                        <li><hr class="dropdown-divider"></li>
-
-                        <!-- Documents -->
-                        <li><h6 class="dropdown-header"><i class="fas fa-file-pdf me-2"></i>Documents</h6></li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.downloadables.*') ? 'active' : '' }}" href="{{ route('admin.downloadables.index') }}">
-                                <i class="fas fa-list fa-fw me-2"></i>Liste des documents
-                                @php $downloadablesCount = App\Models\Downloadable::count(); @endphp
-                                @if($downloadablesCount > 0)
-                                    <span class="badge bg-success ms-2">{{ $downloadablesCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.download-categories.*') ? 'active' : '' }}" href="{{ route('admin.download-categories.index') }}">
-                                <i class="fas fa-folder fa-fw me-2"></i>Catégories
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
-
-                <!-- SPORTIF : planning des entraînements et compétitions -->
-                <li class="nav-item dropdown admin-menu">
-                    @php $sportifActive = request()->routeIs('admin.planning.*', 'admin.competitions.*', 'admin.ffn-licenses.*'); @endphp
-                    <a class="nav-link dropdown-toggle {{ $sportifActive ? 'active fw-bold text-white' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-person-swimming me-1"></i>Sportif
-                    </a>
-                    <ul class="dropdown-menu">
-                        <!-- Compétitions -->
-                        <li><h6 class="dropdown-header"><i class="fas fa-trophy me-2"></i>Compétitions</h6></li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.competitions.index', 'admin.competitions.edit') ? 'active' : '' }}" href="{{ route('admin.competitions.index') }}">
-                                <i class="fas fa-list fa-fw me-2"></i>Calendrier
-                                @php $competitionsCount = App\Models\Competition::whereDate('ends_on', '>=', today())->count(); @endphp
-                                @if($competitionsCount > 0)
-                                    <span class="badge bg-primary ms-2" title="À venir">{{ $competitionsCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.competitions.create') ? 'active' : '' }}" href="{{ route('admin.competitions.create') }}">
-                                <i class="fas fa-plus fa-fw me-2"></i>Nouvelle compétition
-                            </a>
-                        </li>
-
-                        <li><hr class="dropdown-divider"></li>
-
-                        <!-- Planning -->
-                        <li><h6 class="dropdown-header"><i class="fas fa-calendar-week me-2"></i>Planning des entraînements</h6></li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.planning.slots.*') ? 'active' : '' }}" href="{{ route('admin.planning.slots.index') }}">
-                                <i class="fas fa-calendar-alt fa-fw me-2"></i>Créneaux
-                                @php $planningSlotsCount = App\Models\PlanningSlot::count(); @endphp
-                                @if($planningSlotsCount > 0)
-                                    <span class="badge bg-primary ms-2">{{ $planningSlotsCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.planning.groups.*') ? 'active' : '' }}" href="{{ route('admin.planning.groups.index') }}">
-                                <i class="fas fa-layer-group fa-fw me-2"></i>Groupes
-                                @php $planningGroupsCount = App\Models\PlanningGroup::count(); @endphp
-                                @if($planningGroupsCount > 0)
-                                    <span class="badge bg-info ms-2">{{ $planningGroupsCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.planning.swimmers.*') ? 'active' : '' }}" href="{{ route('admin.planning.swimmers.index') }}">
-                                <i class="fas fa-person-swimming fa-fw me-2"></i>Nageurs
-                                @php $planningSwimmersCount = App\Models\PlanningSwimmer::count(); @endphp
-                                @if($planningSwimmersCount > 0)
-                                    <span class="badge bg-success ms-2">{{ $planningSwimmersCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-
-                        <li><hr class="dropdown-divider"></li>
-
-                        <!-- Licences FFN (admin uniquement) -->
-                        <li><h6 class="dropdown-header"><i class="fas fa-id-card me-2"></i>Licences FFN</h6></li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.ffn-licenses.index', 'admin.ffn-licenses.show') ? 'active' : '' }}" href="{{ route('admin.ffn-licenses.index') }}">
-                                <i class="fas fa-id-card fa-fw me-2"></i>Licenciés
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.ffn-licenses.import.*') ? 'active' : '' }}" href="{{ route('admin.ffn-licenses.import.create') }}">
-                                <i class="fas fa-file-import fa-fw me-2"></i>Importer depuis extraNat
-                            </a>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-
-                        <li>
-                            <a class="dropdown-item" href="{{ route('competitions.index') }}" target="_blank" rel="noopener">
-                                <i class="fas fa-external-link-alt fa-fw me-2"></i>Calendrier public
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="{{ route('schedule') }}" target="_blank" rel="noopener">
-                                <i class="fas fa-external-link-alt fa-fw me-2"></i>Planning public
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <!-- SYSTÈME (dropdown) -->
-                <li class="nav-item dropdown admin-menu">
-                    @php
-                        $systemActive = request()->routeIs(
-                            'admin.users.*',
-                            'admin.user-profiles.*',
-                            'admin.roles.*',
-                            'admin.permissions.*',
-                            'admin.sitemap.*'
-                        );
-                    @endphp
-                    <a class="nav-link dropdown-toggle {{ $systemActive ? 'active fw-bold text-white' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-water me-1"></i>Système
-                    </a>
-                    <ul class="dropdown-menu">
-
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">
-                                <i class="fas fa-users fa-fw me-2"></i>Utilisateurs
-                                @php $usersCount = App\Models\User::count(); @endphp
-                                @if($usersCount > 0)
-                                    <span class="badge bg-primary ms-2">{{ $usersCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.user-profiles.*') ? 'active' : '' }}" href="{{ route('admin.user-profiles.index') }}">
-                                <i class="fas fa-id-card fa-fw me-2"></i>Fiches utilisateurs
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}" href="{{ route('admin.roles.index') }}">
-                                <i class="fas fa-user-tag fa-fw me-2"></i>Rôles
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.permissions.*') ? 'active' : '' }}" href="{{ route('admin.permissions.index') }}">
-                                <i class="fas fa-key fa-fw me-2"></i>Permissions
-                            </a>
-                        </li>
-
-                        <li><hr class="dropdown-divider"></li>
-
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.sitemap.*') ? 'active' : '' }}" href="{{ route('admin.sitemap.index') }}">
-                                <i class="fas fa-sitemap fa-fw me-2"></i>Sitemap
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
-
-                <!-- GESTION — Architecture Spatiale M2PC -->
-                <li class="nav-item dropdown admin-menu">
-                    @php
-                        $gestionActive = request()->routeIs(
-                            'admin.services.*',
-                            'admin.structures.*',
-                            'admin.espaces.*',
-                            'admin.zones.*'
-                        );
-                    @endphp
-                    <a class="nav-link dropdown-toggle {{ $gestionActive ? 'active fw-bold text-white' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-sitemap me-1"></i>Gestion
-                    </a>
-                    <ul class="dropdown-menu">
-
-                        <!-- Architecture Spatiale M2PC -->
-                        <li><h6 class="dropdown-header"><i class="fas fa-sitemap me-2"></i>Architecture Spatiale</h6></li>
-
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.services.*') ? 'active' : '' }}" href="{{ route('admin.services.index') }}">
-                                <i class="fas fa-building fa-fw me-2"></i>Services
-                                @php $servicesCount = App\Models\Service::count(); @endphp
-                                @if($servicesCount > 0)
-                                    <span class="badge bg-primary ms-2">{{ $servicesCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.structures.*') ? 'active' : '' }}" href="{{ route('admin.structures.index') }}">
-                                <i class="fas fa-layer-group fa-fw me-2"></i>Structures
-                                @php $structuresCount = App\Models\Structure::count(); @endphp
-                                @if($structuresCount > 0)
-                                    <span class="badge bg-success ms-2">{{ $structuresCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.espaces.*') ? 'active' : '' }}" href="{{ route('admin.espaces.index') }}">
-                                <i class="fas fa-th-large fa-fw me-2"></i>Espaces
-                                @php $espacesCount = App\Models\Espace::count(); @endphp
-                                @if($espacesCount > 0)
-                                    <span class="badge bg-warning ms-2 text-dark">{{ $espacesCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item {{ request()->routeIs('admin.zones.*') ? 'active' : '' }}" href="{{ route('admin.zones.index') }}">
-                                <i class="fas fa-map-marker-alt fa-fw me-2"></i>Zones
-                                @php $zonesCount = App\Models\Zone::count(); @endphp
-                                @if($zonesCount > 0)
-                                    <span class="badge bg-danger ms-2">{{ $zonesCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
-
-                <!-- OUTILS (vide - réservé pour futur développement) -->
-                <li class="nav-item dropdown admin-menu">
-                    <a class="nav-link dropdown-toggle admin-menu" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                       <i class="fas fa-water me-1"></i>Outils
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <span class="dropdown-item-text text-muted fst-italic">
-                                <i class="fas fa-info-circle me-2"></i>Section en développement
-                            </span>
-                        </li>
-                    </ul>
-                </li>
-
+                    @endif
+                @endforeach
             </ul>
 
-            <!-- Actions utilisateur (droite) -->
+            <!-- Compte de l'administrateur (droite) -->
             <div class="d-flex align-items-center gap-2">
-                <!-- Menu utilisateur -->
                 <div class="dropdown">
-                    <button class="btn btn-warning text-white btn-sm dropdown-toggle d-flex align-items-center"
+                    <button class="btn btn-sm espace-user-btn dropdown-toggle d-flex align-items-center"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                        <div class="bg-light text-danger rounded-circle d-flex align-items-center justify-content-center me-2"
-                             style="width: 28px; height: 28px; font-size: 12px;">
-                            {{ mb_substr(auth()->user()->name, 0, 1) }}
-                        </div>
+                        <span class="espace-avatar me-2" aria-hidden="true">{{ mb_substr(auth()->user()->name, 0, 1) }}</span>
                         <span class="d-none d-xl-inline">{{ auth()->user()->name }}</span>
                     </button>
 
@@ -565,8 +267,91 @@
                         </li>
                     </ul>
                 </div>
-
             </div>
         </div>
     </div>
 </nav>
+
+@once
+@push('scripts')
+<script>
+    /*
+     * Menu de l'administration : sous-menus de niveau 3.
+     * - Ordinateur : ouverture au survol ; le clic ouvre / ferme aussi (tablettes).
+     * - Mobile : clic = déplier sous le module (accordéon).
+     * - Clavier : Entrée / Espace ouvre, flèche droite ouvre et entre, flèche gauche / Échap referme.
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        var menu = document.querySelector('.espace-admin-menu');
+        if (!menu) return;
+
+        var grandEcran = function () { return window.innerWidth >= 992; };
+
+        function fermerTout(sauf) {
+            menu.querySelectorAll('.espace-submenu.is-open').forEach(function (li) {
+                if (li !== sauf) {
+                    li.classList.remove('is-open', 'open-left');
+                    li.querySelector('.espace-submenu-toggle').setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
+
+        function ouvrir(li, ouvert) {
+            fermerTout(li);
+            li.classList.toggle('is-open', ouvert);
+            li.querySelector('.espace-submenu-toggle').setAttribute('aria-expanded', ouvert ? 'true' : 'false');
+
+            // Sous-menu trop près du bord droit de l'écran : il s'ouvre à gauche
+            li.classList.remove('open-left');
+            if (ouvert && grandEcran()) {
+                var r = li.querySelector('.espace-menu-l3').getBoundingClientRect();
+                if (r.right > window.innerWidth - 8) li.classList.add('open-left');
+            }
+        }
+
+        menu.querySelectorAll('.espace-submenu').forEach(function (li) {
+            var bouton = li.querySelector('.espace-submenu-toggle');
+
+            bouton.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                ouvrir(li, !li.classList.contains('is-open'));
+            });
+
+            li.addEventListener('mouseenter', function () { if (grandEcran()) ouvrir(li, true); });
+            li.addEventListener('mouseleave', function () { if (grandEcran()) ouvrir(li, false); });
+
+            bouton.addEventListener('keydown', function (e) {
+                if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    ouvrir(li, true);
+                    var premier = li.querySelector('.espace-menu-l3 a');
+                    if (premier) premier.focus();
+                }
+            });
+
+            li.querySelector('.espace-menu-l3').addEventListener('keydown', function (e) {
+                if (e.key === 'ArrowLeft' || e.key === 'Escape') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    ouvrir(li, false);
+                    bouton.focus();
+                }
+            });
+        });
+
+        // Un menu déroulant qui se ferme referme aussi ses sous-menus ;
+        // sur mobile, il s'ouvre avec le module de la page en cours déjà déplié
+        menu.querySelectorAll('.dropdown').forEach(function (dd) {
+            dd.addEventListener('hidden.bs.dropdown', function () { fermerTout(null); });
+            dd.addEventListener('shown.bs.dropdown', function () {
+                if (!grandEcran()) {
+                    var courant = dd.querySelector('.espace-submenu.is-current');
+                    if (courant) ouvrir(courant, true);
+                }
+            });
+        });
+    });
+</script>
+@endpush
+@endonce

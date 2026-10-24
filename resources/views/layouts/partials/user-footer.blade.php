@@ -1,13 +1,11 @@
-<footer class="mt-5"
-        style="border-top:20px solid #ffffff;border-bottom:20px solid #ffffff;background:linear-gradient(129deg, #e9f7fa 85%, #4aabca 0);background-attachment:fixed;background-position:top;">
+<footer class="espace-footer espace-footer--member mt-5">
 
     <div class="container-fluid py-4">
         <div class="row g-4">
 
             {{-- Contenus --}}
             <div class="col-lg-4 col-md-6">
-                <h6 class="footer-heading mb-3"
-                    style="background-color:#4aabca;display:block;padding:10px 5px;color:white;">
+                <h6 class="footer-heading mb-3">
                     <i class="fas fa-book-open me-2"></i>Contenus
                 </h6>
                 <ul class="footer-links list-unstyled">
@@ -31,8 +29,7 @@
 
             {{-- Ressources --}}
             <div class="col-lg-4 col-md-6">
-                <h6 class="footer-heading mb-3"
-                    style="background-color:#4aabca;display:block;padding:10px 5px;color:white;">
+                <h6 class="footer-heading mb-3">
                     <i class="fas fa-photo-video me-2"></i>Ressources
                 </h6>
                 <ul class="footer-links list-unstyled">
@@ -56,8 +53,7 @@
 
             {{-- Mon espace --}}
             <div class="col-lg-4 col-md-6">
-                <h6 class="footer-heading mb-3"
-                    style="background-color:#4aabca;display:block;padding:10px 5px;color:white;">
+                <h6 class="footer-heading mb-3">
                     <i class="fas fa-user me-2"></i>Mon espace
                 </h6>
                 <ul class="footer-links list-unstyled">
@@ -82,8 +78,7 @@
         </div>
 
         {{-- Barre basse --}}
-        <div class="row mt-4 pt-4 border-top"
-             style="background-color:#2f80b8 !important;padding-bottom:20px;color:#000000;background:linear-gradient(131deg, #4babca 85%, #e9f7fa 0);background-attachment:fixed;">
+        <div class="row mt-4 pt-4 espace-footer-bottom">
             <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                 <p class="mb-1 text-white">
                     <i class="fas fa-copyright me-1"></i>

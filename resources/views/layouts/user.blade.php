@@ -7,14 +7,13 @@
     <title>@yield('title') - Espace Utilisateur</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    @include('layouts.partials.espace-head')
     @stack('styles')
 </head>
-<body style="background-color: #fafaf5;">
+<body class="espace espace--member">
     @include('layouts.partials.user-header')
     
     @if(session('success') || session('error') || session('warning'))
