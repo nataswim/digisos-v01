@@ -46,6 +46,26 @@
                             <div class="form-text">Collez l'adresse complète ; « https:// » est ajouté s'il manque.</div>
                         </div>
 
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="facebook_url" class="form-label fw-semibold">
+                                    <i class="fab fa-facebook-f fa-fw me-1" aria-hidden="true"></i>Facebook <span class="text-muted fw-normal">(facultatif)</span>
+                                </label>
+                                <input type="text" id="facebook_url" name="facebook_url" maxlength="500" inputmode="url"
+                                       class="form-control @error('facebook_url') is-invalid @enderror"
+                                       value="{{ old('facebook_url', $link->facebook_url) }}" placeholder="https://www.facebook.com/…">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="instagram_url" class="form-label fw-semibold">
+                                    <i class="fab fa-instagram fa-fw me-1" aria-hidden="true"></i>Instagram <span class="text-muted fw-normal">(facultatif)</span>
+                                </label>
+                                <input type="text" id="instagram_url" name="instagram_url" maxlength="500" inputmode="url"
+                                       class="form-control @error('instagram_url') is-invalid @enderror"
+                                       value="{{ old('instagram_url', $link->instagram_url) }}" placeholder="https://www.instagram.com/…">
+                            </div>
+                            <div class="col-12 form-text mt-1">Les icônes s'affichent sur la carte du lien seulement si l'adresse est renseignée.</div>
+                        </div>
+
                         <div class="mb-3">
                             <label for="description" class="form-label fw-semibold">Description <span class="text-muted fw-normal">(facultatif)</span></label>
                             <textarea id="description" name="description" rows="3" maxlength="1000"

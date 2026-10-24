@@ -93,6 +93,22 @@
                                             <p class="text-muted mb-3">{{ $link->description }}</p>
                                         @endif
 
+                                        @if (count($link->social_links))
+                                            {{-- Au-dessus du lien « carte entière » pour rester cliquables --}}
+                                            <ul class="links-social list-unstyled d-flex gap-2 mb-3">
+                                                @foreach ($link->social_links as $reseau)
+                                                    <li>
+                                                        <a href="{{ $reseau['url'] }}" target="_blank" rel="noopener"
+                                                           class="links-social-btn links-social-btn--{{ $reseau['class'] }}"
+                                                           title="{{ $reseau['label'] }} — {{ $link->title }}">
+                                                            <i class="{{ $reseau['icon'] }}" aria-hidden="true"></i>
+                                                            <span class="visually-hidden">{{ $reseau['label'] }} de {{ $link->title }} (nouvel onglet)</span>
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+
                                         @if (count($link->keyword_list))
                                             <p class="mt-auto mb-0 d-flex flex-wrap gap-1">
                                                 <span class="visually-hidden">Mots-clés :</span>
@@ -241,6 +257,39 @@
         word-break: break-all;
     }
 
+    .links-social {
+        position: relative;
+        z-index: 2;   /* devant le lien qui couvre la carte */
+    }
+
+    .links-social-btn {
+        display: inline-flex;
+        width: 38px;
+        height: 38px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 1.05rem;
+        text-decoration: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .links-social-btn--facebook { background: #1877f2; }
+    .links-social-btn--instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285aeb 90%); }
+
+    .links-social-btn:hover,
+    .links-social-btn:focus {
+        color: #fff;
+        transform: scale(1.08);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .links-social-btn:focus-visible {
+        outline: 3px solid #f9be38;
+        outline-offset: 2px;
+    }
+
     .links-keyword {
         display: inline-block;
         padding: 0.15rem 0.6rem;
@@ -252,7 +301,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-        .links-card { transition: none; }
+        .links-card, .links-social-btn { transition: none; }
         .links-card:hover, .links-card:focus-within { transform: none; }
     }
 </style>

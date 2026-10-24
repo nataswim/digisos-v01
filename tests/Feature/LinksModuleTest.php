@@ -76,7 +76,8 @@ class LinksModuleTest extends TestCase
         $link = Link::firstOrFail();
         $this->assertSame('https://www.ffnatation.fr', $link->url);
 
-        $this->actingAs($admin)->get('/admin/liens-utiles/liens')->assertOk()->assertSee('FFN')->assertSee('ffnatation.fr');
+        $this->actingAs($admin)->get('/admin/liens-utiles/liens')->assertOk()->assertSee('FFN')->assertSee('ffnatation.fr')
+            ->assertSee('Ajouter un lien')->assertSee(route('admin.links.items.create'), false);   // bien la page d'administration
         $this->actingAs($admin)->get('/admin/liens-utiles/liens?q=licence')->assertOk()->assertSee('ffnatation.fr');
         $this->actingAs($admin)->get('/admin/liens-utiles/liens?q=introuvable')->assertOk()->assertSee('Aucun lien ne correspond');
 
