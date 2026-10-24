@@ -1,104 +1,83 @@
-@extends('layouts.editor')
+@extends('layouts.public')
 
-@section('title', 'Dashboard Éditeur')
+@section('title', 'Mon espace éditeur')
 
 @section('content')
 
-<!-- Titre Section -->
-<section class="position-relative text-white overflow-hidden">
-<div class="card bg-secondary  p-3 border-0 shadow-sm mb-4">
-            <div class="d-flex justify-content-between align-items-center mb-4 card-header bg-white p-4">
-                <h2 class="mb-0 text-white ">  <i class="fas fa-water me-2"></i>
-                Tableau de bord - <Editeur->{{ auth()->user()->name }}</Editeur-></h2>
-        
-            </div>
+<div class="container-lg py-5">
+
+    {{-- En-tête --}}
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+            <h1 class="h2 fw-bold mb-1">Bonjour {{ $user->first_name ?: $user->name }}</h1>
+            <p class="text-muted mb-0">Bienvenue dans votre espace éditeur.</p>
         </div>
-</section>
-
-<div class="container-fluid">
-
-    <div class="row g-4 mt-2">
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm text-center h-100">
-                <div class="card-body">
-                    <i class="fas fa-file-alt fa-3x text-secondary mb-3"></i>
-                    <h5>Articles</h5>
-                    <p class="text-muted mb-3">Créer, modifier et publier des articles</p>
-                    <a href="{{ route('editor.posts.index') }}" class="btn btn-outline-primary">
-                        Gérer mes articles
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm text-center h-100">
-                <div class="card-body">
-                    <i class="fas fa-file-medical fa-3x text-secondary mb-3"></i>
-                    <h5>Fiches</h5>
-                    <p class="text-muted mb-3">Créer et gérer des fiches</p>
-                    <a href="{{ route('editor.fiches.index') }}" class="btn btn-outline-primary">
-                        Gérer mes fiches
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm text-center h-100">
-                <div class="card-body">
-                    <i class="fas fa-video fa-3x text-secondary mb-3"></i>
-                    <h5>Vidéos</h5>
-                    <p class="text-muted mb-3">Uploader et gérer des vidéos</p>
-                    <a href="{{ route('editor.videos.index') }}" class="btn btn-outline-primary">
-                        Gérer mes vidéos
-                    </a>
-                </div>
-            </div>
+        <div class="d-flex flex-wrap gap-2">
+            @if (Route::has('editor.posts.create'))
+                <a href="{{ route('editor.posts.create') }}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2" aria-hidden="true"></i>Écrire un article
+                </a>
+            @endif
+            <a href="{{ route('profile.edit') }}" class="btn btn-outline-primary">
+                <i class="fas fa-user-edit me-2" aria-hidden="true"></i>Mon profil
+            </a>
         </div>
     </div>
 
-    <div class="row g-4 mt-2">
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm text-center h-100">
-                <div class="card-body">
-                    <i class="fas fa-copy fa-3x text-secondary mb-3"></i>
-                    <h5>Pages</h5>
-                    <p class="text-muted mb-3">Créer, modifier et publier des pages</p>
-                    <a href="{{ route('editor.pages.index') }}" class="btn btn-outline-primary">
-                        Gérer mes pages
-                    </a>
-                </div>
-            </div>
-        </div>
+    {{-- Statut du compte --}}
+    @include('layouts.partials.espace-accueil-statut', [
+        'icon' => 'fa-pen-nib',
+        'variante' => 'editeur',
+        'titre' => 'Vous êtes éditeur du site.',
+        'texte' => 'Vous pouvez rédiger et mettre à jour les contenus du club : articles, pages, fiches, vidéos, galeries, compétitions et planning.',
+    ])
 
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm text-center h-100">
-                <div class="card-body">
-                    <i class="fas fa-images fa-3x text-secondary mb-3"></i>
-                    <h5>Albums</h5>
-                    <p class="text-muted mb-3">Créer et gérer des galleries</p>
-                    <a href="{{ route('editor.photo-galleries.index') }}" class="btn btn-outline-primary">
-                        Gérer mes galleries
-                    </a>
-                </div>
-            </div>
-        </div>
+    {{-- Outils de l'éditeur --}}
+    @include('layouts.partials.espace-accueil-tuiles', ['titre' => "Mes outils d'éditeur", 'tuiles' => [
+        ['icon' => 'fa-newspaper', 'titre' => 'Articles', 'texte' => 'Rédiger et publier les actualités.', 'route' => 'editor.posts.index',
+            'badge' => $drafts->count() ? $drafts->count() . ' brouillon' . ($drafts->count() > 1 ? 's' : '') : null],
+        ['icon' => 'fa-copy', 'titre' => 'Pages', 'texte' => 'Les pages du club.', 'route' => 'editor.pages.index'],
+        ['icon' => 'fa-file-alt', 'titre' => 'Fiches', 'texte' => 'Les fiches pratiques.', 'route' => 'editor.fiches.index'],
+        ['icon' => 'fa-video', 'titre' => 'Vidéos', 'texte' => 'Les vidéos du club.', 'route' => 'editor.videos.index'],
+        ['icon' => 'fa-images', 'titre' => 'Galeries photos', 'texte' => 'Les albums photos.', 'route' => 'editor.photo-galleries.index'],
+        ['icon' => 'fa-photo-video', 'titre' => 'Médiathèque', 'texte' => 'Images et fichiers.', 'route' => 'editor.media.index'],
+        ['icon' => 'fa-trophy', 'titre' => 'Compétitions', 'texte' => 'Le calendrier et les convocations.', 'route' => 'editor.competitions.index'],
+        ['icon' => 'fa-clock', 'titre' => 'Planning', 'texte' => 'Créneaux, groupes et nageurs.', 'route' => 'editor.planning.slots.index'],
+        ['icon' => 'fa-handshake', 'titre' => 'Partenaires', 'texte' => 'Les partenaires du club.', 'route' => 'editor.partners.index'],
+        ['icon' => 'fa-chart-line', 'titre' => 'Statistiques', 'texte' => 'La fréquentation des contenus.', 'route' => 'editor.stats'],
+    ]])
 
+    {{-- Mes brouillons --}}
+    @if ($drafts->isNotEmpty() && Route::has('editor.posts.edit'))
+        <section class="mb-5" aria-labelledby="titre-brouillons">
+            <h2 id="titre-brouillons" class="h4 fw-bold mb-3">
+                <i class="fas fa-pencil-alt me-2 text-primary" aria-hidden="true"></i>Mes brouillons
+            </h2>
+            <ul class="list-group shadow-sm">
+                @foreach ($drafts as $draft)
+                    <li class="list-group-item d-flex flex-wrap align-items-center justify-content-between gap-2">
+                        <span>
+                            <span class="fw-semibold">{{ $draft->name }}</span>
+                            <small class="text-muted ms-2">modifié le {{ $draft->updated_at?->format('d/m/Y') }}</small>
+                        </span>
+                        <a href="{{ route('editor.posts.edit', $draft) }}" class="btn btn-sm btn-outline-primary">
+                            Continuer<span class="visually-hidden"> : {{ $draft->name }}</span>
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        </section>
+    @endif
 
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm text-center h-100">
-                <div class="card-body">
-                    <i class="fas fa-photo-video fa-3x text-secondary mb-3"></i>
-                    <h5>Médiathèque</h5>
-                    <p class="text-muted mb-3">Uploader et gérer des images</p>
-                    <a href="{{ route('editor.media.index') }}" class="btn btn-outline-primary">
-                        Gérer les Médias
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{-- Le club --}}
+    @include('layouts.partials.espace-accueil-tuiles', ['titre' => 'Le club', 'tuiles' => [
+        ['icon' => 'fa-handshake', 'titre' => 'Nos partenaires', 'texte' => 'Les entreprises et collectivités qui soutiennent le club.', 'route' => 'partners.index'],
+        ['icon' => 'fa-hand-holding-heart', 'titre' => 'Devenir mécène', 'texte' => "Soutenez le club et bénéficiez d'une réduction d'impôt.", 'route' => 'support.mecenat'],
+        ['icon' => 'fa-heart', 'titre' => 'Faire un don', 'texte' => 'Un don par chèque ou par virement, avec reçu fiscal.', 'route' => 'support.donation'],
+        ['icon' => 'fa-calendar-alt', 'titre' => 'Calendrier', 'texte' => 'Les compétitions et événements à venir.', 'route' => 'competitions.index'],
+    ]])
 
+    {{-- 4 derniers articles, fiches et pages publiés --}}
+    @include('layouts.partials.espace-accueil-contenus')
 </div>
 @endsection

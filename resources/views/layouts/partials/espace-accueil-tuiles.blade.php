@@ -1,6 +1,6 @@
 {{--
     Grille de 4 tuiles de liens pour l'accueil d'un espace (visiteur, adhérent).
-    Paramètres : titre, masquerTitre (bool), tuiles = [[icon, titre, texte, route], …]
+    Paramètres : titre, masquerTitre (bool), tuiles = [[icon, titre, texte, route, badge (facultatif)], …]
     Une tuile dont la route n'existe pas est ignorée.
 --}}
 @php
@@ -19,6 +19,9 @@
                             <span class="espace-tuile-icon mb-3" aria-hidden="true"><i class="fas {{ $t['icon'] }}"></i></span>
                             <span class="h5 fw-bold mb-2">{{ $t['titre'] }}</span>
                             <span class="small text-muted d-none d-sm-block">{{ $t['texte'] }}</span>
+                            @if (! empty($t['badge']))
+                                <span class="badge rounded-pill espace-tuile-badge mt-2">{{ $t['badge'] }}</span>
+                            @endif
                         </span>
                     </a>
                 </li>
@@ -37,6 +40,7 @@
         display: inline-flex; width: 60px; height: 60px; border-radius: 50%;
         align-items: center; justify-content: center; background: #E0F2FE; color: #0090D4; font-size: 1.5rem;
     }
+    .espace-tuile-badge { background: #FBF6EC; color: #7a5518; font-weight: 600; }
     @media (prefers-reduced-motion: reduce) {
         .espace-tuile, .espace-tuile:hover { transition: none; transform: none; }
     }

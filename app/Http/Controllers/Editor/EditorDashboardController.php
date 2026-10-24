@@ -2,53 +2,34 @@
 
 namespace App\Http\Controllers\Editor;
 
+use App\Http\Controllers\Concerns\LatestContent;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
-use App\Models\Fiche;
-use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
+/**
+ * Espace éditeur : accueil dans la mise en page du site public (menu, bandeau boutique, pied de page),
+ * statut « éditeur », outils de l'éditeur, brouillons en cours, accès rapides du club
+ * et derniers contenus publiés (y compris ceux réservés aux adhérents).
+ * Les pages de gestion (articles, fiches, médiathèque…) gardent la mise en page de l'espace éditeur.
+ */
 class EditorDashboardController extends Controller
 {
+    use LatestContent;
+
     public function index(Request $request): View
     {
-        if (!$request->user()->hasRole('editor') && !$request->user()->hasRole('admin')) {
-            abort(403, 'Accès non autorisé. Vous devez avoir le rôle Éditeur.');
-        }
-
         $user = $request->user();
 
-        $stats = [
-            'total_posts' => Post::count(),
-            'my_posts' => Post::where('created_by', $user->id)->count(),
-            'published_posts' => Post::where('status', 'published')->count(),
-            'draft_posts' => Post::where('status', 'draft')->count(),
-            'my_draft_posts' => Post::where('created_by', $user->id)
-                                   ->where('status', 'draft')
-                                   ->count(),
-            'total_fiches' => Fiche::count(),
-            'my_fiches' => Fiche::where('created_by', $user->id)->count(),
-            'total_videos' => Video::count(),
-            'my_videos' => Video::where('created_by', $user->id)->count(),
-        ];
+        try {
+            $drafts = Post::where('created_by', $user->id)->where('status', 'draft')
+                ->latest('updated_at')->limit(5)->get();
+        } catch (\Throwable $e) {
+            report($e);
+            $drafts = collect();
+        }
 
-        $drafts = Post::where('created_by', $user->id)
-                     ->where('status', 'draft')
-                     ->orderBy('updated_at', 'desc')
-                     ->take(5)
-                     ->get();
-
-        $recentPosts = Post::where('created_by', $user->id)
-                          ->orderBy('created_at', 'desc')
-                          ->take(5)
-                          ->get();
-
-        $activity = Post::where('created_by', $user->id)
-                       ->orderBy('updated_at', 'desc')
-                       ->take(10)
-                       ->get();
-
-        return view('editor.dashboard', compact('stats', 'drafts', 'recentPosts', 'activity'));
+        return view('editor.dashboard', ['user' => $user, 'drafts' => $drafts] + $this->latestContent(membres: true));
     }
 }
