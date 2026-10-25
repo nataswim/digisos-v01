@@ -7,6 +7,15 @@ use Illuminate\Validation\Rules;
 
 class RegisterRequest extends FormRequest
 {
+    /** Lien avec le club, proposé à l'inscription : [libellé, précision, icône] */
+    public const PROFILES = [
+        'nageur' => ['Adhérent nageur', 'Nageur licencié au club', 'fa-person-swimming'],
+        'ecole' => ['École de natation', "Parent d'un enfant de l'école de natation", 'fa-children'],
+        'maitres' => ['Maîtres', 'Nageur adulte de la section Maîtres', 'fa-medal'],
+        'partenaire' => ['Partenaire', 'Entreprise ou collectivité partenaire du club', 'fa-handshake'],
+        'benevole' => ['Bénévole', 'Officiel, dirigeant, accompagnateur…', 'fa-hands-helping'],
+    ];
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -34,10 +43,17 @@ class RegisterRequest extends FormRequest
 
             // Étape 3 : Coordonnées et profil
             'phone' => ['required', 'string', 'regex:/^(\+33|0)[1-9](\d{2}){4}$/'],
-            'bio' => ['required', 'string', 'max:500'], // Augmenté car plusieurs options peuvent être sélectionnées
-            'bio_options' => ['nullable', 'array'], // Optionnel car géré via JavaScript
-            'bio_other_text' => ['nullable', 'string', 'max:100'],
+            'profiles' => ['required', 'array', 'min:1'],
+            'profiles.*' => ['string', \Illuminate\Validation\Rule::in(array_keys(self::PROFILES))],
         ];
+    }
+
+    /** « Adhérent nageur | Bénévole » : enregistré dans le champ bio du compte. */
+    public function profileSummary(): string
+    {
+        return collect($this->input('profiles', []))
+            ->map(fn ($key) => self::PROFILES[$key][0] ?? null)
+            ->filter()->unique()->implode(' | ');
     }
 
     public function messages(): array
@@ -47,7 +63,9 @@ class RegisterRequest extends FormRequest
             'username.unique' => 'Ce nom d\'utilisateur est déjà utilisé.',
             'date_of_birth.before' => 'Vous devez avoir au moins 17 ans pour vous inscrire.',
             'phone.regex' => 'Le numéro de téléphone doit être au format français valide (ex: 0612345678 ou +33612345678).',
-            'bio.required' => 'Veuillez sélectionner au moins une option de profil.',
+            'profiles.required' => 'Indiquez votre lien avec le club (au moins une case).',
+            'profiles.min' => 'Indiquez votre lien avec le club (au moins une case).',
+            'profiles.*.in' => 'Choix de profil invalide.',
         ];
     }
 
@@ -65,7 +83,7 @@ class RegisterRequest extends FormRequest
             'last_name' => 'nom',
             'date_of_birth' => 'date de naissance',
             'phone' => 'téléphone',
-            'bio' => 'biographie',
+            'profiles' => 'lien avec le club',
         ];
     }
 }

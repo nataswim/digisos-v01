@@ -1,13 +1,34 @@
 @extends('layouts.public')
 
+@section('title', 'Créer mon compte')
+
 @section('content')
 <div class="min-vh-100 d-flex align-items-center bg-light py-5">
     <div class="container">
         <div class="row justify-content-center" style="margin-top: 30px; margin-bottom: 30px;">
             <div class="col-lg-8 col-md-10">
                 <div class="card border-0 shadow-lg">
-                    <div class="card-body p-5">
-                        
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <img src="{{ asset('assets/images/logo/cnbb-logo-800.png') }}" alt="" style="max-width: 160px" class="d-block mx-auto mb-3">
+                            <h1 class="h3 fw-bold mb-1">Créer mon compte</h1>
+                            <p class="text-muted mb-0">Cercle des Nageurs du Bocage Bressuirais</p>
+                        </div>
+
+                        <div class="register-notice mb-4" role="note">
+                            <i class="fas fa-lock" aria-hidden="true"></i>
+                            <div>
+                                <p class="fw-bold mb-1">L'inscription et l'utilisation des outils du site sont réservées aux adhérents du club.</p>
+                                <p class="mb-1">
+                                    Après la création de votre compte, un administrateur vérifie votre adhésion avant de vous donner accès
+                                    à l'espace adhérent (séances, convocations, assiduité, documents…).
+                                </p>
+                                <p class="mb-0 small">
+                                    Pour un nageur mineur, le compte est créé par un parent ; l'entraîneur ou le secrétariat y rattache ensuite l'enfant.
+                                    Pas encore adhérent ? Consultez <a href="{{ route('pricing') }}">les inscriptions au club</a> ou <a href="{{ route('contact') }}">contactez-nous</a>.
+                                </p>
+                            </div>
+                        </div>
 
                         <form method="POST" action="{{ route('register') }}" id="registerForm">
                             @csrf
@@ -196,197 +217,33 @@
                                 </div>
                             </div>
 
-                            <!-- SECTION 3 : Profil utilisateur -->
-                            <div class="mb-5">
-                                <h5 class="fw-bold mb-3 pb-2 border-bottom text-primary">
-                                    <i class="fas fa-address-card me-2"></i>Votre profil
-                                </h5>
+                            <!-- SECTION 3 : Lien avec le club -->
+                            <fieldset class="mb-5">
+                                <legend class="h5 fw-bold mb-3 pb-2 border-bottom text-primary w-100">
+                                    <i class="fas fa-address-card me-2" aria-hidden="true"></i>Votre lien avec le club
+                                </legend>
+                                <p class="fw-semibold mb-1">Vous êtes… <span class="text-danger" aria-hidden="true">*</span></p>
+                                <p class="text-muted small mb-3" id="profils-aide">Cochez une ou plusieurs cases.</p>
 
-                                <!-- Profil utilisateur (Choix multiples) -->
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold">
-                                        Sélectionnez votre profil <span class="text-danger">*</span>
-                                    </label>
-                                    <small class="text-muted d-block mb-3">
-                                        Sélectionnez une ou plusieurs options qui vous correspondent
-                                    </small>
-
-                                    <div class="card border-0 bg-light">
-                                        <div class="card-body p-3">
-                                            <div class="row g-2">
-                                                <!-- Option 1 -->
-                                                <div class="col-12">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input bio-checkbox" type="checkbox"
-                                                            name="bio_options[]" value="Entraîneur / Coach (sportif, personnel, mental, etc.)"
-                                                            id="bio1" {{ in_array('Entraîneur / Coach (sportif, personnel, mental, etc.)', old('bio_options', [])) ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="bio1">
-                                                            <i class="fas fa-dumbbell text-primary me-2"></i>
-                                                            Je suis Entraîneur / Coach (sportif, personnel, mental, etc.)
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Option 2 -->
-                                                <div class="col-12">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input bio-checkbox" type="checkbox"
-                                                            name="bio_options[]" value="Enseignant / Professeur (EPS, universitaire, scolaire)"
-                                                            id="bio2" {{ in_array('Enseignant / Professeur (EPS, universitaire, scolaire)', old('bio_options', [])) ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="bio2">
-                                                            <i class="fas fa-chalkboard-teacher text-success me-2"></i>
-                                                            Je suis Enseignant / Professeur (EPS, universitaire, scolaire)
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Option 3 -->
-                                                <div class="col-12">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input bio-checkbox" type="checkbox"
-                                                            name="bio_options[]" value="Dirigeant / Manager (club, association, fédération, structure privée)"
-                                                            id="bio3" {{ in_array('Dirigeant / Manager (club, association, fédération, structure privée)', old('bio_options', [])) ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="bio3">
-                                                            <i class="fas fa-users-cog text-info me-2"></i>
-                                                            Je suis Dirigeant / Manager (club, association, fédération, structure privée)
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Option 4 -->
-                                                <div class="col-12">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input bio-checkbox" type="checkbox"
-                                                            name="bio_options[]" value="Sportif / Athlète (professionnel ou amateur de haut niveau)"
-                                                            id="bio4" {{ in_array('Sportif / Athlète (professionnel ou amateur de haut niveau)', old('bio_options', [])) ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="bio4">
-                                                            <i class="fas fa-medal text-warning me-2"></i>
-                                                            Je suis Sportif / Athlète (professionnel ou amateur de haut niveau)
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Option 5 -->
-                                                <div class="col-12">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input bio-checkbox" type="checkbox"
-                                                            name="bio_options[]" value="Pratiquant régulier / Amateur"
-                                                            id="bio5" {{ in_array('Pratiquant régulier / Amateur', old('bio_options', [])) ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="bio5">
-                                                            <i class="fas fa-running text-secondary me-2"></i>
-                                                            Je suis Pratiquant régulier / Amateur
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Option 6 -->
-                                                <div class="col-12">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input bio-checkbox" type="checkbox"
-                                                            name="bio_options[]" value="Étudiant / Stagiaire (formation initiale ou continue)"
-                                                            id="bio6" {{ in_array('Étudiant / Stagiaire (formation initiale ou continue)', old('bio_options', [])) ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="bio6">
-                                                            <i class="fas fa-graduation-cap text-primary me-2"></i>
-                                                            Je suis Étudiant / Stagiaire (formation initiale ou continue)
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Option 7 -->
-                                                <div class="col-12">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input bio-checkbox" type="checkbox"
-                                                            name="bio_options[]" value="Professionnel en formation continue"
-                                                            id="bio7" {{ in_array('Professionnel en formation continue', old('bio_options', [])) ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="bio7">
-                                                            <i class="fas fa-user-graduate text-success me-2"></i>
-                                                            Je suis Professionnel en formation continue
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Option 8 -->
-                                                <div class="col-12">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input bio-checkbox" type="checkbox"
-                                                            name="bio_options[]" value="Chercheur / Consultant / Expert (dans le domaine du sport ou de la performance)"
-                                                            id="bio8" {{ in_array('Chercheur / Consultant / Expert (dans le domaine du sport ou de la performance)', old('bio_options', [])) ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="bio8">
-                                                            <i class="fas fa-microscope text-info me-2"></i>
-                                                            Je suis Chercheur / Consultant / Expert (dans le domaine du sport ou de la performance)
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Option 9 -->
-                                                <div class="col-12">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input bio-checkbox" type="checkbox"
-                                                            name="bio_options[]" value="À la recherche de ressources (veille, connaissances, outils professionnels)"
-                                                            id="bio9" {{ in_array('À la recherche de ressources (veille, connaissances, outils professionnels)', old('bio_options', [])) ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="bio9">
-                                                            <i class="fas fa-search text-warning me-2"></i>
-                                                            Je suis à la recherche de ressources (veille, connaissances, outils professionnels)
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Option 10 -->
-                                                <div class="col-12">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input bio-checkbox" type="checkbox"
-                                                            name="bio_options[]" value="Professionnel de santé (kinésithérapeute, préparateur physique, médecin du sport, nutritionniste)"
-                                                            id="bio10" {{ in_array('Professionnel de santé (kinésithérapeute, préparateur physique, médecin du sport, nutritionniste)', old('bio_options', [])) ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="bio10">
-                                                            <i class="fas fa-heartbeat text-danger me-2"></i>
-                                                            Je suis Professionnel de santé (kinésithérapeute, préparateur physique, médecin du sport, nutritionniste)
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Option 11 : Autre -->
-                                                <div class="col-12">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            name="bio_other_checkbox" value="1"
-                                                            id="bio_other_checkbox"
-                                                            {{ old('bio_other_text') ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="bio_other_checkbox">
-                                                            <i class="fas fa-edit text-muted me-2"></i>
-                                                            Autre (à préciser)
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Champ texte "Autre" -->
-                                                <div class="col-12" id="bio_other_container" style="display: none;">
-                                                    <input type="text" name="bio_other_text" id="bio_other_text"
-                                                        class="form-control mt-2"
-                                                        placeholder="Précisez votre profil..."
-                                                        maxlength="100"
-                                                        value="{{ old('bio_other_text') }}">
-                                                    <small class="text-muted">Maximum 100 caractères</small>
-                                                </div>
-                                            </div>
-
-                                            @error('bio_options')
-                                            <div class="text-danger mt-2 small">{{ $message }}</div>
-                                            @enderror
-
-                                            @error('bio_other_text')
-                                            <div class="text-danger mt-2 small">{{ $message }}</div>
-                                            @enderror
+                                <div class="row g-2" aria-describedby="profils-aide">
+                                    @foreach (\App\Http\Requests\Auth\RegisterRequest::PROFILES as $key => [$label, $detail, $icon])
+                                        <div class="col-sm-6">
+                                            <input class="btn-check" type="checkbox" name="profiles[]" value="{{ $key }}" id="profil-{{ $key }}" autocomplete="off"
+                                                   @checked(in_array($key, old('profiles', []), true))>
+                                            <label class="register-profile w-100" for="profil-{{ $key }}">
+                                                <i class="fas {{ $icon }}" aria-hidden="true"></i>
+                                                <span>
+                                                    <span class="fw-bold d-block">{{ $label }}</span>
+                                                    <span class="small text-muted">{{ $detail }}</span>
+                                                </span>
+                                            </label>
                                         </div>
-                                    </div>
-                                    <small class="text-muted">
-                                        <i class="fas fa-info-circle me-1"></i>
-                                        Vous devez sélectionner au moins une option
-                                    </small>
+                                    @endforeach
                                 </div>
-
-                                <!-- Champ caché pour stocker la bio finale -->
-                                <input type="hidden" name="bio" id="bio_hidden">
-                            </div>
+                                @error('profiles')
+                                    <div class="text-danger mt-2 small" role="alert">{{ $message }}</div>
+                                @enderror
+                            </fieldset>
 
                             <!-- Conditions d'utilisation -->
                             <div class="mb-4">
@@ -394,8 +251,9 @@
                                     <input type="checkbox" name="terms" id="terms"
                                         class="form-check-input" required>
                                     <label for="terms" class="form-check-label">
-                                        J'accepte les <a href="{{ route('privacy') }}" target="_blank">conditions d'utilisation</a>
-                                        et la <a href="{{ route('privacy') }}" target="_blank">politique de confidentialité</a>
+                                        Je certifie être adhérent du club (ou parent d'un adhérent) et j'accepte les
+                                        <a href="{{ route('legal') }}" target="_blank" rel="noopener">conditions d'utilisation</a>
+                                        et la <a href="{{ route('privacy') }}" target="_blank" rel="noopener">politique de confidentialité</a>
                                         <span class="text-danger">*</span>
                                     </label>
                                 </div>
@@ -423,62 +281,17 @@
     </div>
 </div>
 
-
-
-
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Gestion du champ "Autre" pour la bio
-        const bioOtherCheckbox = document.getElementById('bio_other_checkbox');
-        const bioOtherContainer = document.getElementById('bio_other_container');
-        const bioOtherText = document.getElementById('bio_other_text');
-
-        if (bioOtherCheckbox) {
-            bioOtherCheckbox.addEventListener('change', function() {
-                if (this.checked) {
-                    bioOtherContainer.style.display = 'block';
-                    bioOtherText.setAttribute('required', 'required');
-                } else {
-                    bioOtherContainer.style.display = 'none';
-                    bioOtherText.removeAttribute('required');
-                    bioOtherText.value = '';
-                }
-            });
-
-            // Initialiser l'affichage au chargement
-            if (bioOtherCheckbox.checked) {
-                bioOtherContainer.style.display = 'block';
-                bioOtherText.setAttribute('required', 'required');
-            }
-        }
-
-        // Avant la soumission du formulaire, construire la bio finale
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            const selectedOptions = [];
-
-            // Récupérer toutes les cases cochées
-            document.querySelectorAll('.bio-checkbox:checked').forEach(checkbox => {
-                selectedOptions.push(checkbox.value);
-            });
-
-            // Ajouter "Autre" si rempli
-            if (bioOtherCheckbox.checked && bioOtherText.value.trim()) {
-                selectedOptions.push('Autre : ' + bioOtherText.value.trim());
-            }
-
-            // Construire la chaîne finale et l'injecter dans le champ caché
-            const bioFinal = selectedOptions.join(' | ');
-            document.getElementById('bio_hidden').value = bioFinal;
-
-            // Validation finale
-            if (!bioFinal) {
-                e.preventDefault();
-                alert('Veuillez sélectionner au moins une option de profil.');
-                return false;
-            }
-        });
-    });
-</script>
 @endsection
+
+@push('styles')
+<style>
+    .register-notice { display: flex; gap: 1rem; padding: 1.1rem 1.25rem; border-radius: 14px; background: #F0F9FF; border-left: 5px solid #0090D4; color: #1d293d; }
+    .register-notice > i { font-size: 1.4rem; color: #0090D4; margin-top: .15rem; }
+    .register-profile { display: flex; gap: .85rem; align-items: center; padding: .85rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; background: #fff; cursor: pointer; transition: border-color .15s, background .15s; }
+    .register-profile > i { width: 2.4rem; height: 2.4rem; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: #E0F2FE; color: #0090D4; }
+    .register-profile:hover { border-color: #90a1b9; }
+    .btn-check:checked + .register-profile { border-color: #0090D4; background: #F0F9FF; }
+    .btn-check:checked + .register-profile > i { background: #0090D4; color: #fff; }
+    .btn-check:focus-visible + .register-profile { outline: 3px solid #0090D4; outline-offset: 2px; }
+</style>
+@endpush

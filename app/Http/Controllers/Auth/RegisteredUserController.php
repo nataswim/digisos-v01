@@ -61,7 +61,7 @@ class RegisteredUserController extends Controller
             
             // Coordonnées et bio
             'phone' => $request->phone,
-            'bio' => $request->bio,
+            'bio' => $request->profileSummary(),     // lien avec le club choisi à l'inscription
             
             // Configuration par défaut
             'role_id' => $visitorRole->id,
@@ -74,7 +74,8 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false))
-            ->with('success', 'Bienvenue ! Votre compte a été créé avec succès.');
+        // La route « dashboard » de Breeze n'existe pas : nouveau compte = visiteur en attente de validation
+        return redirect()->route('visitor.dashboard')
+            ->with('success', 'Bienvenue ! Votre compte a été créé. Un administrateur va vérifier votre adhésion.');
     }
 }
