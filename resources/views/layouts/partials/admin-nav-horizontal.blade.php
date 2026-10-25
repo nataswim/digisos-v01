@@ -82,6 +82,7 @@
                 ['label' => 'Compétitions', 'icon' => 'fa-trophy', 'links' => [
                     ['Calendrier', 'fa-list', 'admin.competitions.index', ['admin.competitions.index', 'admin.competitions.edit', 'admin.competitions.entries.*', 'admin.competitions.program.*'], fn () => \App\Models\Competition::whereDate('ends_on', '>=', today())->count()],
                     ['Nouvelle compétition', 'fa-plus', 'admin.competitions.create', ['admin.competitions.create']],
+                    ['Records', 'fa-medal', 'coach.records.index', [], fn () => \App\Models\SwimRecord::count()],
                 ]],
                 ['label' => 'Planning des entraînements', 'icon' => 'fa-calendar-week', 'links' => [
                     ['Créneaux', 'fa-calendar-alt', 'admin.planning.slots.index', ['admin.planning.slots.*'], fn () => \App\Models\PlanningSlot::count()],

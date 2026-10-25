@@ -21,9 +21,11 @@
             ['Groupes', 'fa-layer-group', 'coach.planning.groups.index', 'coach.planning.groups.*'],
             ['Nageurs', 'fa-person-swimming', 'coach.planning.swimmers.index', 'coach.planning.swimmers.*'],
         ]],
-        ['label' => 'Compétitions', 'icon' => 'fa-trophy', 'active' => ['coach.competitions.*'], 'items' => [
+        ['label' => 'Compétitions', 'icon' => 'fa-trophy', 'active' => ['coach.competitions.*', 'coach.records.*'], 'items' => [
             ['Toutes les compétitions', 'fa-list', 'coach.competitions.index', 'coach.competitions.index'],
             ['Nouvelle compétition', 'fa-plus', 'coach.competitions.create', 'coach.competitions.create'],
+            ['Records', 'fa-medal', 'coach.records.index', 'coach.records.index'],
+            ['Importer des records FFN', 'fa-file-import', 'coach.records.import-form', 'coach.records.import*'],
         ]],
         ['label' => 'Suivi', 'icon' => 'fa-clipboard-list', 'route' => 'coach.notes.index', 'active' => ['coach.notes.*']],
         ['label' => 'Documents', 'icon' => 'fa-folder-open', 'route' => 'coach.documents.index', 'active' => ['coach.documents.*']],

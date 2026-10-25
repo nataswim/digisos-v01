@@ -17,6 +17,17 @@
 */
 
 return [
+    /*
+    | Module Records : libellés et zones FFN (idzon d'extraNat) du département et de la région.
+    | CLUB_RECORDS_DEPARTEMENT="des Deux-Sèvres", CLUB_RECORDS_ZONE_DEPARTEMENT=1695 …
+    */
+    'records' => [
+        'departement' => env('CLUB_RECORDS_DEPARTEMENT', 'des Deux-Sèvres'),
+        'region' => env('CLUB_RECORDS_REGION', 'de Nouvelle-Aquitaine'),
+        'zone_departement' => env('CLUB_RECORDS_ZONE_DEPARTEMENT', '1695'),
+        'zone_region' => env('CLUB_RECORDS_ZONE_REGION', '3002'),
+    ],
+
     'dons' => [
         'ordre' => env('CLUB_DON_ORDRE', 'Cercle des Nageurs du Bocage Bressuirais'),
         'adresse' => env('CLUB_DON_ADRESSE', 'CNBB — 40 boulevard de la République, 79300 Bressuire'),

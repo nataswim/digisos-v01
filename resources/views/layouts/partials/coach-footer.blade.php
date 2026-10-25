@@ -13,6 +13,7 @@
                 <h6 class="footer-heading mb-3"><i class="fas fa-trophy me-2" aria-hidden="true"></i>Compétitions</h6>
                 <ul class="footer-links list-unstyled">
                     <li><a href="{{ route('coach.competitions.index') }}" class="footer-link"><i class="fas fa-angle-right me-2" aria-hidden="true"></i>Compétitions et convocations</a></li>
+                    <li><a href="{{ route('coach.records.index') }}" class="footer-link"><i class="fas fa-angle-right me-2" aria-hidden="true"></i>Records</a></li>
                     <li><a href="{{ route('competitions.index') }}" class="footer-link" target="_blank" rel="noopener"><i class="fas fa-angle-right me-2" aria-hidden="true"></i>Calendrier public</a></li>
                 </ul>
             </div>

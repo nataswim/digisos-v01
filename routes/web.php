@@ -110,6 +110,7 @@ Route::get('/revue-de-presse',           [PublicController::class, 'press'])->na
 Route::get('/groupes-et-horaires', PublicPlanningController::class)->name('schedule');
 
 // ========== COMPÉTITIONS (module Compétitions) ==========
+Route::get('/records', [\App\Http\Controllers\PublicRecordController::class, 'index'])->name('records.index');
 Route::get('/competitions',                                        [PublicCompetitionController::class, 'index'])->name('competitions.index');
 Route::get('/competitions.ics',                                    [PublicCompetitionController::class, 'calendar'])->name('competitions.calendar');
 Route::get('/competitions/{competition}',                          [PublicCompetitionController::class, 'show'])->name('competitions.show');

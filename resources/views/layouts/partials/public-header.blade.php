@@ -15,6 +15,7 @@
             'id'       => 'vieDuClubDropdown',
             'children' => [
                 ['label' => 'Actualités',       'icon' => 'fa-newspaper',   'route' => 'posts.public.index',  'active' => ['posts.public.*']],
+                ['label' => 'Records',          'icon' => 'fa-trophy',      'route' => 'records.index',       'active' => ['records.*']],
                 ['label' => 'Infos pratiques',  'icon' => 'fa-info-circle', 'route' => 'public.fiches.index', 'active' => ['public.fiches.*']],
                 ['label' => 'Ressources',       'icon' => 'fa-download',    'route' => 'ebook.index',         'active' => ['ebook.*']],
                 ['label' => 'Liens utiles',     'icon' => 'fa-link',        'route' => 'links.index',         'active' => ['links.*']],

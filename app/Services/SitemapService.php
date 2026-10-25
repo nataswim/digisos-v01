@@ -54,6 +54,7 @@ class SitemapService
         'home'                       => [1.0, 'daily'],
         'posts.public.index'         => [0.9, 'daily'],
         'competitions.index'         => [0.9, 'weekly'],
+        'records.index'              => [0.7, 'monthly'],
         'schedule'                   => [0.9, 'monthly'],
         'pricing'                    => [0.9, 'monthly'],
         'about'                      => [0.8, 'monthly'],

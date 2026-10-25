@@ -13,6 +13,7 @@ use App\Http\Controllers\Coach\CoachDashboardController;
 use App\Http\Controllers\Coach\CoachDocumentController;
 use App\Http\Controllers\Coach\PresenceController;
 use App\Http\Controllers\Coach\SwimmerNoteController;
+use App\Http\Controllers\Coach\SwimRecordController;
 use App\Http\Controllers\Coach\TrainingExerciseController;
 use App\Http\Controllers\Coach\TrainingListController;
 use App\Http\Controllers\Coach\TrainingSessionController;
@@ -45,6 +46,11 @@ Route::middleware(['auth', 'verified', 'can:access-coach'])->prefix('coach')->na
     Route::patch('seances/{training}/publication', [TrainingSessionController::class, 'toggle'])->name('training.toggle');
     Route::post('seances/{training}/dupliquer', [TrainingSessionController::class, 'duplicate'])->name('training.duplicate');
     Route::resource('seances', TrainingSessionController::class)->parameters(['seances' => 'training'])->names('training');
+
+    // Records (club et officiels)
+    Route::get('records/importer', [SwimRecordController::class, 'importForm'])->name('records.import-form');
+    Route::post('records/importer', [SwimRecordController::class, 'import'])->name('records.import');
+    Route::resource('records', SwimRecordController::class)->except(['show'])->parameters(['records' => 'record']);
 
     // Émargement des séances
     Route::get('emargement', [PresenceController::class, 'index'])->name('presence.index');
