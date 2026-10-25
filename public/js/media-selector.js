@@ -3,7 +3,10 @@
 // ========================================
 // Espace de l'utilisateur : les éditeurs n'ont pas accès à /admin, ils passent par /editor
 function mediaSelectorBase() {
-    return window.location.pathname.indexOf('/editor/') === 0 ? '/editor' : '/admin';
+    var path = window.location.pathname;
+    if (path.indexOf('/editor/') === 0) return '/editor';
+    if (path.indexOf('/coach/') === 0) return '/coach';
+    return '/admin';
 }
 
 if (typeof window.MediaFieldSelector === 'undefined') {

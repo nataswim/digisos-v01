@@ -16,7 +16,7 @@ use Illuminate\View\View;
  */
 class AreaPreviewController extends Controller
 {
-    /** Espaces : titre, icône, couleur (public|member|editor), description, liens [libellé, nom de route]. */
+    /** Espaces : titre, icône, couleur (public|member|editor|coach), description, liens [libellé, nom de route]. */
     public const AREAS = [
         'public' => [
             'title' => 'Site public',
@@ -66,6 +66,22 @@ class AreaPreviewController extends Controller
                 ['Ma fiche', 'user.user-profile.show'],
                 ['Mes compétitions', 'user.competitions.index'],
                 ['Modifier mon profil', 'user.profile.edit'],
+            ],
+        ],
+        'coach' => [
+            'title' => 'Espace coachs',
+            'icon' => 'fa-chalkboard-teacher',
+            'class' => 'coach',
+            'text' => 'Entraîneurs : planning, compétitions, suivi des nageurs, documents.',
+            'links' => [
+                ['Tableau de bord', 'coach.dashboard'],
+                ['Planning : créneaux', 'coach.planning.slots.index'],
+                ['Planning : groupes', 'coach.planning.groups.index'],
+                ['Planning : nageurs', 'coach.planning.swimmers.index'],
+                ['Compétitions', 'coach.competitions.index'],
+                ['Suivi des nageurs', 'coach.notes.index'],
+                ['Documents', 'coach.documents.index'],
+                ['Ajouter un document', 'coach.documents.create'],
             ],
         ],
         'editor' => [

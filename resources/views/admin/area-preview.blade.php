@@ -22,7 +22,7 @@
 
     <div class="row g-4">
         @foreach ($areas as $key => $area)
-            <section class="col-12 col-lg-6 {{ $key === 'public' ? 'col-xl-12' : 'col-xl-4' }}" aria-labelledby="espace-{{ $key }}">
+            <section class="col-12 col-lg-6 {{ $key === 'public' ? 'col-xl-12' : 'col-xl-6' }}" aria-labelledby="espace-{{ $key }}">
                 <div class="card border-0 shadow-sm h-100 area-card area-card--{{ $area['class'] }}">
                     <div class="area-card-head">
                         <h2 id="espace-{{ $key }}" class="h5 fw-bold mb-1">
@@ -58,6 +58,7 @@
     .area-card--public .area-card-head { background: #0090D4; color: #fff; }
     .area-card--member .area-card-head { background: #fff; color: #1d293d; border-bottom: 3px solid #0090D4; }
     .area-card--editor .area-card-head { background: #D49F45; color: #020618; }
+    .area-card--coach .area-card-head { background: #0e1655; color: #fff; }
 
     .area-links { display: grid; gap: 0.4rem; }
     .area-card--public .area-links { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }

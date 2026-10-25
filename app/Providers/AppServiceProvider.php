@@ -34,5 +34,10 @@ Gate::define('access-admin', fn (User $user) =>
         $user->status === 'active' && in_array($user->role?->slug, ['admin', 'editor'], true)
     );
 
+    // Espace coachs : coachs et administrateurs
+    Gate::define('access-coach', fn (User $user) =>
+        $user->status === 'active' && in_array($user->role?->slug, ['admin', 'coach'], true)
+    );
+
     }
 }

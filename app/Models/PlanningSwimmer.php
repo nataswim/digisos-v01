@@ -45,6 +45,12 @@ class PlanningSwimmer extends Model
         return $this->hasMany(CompetitionAttendance::class);
     }
 
+    /** Notes de suivi (espace coachs), la plus récente en premier. */
+    public function coachNotes(): HasMany
+    {
+        return $this->hasMany(SwimmerNote::class)->orderByDesc('noted_on')->orderByDesc('id');
+    }
+
     /** Licences FFN importées (une par saison), la plus récente en premier. */
     public function ffnLicenses(): HasMany
     {

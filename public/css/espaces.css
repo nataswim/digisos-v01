@@ -10,6 +10,7 @@
  *    .espace--admin   barre de menu bleu nuit
  *    .espace--editor  barre de menu dorée
  *    .espace--member  barre de menu blanche (adhérents et visiteurs)
+ *    .espace--coach   barre de menu bleu marine (espace coachs)
  *
  *  Polices : Prompt (titres), Plus Jakarta Sans (texte).
  * ==========================================================================
@@ -148,6 +149,15 @@
     --area-hover: rgba(255, 255, 255, 0.28);
     --area-active-bg: var(--c-neutral-950);
     --area-active-fg: #ffffff;
+}
+
+.espace--coach {
+    --area-bg: var(--c-primary-800);
+    --area-fg: #ffffff;
+    --area-muted: rgba(255, 255, 255, 0.72);
+    --area-hover: rgba(255, 255, 255, 0.14);
+    --area-active-bg: var(--c-accent-500);
+    --area-active-fg: var(--c-neutral-950);
 }
 
 .espace--member {

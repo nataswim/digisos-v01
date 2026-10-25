@@ -301,7 +301,11 @@ class CompetitionController extends Controller
 
     private function area(): string
     {
-        return request()->routeIs('editor.*') ? 'editor' : 'admin';
+        return match (true) {
+            request()->routeIs('editor.*') => 'editor',
+            request()->routeIs('coach.*') => 'coach',
+            default => 'admin',
+        };
     }
 
     private function route(string $name): string

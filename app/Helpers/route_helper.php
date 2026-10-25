@@ -27,6 +27,10 @@ if (!function_exists('get_dashboard_route')) {
             return route('editor.dashboard');
         }
 
+        if ($user->hasRole('coach')) {
+            return route('coach.dashboard');
+        }
+
         if ($user->hasRole('user')) {
             return route('user.dashboard');
         }
@@ -63,6 +67,10 @@ if (!function_exists('get_dashboard_route_name')) {
             return 'editor.dashboard';
         }
 
+        if ($user->hasRole('coach')) {
+            return 'coach.dashboard';
+        }
+
         if ($user->hasRole('user')) {
             return 'user.dashboard';
         }
@@ -96,6 +104,7 @@ if (!function_exists('get_user_role_badge')) {
         $colors = [
             'admin' => 'danger',
             'editor' => 'primary',
+            'coach' => 'info',
             'user' => 'success',
             'visitor' => 'warning',
         ];

@@ -48,6 +48,8 @@ class DashboardController extends Controller
                 ['Groupes',           'fa-layer-group',     'admin.planning.groups.index',  Models\PlanningGroup::class,   ['groupe', 'groupes']],
                 ['Nageurs',           'fa-person-swimming', 'admin.planning.swimmers.index', Models\PlanningSwimmer::class, ['nageur', 'nageurs']],
                 ['Licences FFN',      'fa-id-card',         'admin.ffn-licenses.index',     Models\FfnLicense::class,      ['licencié', 'licenciés']],
+                ['Espace coachs',     'fa-chalkboard-teacher', 'coach.dashboard',           null,                          ['', '']],
+                ['Suivi des nageurs', 'fa-clipboard-list',  'coach.notes.index',            Models\SwimmerNote::class,     ['note', 'notes']],
             ],
         ],
         'Système' => [

@@ -92,6 +92,11 @@
                     ['Licenciés', 'fa-id-card', 'admin.ffn-licenses.index', ['admin.ffn-licenses.index', 'admin.ffn-licenses.show']],
                     ['Importer depuis extraNat', 'fa-file-import', 'admin.ffn-licenses.import.create', ['admin.ffn-licenses.import.*']],
                 ]],
+                ['label' => 'Espace coachs', 'icon' => 'fa-chalkboard-teacher', 'links' => [
+                    ['Tableau de bord coachs', 'fa-chalkboard-teacher', 'coach.dashboard', []],
+                    ['Suivi des nageurs', 'fa-clipboard-list', 'coach.notes.index', [], fn () => \App\Models\SwimmerNote::count()],
+                    ['Documents des coachs', 'fa-folder-open', 'coach.documents.index', [], fn () => \App\Models\CoachDocument::count()],
+                ]],
                 ['label' => 'Pages publiques', 'icon' => 'fa-external-link-alt', 'external' => true, 'links' => [
                     ['Calendrier public', 'fa-external-link-alt', 'competitions.index', []],
                     ['Planning public', 'fa-external-link-alt', 'schedule', []],

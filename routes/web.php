@@ -471,3 +471,8 @@ Route::middleware(['auth', 'verified', 'can:access-editor'])->prefix('editor')->
     // ========== PARTENAIRES (routes editor.partners.*) ==========
     require __DIR__.'/partners.php';
 });
+
+// =============================================================================
+// ESPACE COACHS (coachs et administrateurs)
+// =============================================================================
+require __DIR__.'/coach.php';

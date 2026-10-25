@@ -16,7 +16,11 @@ abstract class PlanningController extends Controller
 {
     protected function area(): string
     {
-        return request()->routeIs('editor.*') ? 'editor' : 'admin';
+        return match (true) {
+            request()->routeIs('editor.*') => 'editor',
+            request()->routeIs('coach.*') => 'coach',
+            default => 'admin',
+        };
     }
 
     /** Nom de route complet : planningRoute('groups.index') → « admin.planning.groups.index » */

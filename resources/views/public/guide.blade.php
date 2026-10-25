@@ -13,6 +13,7 @@
         $dashboardRoute = match (auth()->user()->role?->slug) {
             'admin'  => route('admin.dashboard'),
             'editor' => route('editor.dashboard'),
+            'coach'  => route('coach.dashboard'),
             'user'   => route('user.dashboard'),
             default  => route('visitor.dashboard'),
         };

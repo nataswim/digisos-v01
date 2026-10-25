@@ -7,8 +7,8 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Les 4 rôles du site du CNBB.
- * Les slugs (admin, editor, user, visitor) sont utilisés dans le code : ne pas les modifier.
+ * Les 5 rôles du site du CNBB.
+ * Les slugs (admin, editor, coach, user, visitor) sont utilisés dans le code : ne pas les modifier.
  */
 class RolesTableSeeder extends Seeder
 {
@@ -33,6 +33,14 @@ class RolesTableSeeder extends Seeder
                 'display_name' => 'Editor',
                 'description' => 'Bénévole chargé de la communication : publie les actualités, fiches, pages, vidéos, galeries et documents.',
                 'level' => 50,
+                'is_default' => false,
+            ],
+            [
+                'name' => 'Coach',
+                'slug' => 'coach',
+                'display_name' => 'Coach',
+                'description' => "Entraîneur du club : espace coachs (planning, compétitions et convocations, documents réservés, suivi des nageurs).",
+                'level' => 40,
                 'is_default' => false,
             ],
             [
