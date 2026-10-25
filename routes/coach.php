@@ -13,6 +13,9 @@ use App\Http\Controllers\Coach\CoachDashboardController;
 use App\Http\Controllers\Coach\CoachDocumentController;
 use App\Http\Controllers\Coach\PresenceController;
 use App\Http\Controllers\Coach\SwimmerNoteController;
+use App\Http\Controllers\Coach\TrainingExerciseController;
+use App\Http\Controllers\Coach\TrainingListController;
+use App\Http\Controllers\Coach\TrainingSessionController;
 use App\Http\Controllers\MediaController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +36,15 @@ Route::middleware(['auth', 'verified', 'can:access-coach'])->prefix('coach')->na
     // Documents réservés aux coachs
     Route::get('documents/{document}/telecharger', [CoachDocumentController::class, 'download'])->name('documents.download');
     Route::resource('documents', CoachDocumentController::class)->except(['show']);
+
+    // Séances & entraînements
+    Route::get('seances/listes', [TrainingListController::class, 'edit'])->name('training-lists.edit');
+    Route::put('seances/listes', [TrainingListController::class, 'update'])->name('training-lists.update');
+    Route::resource('seances/exercices', TrainingExerciseController::class)
+        ->except(['show'])->parameters(['exercices' => 'exercise'])->names('exercises');
+    Route::patch('seances/{training}/publication', [TrainingSessionController::class, 'toggle'])->name('training.toggle');
+    Route::post('seances/{training}/dupliquer', [TrainingSessionController::class, 'duplicate'])->name('training.duplicate');
+    Route::resource('seances', TrainingSessionController::class)->parameters(['seances' => 'training'])->names('training');
 
     // Émargement des séances
     Route::get('emargement', [PresenceController::class, 'index'])->name('presence.index');

@@ -26,7 +26,7 @@
         $pluriel = fn (int $n, string $un, string $plusieurs) => $n . ' ' . ($n > 1 ? $plusieurs : $un);
     @endphp
     @include('layouts.partials.espace-accueil-tuiles', ['titre' => 'Accès rapides', 'masquerTitre' => true, 'tuiles' => [
-        ['icon' => 'fa-layer-group', 'titre' => 'Groupes', 'texte' => 'Groupes d\'entraînement et nageurs inscrits.', 'route' => 'coach.planning.groups.index', 'badge' => $pluriel($counts['groups'], 'groupe actif', 'groupes actifs')],
+        ['icon' => 'fa-dumbbell', 'titre' => 'Séances', 'texte' => 'Natation, PPG et séances à la maison.', 'route' => 'coach.training.index', 'badge' => $pluriel($counts['training'], 'cette semaine', 'cette semaine')],
         ['icon' => 'fa-person-swimming', 'titre' => 'Nageurs', 'texte' => 'Fiches des nageurs du planning.', 'route' => 'coach.planning.swimmers.index', 'badge' => $pluriel($counts['swimmers'], 'nageur actif', 'nageurs actifs')],
         ['icon' => 'fa-trophy', 'titre' => 'Compétitions', 'texte' => 'Programmes, convocations et réponses des familles.', 'route' => 'coach.competitions.index', 'badge' => $pluriel($counts['competitions'], 'à venir', 'à venir')],
         ['icon' => 'fa-folder-open', 'titre' => 'Documents', 'texte' => 'Documents réservés aux coachs.', 'route' => 'coach.documents.index', 'badge' => $pluriel($counts['documents'], 'document', 'documents')],

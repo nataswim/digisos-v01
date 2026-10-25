@@ -32,6 +32,7 @@ class CoachDashboardController extends Controller
             'user' => $request->user(),
             'counts' => [
                 'groups' => $safe(fn () => PlanningGroup::active()->count(), 0),
+                'training' => $safe(fn () => \App\Models\TrainingSession::whereBetween('session_date', [today()->startOfWeek()->toDateString(), today()->endOfWeek()->toDateString() . ' 23:59:59'])->count(), 0),
                 'swimmers' => $safe(fn () => PlanningSwimmer::active()->count(), 0),
                 'competitions' => $safe(fn () => Competition::upcoming()->count(), 0),
                 'documents' => $safe(fn () => CoachDocument::count(), 0),

@@ -2,6 +2,18 @@
 @php
     $menu = [
         ['label' => 'Tableau de bord', 'icon' => 'fa-home', 'route' => 'coach.dashboard', 'active' => ['coach.dashboard']],
+        ['label' => 'Séances', 'icon' => 'fa-dumbbell', 'active' => ['coach.training.*', 'coach.exercises.*', 'coach.training-lists.*'], 'items' => [
+            ['Séances de la semaine', 'fa-calendar-week', 'coach.training.index', 'coach.training.index'],
+            ['Nouvelle séance natation', 'fa-person-swimming', 'coach.training.create', '-', ['type' => 'natation']],
+            ['Nouvelle séance PPG', 'fa-dumbbell', 'coach.training.create', '-', ['type' => 'ppg']],
+            ['Nouvelle séance maison', 'fa-house', 'coach.training.create', '-', ['type' => 'maison']],
+            ["Bibliothèque d'exercices", 'fa-book-medical', 'coach.exercises.index', 'coach.exercises.*'],
+            ['Listes (nages, matériel…)', 'fa-list', 'coach.training-lists.edit', 'coach.training-lists.*'],
+        ]],
+        ['label' => 'Présences', 'icon' => 'fa-clipboard-check', 'active' => ['coach.presence.*', 'coach.assiduity.*'], 'items' => [
+            ['Émargement', 'fa-clipboard-check', 'coach.presence.index', 'coach.presence.*'],
+            ['Assiduité', 'fa-chart-column', 'coach.assiduity.index', 'coach.assiduity.*'],
+        ]],
         ['label' => 'Planning', 'icon' => 'fa-calendar-week', 'active' => ['coach.planning.*'], 'items' => [
             ['Créneaux', 'fa-clock', 'coach.planning.slots.index', 'coach.planning.slots.*'],
             ['Groupes', 'fa-layer-group', 'coach.planning.groups.index', 'coach.planning.groups.*'],
@@ -11,8 +23,6 @@
             ['Toutes les compétitions', 'fa-list', 'coach.competitions.index', 'coach.competitions.index'],
             ['Nouvelle compétition', 'fa-plus', 'coach.competitions.create', 'coach.competitions.create'],
         ]],
-        ['label' => 'Émargement', 'icon' => 'fa-clipboard-check', 'route' => 'coach.presence.index', 'active' => ['coach.presence.*']],
-        ['label' => 'Assiduité', 'icon' => 'fa-chart-column', 'route' => 'coach.assiduity.index', 'active' => ['coach.assiduity.*']],
         ['label' => 'Suivi', 'icon' => 'fa-clipboard-list', 'route' => 'coach.notes.index', 'active' => ['coach.notes.*']],
         ['label' => 'Documents', 'icon' => 'fa-folder-open', 'route' => 'coach.documents.index', 'active' => ['coach.documents.*']],
     ];
@@ -39,10 +49,11 @@
                                 <i class="fas {{ $entry['icon'] }} me-1" aria-hidden="true"></i>{{ $entry['label'] }}
                             </a>
                             <ul class="dropdown-menu">
-                                @foreach ($entry['items'] as [$label, $icon, $route, $pattern])
+                                @foreach ($entry['items'] as $sub)
+                                    @php [$label, $icon, $route, $pattern] = $sub; $params = $sub[4] ?? []; @endphp
                                     @continue(! Route::has($route))
                                     <li>
-                                        <a class="dropdown-item {{ request()->routeIs($pattern) ? 'active' : '' }}" href="{{ route($route) }}"
+                                        <a class="dropdown-item {{ request()->routeIs($pattern) ? 'active' : '' }}" href="{{ route($route, $params) }}"
                                            @if (request()->routeIs($pattern)) aria-current="page" @endif>
                                             <i class="fas {{ $icon }} fa-fw me-2" aria-hidden="true"></i>{{ $label }}
                                         </a>

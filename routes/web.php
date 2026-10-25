@@ -219,6 +219,10 @@ Route::middleware(['auth', 'verified'])->prefix('user')->name('user.')->group(fu
 
     // Assiduité aux entraînements des nageurs rattachés au compte (module Émargement)
     Route::get('/assiduite', \App\Http\Controllers\User\MemberPresenceController::class)->name('presence.index');
+
+    // Mes entraînements : séances publiées par les coachs (module Séances)
+    Route::get('/entrainements', [\App\Http\Controllers\User\MemberTrainingController::class, 'index'])->name('training.index');
+    Route::get('/entrainements/{training}', [\App\Http\Controllers\User\MemberTrainingController::class, 'show'])->whereNumber('training')->name('training.show');
     Route::put('/mes-competitions/{attendance}', [MemberCompetitionController::class, 'respond'])
         ->whereNumber('attendance')->middleware('throttle:30,1')->name('competitions.respond');
 

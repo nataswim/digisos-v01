@@ -50,6 +50,7 @@ class DashboardController extends Controller
                 ['Licences FFN',      'fa-id-card',         'admin.ffn-licenses.index',     Models\FfnLicense::class,      ['licencié', 'licenciés']],
                 ['Espace coachs',     'fa-chalkboard-teacher', 'coach.dashboard',           null,                          ['', '']],
                 ['Suivi des nageurs', 'fa-clipboard-list',  'coach.notes.index',            Models\SwimmerNote::class,     ['note', 'notes']],
+                ['Séances',           'fa-dumbbell',        'coach.training.index',         Models\TrainingSession::class, ['séance', 'séances']],
                 ['Émargement',        'fa-clipboard-check', 'coach.presence.index',         Models\PresenceSession::class, ['séance émargée', 'séances émargées']],
                 ['Assiduité',         'fa-chart-column',    'coach.assiduity.index',        null,                          ['', '']],
             ],

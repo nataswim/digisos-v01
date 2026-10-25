@@ -94,6 +94,8 @@
                 ]],
                 ['label' => 'Espace coachs', 'icon' => 'fa-chalkboard-teacher', 'links' => [
                     ['Tableau de bord coachs', 'fa-chalkboard-teacher', 'coach.dashboard', []],
+                    ['Séances', 'fa-dumbbell', 'coach.training.index', [], fn () => \App\Models\TrainingSession::count()],
+                    ["Bibliothèque d'exercices", 'fa-book-medical', 'coach.exercises.index', []],
                     ['Émargement', 'fa-clipboard-check', 'coach.presence.index', []],
                     ['Assiduité', 'fa-chart-column', 'coach.assiduity.index', []],
                     ['Suivi des nageurs', 'fa-clipboard-list', 'coach.notes.index', [], fn () => \App\Models\SwimmerNote::count()],
