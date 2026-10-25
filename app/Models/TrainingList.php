@@ -14,6 +14,7 @@ class TrainingList extends Model
         'strokes' => ['Nages et exercices en bassin', 'Crawl, dos, jambes, éducatifs…'],
         'equipment' => ['Matériel', 'Plaquettes, pull-buoy, élastique, tapis…'],
         'categories' => ["Catégories d'exercices (PPG / maison)", 'Gainage, haut du corps, mobilité…'],
+        'school_equipment' => ['Matériel école de natation', 'Frites, cerceaux, tapis flottant…'],
     ];
 
     protected $fillable = ['list', 'label', 'sort_order'];

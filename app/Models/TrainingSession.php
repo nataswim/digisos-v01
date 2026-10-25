@@ -14,8 +14,10 @@ use Illuminate\Support\Collection;
  * content (JSON) :
  *   natation       : ['blocks' => [[kind, title, repeat, note, lines => [[reps, distance, stroke, zone, departure, rest, equipment, note], …]], …]]
  *   ppg / maison   : ['items'  => [[exercise_id, sets, reps, duration, rest_sets, rest_after, load, note], …]]   (durées en secondes)
+ *   ecole / divers : ['steps'  => [[title, description, image, equipment, organisation], …]]   (equipment et organisation : école de natation)
  *
  * Visibilité : séance publiée + nageur coché par le coach (table training_session_swimmer).
+ * Les types « école de natation » et « divers » sont des fiches internes : jamais visibles des adhérents.
  */
 class TrainingSession extends Model
 {
@@ -24,7 +26,12 @@ class TrainingSession extends Model
         'natation' => ['Natation', 'fa-person-swimming', '#0090D4'],
         'ppg' => ['Préparation physique (PPG)', 'fa-dumbbell', '#D49F45'],
         'maison' => ['Séance à la maison', 'fa-house', '#059669'],
+        'ecole' => ['École de natation', 'fa-children', '#7c3aed'],
+        'divers' => ['Divers', 'fa-shapes', '#64748b'],
     ];
+
+    /** Types réservés aux coachs : ni nageurs ciblés, ni publication. */
+    public const INTERNAL_TYPES = ['ecole', 'divers'];
 
     public const ZONES = [
         'Z1' => 'Z1 · Récupération',
@@ -81,7 +88,7 @@ class TrainingSession extends Model
     /** Séances publiées visibles par les nageurs rattachés à un compte. */
     public function scopeVisibleToAccount(Builder $query, User $user): Builder
     {
-        return $query->published()->whereHas('swimmers', fn ($q) => $q->where('planning_swimmers.user_id', $user->id));
+        return $query->published()->whereNotIn('type', self::INTERNAL_TYPES)->whereHas('swimmers', fn ($q) => $q->where('planning_swimmers.user_id', $user->id));
     }
 
     public function isPublished(): bool
@@ -92,6 +99,18 @@ class TrainingSession extends Model
     public function isSwim(): bool
     {
         return $this->type === 'natation';
+    }
+
+    /** École de natation, divers : fiche interne aux coachs. */
+    public function isInternal(): bool
+    {
+        return in_array($this->type, self::INTERNAL_TYPES, true);
+    }
+
+    /** Séances à étapes libres (école de natation, divers). */
+    public function hasSteps(): bool
+    {
+        return $this->isInternal();
     }
 
     public function getTypeLabelAttribute(): string
@@ -125,7 +144,7 @@ class TrainingSession extends Model
             return number_format($this->total_distance, 0, ',', ' ') . ' m';
         }
 
-        return $this->total_duration ? ($this->isSwim() ? '' : '≈ ') . $this->total_duration . ' min' : null;
+        return $this->total_duration ? ($this->isSwim() || $this->hasSteps() ? '' : '≈ ') . $this->total_duration . ' min' : null;
     }
 
     public function blocks(): array
@@ -136,6 +155,11 @@ class TrainingSession extends Model
     public function items(): array
     {
         return $this->content['items'] ?? [];
+    }
+
+    public function steps(): array
+    {
+        return $this->content['steps'] ?? [];
     }
 
     /** Exercices de la bibliothèque utilisés, indexés par id. */
@@ -174,6 +198,16 @@ class TrainingSession extends Model
     /** Recalcule distance et durée à partir du contenu. */
     public function computeTotals(): void
     {
+        if ($this->isSwim() || $this->hasSteps()) {
+            $this->total_distance = null;
+            $this->total_duration = $this->starts_at && $this->ends_at
+                ? max(0, (int) round((strtotime($this->ends_at) - strtotime($this->starts_at)) / 60)) ?: null
+                : null;
+        }
+        if ($this->hasSteps()) {
+            return;
+        }
+
         if ($this->isSwim()) {
             $this->total_distance = array_sum(array_map([self::class, 'blockDistance'], $this->blocks())) ?: null;
             $this->total_duration = $this->starts_at && $this->ends_at

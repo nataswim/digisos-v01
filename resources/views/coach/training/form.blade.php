@@ -6,6 +6,12 @@
     $content = old('content', $session->content ?? []);
     $blocks = $content['blocks'] ?? [];
     $items = $content['items'] ?? [];
+    $steps = $content['steps'] ?? [];
+    $interne = in_array($type, \App\Models\TrainingSession::INTERNAL_TYPES, true);
+    $ecole = $type === 'ecole';
+    if ($interne && ! $steps) {
+        $steps = [['title' => $ecole ? 'Accueil et échauffement' : '']];
+    }
     if ($type === 'natation' && ! $session->exists && ! old('content')) {
         // Trame de départ : échauffement, corps de séance, retour au calme
         $kinds = $lists['blocks'];
@@ -15,7 +21,7 @@
             ['kind' => end($kinds) ?: 'Retour au calme', 'repeat' => 1, 'lines' => [['reps' => 1, 'distance' => 200, 'zone' => 'Z1']]],
         ];
     }
-    if ($type !== 'natation' && ! $items) {
+    if (in_array($type, ['ppg', 'maison'], true) && ! $items) {
         $items = [['sets' => 3]];
     }
     $equipment = old('equipment', $session->equipment ?? []);
@@ -32,12 +38,12 @@
     <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
         <div>
             <span class="badge rounded-pill" style="background: {{ $typeColor }}"><i class="fas {{ $typeIcon }} me-1" aria-hidden="true"></i>{{ $typeLabel }}</span>
-            <h1 class="h3 fw-bold mt-2 mb-0">{{ $session->exists ? 'Modifier la séance' : 'Nouvelle séance' }}</h1>
+            <h1 class="h3 fw-bold mt-2 mb-0">{{ $session->exists ? 'Modifier la ' : 'Nouvelle ' }}{{ $interne ? 'fiche' : 'séance' }}</h1>
         </div>
         @if ($session->exists)
             <div class="d-flex flex-wrap gap-2">
-                <span class="badge fs-6 {{ $session->isPublished() ? 'bg-success' : 'bg-secondary' }} align-self-center">{{ \App\Models\TrainingSession::STATUSES[$session->status] }}</span>
-                <a href="{{ route('coach.training.show', $session) }}" class="btn btn-outline-primary"><i class="fas fa-eye me-1" aria-hidden="true"></i>Aperçu adhérent</a>
+                <span class="badge fs-6 {{ $interne ? 'bg-dark' : ($session->isPublished() ? 'bg-success' : 'bg-secondary') }} align-self-center">{{ $interne ? 'Fiche coachs' : \App\Models\TrainingSession::STATUSES[$session->status] }}</span>
+                <a href="{{ route('coach.training.show', $session) }}" class="btn btn-outline-primary"><i class="fas fa-eye me-1" aria-hidden="true"></i>{{ $interne ? 'Aperçu' : 'Aperçu adhérent' }}</a>
             </div>
         @endif
     </div>
@@ -57,7 +63,7 @@
                 <div class="col-md-7">
                     <label for="title" class="form-label fw-semibold">Titre <span class="text-danger" aria-hidden="true">*</span></label>
                     <input type="text" id="title" name="title" required maxlength="255" class="form-control" value="{{ old('title', $session->title) }}"
-                           placeholder="{{ $type === 'natation' ? 'Endurance et virages' : ($type === 'ppg' ? 'Gainage et renforcement' : 'Circuit maison 20 minutes') }}">
+                           placeholder="{{ ['natation' => 'Endurance et virages', 'ppg' => 'Gainage et renforcement', 'maison' => 'Circuit maison 20 minutes', 'ecole' => 'Découverte de la flottaison', 'divers' => 'Réunion technique, sortie, stage…'][$type] }}">
                 </div>
                 <div class="col-md-5">
                     <label for="objective" class="form-label fw-semibold">Objectif</label>
@@ -123,8 +129,8 @@
                 </div>
 
                 <div class="col-12">
-                    <label for="instructions" class="form-label fw-semibold">Consignes générales</label>
-                    <textarea id="instructions" name="instructions" rows="3" maxlength="5000" class="form-control" placeholder="Objectifs, points techniques, conseils…">{{ old('instructions', $session->instructions) }}</textarea>
+                    <label for="instructions" class="form-label fw-semibold">{{ $interne ? 'Consignes et observations' : 'Consignes générales' }}</label>
+                    <textarea id="instructions" name="instructions" rows="{{ $interne ? 4 : 3 }}" maxlength="5000" class="form-control" placeholder="{{ $interne ? 'Consignes, observations sur le groupe, points à revoir…' : 'Objectifs, points techniques, conseils…' }}">{{ old('instructions', $session->instructions) }}</textarea>
                 </div>
             </div>
         </section>
@@ -132,10 +138,12 @@
         {{-- 2. Programme --}}
         <section class="card border-0 shadow-sm mb-4">
             <div class="card-header bg-white d-flex flex-wrap justify-content-between gap-2">
-                <h2 class="h5 fw-bold mb-0">2. {{ $type === 'natation' ? 'Programme' : 'Exercices' }}</h2>
-                <span class="fw-bold fs-5" aria-live="polite">
-                    @if ($type === 'natation') Total : <span data-total>0</span> m @else Durée estimée : ≈ <span data-total>0</span> min @endif
-                </span>
+                <h2 class="h5 fw-bold mb-0">2. {{ $type === 'natation' || $interne ? 'Programme' : 'Exercices' }}</h2>
+                @unless ($interne)
+                    <span class="fw-bold fs-5" aria-live="polite">
+                        @if ($type === 'natation') Total : <span data-total>0</span> m @else Durée estimée : ≈ <span data-total>0</span> min @endif
+                    </span>
+                @endunless
             </div>
             <div class="card-body bg-light">
                 @if ($type === 'natation')
@@ -151,6 +159,14 @@
                     <datalist id="liste-blocks">@foreach ($lists['blocks'] as $v)<option value="{{ $v }}">@endforeach</datalist>
                     <datalist id="liste-strokes">@foreach ($lists['strokes'] as $v)<option value="{{ $v }}">@endforeach</datalist>
                     <datalist id="liste-equipment">@foreach ($lists['equipment'] as $v)<option value="{{ $v }}">@endforeach</datalist>
+                @elseif ($interne)
+                    <div data-steps>
+                        @foreach ($steps as $s => $step)
+                            @include('coach.training._step', ['s' => $s, 'step' => $step])
+                        @endforeach
+                    </div>
+                    <button type="button" class="btn btn-primary" data-add-step><i class="fas fa-plus me-1" aria-hidden="true"></i>Ajouter une étape</button>
+                    <template id="tpl-step">@include('coach.training._step', ['s' => '__S__', 'step' => []])</template>
                 @else
                     @if ($exercises->isEmpty())
                         <div class="alert alert-warning">
@@ -173,6 +189,21 @@
             </div>
         </section>
 
+        @if ($interne)
+            {{-- 3. Groupe(s) concerné(s) : fiche interne, jamais montrée aux adhérents --}}
+            <section class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-white"><h2 class="h5 fw-bold mb-0">3. Groupe(s) concerné(s)</h2></div>
+                <div class="card-body">
+                    <p class="small text-muted"><i class="fas fa-lock me-1" aria-hidden="true"></i>Fiche réservée aux coachs : elle n'est jamais visible dans l'espace des adhérents.</p>
+                    <div class="d-flex flex-wrap gap-2">
+                        @foreach ($groups as $group)
+                            <input type="checkbox" class="btn-check" name="groups[]" value="{{ $group->id }}" id="grp-{{ $group->id }}" autocomplete="off" @checked(in_array($group->id, array_map('intval', $selectedGroups), true))>
+                            <label class="btn btn-outline-primary tr-chip" for="grp-{{ $group->id }}">{{ $group->name }}</label>
+                        @endforeach
+                    </div>
+                </div>
+            </section>
+        @else
         {{-- 3. Destinataires --}}
         <section class="card border-0 shadow-sm mb-4" id="destinataires">
             <div class="card-header bg-white d-flex flex-wrap justify-content-between gap-2">
@@ -226,13 +257,23 @@
             </div>
         </section>
 
+        @endif
+
         <div class="tr-actions d-flex flex-wrap gap-2 justify-content-end">
-            <button type="submit" name="action" value="draft" class="btn btn-outline-primary btn-lg">
-                <i class="fas fa-save me-2" aria-hidden="true"></i>Enregistrer en brouillon
-            </button>
-            <button type="submit" name="action" value="publish" class="btn btn-primary btn-lg">
-                <i class="fas fa-paper-plane me-2" aria-hidden="true"></i>{{ $session->isPublished() ? 'Enregistrer (publiée)' : 'Enregistrer et publier' }}
-            </button>
+            @unless ($interne)
+                <button type="submit" name="action" value="draft" class="btn btn-outline-primary btn-lg">
+                    <i class="fas fa-save me-2" aria-hidden="true"></i>Enregistrer en brouillon
+                </button>
+            @endunless
+            @if ($interne)
+                <button type="submit" name="action" value="draft" class="btn btn-primary btn-lg">
+                    <i class="fas fa-save me-2" aria-hidden="true"></i>Enregistrer la fiche
+                </button>
+            @else
+                <button type="submit" name="action" value="publish" class="btn btn-primary btn-lg">
+                    <i class="fas fa-paper-plane me-2" aria-hidden="true"></i>{{ $session->isPublished() ? 'Enregistrer (publiée)' : 'Enregistrer et publier' }}
+                </button>
+            @endif
         </div>
     </form>
 </div>
@@ -243,6 +284,8 @@
     /* !important : le thème force le fond blanc des boutons « outline » */
     .btn-check:checked + .tr-chip, .btn-check:checked + .tr-chip:hover { background: #0090D4 !important; border-color: #0090D4 !important; color: #fff !important; }
     .btn-check:checked + .tr-chip .badge { background: #fff !important; }
+    .tr-step-num { display: inline-flex; width: 2rem; height: 2rem; align-items: center; justify-content: center; border-radius: 50%; background: var(--type-color); color: #fff; font-weight: 700; align-self: center; }
+    .tr-step-img { width: 100%; max-height: 140px; object-fit: cover; border-radius: 8px; }
     .tr-line { display: flex; flex-wrap: wrap; gap: .5rem; align-items: flex-end; padding: .5rem 0; border-bottom: 1px dashed #e2e8f0; }
     .tr-line:last-child { border-bottom: 0; }
     .tr-field--xs { width: 84px; } .tr-field--sm { width: 110px; } .tr-field--md { width: 150px; } .tr-field--lg { flex: 1 1 200px; }
@@ -274,8 +317,15 @@
     function num(el) { return el ? (parseInt(el.value, 10) || 0) : 0; }
     function fmt(n) { return n.toLocaleString('fr-FR'); }
 
+    var totalEl = form.querySelector('[data-total]');
+    function numeroter() {
+        form.querySelectorAll('[data-step]').forEach(function (st, i) { var n = st.querySelector('[data-step-num]'); if (n) n.textContent = i + 1; });
+    }
+
     // ----- Totaux -----
     function totaux() {
+        numeroter();
+        if (!totalEl) return;
         var total = 0;
         if (isSwim) {
             form.querySelectorAll('[data-block]').forEach(function (block) {
@@ -307,7 +357,7 @@
     form.addEventListener('click', function (e) {
         var btn = e.target.closest('button');
         if (!btn) return;
-        var card = btn.closest('[data-block], [data-item]');
+        var card = btn.closest('[data-block], [data-item], [data-step]');
         if (btn.hasAttribute('data-move') && card) {
             if (btn.dataset.move === '-1' && card.previousElementSibling) card.parentNode.insertBefore(card, card.previousElementSibling);
             if (btn.dataset.move === '1' && card.nextElementSibling) card.parentNode.insertBefore(card.nextElementSibling, card);
@@ -315,6 +365,16 @@
         }
         if (btn.hasAttribute('data-remove-block') && confirm('Supprimer ce bloc et ses séries ?')) card.remove();
         if (btn.hasAttribute('data-remove-item')) card.remove();
+        if (btn.hasAttribute('data-remove-step') && confirm('Supprimer cette étape ?')) card.remove();
+        if (btn.hasAttribute('data-step-clear')) {
+            card.querySelector('[data-step-image]').value = '';
+            var pv = card.querySelector('[data-step-preview]'); pv.hidden = true; pv.removeAttribute('src');
+        }
+        if (btn.hasAttribute('data-add-step')) {
+            var etape = fromTemplate('tpl-step', { '__S__': cle() });
+            form.querySelector('[data-steps]').appendChild(etape);
+            etape.querySelector('input').focus();
+        }
         if (btn.hasAttribute('data-remove-line')) btn.closest('[data-line]').remove();
         if (btn.hasAttribute('data-add-line')) {
             var block = btn.closest('[data-block]');
@@ -336,6 +396,13 @@
             item.querySelector('select').focus();
         }
         totaux();
+    });
+
+    // ----- Image d'une étape saisie à la main -----
+    form.addEventListener('input', function (e) {
+        if (!e.target.matches('[data-step-image]')) return;
+        var pv = e.target.closest('[data-step]').querySelector('[data-step-preview]');
+        var u = e.target.value.trim(); pv.hidden = !u; if (u) pv.src = u;
     });
 
     // ----- Vignette de l'exercice choisi -----
@@ -371,7 +438,8 @@
 
     // ----- Destinataires -----
     var nageurs = form.querySelectorAll('[data-swimmer]');
-    function compter() { form.querySelector('[data-count]').textContent = form.querySelectorAll('[data-swimmer]:checked').length; }
+    var compteurEl = form.querySelector('[data-count]');
+    function compter() { if (compteurEl) compteurEl.textContent = form.querySelectorAll('[data-swimmer]:checked').length; }
     form.querySelectorAll('[data-group-swimmers]').forEach(function (g) {
         g.addEventListener('change', function () {
             var ids = JSON.parse(g.getAttribute('data-group-swimmers'));
@@ -388,8 +456,10 @@
         });
     });
     nageurs.forEach(function (c) { c.addEventListener('change', compter); });
-    form.querySelector('[data-none]').addEventListener('click', function () { nageurs.forEach(function (c) { c.checked = false; }); compter(); });
-    document.getElementById('swimmer-filter').addEventListener('input', function () {
+    var aucun = form.querySelector('[data-none]');
+    if (aucun) aucun.addEventListener('click', function () { nageurs.forEach(function (c) { c.checked = false; }); compter(); });
+    var filtre = document.getElementById('swimmer-filter');
+    if (filtre) filtre.addEventListener('input', function () {
         var q = this.value.trim().toLowerCase();
         form.querySelectorAll('[data-swimmer-row]').forEach(function (r) { r.hidden = q && r.getAttribute('data-name').indexOf(q) === -1; });
     });

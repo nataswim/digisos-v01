@@ -42,7 +42,8 @@
             @endif
 
             @if ($session->instructions)
-                <div class="training-instructions mt-3">{{ $session->instructions }}</div>
+                @if ($session->isInternal())<p class="small fw-semibold mt-3 mb-1">Consignes et observations</p>@endif
+                <div class="training-instructions {{ $session->isInternal() ? '' : 'mt-3' }}">{{ $session->instructions }}</div>
             @endif
         </div>
     </header>
@@ -94,6 +95,38 @@
         <p class="small text-muted training-zones">
             Zones : @foreach (TS::ZONES as $code => $label)<span class="me-2"><span class="badge training-zone" style="background: {{ $zoneCouleurs[$code] }}">{{ $code }}</span> {{ \Illuminate\Support\Str::after($label, '· ') }}</span>@endforeach
         </p>
+    @elseif ($session->hasSteps())
+        {{-- École de natation / divers : étapes --}}
+        @forelse ($session->steps() as $step)
+            <section class="card border-0 shadow-sm mb-3 training-exercise">
+                <div class="row g-0">
+                    @if (! empty($step['image']))
+                        <div class="col-sm-4 col-lg-3">
+                            <img src="{{ $step['image'] }}" alt="Illustration : {{ $step['title'] ?? 'étape ' . $loop->iteration }}" class="training-exercise-img" loading="lazy">
+                        </div>
+                    @endif
+                    <div class="{{ ! empty($step['image']) ? 'col-sm-8 col-lg-9' : 'col-12' }}">
+                        <div class="card-body">
+                            <h3 class="h5 fw-bold mb-2"><span class="training-step">{{ $loop->iteration }}</span>{{ $step['title'] ?? 'Étape ' . $loop->iteration }}</h3>
+                            @if (! empty($step['description']))
+                                <p class="mb-2" style="white-space: pre-line">{{ $step['description'] }}</p>
+                            @endif
+                            @if (! empty($step['equipment']))
+                                <p class="mb-2">
+                                    <span class="small fw-semibold me-1">Matériel :</span>
+                                    @foreach ($step['equipment'] as $item)<span class="badge rounded-pill training-chip">{{ $item }}</span> @endforeach
+                                </p>
+                            @endif
+                            @if (! empty($step['organisation']))
+                                <p class="mb-0 training-tips"><i class="fas fa-people-arrows me-1" aria-hidden="true"></i><strong>Organisation :</strong> {{ $step['organisation'] }}</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </section>
+        @empty
+            <p class="text-muted">Aucune étape pour l'instant.</p>
+        @endforelse
     @else
         {{-- Exercices PPG / maison --}}
         @if ($session->rounds > 1)

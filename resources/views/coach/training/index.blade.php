@@ -83,13 +83,13 @@
                     <div class="flex-grow-1" style="min-width: 240px">
                         <div class="d-flex flex-wrap gap-2 align-items-center mb-1">
                             <span class="badge" style="background: {{ $session->type_color }}"><i class="fas {{ $session->type_icon }} me-1" aria-hidden="true"></i>{{ $session->type_label }}</span>
-                            <span class="badge {{ $session->isPublished() ? 'bg-success' : 'bg-secondary' }}">{{ \App\Models\TrainingSession::STATUSES[$session->status] }}</span>
+                            <span class="badge {{ $session->isInternal() ? 'bg-dark' : ($session->isPublished() ? 'bg-success' : 'bg-secondary') }}">{{ $session->isInternal() ? 'Fiche coachs' : \App\Models\TrainingSession::STATUSES[$session->status] }}</span>
                         </div>
                         <a href="{{ route('coach.training.edit', $session) }}" class="fw-bold fs-5 text-decoration-none">{{ $session->title }}</a>
                         <div class="small text-muted">
                             @if ($session->time_range){{ $session->time_range }} · @endif
                             {{ $session->groups->pluck('name')->join(', ') ?: 'Sans groupe' }} ·
-                            {{ $session->swimmers_count }} nageur{{ $session->swimmers_count > 1 ? 's' : '' }}
+                            @unless ($session->isInternal()){{ $session->swimmers_count }} nageur{{ $session->swimmers_count > 1 ? 's' : '' }}@else coachs uniquement @endunless
                             @if ($session->volume_label) · <strong>{{ $session->volume_label }}</strong>@endif
                         </div>
                     </div>
@@ -100,12 +100,14 @@
                             @csrf
                             <button class="btn btn-sm btn-outline-secondary" title="Dupliquer (semaine suivante)"><i class="fas fa-copy" aria-hidden="true"></i><span class="visually-hidden">Dupliquer {{ $session->title }}</span></button>
                         </form>
+                        @unless ($session->isInternal())
                         <form method="POST" action="{{ route('coach.training.toggle', $session) }}">
                             @csrf @method('PATCH')
                             <button class="btn btn-sm {{ $session->isPublished() ? 'btn-outline-warning' : 'btn-outline-success' }}">
                                 {{ $session->isPublished() ? 'Dépublier' : 'Publier' }}<span class="visually-hidden"> : {{ $session->title }}</span>
                             </button>
                         </form>
+                        @endunless
                         <form method="POST" action="{{ route('coach.training.destroy', $session) }}" onsubmit="return confirm('Supprimer cette séance ?')">
                             @csrf @method('DELETE')
                             <button class="btn btn-sm btn-outline-danger" title="Supprimer"><i class="fas fa-trash" aria-hidden="true"></i><span class="visually-hidden">Supprimer {{ $session->title }}</span></button>

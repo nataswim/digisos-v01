@@ -7,6 +7,8 @@
             ['Nouvelle séance natation', 'fa-person-swimming', 'coach.training.create', '-', ['type' => 'natation']],
             ['Nouvelle séance PPG', 'fa-dumbbell', 'coach.training.create', '-', ['type' => 'ppg']],
             ['Nouvelle séance maison', 'fa-house', 'coach.training.create', '-', ['type' => 'maison']],
+            ['Nouvelle fiche école de natation', 'fa-children', 'coach.training.create', '-', ['type' => 'ecole']],
+            ['Nouvelle fiche divers', 'fa-shapes', 'coach.training.create', '-', ['type' => 'divers']],
             ["Bibliothèque d'exercices", 'fa-book-medical', 'coach.exercises.index', 'coach.exercises.*'],
             ['Listes (nages, matériel…)', 'fa-list', 'coach.training-lists.edit', 'coach.training-lists.*'],
         ]],

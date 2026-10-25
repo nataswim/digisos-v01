@@ -61,7 +61,11 @@ class TrainingSessionController extends Controller
             'session_date' => $this->dateOrToday($request->query('date')),
             'rounds' => 1,
             'status' => 'draft',
-            'content' => $type === 'natation' ? ['blocks' => []] : ['items' => []],
+            'content' => match (true) {
+                $type === 'natation' => ['blocks' => []],
+                in_array($type, TrainingSession::INTERNAL_TYPES, true) => ['steps' => []],
+                default => ['items' => []],
+            },
         ]);
 
         // Pré-remplissage depuis un créneau du planning
@@ -108,6 +112,9 @@ class TrainingSessionController extends Controller
     /** Publie ou repasse en brouillon. */
     public function toggle(Request $request, TrainingSession $training): RedirectResponse
     {
+        if ($training->isInternal()) {
+            return back()->with('error', 'Les fiches « ' . $training->type_label . ' » sont réservées aux coachs : elles ne se publient pas.');
+        }
         if (! $training->isPublished() && ! $training->swimmers()->exists()) {
             return back()->with('error', 'Choisissez au moins un nageur avant de publier la séance.');
         }
@@ -214,13 +221,24 @@ class TrainingSessionController extends Controller
             'content.items.*.rest_after' => ['nullable', 'integer', 'min:0', 'max:1800'],
             'content.items.*.load' => ['nullable', 'string', 'max:100'],
             'content.items.*.note' => ['nullable', 'string', 'max:255'],
+
+            // École de natation / divers
+            'content.steps' => ['nullable', 'array', 'max:40'],
+            'content.steps.*.title' => ['nullable', 'string', 'max:150'],
+            'content.steps.*.description' => ['nullable', 'string', 'max:3000'],
+            'content.steps.*.image' => ['nullable', 'string', 'max:500', 'regex:#^(https?://|/)#i'],
+            'content.steps.*.equipment' => ['nullable', 'array'],
+            'content.steps.*.equipment.*' => ['string', 'max:100'],
+            'content.steps.*.organisation' => ['nullable', 'string', 'max:500'],
         ], [
+            'content.steps.*.image.regex' => "L'image d'une étape doit être choisie dans la médiathèque.",
             'title.required' => 'Donnez un titre à la séance.',
             'ends_at.after' => "L'heure de fin doit être après l'heure de début.",
         ]);
 
-        $publier = ($data['action'] ?? 'draft') === 'publish';
-        $swimmerIds = array_map('intval', $data['swimmers'] ?? []);
+        $interne = in_array($type, TrainingSession::INTERNAL_TYPES, true);
+        $publier = ! $interne && ($data['action'] ?? 'draft') === 'publish';
+        $swimmerIds = $interne ? [] : array_map('intval', $data['swimmers'] ?? []);
         if ($publier && ! $swimmerIds) {
             throw ValidationException::withMessages(['swimmers' => 'Choisissez au moins un nageur avant de publier la séance.']);
         }
@@ -236,10 +254,12 @@ class TrainingSessionController extends Controller
             'location' => $data['location'] ?? null,
             'equipment' => array_values(array_filter($data['equipment'] ?? [])),
             'instructions' => $data['instructions'] ?? null,
-            'rounds' => $type === 'natation' ? 1 : (int) ($data['rounds'] ?? 1),
-            'content' => $type === 'natation'
-                ? ['blocks' => $this->cleanBlocks($data['content']['blocks'] ?? [])]
-                : ['items' => $this->cleanItems($data['content']['items'] ?? [])],
+            'rounds' => in_array($type, ['ppg', 'maison'], true) ? (int) ($data['rounds'] ?? 1) : 1,
+            'content' => match (true) {
+                $type === 'natation' => ['blocks' => $this->cleanBlocks($data['content']['blocks'] ?? [])],
+                $interne => ['steps' => $this->cleanSteps($data['content']['steps'] ?? [], $type === 'ecole')],
+                default => ['items' => $this->cleanItems($data['content']['items'] ?? [])],
+            },
             'status' => $publier ? 'published' : 'draft',
             'published_at' => $publier ? ($session->published_at ?? now()) : $session->published_at,
             'updated_by' => $request->user()->id,
@@ -275,6 +295,20 @@ class TrainingSessionController extends Controller
                 'lines' => $lines,
             ];
         })->filter(fn ($b) => $b['lines'] || $b['note'] || $b['title'])->values()->all();
+    }
+
+    private function cleanSteps(array $steps, bool $ecole): array
+    {
+        return collect($steps)
+            ->map(fn ($s) => array_filter([
+                'title' => $s['title'] ?? null,
+                'description' => $s['description'] ?? null,
+                'image' => $s['image'] ?? null,
+                'equipment' => $ecole ? array_values(array_filter($s['equipment'] ?? [])) : [],
+                'organisation' => $ecole ? ($s['organisation'] ?? null) : null,
+            ], fn ($v) => filled($v)))
+            ->filter()
+            ->values()->all();
     }
 
     private function cleanItems(array $items): array

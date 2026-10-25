@@ -53,7 +53,7 @@ class MemberTrainingController extends Controller
     public function show(Request $request, TrainingSession $training): View
     {
         abort_unless(
-            $training->isPublished()
+            $training->isPublished() && ! $training->isInternal()
             && $training->swimmers()->where('planning_swimmers.user_id', $request->user()->id)->exists(),
             404
         );

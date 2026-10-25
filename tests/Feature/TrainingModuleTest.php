@@ -203,4 +203,54 @@ class TrainingModuleTest extends TestCase
         $this->actingAs($admin)->delete("/coach/seances/{$copie->id}")->assertRedirect();
         $this->assertNull($copie->fresh());
     }
+
+    public function test_school_and_misc_sheets_are_internal(): void
+    {
+        $coach = $this->userWithRole('coach');
+        $parent = $this->userWithRole('user', 'famille.durand@example.test');
+        $this->alice->update(['user_id' => $parent->id]);
+
+        $this->actingAs($coach)->get('/coach/seances/create?type=ecole')->assertOk()
+            ->assertSee('Consignes et observations')->assertSee('Frites')->assertSee('Organisation / consigne')
+            ->assertDontSee('Qui voit la séance')->assertDontSee('Enregistrer et publier');
+        $this->actingAs($coach)->get('/coach/seances/create?type=divers')->assertOk()
+            ->assertSee('Ajouter une étape')->assertDontSee('Organisation / consigne');
+
+        // Même si on tente de publier et de cibler un nageur : fiche interne
+        $this->actingAs($coach)->post('/coach/seances', [
+            'type' => 'ecole', 'title' => 'Découverte de la flottaison', 'objective' => 'Flotter sur le dos',
+            'session_date' => today()->addDay()->toDateString(), 'starts_at' => '17:00', 'ends_at' => '17:45',
+            'instructions' => 'Groupe agité, prévoir un atelier calme.',
+            'groups' => [$this->groupe->id], 'swimmers' => [$this->alice->id], 'action' => 'publish',
+            'content' => ['steps' => [
+                'a' => ['title' => 'Atelier étoile de mer', 'description' => 'Allongé sur le dos, bras écartés.', 'image' => '/storage/media/etoile.jpg',
+                        'equipment' => ['Frites', 'Tapis flottant'], 'organisation' => 'Par 2, petit bain'],
+                'b' => ['title' => '', 'description' => ''],      // étape vide : ignorée
+            ]],
+        ])->assertRedirect();
+
+        $fiche = TrainingSession::firstOrFail();
+        $this->assertSame('draft', $fiche->status);
+        $this->assertSame(0, $fiche->swimmers()->count());
+        $this->assertSame(45, $fiche->total_duration);
+        $this->assertCount(1, $fiche->steps());
+        $this->assertSame(['Frites', 'Tapis flottant'], $fiche->steps()[0]['equipment']);
+
+        $this->actingAs($coach)->get("/coach/seances/{$fiche->id}")->assertOk()
+            ->assertSee('Atelier étoile de mer')->assertSee('/storage/media/etoile.jpg', false)
+            ->assertSee('Par 2, petit bain')->assertSee('Groupe agité')->assertSee('Fiche coachs');
+
+        // Publication refusée, jamais visible des familles
+        $this->actingAs($coach)->patch("/coach/seances/{$fiche->id}/publication")->assertSessionHas('error');
+        $fiche->update(['status' => 'published']);
+        $fiche->swimmers()->sync([$this->alice->id]);
+        $this->actingAs($parent)->get("/user/entrainements/{$fiche->id}")->assertNotFound();
+        $this->actingAs($parent)->get('/user/entrainements?semaine=' . today()->addDay()->toDateString())->assertDontSee('Découverte de la flottaison');
+
+        // Image hors médiathèque refusée
+        $this->actingAs($coach)->post('/coach/seances', [
+            'type' => 'divers', 'title' => 'X', 'session_date' => today()->toDateString(),
+            'content' => ['steps' => ['a' => ['title' => 'Y', 'image' => 'javascript:alert(1)']]],
+        ])->assertSessionHasErrors();
+    }
 }
