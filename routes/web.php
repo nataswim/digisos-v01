@@ -216,6 +216,9 @@ Route::middleware(['auth', 'verified'])->prefix('user')->name('user.')->group(fu
 
     // Mes compétitions : convocations des nageurs rattachés au compte (module Compétitions, V2)
     Route::get('/mes-competitions', [MemberCompetitionController::class, 'index'])->name('competitions.index');
+
+    // Assiduité aux entraînements des nageurs rattachés au compte (module Émargement)
+    Route::get('/assiduite', \App\Http\Controllers\User\MemberPresenceController::class)->name('presence.index');
     Route::put('/mes-competitions/{attendance}', [MemberCompetitionController::class, 'respond'])
         ->whereNumber('attendance')->middleware('throttle:30,1')->name('competitions.respond');
 

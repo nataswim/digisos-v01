@@ -10,8 +10,11 @@
             <p class="text-muted mb-0">Espace réservé aux coachs et aux administrateurs du club.</p>
         </div>
         <div class="d-flex flex-wrap gap-2">
-            <a href="{{ route('coach.notes.index') }}" class="btn btn-primary">
-                <i class="fas fa-clipboard-list me-2" aria-hidden="true"></i>Suivi des nageurs
+            <a href="{{ route('coach.presence.index') }}" class="btn btn-primary">
+                <i class="fas fa-clipboard-check me-2" aria-hidden="true"></i>Faire l'appel
+            </a>
+            <a href="{{ route('coach.assiduity.index') }}" class="btn btn-outline-primary">
+                <i class="fas fa-chart-column me-2" aria-hidden="true"></i>Assiduité
             </a>
             <a href="{{ route('coach.documents.create') }}" class="btn btn-outline-primary">
                 <i class="fas fa-upload me-2" aria-hidden="true"></i>Ajouter un document

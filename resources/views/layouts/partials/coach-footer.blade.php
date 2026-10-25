@@ -19,6 +19,8 @@
             <div class="col-lg-4 col-md-6">
                 <h6 class="footer-heading mb-3"><i class="fas fa-user-shield me-2" aria-hidden="true"></i>Réservé aux coachs</h6>
                 <ul class="footer-links list-unstyled">
+                    <li><a href="{{ route('coach.presence.index') }}" class="footer-link"><i class="fas fa-angle-right me-2" aria-hidden="true"></i>Émargement</a></li>
+                    <li><a href="{{ route('coach.assiduity.index') }}" class="footer-link"><i class="fas fa-angle-right me-2" aria-hidden="true"></i>Assiduité</a></li>
                     <li><a href="{{ route('coach.notes.index') }}" class="footer-link"><i class="fas fa-angle-right me-2" aria-hidden="true"></i>Suivi des nageurs</a></li>
                     <li><a href="{{ route('coach.documents.index') }}" class="footer-link"><i class="fas fa-angle-right me-2" aria-hidden="true"></i>Documents</a></li>
                 </ul>

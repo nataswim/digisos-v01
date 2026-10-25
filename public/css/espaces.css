@@ -1244,3 +1244,20 @@ body.espace {
         animation: none !important;
     }
 }
+
+/* --------------------------------------------------------------------------
+ *  Correctif mobile : le thème du site public empile (colonne, filet, largeur 100 %)
+ *  tous les blocs « .d-flex.align-items-center.gap-2 » sous 768 px, règle prévue pour
+ *  son menu. Dans le contenu des espaces connectés, on garde la mise en ligne.
+ * ------------------------------------------------------------------------ */
+@media (max-width: 767.98px) {
+    .espace main .d-flex.align-items-center.gap-2 {
+        border-top: 0;
+        margin-top: 0;
+        padding-top: 0;
+        width: auto;
+        gap: 0.5rem !important;
+    }
+    .espace main .d-flex.align-items-center.gap-2:not(.flex-column) { flex-direction: row; }
+    .espace main .d-flex.align-items-center.gap-2 > *:not(img):not(.w-100) { width: auto; }
+}

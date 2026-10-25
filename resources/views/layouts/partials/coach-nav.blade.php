@@ -11,7 +11,9 @@
             ['Toutes les compétitions', 'fa-list', 'coach.competitions.index', 'coach.competitions.index'],
             ['Nouvelle compétition', 'fa-plus', 'coach.competitions.create', 'coach.competitions.create'],
         ]],
-        ['label' => 'Suivi des nageurs', 'icon' => 'fa-clipboard-list', 'route' => 'coach.notes.index', 'active' => ['coach.notes.*']],
+        ['label' => 'Émargement', 'icon' => 'fa-clipboard-check', 'route' => 'coach.presence.index', 'active' => ['coach.presence.*']],
+        ['label' => 'Assiduité', 'icon' => 'fa-chart-column', 'route' => 'coach.assiduity.index', 'active' => ['coach.assiduity.*']],
+        ['label' => 'Suivi', 'icon' => 'fa-clipboard-list', 'route' => 'coach.notes.index', 'active' => ['coach.notes.*']],
         ['label' => 'Documents', 'icon' => 'fa-folder-open', 'route' => 'coach.documents.index', 'active' => ['coach.documents.*']],
     ];
 @endphp

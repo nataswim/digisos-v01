@@ -51,6 +51,12 @@ class PlanningSwimmer extends Model
         return $this->hasMany(SwimmerNote::class)->orderByDesc('noted_on')->orderByDesc('id');
     }
 
+    /** Émargements aux séances d'entraînement. */
+    public function presenceRecords(): HasMany
+    {
+        return $this->hasMany(PresenceRecord::class);
+    }
+
     /** Licences FFN importées (une par saison), la plus récente en premier. */
     public function ffnLicenses(): HasMany
     {

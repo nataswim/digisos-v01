@@ -8,8 +8,10 @@
 | (fichiers routes/planning.php et routes/competitions.php inclus ici).
 */
 
+use App\Http\Controllers\Coach\AssiduityController;
 use App\Http\Controllers\Coach\CoachDashboardController;
 use App\Http\Controllers\Coach\CoachDocumentController;
+use App\Http\Controllers\Coach\PresenceController;
 use App\Http\Controllers\Coach\SwimmerNoteController;
 use App\Http\Controllers\MediaController;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +33,21 @@ Route::middleware(['auth', 'verified', 'can:access-coach'])->prefix('coach')->na
     // Documents réservés aux coachs
     Route::get('documents/{document}/telecharger', [CoachDocumentController::class, 'download'])->name('documents.download');
     Route::resource('documents', CoachDocumentController::class)->except(['show']);
+
+    // Émargement des séances
+    Route::get('emargement', [PresenceController::class, 'index'])->name('presence.index');
+    Route::post('emargement/ouvrir', [PresenceController::class, 'open'])->name('presence.open');
+    Route::get('emargement/seance-supplementaire', [PresenceController::class, 'create'])->name('presence.create');
+    Route::post('emargement/seance-supplementaire', [PresenceController::class, 'store'])->name('presence.store');
+    Route::get('emargement/seances/{session}', [PresenceController::class, 'show'])->name('presence.show');
+    Route::put('emargement/seances/{session}', [PresenceController::class, 'update'])->name('presence.update');
+    Route::post('emargement/seances/{session}/nageur', [PresenceController::class, 'addSwimmer'])->name('presence.add-swimmer');
+    Route::delete('emargement/seances/{session}', [PresenceController::class, 'destroy'])->name('presence.destroy');
+
+    // Assiduité
+    Route::get('assiduite', [AssiduityController::class, 'index'])->name('assiduity.index');
+    Route::get('assiduite/nageur/{swimmer}', [AssiduityController::class, 'swimmer'])->name('assiduity.swimmer');
+    Route::get('assiduite/groupe/{group}', [AssiduityController::class, 'group'])->name('assiduity.group');
 
     // Suivi des nageurs
     Route::get('suivi', [SwimmerNoteController::class, 'index'])->name('notes.index');
