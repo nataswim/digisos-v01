@@ -115,6 +115,8 @@ class AreaPreviewController extends Controller
                 ['Planning : créneaux', 'editor.planning.slots.index'],
                 ['Planning : groupes', 'editor.planning.groups.index'],
                 ['Planning : nageurs', 'editor.planning.swimmers.index'],
+                ['Adhérents', 'editor.members.index'],
+                ['Adhérents : tableau de bord', 'editor.members.stats'],
                 ['Statistiques', 'editor.stats'],
             ],
         ],

@@ -91,6 +91,12 @@
                     ['Groupes', 'fa-layer-group', 'admin.planning.groups.index', ['admin.planning.groups.*'], fn () => \App\Models\PlanningGroup::count()],
                     ['Nageurs', 'fa-person-swimming', 'admin.planning.swimmers.index', ['admin.planning.swimmers.*'], fn () => \App\Models\PlanningSwimmer::count()],
                 ]],
+                ['label' => 'Adhérents', 'icon' => 'fa-address-book', 'links' => [
+                    ['Liste des adhérents', 'fa-address-book', 'admin.members.index', ['admin.members.index', 'admin.members.show', 'admin.members.edit', 'admin.members.create'], fn () => \App\Models\Membership::where('season', \App\Models\Membership::currentSeason())->where('status', '!=', 'abandon')->count()],
+                    ['Tableau de bord', 'fa-chart-pie', 'admin.members.stats', ['admin.members.stats']],
+                    ['Importer le tableau', 'fa-file-import', 'admin.members.import', ['admin.members.import*']],
+                    ['Catégories et tarifs', 'fa-tags', 'admin.members.categories.index', ['admin.members.categories.*']],
+                ]],
                 ['label' => 'Licences FFN', 'icon' => 'fa-id-card', 'links' => [
                     ['Licenciés', 'fa-id-card', 'admin.ffn-licenses.index', ['admin.ffn-licenses.index', 'admin.ffn-licenses.show']],
                     ['Importer depuis extraNat', 'fa-file-import', 'admin.ffn-licenses.import.create', ['admin.ffn-licenses.import.*']],

@@ -399,6 +399,9 @@ Route::middleware(['auth', 'verified', 'can:access-admin'])->prefix('admin')->na
     // ========== PLANNING (routes admin.planning.*) ==========
     require __DIR__.'/planning.php';
 
+    // ========== ADHÉRENTS (routes admin.members.*) ==========
+    require __DIR__.'/members.php';
+
     // Planning → Nageurs → ajout depuis les licences FFN (admin uniquement : données personnelles)
     Route::get('planning/nageurs/depuis-licences', [\App\Http\Controllers\Admin\Planning\SwimmerFromLicenseController::class, 'index'])
         ->name('planning.swimmers.from-licenses');
@@ -482,6 +485,9 @@ Route::middleware(['auth', 'verified', 'can:access-editor'])->prefix('editor')->
 
     // ========== PLANNING (routes editor.planning.*) ==========
     require __DIR__.'/planning.php';
+
+    // ========== ADHÉRENTS (routes editor.members.*) ==========
+    require __DIR__.'/members.php';
 
     // ========== COMPÉTITIONS (routes editor.competitions.*) ==========
     require __DIR__.'/competitions.php';

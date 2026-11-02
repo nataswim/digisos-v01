@@ -253,6 +253,19 @@
                         </li>
 
                         <li><hr class="dropdown-divider"></li>
+                        <li><h6 class="dropdown-header"><i class="fas fa-address-book me-2"></i>Adhérents</h6></li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('editor.members.*') && ! request()->routeIs('editor.members.stats') ? 'active' : '' }}" href="{{ route('editor.members.index') }}">
+                                <i class="fas fa-address-book fa-fw me-2"></i>Liste des adhérents
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('editor.members.stats') ? 'active' : '' }}" href="{{ route('editor.members.stats') }}">
+                                <i class="fas fa-chart-pie fa-fw me-2"></i>Tableau de bord adhérents
+                            </a>
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
 
                         <li>
                             <a class="dropdown-item" href="{{ route('competitions.index') }}" target="_blank" rel="noopener">
