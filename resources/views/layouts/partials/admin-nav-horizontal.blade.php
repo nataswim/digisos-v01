@@ -73,6 +73,7 @@
                 ['label' => 'Documents', 'icon' => 'fa-file-pdf', 'links' => [
                     ['Liste des documents', 'fa-list', 'admin.downloadables.index', ['admin.downloadables.*'], fn () => \App\Models\Downloadable::count()],
                     ['Catégories', 'fa-folder', 'admin.download-categories.index', ['admin.download-categories.*']],
+                    ['Fichiers (PDF, ePub…)', 'fa-file-upload', 'admin.ebook-files.index', ['admin.ebook-files.*'], fn () => \App\Models\EbookFile::count()],
                 ]],
             ],
         ],

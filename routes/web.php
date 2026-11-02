@@ -350,6 +350,13 @@ Route::middleware(['auth', 'verified', 'can:access-admin'])->prefix('admin')->na
     Route::post('downloadables/bulk-action', [DownloadableController::class, 'bulkAction'])->name('downloadables.bulk-action');
     Route::resource('downloadables', DownloadableController::class);
 
+    // ========== FICHIERS EBOOK (fichiers liés aux téléchargements, stockés hors du dossier public) ==========
+    Route::get('ebook-files/api/files', [\App\Http\Controllers\EbookFileController::class, 'api'])->name('ebook-files.api');
+    Route::post('ebook-files/bulk-action', [\App\Http\Controllers\EbookFileController::class, 'bulkAction'])->name('ebook-files.bulk-action');
+    Route::resource('ebook-files', \App\Http\Controllers\EbookFileController::class)
+        ->only(['index', 'store', 'show', 'update', 'destroy'])
+        ->parameters(['ebook-files' => 'ebookFile']);
+
     // ========== FICHES ==========
     Route::post('fiches/bulk-action',            [FicheController::class, 'bulkAction'])->name('fiches.bulk-action');
     Route::post('fiches/bulk-assign-categories', [FicheController::class, 'bulkAssignCategories'])->name('fiches.bulk-assign-categories');

@@ -24,7 +24,7 @@ class CoachSpaceTest extends TestCase
 {
     use RefreshDatabase;
 
-    private function userWithRole(string $slug, string $name = null): User
+    private function userWithRole(string $slug, ?string $name = null): User
     {
         $role = Role::firstOrCreate(['slug' => $slug], ['name' => ucfirst($slug), 'display_name' => $slug, 'level' => 0]);
         $user = User::create([

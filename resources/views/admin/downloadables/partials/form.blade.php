@@ -716,10 +716,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 500);
 });
 </script>
-<!-- Inclure la modal sélecteur -->
-@include('admin.downloadables.partials.ebook-file-selector-modal')
+@endpush
 
 @push('scripts')
+{{-- Fenêtre de sélection d'un fichier eBook : hors du formulaire principal (pile « scripts », en fin de page) --}}
+@include('admin.downloadables.partials.ebook-file-selector-modal')
 <!-- Inclure le JS du sélecteur -->
 <script src="{{ asset('js/ebook-file-selector.js') }}"></script>
 
