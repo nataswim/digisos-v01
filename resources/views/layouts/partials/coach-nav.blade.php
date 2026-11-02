@@ -27,7 +27,12 @@
             ['Records', 'fa-medal', 'coach.records.index', 'coach.records.index'],
             ['Importer des records FFN', 'fa-file-import', 'coach.records.import-form', 'coach.records.import*'],
         ]],
-        ['label' => 'Suivi', 'icon' => 'fa-clipboard-list', 'route' => 'coach.notes.index', 'active' => ['coach.notes.*']],
+        ['label' => 'Suivi', 'icon' => 'fa-clipboard-list', 'active' => ['coach.notes.*', 'coach.performances.*'], 'items' => [
+            ['Performances', 'fa-stopwatch', 'coach.performances.index', 'coach.performances.*'],
+            ['Saisir des temps', 'fa-plus', 'coach.performances.create', 'coach.performances.create'],
+            ['Classement du club', 'fa-ranking-star', 'coach.performances.ranking', 'coach.performances.ranking'],
+            ['Notes de suivi', 'fa-clipboard-list', 'coach.notes.index', 'coach.notes.*'],
+        ]],
         ['label' => 'Documents', 'icon' => 'fa-folder-open', 'route' => 'coach.documents.index', 'active' => ['coach.documents.*']],
     ];
 @endphp

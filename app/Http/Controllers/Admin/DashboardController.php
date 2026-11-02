@@ -45,6 +45,7 @@ class DashboardController extends Controller
             'modules' => [
                 ['Compétitions',      'fa-trophy',          'admin.competitions.index',     Models\Competition::class,     ['compétition', 'compétitions']],
                 ['Records',           'fa-medal',           'coach.records.index',          Models\SwimRecord::class,      ['record', 'records']],
+                ['Performances',      'fa-stopwatch',       'coach.performances.index',     Models\SwimPerformance::class, ['temps', 'temps']],
                 ['Créneaux',          'fa-calendar-alt',    'admin.planning.slots.index',   Models\PlanningSlot::class,    ['créneau', 'créneaux']],
                 ['Groupes',           'fa-layer-group',     'admin.planning.groups.index',  Models\PlanningGroup::class,   ['groupe', 'groupes']],
                 ['Nageurs',           'fa-person-swimming', 'admin.planning.swimmers.index', Models\PlanningSwimmer::class, ['nageur', 'nageurs']],

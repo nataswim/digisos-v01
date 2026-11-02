@@ -24,6 +24,7 @@
                     <li><a href="{{ route('coach.exercises.index') }}" class="footer-link"><i class="fas fa-angle-right me-2" aria-hidden="true"></i>Bibliothèque d'exercices</a></li>
                     <li><a href="{{ route('coach.presence.index') }}" class="footer-link"><i class="fas fa-angle-right me-2" aria-hidden="true"></i>Émargement</a></li>
                     <li><a href="{{ route('coach.assiduity.index') }}" class="footer-link"><i class="fas fa-angle-right me-2" aria-hidden="true"></i>Assiduité</a></li>
+                    <li><a href="{{ route('coach.performances.index') }}" class="footer-link"><i class="fas fa-angle-right me-2" aria-hidden="true"></i>Performances</a></li>
                     <li><a href="{{ route('coach.notes.index') }}" class="footer-link"><i class="fas fa-angle-right me-2" aria-hidden="true"></i>Suivi des nageurs</a></li>
                     <li><a href="{{ route('coach.documents.index') }}" class="footer-link"><i class="fas fa-angle-right me-2" aria-hidden="true"></i>Documents</a></li>
                 </ul>

@@ -11,6 +11,7 @@
 use App\Http\Controllers\Coach\AssiduityController;
 use App\Http\Controllers\Coach\CoachDashboardController;
 use App\Http\Controllers\Coach\CoachDocumentController;
+use App\Http\Controllers\Coach\PerformanceController;
 use App\Http\Controllers\Coach\PresenceController;
 use App\Http\Controllers\Coach\SwimmerNoteController;
 use App\Http\Controllers\Coach\SwimRecordController;
@@ -46,6 +47,19 @@ Route::middleware(['auth', 'verified', 'can:access-coach'])->prefix('coach')->na
     Route::patch('seances/{training}/publication', [TrainingSessionController::class, 'toggle'])->name('training.toggle');
     Route::post('seances/{training}/dupliquer', [TrainingSessionController::class, 'duplicate'])->name('training.duplicate');
     Route::resource('seances', TrainingSessionController::class)->parameters(['seances' => 'training'])->names('training');
+
+    // Suivi des performances
+    Route::prefix('performances')->name('performances.')->controller(PerformanceController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('saisie', 'create')->name('create');
+        Route::post('saisie', 'store')->name('store');
+        Route::get('bilan', 'report')->name('report');
+        Route::get('classement', 'ranking')->name('ranking');
+        Route::get('nageur/{swimmer}', 'swimmer')->name('swimmer');
+        Route::get('{performance}/modifier', 'edit')->name('edit');
+        Route::put('{performance}', 'update')->name('update');
+        Route::delete('{performance}', 'destroy')->name('destroy');
+    });
 
     // Records (club et officiels)
     Route::get('records/importer', [SwimRecordController::class, 'importForm'])->name('records.import-form');

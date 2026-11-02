@@ -29,6 +29,7 @@
     @include('layouts.partials.espace-accueil-tuiles', ['titre' => 'Mon espace', 'tuiles' => [
         ['icon' => 'fa-id-card', 'titre' => 'Ma fiche', 'texte' => 'Votre fiche adhérent.', 'route' => 'user.user-profile.show'],
         ['icon' => 'fa-person-swimming', 'titre' => 'Mes entraînements', 'texte' => 'Les séances préparées par les entraîneurs.', 'route' => 'user.training.index'],
+        ['icon' => 'fa-stopwatch', 'titre' => 'Mes performances', 'texte' => 'Meilleurs temps et progression.', 'route' => 'user.performances.index'],
         ['icon' => 'fa-trophy', 'titre' => 'Mes compétitions', 'texte' => 'Les convocations de vos nageurs et vos réponses.', 'route' => 'user.competitions.index'],
         ['icon' => 'fa-clipboard-check', 'titre' => 'Assiduité', 'texte' => 'Les présences de vos nageurs aux entraînements.', 'route' => 'user.presence.index'],
         ['icon' => 'fa-user-edit', 'titre' => 'Mon profil', 'texte' => 'Vos coordonnées et votre mot de passe.', 'route' => 'user.profile.edit'],
