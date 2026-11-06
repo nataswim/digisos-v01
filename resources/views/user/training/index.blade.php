@@ -3,15 +3,14 @@
 @section('title', 'Mes entraînements')
 
 @section('content')
-<x-public.hero
+<x-member.header
     title="Mes entraînements"
-    eyebrow="Espace adhérent"
     icon="fa-person-swimming"
     lead="Les séances préparées par les entraîneurs : programme en bassin, préparation physique et séances à faire à la maison.">
-    <a href="{{ route('user.dashboard') }}" class="btn btn-outline-light btn-lg">
+    <a href="{{ route('user.dashboard') }}" class="btn btn-outline-light">
         <i class="fas fa-arrow-left me-2" aria-hidden="true"></i>Mon espace
     </a>
-</x-public.hero>
+</x-member.header>
 
 <section class="py-5 bg-light">
     <div class="container-lg">

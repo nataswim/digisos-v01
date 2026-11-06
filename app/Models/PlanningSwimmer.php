@@ -68,6 +68,30 @@ class PlanningSwimmer extends Model
         return $query->where('is_active', true);
     }
 
+    /** Nageurs rattachés à un compte du site (famille), actifs, avec groupes et licences. */
+    public function scopeOfUser($query, ?int $userId)
+    {
+        return $query->where('user_id', $userId)->where('is_active', true)
+            ->with(['groups', 'ffnLicenses'])->orderBy('first_name');
+    }
+
+    /** Adresse de la photo (URL complète, chemin /… ou chemin relatif dans public), ou null. */
+    public function getPhotoUrlAttribute(): ?string
+    {
+        $photo = trim((string) $this->photo);
+        if ($photo === '') {
+            return null;
+        }
+
+        return preg_match('#^(https?:)?//|^/#', $photo) ? $photo : asset($photo);
+    }
+
+    /** Numéro de licence : celui de la fiche, sinon l'IUF de la dernière licence FFN importée. */
+    public function getLicenseLabelAttribute(): ?string
+    {
+        return $this->license_number ?: $this->ffnLicenses->first()?->iuf;
+    }
+
     /** « Prénom NOM » */
     public function getFullNameAttribute(): string
     {

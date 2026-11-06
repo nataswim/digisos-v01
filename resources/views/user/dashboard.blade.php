@@ -17,6 +17,88 @@
         </a>
     </div>
 
+    <x-member.styles />
+
+    {{-- Nageurs rattachés au compte : photo, groupe, licence --}}
+    @if ($swimmers->isNotEmpty())
+        <section class="mb-4" aria-labelledby="mes-nageurs">
+            <h2 id="mes-nageurs" class="visually-hidden">{{ $swimmers->count() > 1 ? 'Mes nageurs' : 'Ma fiche nageur' }}</h2>
+            <div class="row g-3">
+                @foreach ($swimmers as $nageur)
+                    <div class="{{ $swimmers->count() > 1 ? 'col-md-6' : 'col-12' }}">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4 member-card">
+                                <x-member.avatar :swimmer="$nageur" size="lg" />
+                                <div>
+                                    <p class="h4 fw-bold mb-2">{{ $nageur->full_name }}</p>
+                                    <dl>
+                                        <dt>Groupe</dt>
+                                        <dd>
+                                            @forelse ($nageur->groups as $groupe)
+                                                <span class="member-group" style="background: {{ $groupe->background_color }}; color: {{ $groupe->text_color }}">{{ $groupe->name }}</span>
+                                            @empty
+                                                <span class="text-muted">non renseigné</span>
+                                            @endforelse
+                                        </dd>
+                                        <dt>Licence FFN</dt>
+                                        <dd>{{ $nageur->license_label ?: 'non renseignée' }}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </section>
+    @endif
+
+    {{-- Compétitions auxquelles les nageurs du compte sont convoqués --}}
+    @if ($swimmers->isNotEmpty())
+        <section class="card border-0 shadow-sm mb-4" aria-labelledby="mes-convocations">
+            <div class="card-header bg-white p-3 p-md-4 d-flex flex-wrap justify-content-between align-items-center gap-2">
+                <h2 id="mes-convocations" class="h5 fw-bold mb-0"><i class="fas fa-trophy text-primary me-2" aria-hidden="true"></i>Mes convocations</h2>
+                <a href="{{ route('user.competitions.index') }}" class="small">Toutes mes compétitions</a>
+            </div>
+            <ul class="list-group list-group-flush">
+                @forelse ($convocations as $convocation)
+                    @php $competition = $convocation->competition; @endphp
+                    <li class="list-group-item p-3 p-md-4">
+                        <div class="member-convoc">
+                            <div class="member-convoc-main">
+                                <span class="member-convoc-date" aria-hidden="true">
+                                    <strong>{{ $competition->starts_on->format('d') }}</strong>{{ $competition->starts_on->locale('fr')->isoFormat('MMM') }}
+                                </span>
+                                <div class="min-w-0">
+                                    <p class="fw-bold mb-1">{{ $competition->title }}</p>
+                                    <p class="small text-muted mb-1">
+                                        {{ $competition->date_range }} · {{ $competition->city }}
+                                        @if ($swimmers->count() > 1) · <strong class="text-body">{{ $convocation->swimmer->first_name }}</strong>@endif
+                                    </p>
+                                    @if ($convocation->entries->isNotEmpty())
+                                        <p class="small mb-0">{{ $convocation->sorted_entries->map(fn ($e) => $e->event?->label)->filter()->implode(' · ') }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="text-md-end">
+                                <span class="badge {{ $convocation->status_badge }}"><i class="fas {{ $convocation->status_icon }} me-1" aria-hidden="true"></i>{{ $convocation->status_label }}</span>
+                                @if ($convocation->canBeAnsweredByFamily())
+                                    <a href="{{ route('user.competitions.index') }}#convocation-{{ $convocation->id }}" class="btn btn-sm btn-primary ms-2">
+                                        {{ $convocation->status === 'convoque' ? 'Répondre' : 'Modifier ma réponse' }}
+                                    </a>
+                                @endif
+                                @if ($convocation->status === 'convoque' && $competition->response_deadline)
+                                    <p class="small text-muted mb-0 mt-1">avant le {{ $competition->response_deadline->locale('fr')->isoFormat('D MMMM') }}</p>
+                                @endif
+                            </div>
+                        </div>
+                    </li>
+                @empty
+                    <li class="list-group-item p-4 text-muted">Aucune convocation en cours. Les prochaines compétitions sont dans le <a href="{{ route('competitions.index') }}">calendrier</a>.</li>
+                @endforelse
+            </ul>
+        </section>
+    @endif
+
     {{-- Statut du compte --}}
     @include('layouts.partials.espace-accueil-statut', [
         'icon' => 'fa-user-check',

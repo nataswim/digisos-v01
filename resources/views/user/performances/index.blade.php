@@ -3,13 +3,12 @@
 @section('title', 'Mes performances')
 
 @section('content')
-<x-public.hero
+<x-member.header
     title="Mes performances"
-    eyebrow="Espace adhérent"
     icon="fa-stopwatch"
     lead="Meilleures performances, historique des temps et progression, tels qu'enregistrés par les entraîneurs.">
-    <a href="{{ route('user.dashboard') }}" class="btn btn-outline-light btn-lg"><i class="fas fa-arrow-left me-2" aria-hidden="true"></i>Mon espace</a>
-</x-public.hero>
+    <a href="{{ route('user.dashboard') }}" class="btn btn-outline-light"><i class="fas fa-arrow-left me-2" aria-hidden="true"></i>Mon espace</a>
+</x-member.header>
 
 <section class="py-5 bg-light">
     <div class="container-lg">

@@ -4,15 +4,14 @@
 
 @section('content')
 
-<x-public.hero
+<x-member.header
     title="Mes compétitions"
-    eyebrow="Espace adhérent"
     icon="fa-trophy"
     lead="Convocations de vos nageurs : confirmez la présence, indiquez vos besoins de transport et proposez des places en voiture.">
-    <a href="{{ route('competitions.index') }}" class="btn btn-outline-light btn-lg">
+    <a href="{{ route('competitions.index') }}" class="btn btn-outline-light">
         <i class="fas fa-calendar-alt me-2" aria-hidden="true"></i>Calendrier des compétitions
     </a>
-</x-public.hero>
+</x-member.header>
 
 <section class="py-5 bg-light">
     <div class="container-lg member-competitions">

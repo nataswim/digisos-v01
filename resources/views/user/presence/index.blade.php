@@ -4,15 +4,14 @@
 
 @section('content')
 
-<x-public.hero
+<x-member.header
     title="Assiduité aux entraînements"
-    eyebrow="Espace adhérent"
     icon="fa-clipboard-check"
     lead="Présences de vos nageurs aux séances de la saison, telles qu'enregistrées par les entraîneurs.">
-    <a href="{{ route('user.dashboard') }}" class="btn btn-outline-light btn-lg">
+    <a href="{{ route('user.dashboard') }}" class="btn btn-outline-light">
         <i class="fas fa-arrow-left me-2" aria-hidden="true"></i>Mon espace
     </a>
-</x-public.hero>
+</x-member.header>
 
 <section class="py-5 bg-light">
     <div class="container-lg">
