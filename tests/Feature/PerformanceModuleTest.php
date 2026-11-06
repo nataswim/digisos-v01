@@ -77,7 +77,7 @@ class PerformanceModuleTest extends TestCase
         $competition = Competition::create(['title' => 'Meeting du Bocage', 'level' => 'departemental', 'kind' => 'individuel', 'venue' => 'Cœur d\'O', 'city' => 'Bressuire',
             'starts_on' => '2026-10-31', 'ends_on' => '2026-10-31', 'pool_length' => 25, 'is_published' => true]);
         $attendance = CompetitionAttendance::create(['competition_id' => $competition->id, 'planning_swimmer_id' => $this->alice->id, 'status' => 'confirme']);
-        $event = SwimEvent::create(['code' => '100-dos', 'stroke' => 'dos', 'distance' => 100, 'is_relay' => false, 'label' => '100 Dos', 'sort_order' => 1, 'is_active' => true]);
+        $event = SwimEvent::updateOrCreate(['code' => '100-dos'], ['stroke' => 'dos', 'distance' => 100, 'is_relay' => false, 'label' => '100 Dos', 'sort_order' => 1, 'is_active' => true]);
         CompetitionEntry::create(['competition_attendance_id' => $attendance->id, 'swim_event_id' => $event->id]);
         $this->perf($this->alice, '2026-10-01', '100 Dos', 8000);
 

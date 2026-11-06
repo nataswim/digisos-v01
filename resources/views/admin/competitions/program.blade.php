@@ -19,6 +19,9 @@
             <a href="{{ route($area . '.competitions.edit', $competition) }}" class="btn btn-outline-secondary btn-sm">
                 <i class="fas fa-edit me-1" aria-hidden="true"></i>Fiche compétition
             </a>
+            <a href="{{ route($area . '.competitions.events.index') }}" class="btn btn-outline-secondary btn-sm">
+                <i class="fas fa-swimmer me-1" aria-hidden="true"></i>Gérer les épreuves
+            </a>
             <a href="{{ route($area . '.competitions.entries.index', $competition) }}" class="btn btn-outline-secondary btn-sm">
                 <i class="fas fa-users me-1" aria-hidden="true"></i>Convocations
             </a>

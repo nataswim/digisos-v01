@@ -6,7 +6,10 @@
 <div class="competitions-admin">
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
         <h1 class="h3 mb-0"><i class="fas fa-trophy text-primary me-2" aria-hidden="true"></i>Compétitions</h1>
-        <div class="d-flex gap-2">
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{{ route($area . '.competitions.events.index') }}" class="btn btn-outline-secondary btn-sm">
+                <i class="fas fa-swimmer me-1" aria-hidden="true"></i>Épreuves
+            </a>
             <a href="{{ route('competitions.index') }}" class="btn btn-outline-secondary btn-sm" target="_blank" rel="noopener">
                 <i class="fas fa-external-link-alt me-1" aria-hidden="true"></i>Voir le calendrier public
             </a>

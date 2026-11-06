@@ -11,7 +11,19 @@
 use App\Http\Controllers\Admin\Competitions\CompetitionController;
 use App\Http\Controllers\Admin\Competitions\CompetitionEntryController;
 use App\Http\Controllers\Admin\Competitions\CompetitionProgramController;
+use App\Http\Controllers\Admin\Competitions\SwimEventController;
 use Illuminate\Support\Facades\Route;
+
+// Référentiel des épreuves (25 m, 50 NL, Divers, relais 10×50…) : ajouter, renommer, désactiver
+Route::controller(SwimEventController::class)
+    ->prefix('competitions-epreuves')
+    ->name('competitions.events.')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+        Route::put('/{event}', 'update')->whereNumber('event')->name('update');
+        Route::delete('/{event}', 'destroy')->whereNumber('event')->name('destroy');
+    });
 
 Route::post('competitions/{competition}/dupliquer', [CompetitionController::class, 'duplicate'])
     ->name('competitions.duplicate');

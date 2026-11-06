@@ -83,6 +83,7 @@
                 ['label' => 'Compétitions', 'icon' => 'fa-trophy', 'links' => [
                     ['Calendrier', 'fa-list', 'admin.competitions.index', ['admin.competitions.index', 'admin.competitions.edit', 'admin.competitions.entries.*', 'admin.competitions.program.*'], fn () => \App\Models\Competition::whereDate('ends_on', '>=', today())->count()],
                     ['Nouvelle compétition', 'fa-plus', 'admin.competitions.create', ['admin.competitions.create']],
+                    ['Épreuves', 'fa-swimmer', 'admin.competitions.events.index', ['admin.competitions.events.*'], fn () => \App\Models\SwimEvent::where('is_active', true)->count()],
                     ['Records', 'fa-medal', 'coach.records.index', [], fn () => \App\Models\SwimRecord::count()],
                     ['Performances des nageurs', 'fa-stopwatch', 'coach.performances.index', [], fn () => \App\Models\SwimPerformance::count()],
                 ]],
