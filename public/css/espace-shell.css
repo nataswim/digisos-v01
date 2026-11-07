@@ -1,0 +1,347 @@
+/*
+ * ==========================================================================
+ *  Cadre des espaces connectés (style « extraNat »)
+ *  Administration · Éditeur · Coachs · Adhérent · Visiteur
+ * ==========================================================================
+ *  Menu vertical blanc à gauche, barre du haut blanche (compte à droite),
+ *  contenu sur fond gris très clair, cartes blanches arrondies.
+ *  Chargé après espaces.css (layouts/partials/espace-head.blade.php).
+ *  Mise en page : resources/views/layouts/espace.blade.php
+ * ==========================================================================
+ */
+
+body.espace--shell { background: var(--x-bg) !important; }
+
+.espace--shell {
+    --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-display: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --bs-body-font-family: var(--font-sans);
+
+    /* Bleus extraNat */
+    --x-navy: #14215c;          /* titres, textes forts */
+    --x-ink: #1f2a44;           /* texte du menu */
+    --x-blue: #2f80d1;          /* bleu vif */
+    --x-blue-soft: #e8f1fb;     /* fond d'un élément actif */
+    --x-bg: #f4f6fa;            /* fond des pages */
+    --x-line: #e6eaf1;          /* bordures */
+    --x-muted: #6b7a90;
+
+    --esp-sidebar-w: 248px;
+    --esp-topbar-h: 64px;
+
+    --bs-body-bg: var(--x-bg);
+    background: var(--x-bg);
+    color: var(--x-ink);
+    font-family: var(--font-sans);
+}
+
+.espace--shell h1, .espace--shell h2, .espace--shell h3,
+.espace--shell h4, .espace--shell h5, .espace--shell h6,
+.espace--shell .h1, .espace--shell .h2, .espace--shell .h3,
+.espace--shell .h4, .espace--shell .h5, .espace--shell .h6 {
+    font-family: var(--font-display);
+    color: var(--x-navy);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.espace .esp-skip { position: absolute; z-index: 2000; left: 1rem; top: .5rem; background: #fff; padding: .5rem 1rem; border-radius: 8px; }
+
+/* --------------------------------------------------------------------------
+ *  Cadre
+ * ------------------------------------------------------------------------ */
+.espace .esp-shell { display: flex; min-height: 100vh; }
+.espace .esp-main { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
+.espace .esp-content { flex: 1 0 auto; padding: 1.75rem 1.25rem 2.5rem; outline: none; }
+.espace .esp-content > .container-lg,
+.espace .esp-content > .container-fluid,
+.espace .esp-content > div > .container-lg { padding-left: 0; padding-right: 0; }
+@media (min-width: 1200px) { .esp-content { padding: 2rem 2rem 3rem; } }
+
+/* --------------------------------------------------------------------------
+ *  Menu de gauche
+ * ------------------------------------------------------------------------ */
+.espace .esp-sidebar {
+    background: #fff;
+    border-right: 1px solid var(--x-line);
+    display: flex;
+    flex-direction: column;
+}
+@media (min-width: 992px) {
+    .espace .esp-sidebar {
+        flex: 0 0 var(--esp-sidebar-w);
+        width: var(--esp-sidebar-w);
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        scrollbar-width: thin;
+    }
+}
+@media (max-width: 991.98px) {
+    .espace .esp-sidebar.offcanvas-lg { --bs-offcanvas-width: 290px; }
+}
+
+.espace .esp-sidebar-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+    padding: 1rem 1.1rem;
+    min-height: var(--esp-topbar-h);
+}
+.espace .esp-logo { display: flex; align-items: center; gap: .7rem; text-decoration: none; color: var(--x-navy); }
+.espace .esp-logo img { height: 40px; width: auto; max-width: 72px; object-fit: contain; }
+.espace .esp-logo span { display: flex; flex-direction: column; line-height: 1.15; }
+.espace .esp-logo strong { font-size: 1.2rem; font-weight: 800; color: var(--x-navy); }
+.espace .esp-logo small { font-size: .78rem; color: var(--x-blue); font-weight: 600; }
+
+.espace .esp-nav { padding: .25rem .75rem 1rem; flex: 1 1 auto; }
+.espace .esp-nav-heading {
+    margin: 1.1rem .65rem .35rem;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--x-muted);
+}
+.espace .esp-nav-list { list-style: none; margin: 0; padding: 0; }
+.espace .esp-nav-list > li { margin: 1px 0; }
+
+.espace .esp-nav-link {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    width: 100%;
+    padding: .55rem .65rem;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--x-ink);
+    font-size: .9rem;
+    font-weight: 500;
+    text-align: left;
+    text-decoration: none;
+    transition: background-color .15s ease, color .15s ease;
+}
+.espace .esp-nav-link > i:first-child { width: 1.15rem; color: #44516a; font-size: .95rem; }
+.espace .esp-nav-link > span { flex: 1 1 auto; min-width: 0; }
+.espace .esp-nav-link > span.esp-badge { flex: 0 0 auto; }
+.espace .esp-nav-link:hover, .espace .esp-nav-link:focus-visible { background: var(--x-bg); color: var(--x-navy); }
+.espace .esp-nav-link.active { background: var(--x-blue-soft); color: var(--x-blue); font-weight: 700; }
+.espace .esp-nav-link.active > i:first-child { color: var(--x-blue); }
+.espace .esp-nav-group.is-active > .esp-nav-toggle { color: var(--x-navy); font-weight: 700; }
+
+.espace .esp-nav-caret { font-size: .7rem; color: var(--x-muted); transition: transform .2s ease; }
+.espace .esp-nav-toggle:not(.collapsed) .esp-nav-caret { transform: rotate(90deg); }
+
+.espace .esp-nav-sub { list-style: none; margin: .1rem 0 .35rem 1.55rem; padding: 0 0 0 .7rem; border-left: 2px solid var(--x-line); }
+.espace .esp-nav-sublink {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .38rem .6rem;
+    border-radius: 8px;
+    color: #4a5872;
+    font-size: .86rem;
+    text-decoration: none;
+}
+.espace .esp-nav-sublink:hover, .espace .esp-nav-sublink:focus-visible { background: var(--x-bg); color: var(--x-navy); }
+.espace .esp-nav-sublink.active { background: var(--x-blue-soft); color: var(--x-blue); font-weight: 700; }
+.espace .esp-ext { font-size: .65rem; opacity: .6; }
+
+.espace .esp-badge, .espace .esp-icon-badge {
+    display: inline-block;
+    min-width: 1.3rem;
+    padding: .1rem .38rem;
+    border-radius: 999px;
+    background: #e2001a;
+    color: #fff;
+    font-size: .7rem;
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: center;
+}
+
+.espace .esp-sidebar-foot { padding: .75rem; border-top: 1px solid var(--x-line); }
+
+/* --------------------------------------------------------------------------
+ *  Barre du haut
+ * ------------------------------------------------------------------------ */
+.espace .esp-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    min-height: var(--esp-topbar-h);
+    padding: .5rem 1.25rem;
+    background: #fff;
+    border-bottom: 1px solid var(--x-line);
+}
+@media (min-width: 1200px) { .esp-topbar { padding: .5rem 2rem; } }
+
+.espace .esp-burger, .espace .esp-icon-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--x-line);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--x-navy);
+    text-decoration: none;
+}
+.espace .esp-burger:hover, .espace .esp-icon-btn:hover { background: var(--x-bg); color: var(--x-blue); }
+.espace .esp-icon-badge { position: absolute; top: -6px; right: -6px; }
+
+.espace .esp-area-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: .35rem .8rem;
+    border-radius: 999px;
+    background: var(--x-blue-soft);
+    color: var(--x-blue);
+    font-size: .8rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+@media (max-width: 400px) { .esp-area-chip { display: none; } }
+
+.espace .esp-topbar-right { margin-left: auto; display: flex; align-items: center; gap: .75rem; }
+
+.espace .esp-account {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    padding: .25rem .5rem .25rem .25rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--x-navy);
+}
+.espace .esp-account:hover, .espace .esp-account[aria-expanded="true"] { background: var(--x-bg); }
+.espace .esp-account::after { margin-left: .25rem; color: var(--x-muted); }
+.espace .esp-account-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--x-blue-soft);
+    color: var(--x-navy);
+    font-weight: 800;
+    font-size: .85rem;
+}
+.espace .esp-account-text { flex-direction: column; align-items: flex-start; line-height: 1.2; text-align: left; }
+.espace .esp-account-text strong { font-size: .85rem; font-weight: 700; max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.espace .esp-account-text small { font-size: .75rem; color: var(--x-muted); }
+.espace .esp-account-menu { min-width: 240px; border: 1px solid var(--x-line); border-radius: 14px; box-shadow: 0 12px 32px rgba(20, 33, 92, .12); padding: .4rem; }
+.espace .esp-account-menu .dropdown-item { border-radius: 8px; padding: .5rem .7rem; font-size: .9rem; }
+
+/* --------------------------------------------------------------------------
+ *  Pied de page
+ * ------------------------------------------------------------------------ */
+.espace .esp-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: .5rem 1rem;
+    padding: 1rem 1.25rem 1.25rem;
+    color: var(--x-muted);
+    font-size: .8rem;
+}
+@media (min-width: 1200px) { .esp-footer { padding: 1rem 2rem 1.5rem; } }
+.espace .esp-footer a { color: var(--x-muted); }
+
+/* --------------------------------------------------------------------------
+ *  Cartes et composants (rendu « extraNat »)
+ * ------------------------------------------------------------------------ */
+.espace--shell .card {
+    border: 1px solid var(--x-line) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 1px 3px rgba(20, 33, 92, .05) !important;
+    background: #fff;
+}
+.espace--shell .card-header {
+    background: #fff !important;
+    border-bottom: 1px solid var(--x-line);
+    border-radius: 16px 16px 0 0 !important;
+}
+.espace--shell .card-footer { border-top: 1px solid var(--x-line); border-radius: 0 0 16px 16px !important; }
+.espace--shell .card-header h2, .espace--shell .card-header .h5, .espace--shell .card-header .h6 { color: var(--x-navy); }
+
+.espace--shell .btn-primary {
+    --bs-btn-bg: var(--x-blue);
+    --bs-btn-border-color: var(--x-blue);
+    --bs-btn-hover-bg: #236bb5;
+    --bs-btn-hover-border-color: #236bb5;
+    --bs-btn-active-bg: #1d5a99;
+}
+.espace--shell .btn-outline-primary { --bs-btn-color: var(--x-blue); --bs-btn-border-color: #b9d3ef; --bs-btn-hover-bg: var(--x-blue); --bs-btn-hover-border-color: var(--x-blue); }
+
+.espace--shell .table > thead th, .espace--shell .table-light th { color: var(--x-muted); }
+
+/* Ancienne mise en page : la grande bande de titre des pages adhérent devient une carte */
+.espace .esp-content .member-head { border-radius: 18px; margin-bottom: 1.5rem; }
+.espace .esp-content .member-head > .container-lg { padding-left: 1.5rem; padding-right: 1.5rem; }
+.espace .esp-content .member-head + .container-lg,
+.espace .esp-content .member-head ~ .container-lg { padding-top: 0 !important; }
+.espace .esp-content > section.py-5:first-child, .espace .esp-content > .py-5:first-child { padding-top: 0 !important; }
+
+/* Bandeaux « hero » du site public éventuellement présents dans une page de l'espace */
+.espace .esp-content .hero-section, .espace .esp-content .page-hero { border-radius: 18px; overflow: hidden; }
+
+/* --------------------------------------------------------------------------
+ *  Tuiles « Applications » (tableaux de bord)
+ * ------------------------------------------------------------------------ */
+.espace .esp-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1rem; }
+.espace .esp-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .9rem;
+    min-height: 120px;
+    padding: 1.25rem 1rem;
+    border-radius: 14px;
+    color: #fff !important;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 700;
+    font-size: .82rem;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    box-shadow: 0 6px 16px rgba(20, 33, 92, .15);
+    transition: transform .15s ease, box-shadow .15s ease;
+    background: linear-gradient(135deg, #3d93dc, #2b74c2);
+}
+.espace .esp-tile i { font-size: 1.7rem; }
+.espace .esp-tile:hover, .espace .esp-tile:focus-visible { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(20, 33, 92, .22); }
+.espace .esp-tile--navy { background: linear-gradient(135deg, #285596, #1d3f78); }
+.espace .esp-tile--night { background: linear-gradient(135deg, #1a237e, #0f1557); }
+.espace .esp-tile--deep { background: linear-gradient(135deg, #234e85, #183863); }
+
+@media (prefers-reduced-motion: reduce) {
+    .espace .esp-nav-caret, .espace .esp-tile { transition: none; }
+}
+
+/* --------------------------------------------------------------------------
+ *  Ajustements des pages adhérent (anciennement dans la mise en page du site public)
+ * ------------------------------------------------------------------------ */
+.espace--shell .member-head h1,
+.espace--shell .member-head .h2 { color: #fff; }
+.espace .esp-content > section.bg-light { background: transparent !important; background-image: none !important; padding-top: 0 !important; padding-bottom: 0 !important; }
+.espace .esp-content > section.bg-light::before,
+.espace .esp-content > section.bg-light::after { display: none !important; }
+.espace .esp-content > section > .container-lg { padding-left: 0; padding-right: 0; }
+.espace .esp-content > .container-lg.py-5 { padding-top: 0 !important; }
+
+/* Fond blanc de la colonne du menu sur toute la hauteur (ordinateur) */
+@media (min-width: 992px) {
+    .espace .esp-shell { background: linear-gradient(to right, #fff calc(var(--esp-sidebar-w) - 1px), var(--x-line) calc(var(--esp-sidebar-w) - 1px), var(--x-line) var(--esp-sidebar-w), transparent var(--esp-sidebar-w)); }
+}

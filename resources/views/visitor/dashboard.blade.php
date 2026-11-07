@@ -1,4 +1,4 @@
-@extends('layouts.public')
+@extends('layouts.member')
 
 @section('title', 'Mon espace visiteur')
 
