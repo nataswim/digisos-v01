@@ -28,6 +28,9 @@
                     <hr>
                     <a href="{{ route('coach.performances.create', ['contexte' => 'meeting']) }}" class="btn btn-sm btn-outline-primary me-1 mb-1"><i class="fas fa-flag-checkered me-1" aria-hidden="true"></i>Meeting extérieur</a>
                     <a href="{{ route('coach.performances.create', ['contexte' => 'training']) }}" class="btn btn-sm btn-outline-primary mb-1"><i class="fas fa-stopwatch me-1" aria-hidden="true"></i>Contre-la-montre à l'entraînement</a>
+                    @if (auth()->user()->hasRole('admin'))
+                        <a href="{{ route('coach.performances.import') }}" class="btn btn-sm btn-outline-secondary mb-1 ms-1"><i class="fas fa-file-import me-1" aria-hidden="true"></i>Importer depuis extraNat</a>
+                    @endif
                 </div>
             </div>
         </div>

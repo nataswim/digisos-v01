@@ -52,6 +52,9 @@ Route::middleware(['auth', 'verified', 'can:access-coach'])->prefix('coach')->na
     Route::prefix('performances')->name('performances.')->controller(PerformanceController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('saisie', 'create')->name('create');
+        // Import depuis extraNat (administrateurs uniquement, vérifié dans le contrôleur)
+        Route::get('importer', [\App\Http\Controllers\Coach\PerformanceImportController::class, 'create'])->name('import');
+        Route::post('importer', [\App\Http\Controllers\Coach\PerformanceImportController::class, 'store'])->middleware('throttle:30,1')->name('import.store');
         Route::post('saisie', 'store')->name('store');
         Route::get('bilan', 'report')->name('report');
         Route::get('classement', 'ranking')->name('ranking');
