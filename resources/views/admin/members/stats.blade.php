@@ -67,10 +67,29 @@
             ['age', 'Par âge', $byAge, 'âge au 1er septembre ' . substr($season, 0, 4)],
         ];
     @endphp
+
+    {{-- Le plus jeune / le plus âgé, la plus jeune / la plus âgée --}}
+    <h2 class="h5 fw-bold mt-2 mb-3">Âges extrêmes</h2>
+    <div class="row g-3 mb-4">
+        @foreach ($extremes as $e)
+            <div class="col-6 col-lg-3">
+                <div class="card border-0 shadow-sm h-100"><div class="card-body">
+                    <div class="small text-muted">{{ $e['label'] }}</div>
+                    @if ($e['member'])
+                        <a href="{{ $r('show', $e['member']) }}" class="fw-bold d-block text-decoration-none">{{ $e['member']->full_name }}</a>
+                        <div class="h5 fw-bold mb-0">{{ $e['age'] }} ans</div>
+                        <div class="small text-muted">né{{ str_contains($e['label'], 'La ') ? 'e' : '' }} le {{ $e['member']->birth_date->format('d/m/Y') }}</div>
+                    @else
+                        <div class="text-muted">—</div>
+                    @endif
+                </div></div>
+            </div>
+        @endforeach
+    </div>
     <h2 class="h5 fw-bold mt-2 mb-3">Répartition des adhérents</h2>
     <div class="row g-4 mb-4">
         @foreach ($graphiques as [$id, $titre, $donnees, $note])
-            <div class="col-lg-6">
+            <div class="{{ $id === 'age' ? 'col-12' : 'col-lg-6' }}">
                 <section class="card border-0 shadow-sm h-100" aria-labelledby="titre-{{ $id }}">
                     <div class="card-header bg-white d-flex justify-content-between align-items-baseline gap-2">
                         <h3 id="titre-{{ $id }}" class="h6 fw-bold mb-0">{{ $titre }}</h3>
@@ -78,7 +97,7 @@
                     </div>
                     <div class="card-body">
                         @if ($donnees->sum() > 0)
-                            <div class="mbr-chart" style="height: {{ 40 + $donnees->count() * 34 }}px">
+                            <div class="mbr-chart" style="height: {{ $id === 'age' ? 340 : 40 + $donnees->count() * 34 }}px">
                                 <canvas id="graph-{{ $id }}" role="img"
                                         aria-label="{{ $titre }} : {{ $donnees->map(fn ($n, $k) => $k . ' ' . $n)->implode(', ') }}"></canvas>
                             </div>
@@ -169,10 +188,12 @@
             ctx.save();
             ctx.font = '600 12px Manrope, system-ui, sans-serif';
             ctx.fillStyle = TEXTE;
-            ctx.textBaseline = 'middle';
+            const vertical = chart.options.indexAxis === 'x';
+            ctx.textBaseline = vertical ? 'bottom' : 'middle';
+            ctx.textAlign = vertical ? 'center' : 'left';
             chart.getDatasetMeta(0).data.forEach((barre, i) => {
                 const v = chart.data.datasets[0].data[i];
-                if (v) ctx.fillText(v, barre.x + 6, barre.y);
+                if (v) vertical ? ctx.fillText(v, barre.x, barre.y - 4) : ctx.fillText(v, barre.x + 6, barre.y);
             });
             ctx.restore();
         },
@@ -183,22 +204,26 @@
             const canvas = document.getElementById('graph-' + id);
             if (!canvas) return;
             const max = Math.max(...d.values, 1);
+            const vertical = id === 'age';   // âge : colonnes (axe des âges horizontal)
             new Chart(canvas, {
                 type: 'bar',
                 data: { labels: d.labels, datasets: [{ data: d.values, backgroundColor: BLEU, hoverBackgroundColor: '#236bb5', borderRadius: 4, borderSkipped: 'start', maxBarThickness: 22 }] },
                 options: {
-                    indexAxis: 'y',
+                    indexAxis: vertical ? 'x' : 'y',
                     maintainAspectRatio: false,
                     animation: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? false : { duration: 400 },
-                    layout: { padding: { right: 28 } },
-                    scales: {
+                    layout: { padding: vertical ? { top: 20 } : { right: 28 } },
+                    scales: vertical ? {
+                        x: { ticks: { color: TEXTE, font: { size: 11 }, autoSkip: window.innerWidth < 576, maxRotation: 60, minRotation: 0 }, grid: { display: false }, border: { color: GRILLE } },
+                        y: { beginAtZero: true, suggestedMax: max * 1.15, ticks: { precision: 0, color: DISCRET, font: { size: 11 } }, grid: { color: GRILLE }, border: { display: false } },
+                    } : {
                         x: { beginAtZero: true, suggestedMax: max * 1.1, ticks: { precision: 0, color: DISCRET, font: { size: 11 } }, grid: { color: GRILLE }, border: { display: false } },
                         y: { ticks: { color: TEXTE, font: { size: 12 } }, grid: { display: false }, border: { color: GRILLE } },
                     },
                     plugins: {
                         legend: { display: false },
                         tooltip: { backgroundColor: '#fff', titleColor: TEXTE, bodyColor: TEXTE, borderColor: GRILLE, borderWidth: 1, padding: 10, displayColors: false,
-                                   callbacks: { label: c => c.parsed.x + ' adhérent' + (c.parsed.x > 1 ? 's' : '') } },
+                                   callbacks: { label: c => { const n = vertical ? c.parsed.y : c.parsed.x; return n + ' adhérent' + (n > 1 ? 's' : ''); } } },
                     },
                 },
                 plugins: [valeurs],

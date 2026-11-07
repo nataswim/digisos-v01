@@ -258,9 +258,22 @@ class MembersModuleTest extends TestCase
             ->assertSee('Commune non renseignée')
             ->assertDontSee('1 rue', false);   // aucune adresse transmise à la carte
 
-        // Ordre des tranches d'âge : « Moins de 10 ans » avant « 10 à 14 ans »
-        $html = $this->get(route('admin.members.stats', ['saison' => self::SEASON]))->getContent();
-        $this->assertLessThan(strpos($html, '10 à 14 ans'), strpos($html, 'Moins de 10 ans'));
+        // Tranches d'âge détaillées, dans l'ordre : Léa 12 ans, Paul 46 ans au 1er septembre 2026
+        $tranches = $this->get(route('admin.members.stats', ['saison' => self::SEASON]))->viewData('byAge');
+        $this->assertSame(['8 ans et moins', '9 ans', '10 ans'], $tranches->keys()->take(3)->all());
+        $this->assertSame('71 ans et plus', $tranches->keys()->last());
+        $this->assertCount(26, $tranches);   // pas de « Âge inconnu » : toutes les dates sont connues
+        $this->assertSame(1, $tranches['12 ans']);
+        $this->assertSame(1, $tranches['46 à 50 ans']);
+        $this->assertSame('12 ans', \App\Http\Controllers\Admin\Members\MemberStatsController::ageBracket(12));
+        $this->assertSame('8 ans et moins', \App\Http\Controllers\Admin\Members\MemberStatsController::ageBracket(6));
+        $this->assertSame('25 à 30 ans', \App\Http\Controllers\Admin\Members\MemberStatsController::ageBracket(25));
+        $this->assertSame('71 ans et plus', \App\Http\Controllers\Admin\Members\MemberStatsController::ageBracket(84));
+
+        // Âges extrêmes : la plus jeune / la plus âgée = Léa ; le plus jeune / le plus âgé = Paul
+        $this->get(route('admin.members.stats', ['saison' => self::SEASON]))
+            ->assertSee('Âges extrêmes')->assertSee('La plus jeune')->assertSee('Le plus âgé')
+            ->assertSee('née le 15/03/2014')->assertSee('né le 01/01/1980')->assertSee('46 ans');
 
         Http::assertSent(fn ($r) => str_contains($r->url(), 'codePostal=79999') && ! str_contains($r->url(), 'Testeur'));
         Http::assertSentCount(1);   // deuxième affichage : position lue dans le cache

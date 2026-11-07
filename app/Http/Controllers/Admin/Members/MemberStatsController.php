@@ -13,8 +13,34 @@ use Illuminate\View\View;
  */
 class MemberStatsController extends MembersArea
 {
-    /** Tranches d'âge, dans l'ordre d'affichage */
-    public const AGE_BRACKETS = ['Moins de 10 ans', '10 à 14 ans', '15 à 17 ans', '18 à 25 ans', '26 à 59 ans', '60 ans et plus', 'Inconnu'];
+    /**
+     * Tranches d'âge (âge au 1er septembre de la saison), dans l'ordre d'affichage :
+     * 8 ans et moins, puis chaque âge de 9 à 24 ans, puis par groupes jusqu'à 71 ans et plus.
+     * [libellé, âge minimum, âge maximum]
+     */
+    public const AGE_BRACKETS = [
+        ['8 ans et moins', 0, 8],
+        ['9 ans', 9, 9], ['10 ans', 10, 10], ['11 ans', 11, 11], ['12 ans', 12, 12], ['13 ans', 13, 13],
+        ['14 ans', 14, 14], ['15 ans', 15, 15], ['16 ans', 16, 16], ['17 ans', 17, 17], ['18 ans', 18, 18],
+        ['19 ans', 19, 19], ['20 ans', 20, 20], ['21 ans', 21, 21], ['22 ans', 22, 22], ['23 ans', 23, 23], ['24 ans', 24, 24],
+        ['25 à 30 ans', 25, 30], ['31 à 35 ans', 31, 35], ['36 à 40 ans', 36, 40], ['41 à 45 ans', 41, 45],
+        ['46 à 50 ans', 46, 50], ['51 à 60 ans', 51, 60], ['61 à 65 ans', 61, 65], ['66 à 70 ans', 66, 70],
+        ['71 ans et plus', 71, 999],
+    ];
+
+    public static function ageBracket(?int $age): string
+    {
+        if ($age === null) {
+            return 'Âge inconnu';
+        }
+        foreach (self::AGE_BRACKETS as [$libelle, $min, $max]) {
+            if ($age >= $min && $age <= $max) {
+                return $libelle;
+            }
+        }
+
+        return 'Âge inconnu';
+    }
 
     public function __invoke(Request $request, CommuneLocator $locator): View
     {
@@ -22,19 +48,7 @@ class MemberStatsController extends MembersArea
         $all = Membership::with(['member', 'category', 'payments'])->where('season', $season)->get();
         $actives = $all->where('status', '!=', 'abandon');
 
-        $tranche = function ($m) use ($season) {
-            $age = $m->member->ageAt($season);
-
-            return match (true) {
-                $age === null => 'Inconnu',
-                $age < 10 => 'Moins de 10 ans',
-                $age < 15 => '10 à 14 ans',
-                $age < 18 => '15 à 17 ans',
-                $age < 26 => '18 à 25 ans',
-                $age < 60 => '26 à 59 ans',
-                default => '60 ans et plus',
-            };
-        };
+        $tranche = fn ($m) => self::ageBracket($m->member->ageAt($season));
 
         return $this->membersView('stats', [
             'season' => $season,
@@ -44,8 +58,10 @@ class MemberStatsController extends MembersArea
             'byCategory' => $actives->groupBy(fn ($m) => $m->category?->code ?? 'Sans catégorie')->map(fn ($g) => ['count' => $g->count(), 'amount' => $g->sum('amount_cents')])->sortKeys(),
             'bySex' => $actives->countBy(fn ($m) => ['F' => 'Féminin', 'M' => 'Masculin'][$m->member->gender] ?? 'Non précisé')
                 ->sortKeys(),
-            'byAge' => collect(self::AGE_BRACKETS)->mapWithKeys(fn ($t) => [$t => $actives->filter(fn ($m) => $tranche($m) === $t)->count()])
-                ->filter(fn ($n, $t) => $n > 0 || $t !== 'Inconnu'),
+            'byAge' => collect(self::AGE_BRACKETS)->pluck(0)->push('Âge inconnu')
+                ->mapWithKeys(fn ($t) => [$t => $actives->filter(fn ($m) => $tranche($m) === $t)->count()])
+                ->filter(fn ($n, $t) => $n > 0 || $t !== 'Âge inconnu'),
+            'extremes' => $this->extremes($actives, $season),
             'byCity' => $actives->countBy(fn ($m) => mb_strtoupper(trim((string) $m->member->city)) ?: 'Inconnue')->sortDesc()->take(10),
             'bySituation' => $actives->countBy(fn ($m) => Membership::SITUATIONS[$m->situation] ?? 'Non précisée'),
             'map' => $this->communes($actives, $locator),
@@ -93,5 +109,24 @@ class MemberStatsController extends MembersArea
         }
 
         return compact('points', 'missing');
+    }
+
+    /**
+     * Le plus jeune / le plus âgé (garçons et hommes) et la plus jeune / la plus âgée (filles et femmes)
+     * parmi les adhérents actifs dont la date de naissance est connue.
+     *
+     * @return array<int, array{label: string, member: \App\Models\Member|null, age: int|null}>
+     */
+    private function extremes($actives, string $season): array
+    {
+        $avecDate = $actives->map->member->filter(fn ($m) => $m && $m->birth_date)->unique('id');
+        $sexe = fn ($g) => $avecDate->where('gender', $g);
+
+        return collect([
+            ['Le plus jeune', $sexe('M')->sortByDesc('birth_date')->first()],
+            ['Le plus âgé', $sexe('M')->sortBy('birth_date')->first()],
+            ['La plus jeune', $sexe('F')->sortByDesc('birth_date')->first()],
+            ['La plus âgée', $sexe('F')->sortBy('birth_date')->first()],
+        ])->map(fn ($e) => ['label' => $e[0], 'member' => $e[1], 'age' => $e[1]?->ageAt($season)])->all();
     }
 }
