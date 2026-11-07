@@ -27,14 +27,6 @@
     <div class="row g-4">
         <div class="col-lg-6">
             <section class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-white"><h2 class="h6 fw-bold mb-0">Par catégorie</h2></div>
-                <table class="table table-sm mb-0">
-                    <caption class="visually-hidden">Adhérents par catégorie</caption>
-                    <thead><tr><th scope="col">Catégorie</th><th scope="col" class="text-end">Adhérents</th><th scope="col" class="text-end">Montant</th></tr></thead>
-                    <tbody>@foreach ($byCategory as $code => $c)<tr><th scope="row">{{ $code }}</th><td class="text-end">{{ $c['count'] }}</td><td class="text-end">{{ M::money($c['amount']) }}</td></tr>@endforeach</tbody>
-                </table>
-            </section>
-            <section class="card border-0 shadow-sm mb-4">
                 <div class="card-header bg-white"><h2 class="h6 fw-bold mb-0">Finances</h2></div>
                 <ul class="list-group list-group-flush small">
                     <li class="list-group-item d-flex justify-content-between"><span>Remises accordées</span><strong>{{ M::money($money['discounts']) }}</strong></li>
@@ -61,19 +53,176 @@
                     <li class="list-group-item d-flex justify-content-between"><span>Abandons</span><strong>{{ $abandons }}</strong></li>
                 </ul>
             </section>
-            <div class="row g-4">
-                @foreach ([['Par statut', $byStatus->mapWithKeys(fn ($n, $k) => [M::STATUSES[$k][0] ?? $k => $n])], ['Par situation', $bySituation], ['Par sexe', $bySex], ['Par âge', $byAge], ['Communes (10 premières)', $byCity]] as [$titre, $liste])
-                    <div class="col-md-6">
-                        <section class="card border-0 shadow-sm h-100">
-                            <div class="card-header bg-white"><h2 class="h6 fw-bold mb-0">{{ $titre }}</h2></div>
-                            <ul class="list-group list-group-flush small">
-                                @forelse ($liste as $k => $n)<li class="list-group-item d-flex justify-content-between"><span>{{ $k }}</span><strong>{{ $n }}</strong></li>@empty<li class="list-group-item text-muted">—</li>@endforelse
-                            </ul>
-                        </section>
-                    </div>
-                @endforeach
-            </div>
         </div>
     </div>
+
+    {{-- Graphiques de répartition (chaque graphique a ses chiffres juste en dessous) --}}
+    @php
+        $statuts = $byStatus->mapWithKeys(fn ($n, $k) => [M::STATUSES[$k][0] ?? $k => $n]);
+        $graphiques = [
+            ['cat', 'Par catégorie', $byCategory->map(fn ($c) => $c['count']), 'adhérents actifs'],
+            ['statut', 'Par statut', $statuts, 'adhésions de la saison, abandons compris'],
+            ['situation', 'Par situation', $bySituation, 'adhérents actifs'],
+            ['sexe', 'Par sexe', $bySex, 'adhérents actifs'],
+            ['age', 'Par âge', $byAge, 'âge au 1er septembre ' . substr($season, 0, 4)],
+        ];
+    @endphp
+    <h2 class="h5 fw-bold mt-2 mb-3">Répartition des adhérents</h2>
+    <div class="row g-4 mb-4">
+        @foreach ($graphiques as [$id, $titre, $donnees, $note])
+            <div class="col-lg-6">
+                <section class="card border-0 shadow-sm h-100" aria-labelledby="titre-{{ $id }}">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-baseline gap-2">
+                        <h3 id="titre-{{ $id }}" class="h6 fw-bold mb-0">{{ $titre }}</h3>
+                        <span class="small text-muted">{{ $note }}</span>
+                    </div>
+                    <div class="card-body">
+                        @if ($donnees->sum() > 0)
+                            <div class="mbr-chart" style="height: {{ 40 + $donnees->count() * 34 }}px">
+                                <canvas id="graph-{{ $id }}" role="img"
+                                        aria-label="{{ $titre }} : {{ $donnees->map(fn ($n, $k) => $k . ' ' . $n)->implode(', ') }}"></canvas>
+                            </div>
+                        @else
+                            <p class="text-muted mb-0">Aucune donnée pour cette saison.</p>
+                        @endif
+                        <details class="mt-2">
+                            <summary class="small text-muted">Voir les chiffres</summary>
+                            <table class="table table-sm small mb-0 mt-2">
+                                <caption class="visually-hidden">{{ $titre }}</caption>
+                                <thead><tr><th scope="col">{{ ltrim(str_replace('Par ', '', $titre)) }}</th><th scope="col" class="text-end">Nombre</th>@if ($id === 'cat')<th scope="col" class="text-end">Montant</th>@endif</tr></thead>
+                                <tbody>
+                                    @foreach ($donnees as $k => $n)
+                                        <tr><th scope="row" class="fw-normal">{{ $k }}</th><td class="text-end">{{ $n }}</td>@if ($id === 'cat')<td class="text-end">{{ M::money($byCategory[$k]['amount']) }}</td>@endif</tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </details>
+                    </div>
+                </section>
+            </div>
+        @endforeach
+    </div>
+
+    {{-- Carte des communes --}}
+    <section class="card border-0 shadow-sm mb-4" aria-labelledby="titre-carte">
+        <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-baseline gap-2">
+            <h2 id="titre-carte" class="h6 fw-bold mb-0"><i class="fas fa-map-location-dot text-primary me-2" aria-hidden="true"></i>Communes des adhérents</h2>
+            <span class="small text-muted">{{ count($map['points']) + count($map['missing']) }} commune(s) · cercle proportionnel au nombre d'adhérents</span>
+        </div>
+        <div class="card-body">
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    @if ($map['points'])
+                        <div id="carte-communes" class="mbr-map" role="region" aria-label="Carte des communes des adhérents (la liste à côté donne les mêmes informations)"></div>
+                        <p class="small text-muted mt-2 mb-0">Fond de carte © contributeurs OpenStreetMap. Positions : geo.api.gouv.fr (seuls le code postal et le nom de la commune sont envoyés).</p>
+                    @else
+                        <p class="text-muted mb-0">Carte indisponible : aucune commune n'a pu être localisée (communes non renseignées, ou service de localisation injoignable pour le moment).</p>
+                    @endif
+                </div>
+                <div class="col-lg-4">
+                    <div class="mbr-cities">
+                        <table class="table table-sm small mb-0">
+                            <caption class="visually-hidden">Adhérents par commune</caption>
+                            <thead class="table-light sticky-top"><tr><th scope="col">Commune</th><th scope="col" class="text-end">Adhérents</th></tr></thead>
+                            <tbody>
+                                @foreach (collect($map['points'])->concat($map['missing'])->sortByDesc('count') as $c)
+                                    <tr>
+                                        <th scope="row" class="fw-normal">{{ $c['name'] }} <span class="text-muted">{{ $c['postal_code'] }}</span>@if (! isset($c['lat']))<span class="badge bg-warning-subtle text-warning-emphasis ms-1" title="Commune non localisée sur la carte">non placée</span>@endif</th>
+                                        <td class="text-end">{{ $c['count'] }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
 @endsection
+
+@push('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+    .mbr-chart { position: relative; width: 100%; }
+    .mbr-map { height: 460px; border-radius: 12px; overflow: hidden; border: 1px solid #e6eaf1; z-index: 0; }
+    .mbr-cities { max-height: 460px; overflow-y: auto; border: 1px solid #e6eaf1; border-radius: 12px; }
+    .mbr-cities thead th { background: #f8fafc; }
+    .leaflet-tooltip.mbr-tip { font-family: inherit; font-size: .85rem; border-radius: 8px; border: 1px solid #e6eaf1; box-shadow: 0 6px 16px rgba(20, 33, 92, .12); }
+    @media (max-width: 575.98px) { .mbr-map { height: 340px; } }
+</style>
+@endpush
+
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+(() => {
+    const BLEU = '#2f80d1', TEXTE = '#1f2a44', DISCRET = '#6b7a90', GRILLE = '#e6eaf1';
+    const donnees = @json(collect($graphiques)->mapWithKeys(fn ($g) => [$g[0] => ['labels' => $g[2]->keys()->values(), 'values' => $g[2]->values()]]));
+
+    // Valeur écrite au bout de chaque barre (une seule série : pas de légende, le titre la nomme)
+    const valeurs = {
+        id: 'valeurs',
+        afterDatasetsDraw(chart) {
+            const { ctx } = chart;
+            ctx.save();
+            ctx.font = '600 12px Manrope, system-ui, sans-serif';
+            ctx.fillStyle = TEXTE;
+            ctx.textBaseline = 'middle';
+            chart.getDatasetMeta(0).data.forEach((barre, i) => {
+                const v = chart.data.datasets[0].data[i];
+                if (v) ctx.fillText(v, barre.x + 6, barre.y);
+            });
+            ctx.restore();
+        },
+    };
+
+    if (window.Chart) {
+        Object.entries(donnees).forEach(([id, d]) => {
+            const canvas = document.getElementById('graph-' + id);
+            if (!canvas) return;
+            const max = Math.max(...d.values, 1);
+            new Chart(canvas, {
+                type: 'bar',
+                data: { labels: d.labels, datasets: [{ data: d.values, backgroundColor: BLEU, hoverBackgroundColor: '#236bb5', borderRadius: 4, borderSkipped: 'start', maxBarThickness: 22 }] },
+                options: {
+                    indexAxis: 'y',
+                    maintainAspectRatio: false,
+                    animation: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? false : { duration: 400 },
+                    layout: { padding: { right: 28 } },
+                    scales: {
+                        x: { beginAtZero: true, suggestedMax: max * 1.1, ticks: { precision: 0, color: DISCRET, font: { size: 11 } }, grid: { color: GRILLE }, border: { display: false } },
+                        y: { ticks: { color: TEXTE, font: { size: 12 } }, grid: { display: false }, border: { color: GRILLE } },
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { backgroundColor: '#fff', titleColor: TEXTE, bodyColor: TEXTE, borderColor: GRILLE, borderWidth: 1, padding: 10, displayColors: false,
+                                   callbacks: { label: c => c.parsed.x + ' adhérent' + (c.parsed.x > 1 ? 's' : '') } },
+                    },
+                },
+                plugins: [valeurs],
+            });
+        });
+    }
+
+    // Carte : un cercle par commune, surface proportionnelle au nombre d'adhérents
+    const points = @json($map['points']);
+    const el = document.getElementById('carte-communes');
+    if (el && window.L && points.length) {
+        const carte = L.map(el, { scrollWheelZoom: false });
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        }).addTo(carte);
+        const max = Math.max(...points.map(p => p.count));
+        const cercles = points.map(p => L.circleMarker([p.lat, p.lng], {
+            radius: 6 + 22 * Math.sqrt(p.count / max),
+            color: '#ffffff', weight: 2, fillColor: BLEU, fillOpacity: 0.6,
+        }).bindTooltip(`<strong>${p.name}</strong> ${p.postal_code}<br>${p.count} adhérent${p.count > 1 ? 's' : ''}`, { className: 'mbr-tip', direction: 'top' }).addTo(carte));
+        const groupe = L.featureGroup(cercles);
+        carte.fitBounds(groupe.getBounds().pad(0.25), { maxZoom: 12 });
+    }
+})();
+</script>
+@endpush

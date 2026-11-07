@@ -10,6 +10,7 @@ use App\Models\MembershipPayment;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 /**
@@ -22,6 +23,16 @@ class MembersModuleTest extends TestCase
     use RefreshDatabase;
 
     private const SEASON = '2026-2027';
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // Carte des communes : aucune requête réelle vers geo.api.gouv.fr pendant les tests
+        Http::fake(['geo.api.gouv.fr/*' => Http::response([
+            ['nom' => 'Villefictive', 'codesPostaux' => ['79999'], 'centre' => ['type' => 'Point', 'coordinates' => [-0.49, 46.84]]],
+        ])]);
+        Http::preventStrayRequests();
+    }
 
     private function userWithRole(string $slug): User
     {
@@ -230,5 +241,28 @@ class MembersModuleTest extends TestCase
         $this->delete(route('admin.members.destroy', $m))->assertRedirect();
         $this->assertSame(0, Member::count());
         $this->assertSame(0, Membership::count());
+    }
+
+    public function test_stats_page_has_charts_and_commune_map(): void
+    {
+        $this->member(['postal_code' => '79999', 'city' => 'Villefictive', 'gender' => 'F']);
+        $this->member(['last_name' => 'Autre', 'first_name' => 'Paul', 'gender' => 'M', 'birth_date' => '1980-01-01', 'postal_code' => '', 'city' => '']);
+
+        $this->actingAs($this->userWithRole('admin'))->get(route('admin.members.stats', ['saison' => self::SEASON]))->assertOk()
+            ->assertSee('Répartition des adhérents')
+            ->assertSee('graph-cat', false)->assertSee('graph-statut', false)->assertSee('graph-situation', false)
+            ->assertSee('graph-sexe', false)->assertSee('graph-age', false)
+            ->assertSee('Féminin')->assertSee('Masculin')
+            ->assertSee('carte-communes', false)
+            ->assertSee('"lat":46.84', false)
+            ->assertSee('Commune non renseignée')
+            ->assertDontSee('1 rue', false);   // aucune adresse transmise à la carte
+
+        // Ordre des tranches d'âge : « Moins de 10 ans » avant « 10 à 14 ans »
+        $html = $this->get(route('admin.members.stats', ['saison' => self::SEASON]))->getContent();
+        $this->assertLessThan(strpos($html, '10 à 14 ans'), strpos($html, 'Moins de 10 ans'));
+
+        Http::assertSent(fn ($r) => str_contains($r->url(), 'codePostal=79999') && ! str_contains($r->url(), 'Testeur'));
+        Http::assertSentCount(1);   // deuxième affichage : position lue dans le cache
     }
 }
