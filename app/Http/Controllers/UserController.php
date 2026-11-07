@@ -39,17 +39,25 @@ class UserController extends Controller
     {
         $this->checkAdminAccess();
 
-        $search = $request->input('search');
-        $query  = User::with('role');
+        $search = trim((string) $request->input('search'));
+        $query  = User::with(['role', 'planningSwimmers' => fn ($q) => $q->orderBy('first_name'), 'planningSwimmers.groups']);
 
-        if ($search) {
+        if ($search !== '') {
+            // Nom du compte, prénom, nom, e-mail, ou prénom / nom d'un nageur rattaché
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%");
+                  ->orWhere('first_name', 'like', "%{$search}%")
+                  ->orWhere('last_name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhereHas('planningSwimmers', fn ($s) => $s->where('first_name', 'like', "%{$search}%")->orWhere('last_name', 'like', "%{$search}%"));
             });
         }
 
-        $users = $query->orderBy('created_at', 'desc')->paginate(10);
+        if ($request->filled('role')) {
+            $query->where('role_id', $request->integer('role'));
+        }
+
+        $users = $query->orderBy('created_at', 'desc')->paginate(20)->withQueryString();
         $roles = Role::orderBy('level', 'asc')->get();
 
         return view('admin.users.index', compact('users', 'search', 'roles'));

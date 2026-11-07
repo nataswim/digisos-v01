@@ -28,7 +28,7 @@
                                name="search" 
                                value="{{ $search }}" 
                                class="form-control border-start-0"
-                               placeholder="Rechercher un utilisateur...">
+                               placeholder="Nom, e-mail ou nageur…" aria-label="Rechercher un utilisateur">
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -63,6 +63,7 @@
                     <tr>
                         <th class="border-0 px-4 py-3">Utilisateur</th>
                         <th class="border-0 py-3">Rôle</th>
+                        <th class="border-0 py-3">Nageur(s) lié(s) et groupe</th>
                         <th class="border-0 py-3">Statut</th>
                         <th class="border-0 py-3">Dernière connexion</th>
                         <th class="border-0 py-3">Inscription</th>
@@ -86,7 +87,19 @@
                                         @endif
                                     </div>
                                     <div>
-                                        <h6 class="mb-1">{{ $user->name }}</h6>
+                                        @php
+                                            $nomComplet = trim(($user->first_name ?? '') . ' ' . ($user->last_name ?? '')) ?: $user->name;
+                                        @endphp
+                                        <h6 class="mb-1 d-flex align-items-center gap-2 flex-wrap">
+                                            {{ $user->name }}
+                                            <a href="https://www.google.com/search?q={{ urlencode($nomComplet) }}"
+                                               class="btn btn-sm btn-outline-secondary py-0 px-2 lh-sm"
+                                               target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer"
+                                               title="Rechercher « {{ $nomComplet }} » sur Google">
+                                                <i class="fab fa-google" aria-hidden="true"></i>
+                                                <span class="visually-hidden">Rechercher {{ $nomComplet }} sur Google (nouvel onglet)</span>
+                                            </a>
+                                        </h6>
                                         <small class="text-muted">{{ $user->email }}</small>
                                         @if($user->username)
                                             <br><small class="text-info">@{{ $user->username }}</small>
@@ -142,6 +155,26 @@
 
 
                             <td class="py-3">
+                                @forelse ($user->planningSwimmers as $nageur)
+                                    <div class="mb-1">
+                                        @if (Route::has('admin.planning.swimmers.edit'))
+                                            <a href="{{ route('admin.planning.swimmers.edit', $nageur) }}" class="fw-semibold text-decoration-none">{{ $nageur->full_name }}</a>
+                                        @else
+                                            <span class="fw-semibold">{{ $nageur->full_name }}</span>
+                                        @endif
+                                        @if (! $nageur->is_active)<span class="badge bg-secondary-subtle text-secondary ms-1">inactif</span>@endif
+                                        <br>
+                                        @forelse ($nageur->groups as $groupe)
+                                            <span class="badge rounded-pill me-1" style="background: {{ $groupe->background_color }}; color: {{ $groupe->text_color }}">{{ $groupe->name }}</span>
+                                        @empty
+                                            <small class="text-muted">sans groupe</small>
+                                        @endforelse
+                                    </div>
+                                @empty
+                                    <span class="text-muted small">—</span>
+                                @endforelse
+                            </td>
+                            <td class="py-3">
                                 <span class="badge bg-{{ $user->status === 'active' ? 'success' : 'danger' }}-subtle text-{{ $user->status === 'active' ? 'success' : 'danger' }}">
                                     {{ $user->status === 'active' ? 'Actif' : 'Inactif' }}
                                 </span>
@@ -152,8 +185,9 @@
                                         {{ $user->last_login_at->format('d/m/Y') }}
                                         <br><small>{{ $user->last_login_at->format('H:i') }}</small>
                                     </div>
+                                    @if ($user->login_count)<small class="text-muted">{{ $user->login_count }} connexion{{ $user->login_count > 1 ? 's' : '' }}</small>@endif
                                 @else
-                                    <span class="text-muted">Jamais connecté</span>
+                                    <span class="text-muted small" title="Les connexions sont enregistrées depuis la mise à jour du 07/11/2026">Aucune connexion<br>enregistrée</span>
                                 @endif
                             </td>
                             <td class="py-3">
@@ -198,7 +232,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center py-5">
+                            <td colspan="7" class="text-center py-5">
                                 <div class="text-muted">
                                     <i class="fas fa-users fa-2x mb-3"></i>
                                     <div>Aucun utilisateur trouvé</div>
