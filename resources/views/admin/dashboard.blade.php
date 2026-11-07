@@ -4,6 +4,7 @@
 
 @section('content')
 <div class="container-fluid dashboard-modules">
+    @include('messages._dashboard', ['index' => 'admin.messages.index', 'show' => 'admin.messages.show'])
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
         <h1 class="h3 fw-bold mb-0">Tableau de bord</h1>
         <a href="{{ route('home') }}" class="btn btn-outline-secondary btn-sm" target="_blank" rel="noopener">

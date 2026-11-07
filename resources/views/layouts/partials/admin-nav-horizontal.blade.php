@@ -18,6 +18,11 @@
             'route' => 'admin.dashboard', 'active' => ['admin.dashboard'],
         ],
         [
+            'label' => 'Messagerie', 'icon' => 'fa-envelope',
+            'route' => 'admin.messages.index', 'active' => ['admin.messages.*'],
+            'badge' => fn () => \App\Models\Conversation::unreadCountFor(auth()->user()),
+        ],
+        [
             'label' => 'Contenus', 'icon' => 'fa-pen-nib',
             'sections' => [
                 ['label' => 'Articles', 'icon' => 'fa-newspaper', 'links' => [
@@ -162,6 +167,7 @@
     foreach ($menu as $i => $rubrique) {
         if (isset($rubrique['route'])) {
             $menu[$i]['is_active'] = request()->routeIs(...$rubrique['active']);
+            $menu[$i]['badge'] = $compter($rubrique['badge'] ?? null);
             continue;
         }
         $rubriqueActive = false;
@@ -213,6 +219,7 @@
                             <a class="nav-link {{ $rubrique['is_active'] ? 'active' : '' }}" href="{{ route($rubrique['route']) }}"
                                @if ($rubrique['is_active']) aria-current="page" @endif>
                                 <i class="fas {{ $rubrique['icon'] }} me-2" aria-hidden="true"></i>{{ $rubrique['label'] }}
+                                @if (! empty($rubrique['badge']))<span class="badge rounded-pill bg-danger ms-1">{{ $rubrique['badge'] }}<span class="visually-hidden"> non lu(s)</span></span>@endif
                             </a>
                         </li>
                     @elseif (count($rubrique['sections']))

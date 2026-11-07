@@ -88,4 +88,7 @@ Route::middleware(['auth', 'verified', 'can:access-coach'])->prefix('coach')->na
     Route::get('suivi/notes/{note}/modifier', [SwimmerNoteController::class, 'edit'])->name('notes.edit');
     Route::put('suivi/notes/{note}', [SwimmerNoteController::class, 'update'])->name('notes.update');
     Route::delete('suivi/notes/{note}', [SwimmerNoteController::class, 'destroy'])->name('notes.destroy');
+
+    // Messagerie (mêmes pages que l'admin et l'éditeur)
+    require __DIR__.'/messages.php';
 });

@@ -4,6 +4,7 @@
 
 @section('content')
 <div class="container-lg">
+    @include('messages._dashboard', ['index' => 'coach.messages.index', 'show' => 'coach.messages.show'])
     <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
         <div>
             <h1 class="h3 fw-bold mb-1">Bonjour {{ $user->first_name ?: $user->name }}</h1>

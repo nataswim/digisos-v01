@@ -230,6 +230,15 @@ Route::middleware(['auth', 'verified'])->prefix('user')->name('user.')->group(fu
     Route::put('/mes-competitions/{attendance}', [MemberCompetitionController::class, 'respond'])
         ->whereNumber('attendance')->middleware('throttle:30,1')->name('competitions.respond');
 
+    // Mes messages : conversations privées avec l'équipe du club (module Messagerie)
+    Route::controller(\App\Http\Controllers\Messages\MemberMessageController::class)->prefix('messages')->name('messages.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/nouveau', 'create')->name('create');
+        Route::post('/', 'store')->middleware('throttle:10,1')->name('store');
+        Route::get('/{conversation}', 'show')->whereNumber('conversation')->name('show');
+        Route::post('/{conversation}', 'reply')->whereNumber('conversation')->middleware('throttle:20,1')->name('reply');
+    });
+
     // Profil utilisateur (édition des infos de base)
     Route::get('/profile/edit', [ProfileController::class, 'editUser'])->name('profile.edit');
     Route::patch('/profile',    [ProfileController::class, 'updateUserProfile'])->name('profile.update');
@@ -402,6 +411,9 @@ Route::middleware(['auth', 'verified', 'can:access-admin'])->prefix('admin')->na
     // ========== ADHÉRENTS (routes admin.members.*) ==========
     require __DIR__.'/members.php';
 
+    // Messagerie (conversations privées avec un utilisateur, envois groupés)
+    require __DIR__.'/messages.php';
+
     // Planning → Nageurs → ajout depuis les licences FFN (admin uniquement : données personnelles)
     Route::get('planning/nageurs/depuis-licences', [\App\Http\Controllers\Admin\Planning\SwimmerFromLicenseController::class, 'index'])
         ->name('planning.swimmers.from-licenses');
@@ -489,6 +501,9 @@ Route::middleware(['auth', 'verified', 'can:access-editor'])->prefix('editor')->
     // ========== ADHÉRENTS (routes editor.members.*) ==========
     require __DIR__.'/members.php';
 
+    // Messagerie (conversations privées avec un utilisateur, envois groupés)
+    require __DIR__.'/messages.php';
+
     // ========== COMPÉTITIONS (routes editor.competitions.*) ==========
     require __DIR__.'/competitions.php';
 
@@ -499,4 +514,10 @@ Route::middleware(['auth', 'verified', 'can:access-editor'])->prefix('editor')->
 // =============================================================================
 // ESPACE COACHS (coachs et administrateurs)
 // =============================================================================
+// Messagerie : lien des e-mails (ouvre la conversation dans le bon espace) et pièces jointes protégées
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/messagerie/ouvrir/{conversation}', [\App\Http\Controllers\Messages\MessageLinkController::class, 'open'])->whereNumber('conversation')->name('messages.open');
+    Route::get('/messagerie/piece-jointe/{message}', [\App\Http\Controllers\Messages\MessageLinkController::class, 'attachment'])->whereNumber('message')->name('messages.attachment');
+});
+
 require __DIR__.'/coach.php';

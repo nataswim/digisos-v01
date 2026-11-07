@@ -131,8 +131,11 @@
                 </a>
 
                 @auth
+                    @php
+                        try { $messagesNonLus = \App\Models\Conversation::unreadCountFor(auth()->user()); } catch (\Throwable $e) { $messagesNonLus = 0; }
+                    @endphp
                     <div class="dropdown">
-                        <button class="btn btn-sm btn-warning text-white dropdown-toggle d-flex align-items-center"
+                        <button class="btn btn-sm btn-warning text-white dropdown-toggle d-flex align-items-center position-relative"
                                 type="button" id="userDropdown"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="public-navbar-avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" aria-hidden="true">
@@ -140,6 +143,9 @@
                             </span>
                             <span class="d-none d-md-inline">{{ auth()->user()->first_name ?: auth()->user()->name }}</span>
                             <span class="visually-hidden">Mon compte</span>
+                            @if ($messagesNonLus)
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{ $messagesNonLus }}<span class="visually-hidden"> message(s) non lu(s)</span></span>
+                            @endif
                         </button>
 
                         <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="userDropdown">
@@ -157,6 +163,12 @@
                                 </a>
                             </li>
                             @if (! auth()->user()->hasRole('visitor'))
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('user.messages.index') }}">
+                                        <i class="fas fa-envelope text-primary me-2" aria-hidden="true"></i>Mes messages
+                                        @if ($messagesNonLus)<span class="badge rounded-pill bg-danger ms-auto">{{ $messagesNonLus }}<span class="visually-hidden"> non lu(s)</span></span>@endif
+                                    </a>
+                                </li>
                                 <li>
                                     <a class="dropdown-item" href="{{ route('user.competitions.index') }}">
                                         <i class="fas fa-trophy text-warning me-2" aria-hidden="true"></i>Mes compétitions

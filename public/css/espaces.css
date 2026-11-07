@@ -304,10 +304,14 @@ body.espace {
     .espace .espace-nav .navbar-collapse { align-items: center; }
 }
 
-/* Administration : beaucoup de rubriques → le nom de l'espace n'apparaît qu'à partir de 1400 px */
+/* Administration (et espace coachs dès 1200 px, menu replié en dessous) : le nom de l'espace n'apparaît qu'à partir de 1400 px */
 @media (min-width: 992px) and (max-width: 1399.98px) {
     .espace--admin .espace-brand-text { display: none; }
     .espace--admin .espace-brand { margin-right: 0.5rem; }
+}
+@media (min-width: 1200px) and (max-width: 1399.98px) {
+    .espace--coach .espace-brand-text { display: none; }
+    .espace--coach .espace-brand { margin-right: 0.5rem; }
 }
 
 .espace .espace-nav .admin-menu,
@@ -385,6 +389,35 @@ body.espace {
     }
 
     .espace .espace-nav .navbar-collapse > .d-flex {
+        width: 100%;
+        margin-top: 0.5rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid var(--area-hover) !important;
+    }
+}
+
+/* Espace coachs : menu replié (bouton) jusqu'à 1200 px — mêmes règles que le menu mobile */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    /* Menu mobile : même couleur que la barre (le thème public le met sur fond blanc) */
+    .espace--coach .espace-nav .navbar-collapse {
+        max-height: 75vh;
+        margin-top: 0.5rem;
+        padding: 0.5rem 0 0.75rem;
+        background: var(--area-bg) !important;
+        border-top: 1px solid var(--area-hover);
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .espace--coach .espace-nav .navbar-nav { gap: 0.1rem; }
+    .espace--coach .espace-nav .nav-item { margin: 0 !important; }
+
+    .espace--coach .espace-nav .dropdown-menu {
+        margin: 0.25rem 0 0.5rem;
+        box-shadow: none !important;
+    }
+
+    .espace--coach .espace-nav .navbar-collapse > .d-flex {
         width: 100%;
         margin-top: 0.5rem;
         padding-top: 0.75rem;

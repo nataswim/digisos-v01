@@ -5,6 +5,7 @@
 @section('content')
 
 <div class="container-lg py-5">
+    @include('messages._dashboard', ['index' => 'editor.messages.index', 'show' => 'editor.messages.show'])
 
     {{-- En-tête --}}
     <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">

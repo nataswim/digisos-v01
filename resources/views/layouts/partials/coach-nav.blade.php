@@ -34,9 +34,10 @@
             ['Notes de suivi', 'fa-clipboard-list', 'coach.notes.index', 'coach.notes.*'],
         ]],
         ['label' => 'Documents', 'icon' => 'fa-folder-open', 'route' => 'coach.documents.index', 'active' => ['coach.documents.*']],
+        ['label' => 'Messages', 'icon' => 'fa-envelope', 'route' => 'coach.messages.index', 'active' => ['coach.messages.*'], 'badge' => true, 'compact' => true],
     ];
 @endphp
-<nav class="navbar navbar-expand-lg espace-nav espace-nav--coach" aria-label="Menu de l'espace coachs">
+<nav class="navbar navbar-expand-xl espace-nav espace-nav--coach" aria-label="Menu de l'espace coachs">
     <div class="container-lg">
         <a class="navbar-brand espace-brand" href="{{ route('coach.dashboard') }}">
             <img src="{{ asset('assets/images/logo/cnbb-logo-800.png') }}" alt="" class="espace-brand-logo">
@@ -74,7 +75,15 @@
                         <li class="nav-item">
                             <a class="nav-link {{ $isActive ? 'active' : '' }}" href="{{ route($entry['route']) }}"
                                @if ($isActive) aria-current="page" @endif>
-                                <i class="fas {{ $entry['icon'] }} me-1" aria-hidden="true"></i>{{ $entry['label'] }}
+                                @if (! empty($entry['compact']))
+                                    {{-- Icône seule entre 1200 et 1400 px (barre trop chargée), libellé ailleurs --}}
+                                    <i class="fas {{ $entry['icon'] }} me-1" aria-hidden="true"></i><span class="d-xl-none d-xxl-inline">{{ $entry['label'] }}</span><span class="visually-hidden d-none d-xl-inline d-xxl-none">{{ $entry['label'] }}</span>
+                                @else
+                                    <i class="fas {{ $entry['icon'] }} me-1" aria-hidden="true"></i>{{ $entry['label'] }}
+                                @endif
+                                @if (! empty($entry['badge']) && ($nonLus = \App\Models\Conversation::unreadCountFor(auth()->user())))
+                                    <span class="badge rounded-pill bg-danger ms-1">{{ $nonLus }}<span class="visually-hidden"> non lu(s)</span></span>
+                                @endif
                             </a>
                         </li>
                     @endif
@@ -86,7 +95,7 @@
                 <div class="dropdown">
                     <button class="btn btn-sm espace-user-btn dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="espace-avatar me-2" aria-hidden="true">{{ mb_strtoupper(mb_substr(auth()->user()->name, 0, 1)) }}</span>
-                        <span class="d-none d-xl-inline">{{ auth()->user()->first_name ?: auth()->user()->name }}</span>
+                        <span class="d-none d-xxl-inline">{{ auth()->user()->first_name ?: auth()->user()->name }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         @if (auth()->user()->hasRole('admin'))

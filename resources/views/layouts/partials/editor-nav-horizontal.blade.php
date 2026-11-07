@@ -280,6 +280,17 @@
                     </ul>
                 </li>
 
+                {{-- Messagerie --}}
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('editor.messages.*') ? 'active fw-bold text-primary' : '' }}"
+                       href="{{ route('editor.messages.index') }}">
+                        <i class="fas fa-envelope me-1"></i>Messages
+                        @if ($nonLus = \App\Models\Conversation::unreadCountFor(auth()->user()))
+                            <span class="badge rounded-pill bg-danger ms-1">{{ $nonLus }}<span class="visually-hidden"> non lu(s)</span></span>
+                        @endif
+                    </a>
+                </li>
+
                 {{-- Statistiques --}}
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('editor.stats') ? 'active fw-bold text-primary' : '' }}"

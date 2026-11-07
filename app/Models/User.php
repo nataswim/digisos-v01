@@ -82,6 +82,12 @@ class User extends Authenticatable
     // Méthodes métier existantes — inchangées
     // -------------------------------------------------------------------------
 
+    /** Nageurs du planning rattachés à ce compte (famille). */
+    public function planningSwimmers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(PlanningSwimmer::class, 'user_id');
+    }
+
     public function hasRole(string $roleSlug): bool
     {
         if (! $this->role) {

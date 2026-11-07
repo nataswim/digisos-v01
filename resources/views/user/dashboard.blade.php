@@ -19,6 +19,11 @@
 
     <x-member.styles />
 
+    {{-- Messages non lus (module Messagerie) --}}
+    @if (! $user->hasRole('visitor'))
+        @include('messages._dashboard', ['index' => 'user.messages.index', 'show' => 'user.messages.show'])
+    @endif
+
     {{-- Nageurs rattachés au compte : photo, groupe, licence --}}
     @if ($swimmers->isNotEmpty())
         <section class="mb-4" aria-labelledby="mes-nageurs">
