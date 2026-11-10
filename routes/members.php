@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('adherents')->name('members.')->group(function () {
     Route::get('tableau-de-bord', MemberStatsController::class)->name('stats');
+    Route::get('par-annee-de-naissance', [\App\Http\Controllers\Admin\Members\MemberListsController::class, 'byYear'])->name('lists.year');
+    Route::get('par-commune', [\App\Http\Controllers\Admin\Members\MemberListsController::class, 'byCity'])->name('lists.city');
     Route::get('export', [MemberController::class, 'export'])->name('export');
     Route::post('nouvelle-saison', [MemberController::class, 'prepareSeason'])->name('prepare-season');
 

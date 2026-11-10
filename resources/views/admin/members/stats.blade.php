@@ -104,6 +104,9 @@
                         @else
                             <p class="text-muted mb-0">Aucune donnée pour cette saison.</p>
                         @endif
+                        @if ($id === 'age')
+                            <a href="{{ $r('lists.year', ['saison' => $season]) }}" class="small d-inline-block mt-2"><i class="fas fa-list me-1" aria-hidden="true"></i>Liste des adhérents par année de naissance</a>
+                        @endif
                         <details class="mt-2">
                             <summary class="small text-muted">Voir les chiffres</summary>
                             <table class="table table-sm small mb-0 mt-2">
@@ -126,7 +129,7 @@
     <section class="card border-0 shadow-sm mb-4" aria-labelledby="titre-carte">
         <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-baseline gap-2">
             <h2 id="titre-carte" class="h6 fw-bold mb-0"><i class="fas fa-map-location-dot text-primary me-2" aria-hidden="true"></i>Communes des adhérents</h2>
-            <span class="small text-muted">{{ count($map['points']) + count($map['missing']) }} commune(s) · cercle proportionnel au nombre d'adhérents</span>
+            <span class="small text-muted">{{ count($map['points']) + count($map['missing']) }} commune(s) · cercle proportionnel au nombre d'adhérents · <a href="{{ $r('lists.city', ['saison' => $season]) }}">liste des adhérents par commune</a></span>
         </div>
         <div class="card-body">
             <div class="row g-4">

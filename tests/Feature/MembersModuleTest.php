@@ -278,4 +278,32 @@ class MembersModuleTest extends TestCase
         Http::assertSent(fn ($r) => str_contains($r->url(), 'codePostal=79999') && ! str_contains($r->url(), 'Testeur'));
         Http::assertSentCount(1);   // deuxième affichage : position lue dans le cache
     }
+
+    public function test_lists_by_birth_year_and_by_city(): void
+    {
+        $groupe = \App\Models\PlanningGroup::create(['name' => 'Avenirs Test', 'slug' => 'avenirs-test', 'section' => 'Jeunesse', 'is_active' => true]);
+        $lea = $this->member(['postal_code' => '79999', 'city' => 'Villefictive']);   // née en 2014
+        $nageuse = \App\Models\PlanningSwimmer::create(['first_name' => 'Léa', 'last_name' => 'Testeur', 'birth_year' => 2014, 'gender' => 'F', 'is_active' => true]);
+        $nageuse->groups()->attach($groupe);   // pas liée à l'adhérente : trouvée par le nom + l'année
+        $this->member(['last_name' => 'Autre', 'first_name' => 'Paul', 'gender' => 'M', 'birth_date' => '2014-11-02', 'email' => null, 'postal_code' => '79888', 'city' => 'Bourg-Test']);
+        $this->member(['last_name' => 'Ancien', 'first_name' => 'Marc', 'gender' => 'M', 'birth_date' => '1980-05-05', 'email' => null, 'postal_code' => '79999', 'city' => 'Villefictive']);
+        $this->member(['last_name' => 'Parti', 'first_name' => 'Zoé', 'birth_date' => '2014-01-01', 'email' => null], ['status' => 'abandon']);
+
+        $this->actingAs($this->userWithRole('editor'));
+        $page = $this->get(route('editor.members.lists.year', ['saison' => self::SEASON]))->assertOk()
+            ->assertSee('Né(e)s en 2014')->assertSee('12 ans')->assertSee('Né(e)s en 1980')->assertSee('46 ans')
+            ->assertSee('TESTEUR Léa')->assertSee('AUTRE Paul')->assertSee('Avenirs Test')
+            ->assertDontSee('PARTI')                       // abandon exclu
+            ->assertSee('2 adhérent(s) · 1 F · 1 M');
+        $years = $page->viewData('years');
+        $this->assertSame([2014, 1980], $years->pluck('year')->all());   // les plus jeunes d'abord
+
+        $cities = $this->get(route('editor.members.lists.city', ['saison' => self::SEASON]))->assertOk()
+            ->assertSee('VILLEFICTIVE')->assertSee('BOURG-TEST')->assertSee('ANCIEN Marc')
+            ->viewData('cities');
+        $this->assertSame(['VILLEFICTIVE', 'BOURG-TEST'], $cities->pluck('city')->all());   // plus nombreuse d'abord
+        $this->assertSame(2, $cities[0]['rows']->count());
+
+        $this->get(route('admin.members.lists.year'))->assertForbidden();   // éditeur : pas l'espace admin
+    }
 }

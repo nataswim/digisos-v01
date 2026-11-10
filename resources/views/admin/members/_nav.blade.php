@@ -4,6 +4,8 @@
     @foreach ([
         ['index', 'Adhérents', 'fa-users', ['saison' => $s]],
         ['stats', 'Tableau de bord', 'fa-chart-pie', ['saison' => $s]],
+        ['lists.year', 'Par année de naissance', 'fa-cake-candles', ['saison' => $s]],
+        ['lists.city', 'Par commune', 'fa-map-marker-alt', ['saison' => $s]],
         ['create', 'Nouvel adhérent', 'fa-user-plus', ['saison' => $s]],
         ['import', 'Importer le tableau', 'fa-file-import', ['saison' => $s]],
         ['categories.index', 'Catégories et tarifs', 'fa-tags', []],

@@ -173,6 +173,8 @@ class EspaceMenu
                 ['label' => 'Adhérents', 'icon' => 'fa-address-book', 'links' => [
                     ['Liste des adhérents', 'fa-address-book', 'admin.members.index', ['admin.members.index', 'admin.members.show', 'admin.members.edit', 'admin.members.create']],
                     ['Tableau de bord', 'fa-chart-pie', 'admin.members.stats', ['admin.members.stats']],
+                    ['Par année de naissance', 'fa-cake-candles', 'admin.members.lists.year', ['admin.members.lists.year']],
+                    ['Par commune', 'fa-map-marker-alt', 'admin.members.lists.city', ['admin.members.lists.city']],
                     ['Importer le tableau', 'fa-file-import', 'admin.members.import', ['admin.members.import*']],
                     ['Catégories et tarifs', 'fa-tags', 'admin.members.categories.index', ['admin.members.categories.*']],
                 ]],
@@ -268,6 +270,8 @@ class EspaceMenu
                 ['label' => 'Adhérents', 'icon' => 'fa-address-book', 'links' => [
                     ['Liste des adhérents', 'fa-address-book', 'editor.members.index', ['editor.members.index', 'editor.members.show', 'editor.members.edit', 'editor.members.create']],
                     ['Tableau de bord', 'fa-chart-pie', 'editor.members.stats', ['editor.members.stats']],
+                    ['Par année de naissance', 'fa-cake-candles', 'editor.members.lists.year', ['editor.members.lists.year']],
+                    ['Par commune', 'fa-map-marker-alt', 'editor.members.lists.city', ['editor.members.lists.city']],
                     ['Importer le tableau', 'fa-file-import', 'editor.members.import', ['editor.members.import*']],
                     ['Catégories et tarifs', 'fa-tags', 'editor.members.categories.index', ['editor.members.categories.*']],
                 ]],
