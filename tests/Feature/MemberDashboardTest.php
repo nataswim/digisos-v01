@@ -64,7 +64,12 @@ class MemberDashboardTest extends TestCase
             ->assertSee('En attente de réponse')
             ->assertSee('Répondre')
             ->assertDontSee('Compétition passée fictive')
-            ->assertDontSee('Brouillon fictif');
+            ->assertDontSee('Brouillon fictif')
+            ->assertSee('convoc-head', false)->assertSee('1 à répondre');
+
+        // « Mes convocations » est le premier bloc, avant les fiches nageur
+        $html = $this->actingAs($user)->get(route('user.dashboard'))->getContent();
+        $this->assertLessThan(strpos($html, 'id="mes-nageurs"'), strpos($html, 'id="mes-convocations"'));
     }
 
     public function test_dashboard_without_swimmer_has_no_convocation_block(): void

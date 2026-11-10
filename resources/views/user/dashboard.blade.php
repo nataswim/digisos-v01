@@ -18,6 +18,71 @@
     </div>
 
     <x-member.styles />
+    @push('styles')
+    <style>
+        /* Préfixe .espace--shell .card : passe devant le style des cartes du cadre (espace-shell.css) */
+        .espace--shell .card.convoc-card { border: 2px solid #d62839 !important; overflow: hidden; }
+        .espace--shell .card.convoc-card > .convoc-head { background: #d62839 !important; color: #fff; border-bottom: 0 !important; border-radius: 14px 14px 0 0 !important; }
+        .espace--shell .card.convoc-card .convoc-head h2, .espace--shell .card.convoc-card .convoc-head .h5 { color: #fff !important; }
+        .espace .convoc-head .convoc-link { color: #fff !important; text-decoration: underline; }
+        .convoc-icon { display: inline-flex; width: 2rem; height: 2rem; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255, 255, 255, .2); }
+        .convoc-icon i { animation: convoc-tourne 2.4s linear infinite; }
+        @keyframes convoc-tourne { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+        @media (prefers-reduced-motion: reduce) { .convoc-icon i { animation: none; } }
+    </style>
+    @endpush
+
+    {{-- Compétitions auxquelles les nageurs du compte sont convoqués : en haut, en rouge, icône qui tourne --}}
+    @if ($swimmers->isNotEmpty())
+        <section class="card border-0 shadow-sm mb-4 convoc-card" aria-labelledby="mes-convocations">
+            <div class="card-header convoc-head p-3 p-md-4 d-flex flex-wrap justify-content-between align-items-center gap-2">
+                <h2 id="mes-convocations" class="h5 fw-bold mb-0">
+                    <span class="convoc-icon me-2" aria-hidden="true"><i class="fas fa-trophy"></i></span>Mes convocations
+                    @if ($aRepondre = $convocations->where('status', 'convoque')->count())
+                        <span class="badge rounded-pill bg-white text-danger ms-2">{{ $aRepondre }} à répondre</span>
+                    @endif
+                </h2>
+                <a href="{{ route('user.competitions.index') }}" class="small convoc-link">Toutes mes compétitions</a>
+            </div>
+            <ul class="list-group list-group-flush">
+                @forelse ($convocations as $convocation)
+                    @php $competition = $convocation->competition; @endphp
+                    <li class="list-group-item p-3 p-md-4">
+                        <div class="member-convoc">
+                            <div class="member-convoc-main">
+                                <span class="member-convoc-date" aria-hidden="true">
+                                    <strong>{{ $competition->starts_on->format('d') }}</strong>{{ $competition->starts_on->locale('fr')->isoFormat('MMM') }}
+                                </span>
+                                <div class="min-w-0">
+                                    <p class="fw-bold mb-1">{{ $competition->title }}</p>
+                                    <p class="small text-muted mb-1">
+                                        {{ $competition->date_range }} · {{ $competition->city }}
+                                        @if ($swimmers->count() > 1) · <strong class="text-body">{{ $convocation->swimmer->first_name }}</strong>@endif
+                                    </p>
+                                    @if ($convocation->entries->isNotEmpty())
+                                        <p class="small mb-0">{{ $convocation->sorted_entries->map(fn ($e) => $e->event?->label)->filter()->implode(' · ') }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="text-md-end">
+                                <span class="badge {{ $convocation->status_badge }}"><i class="fas {{ $convocation->status_icon }} me-1" aria-hidden="true"></i>{{ $convocation->status_label }}</span>
+                                @if ($convocation->canBeAnsweredByFamily())
+                                    <a href="{{ route('user.competitions.index') }}#convocation-{{ $convocation->id }}" class="btn btn-sm btn-primary ms-2">
+                                        {{ $convocation->status === 'convoque' ? 'Répondre' : 'Modifier ma réponse' }}
+                                    </a>
+                                @endif
+                                @if ($convocation->status === 'convoque' && $competition->response_deadline)
+                                    <p class="small text-muted mb-0 mt-1">avant le {{ $competition->response_deadline->locale('fr')->isoFormat('D MMMM') }}</p>
+                                @endif
+                            </div>
+                        </div>
+                    </li>
+                @empty
+                    <li class="list-group-item p-4 text-muted">Aucune convocation en cours. Les prochaines compétitions sont dans le <a href="{{ route('competitions.index') }}">calendrier</a>.</li>
+                @endforelse
+            </ul>
+        </section>
+    @endif
 
     {{-- Messages non lus (module Messagerie) --}}
     @if (! $user->hasRole('visitor'))
@@ -105,53 +170,6 @@
                     </div>
                 </article>
             @endforeach
-        </section>
-    @endif
-
-    {{-- Compétitions auxquelles les nageurs du compte sont convoqués --}}
-    @if ($swimmers->isNotEmpty())
-        <section class="card border-0 shadow-sm mb-4" aria-labelledby="mes-convocations">
-            <div class="card-header bg-white p-3 p-md-4 d-flex flex-wrap justify-content-between align-items-center gap-2">
-                <h2 id="mes-convocations" class="h5 fw-bold mb-0"><i class="fas fa-trophy text-primary me-2" aria-hidden="true"></i>Mes convocations</h2>
-                <a href="{{ route('user.competitions.index') }}" class="small">Toutes mes compétitions</a>
-            </div>
-            <ul class="list-group list-group-flush">
-                @forelse ($convocations as $convocation)
-                    @php $competition = $convocation->competition; @endphp
-                    <li class="list-group-item p-3 p-md-4">
-                        <div class="member-convoc">
-                            <div class="member-convoc-main">
-                                <span class="member-convoc-date" aria-hidden="true">
-                                    <strong>{{ $competition->starts_on->format('d') }}</strong>{{ $competition->starts_on->locale('fr')->isoFormat('MMM') }}
-                                </span>
-                                <div class="min-w-0">
-                                    <p class="fw-bold mb-1">{{ $competition->title }}</p>
-                                    <p class="small text-muted mb-1">
-                                        {{ $competition->date_range }} · {{ $competition->city }}
-                                        @if ($swimmers->count() > 1) · <strong class="text-body">{{ $convocation->swimmer->first_name }}</strong>@endif
-                                    </p>
-                                    @if ($convocation->entries->isNotEmpty())
-                                        <p class="small mb-0">{{ $convocation->sorted_entries->map(fn ($e) => $e->event?->label)->filter()->implode(' · ') }}</p>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="text-md-end">
-                                <span class="badge {{ $convocation->status_badge }}"><i class="fas {{ $convocation->status_icon }} me-1" aria-hidden="true"></i>{{ $convocation->status_label }}</span>
-                                @if ($convocation->canBeAnsweredByFamily())
-                                    <a href="{{ route('user.competitions.index') }}#convocation-{{ $convocation->id }}" class="btn btn-sm btn-primary ms-2">
-                                        {{ $convocation->status === 'convoque' ? 'Répondre' : 'Modifier ma réponse' }}
-                                    </a>
-                                @endif
-                                @if ($convocation->status === 'convoque' && $competition->response_deadline)
-                                    <p class="small text-muted mb-0 mt-1">avant le {{ $competition->response_deadline->locale('fr')->isoFormat('D MMMM') }}</p>
-                                @endif
-                            </div>
-                        </div>
-                    </li>
-                @empty
-                    <li class="list-group-item p-4 text-muted">Aucune convocation en cours. Les prochaines compétitions sont dans le <a href="{{ route('competitions.index') }}">calendrier</a>.</li>
-                @endforelse
-            </ul>
         </section>
     @endif
 
