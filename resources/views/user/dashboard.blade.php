@@ -174,6 +174,17 @@
         ['icon' => 'fa-download', 'titre' => 'Documents', 'texte' => 'Les documents mis à disposition par le club.', 'route' => 'ebook.index'],
     ]])
 
+    {{-- Pages de l'entraîneur (sites externes, nouvel onglet) --}}
+    @include('layouts.partials.espace-accueil-tuiles', ['titre' => 'Pages de votre entraîneur', 'variante' => 'entraineur',
+        'intro' => "Articles, conseils, vidéos, séances et outils proposés par votre entraîneur sur nataswim.fr.", 'tuiles' => [
+        ['icon' => 'fa-newspaper', 'titre' => 'Articles', 'texte' => 'Actualités et articles sur la natation.', 'url' => 'https://nataswim.fr/articles'],
+        ['icon' => 'fa-lightbulb', 'titre' => 'Fiches', 'texte' => 'Expertise et conseils.', 'url' => 'https://nataswim.fr/fiches'],
+        ['icon' => 'fa-video', 'titre' => 'Vidéos', 'texte' => 'Techniques et exercices en vidéo.', 'url' => 'https://nataswim.fr/videos'],
+        ['icon' => 'fa-person-swimming', 'titre' => 'Séances et plans', 'texte' => "Séances et plans d'entraînement.", 'url' => 'https://nataswim.fr/workouts'],
+        ['icon' => 'fa-dumbbell', 'titre' => 'Musculation', 'texte' => 'Exercices de préparation physique.', 'url' => 'https://nataswim.fr/exercices'],
+        ['icon' => 'fa-toolbox', 'titre' => 'Outils et applis', 'texte' => 'Calculateurs et outils pour nageurs.', 'url' => 'https://nataswim.fr/outils'],
+    ]])
+
     {{-- Le club --}}
     @include('layouts.partials.espace-accueil-tuiles', ['titre' => 'Le club', 'tuiles' => [
         ['icon' => 'fa-handshake', 'titre' => 'Nos partenaires', 'texte' => 'Les entreprises et collectivités qui soutiennent le club.', 'route' => 'partners.index'],

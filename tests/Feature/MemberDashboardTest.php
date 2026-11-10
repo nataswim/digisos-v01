@@ -140,4 +140,16 @@ class MemberDashboardTest extends TestCase
         $ancien = new \App\Models\Membership(['file_items' => ['fiche' => true, 'photo' => false]]);
         $this->assertSame(['fiche'], $ancien->providedFileItems());
     }
+
+    public function test_dashboard_has_coach_pages_links(): void
+    {
+        $this->actingAs($this->family())->get(route('user.dashboard'))->assertOk()
+            ->assertSee('Pages de votre entraîneur')
+            ->assertSee('espace-tuiles--entraineur', false)
+            ->assertSee('href="https://nataswim.fr/articles"', false)
+            ->assertSee('https://nataswim.fr/fiches', false)->assertSee('https://nataswim.fr/videos', false)
+            ->assertSee('https://nataswim.fr/workouts', false)->assertSee('https://nataswim.fr/exercices', false)
+            ->assertSee('https://nataswim.fr/outils', false)
+            ->assertSee('target="_blank" rel="noopener"', false);
+    }
 }
