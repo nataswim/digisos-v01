@@ -170,10 +170,28 @@ class Membership extends Model
         return $this->medical_certificate_year <= $debut - 3 ? 'Certificat à renouveler (' . $this->medical_certificate_year . ')' : null;
     }
 
+    /**
+     * Pièces du dossier déjà fournies (clés de FILE_ITEMS).
+     * Accepte la liste enregistrée par le formulaire (['fiche', 'photo']) et l'ancien format ['fiche' => true].
+     */
+    public function providedFileItems(): array
+    {
+        $items = (array) $this->file_items;
+        $cles = array_is_list($items) ? $items : array_keys(array_filter($items));
+
+        return array_values(array_intersect(array_keys(self::FILE_ITEMS), $cles));
+    }
+
+    /** Pièces du dossier encore manquantes : [clé => libellé]. */
+    public function missingFileItems(): array
+    {
+        return $this->file_complete ? [] : array_diff_key(self::FILE_ITEMS, array_flip($this->providedFileItems()));
+    }
+
     /** Pièces du dossier : « complet » si toutes cochées. */
     public function syncFileComplete(): void
     {
-        $items = array_keys(array_filter((array) $this->file_items));
+        $items = $this->providedFileItems();
         if ($items && count(array_intersect($items, array_keys(self::FILE_ITEMS))) === count(self::FILE_ITEMS)) {
             $this->file_complete = true;
         }

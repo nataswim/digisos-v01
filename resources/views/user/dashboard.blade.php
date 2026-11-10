@@ -24,36 +24,87 @@
         @include('messages._dashboard', ['index' => 'user.messages.index', 'show' => 'user.messages.show'])
     @endif
 
-    {{-- Nageurs rattachés au compte : photo, groupe, licence --}}
-    @if ($swimmers->isNotEmpty())
+    {{-- Nageurs rattachés au compte : photo, groupe et créneaux, licence, fiche adhérent --}}
+    @if ($swimmers->isNotEmpty() || $otherMembers->isNotEmpty())
         <section class="mb-4" aria-labelledby="mes-nageurs">
             <h2 id="mes-nageurs" class="visually-hidden">{{ $swimmers->count() > 1 ? 'Mes nageurs' : 'Ma fiche nageur' }}</h2>
-            <div class="row g-3">
-                @foreach ($swimmers as $nageur)
-                    <div class="{{ $swimmers->count() > 1 ? 'col-md-6' : 'col-12' }}">
-                        <div class="card border-0 shadow-sm h-100">
-                            <div class="card-body p-4 member-card">
-                                <x-member.avatar :swimmer="$nageur" size="lg" />
-                                <div>
-                                    <p class="h4 fw-bold mb-2">{{ $nageur->full_name }}</p>
-                                    <dl>
-                                        <dt>Groupe</dt>
-                                        <dd>
-                                            @forelse ($nageur->groups as $groupe)
-                                                <span class="member-group" style="background: {{ $groupe->background_color }}; color: {{ $groupe->text_color }}">{{ $groupe->name }}</span>
-                                            @empty
-                                                <span class="text-muted">non renseigné</span>
-                                            @endforelse
-                                        </dd>
-                                        <dt>Licence FFN</dt>
-                                        <dd>{{ $nageur->license_label ?: 'non renseignée' }}</dd>
-                                    </dl>
-                                </div>
+            @foreach ($swimmers as $nageur)
+                @php $adherent = $memberFor[$nageur->id] ?? null; @endphp
+                <article class="card border-0 shadow-sm mb-3" aria-labelledby="nageur-{{ $nageur->id }}">
+                    <div class="card-body p-4">
+                        <div class="member-card mb-3">
+                            <x-member.avatar :swimmer="$nageur" size="lg" />
+                            <div>
+                                <h3 id="nageur-{{ $nageur->id }}" class="h4 fw-bold mb-2">{{ $nageur->full_name }}</h3>
+                                <dl>
+                                    <dt>Groupe</dt>
+                                    <dd>
+                                        @forelse ($nageur->groups as $groupe)
+                                            <a href="{{ route('schedule') }}#groupe-{{ $groupe->slug }}" class="member-group text-decoration-none" style="background: {{ $groupe->background_color }}; color: {{ $groupe->text_color }}" title="Voir les horaires du groupe {{ $groupe->name }}">{{ $groupe->name }}</a>
+                                        @empty
+                                            <span class="text-muted">non renseigné</span>
+                                        @endforelse
+                                    </dd>
+                                    @if ($nageur->birth_year)
+                                        <dt>Année de naissance</dt>
+                                        <dd>{{ $nageur->birth_year }}</dd>
+                                    @endif
+                                    <dt>Licence FFN</dt>
+                                    <dd>{{ $nageur->license_label ?: 'non renseignée' }}</dd>
+                                </dl>
                             </div>
                         </div>
+
+                        <div class="row g-4">
+                            {{-- Créneaux d'entraînement du ou des groupes --}}
+                            <div class="{{ $adherent ? 'col-lg-6' : 'col-12' }}">
+                                <h3 class="h6 fw-bold mb-2"><i class="fas fa-calendar-week text-primary me-2" aria-hidden="true"></i>Entraînements</h3>
+                                @forelse ($nageur->groups as $groupe)
+                                    @php
+                                        $scolaire = $groupe->slots->where('period', 'scolaire');
+                                        $vacances = $groupe->slots->where('period', 'vacances');
+                                    @endphp
+                                    <div class="member-slots mb-3">
+                                        <p class="small fw-semibold mb-1">{{ $groupe->name }} <span class="text-muted fw-normal">· période scolaire</span></p>
+                                        @if ($scolaire->isNotEmpty())
+                                            <ul class="list-unstyled mb-1">
+                                                @foreach ($scolaire as $creneau)
+                                                    <li><strong>{{ $creneau->day_name }}</strong> {{ $creneau->time_range }}@if ($creneau->location) <span class="text-muted">· {{ $creneau->location }}</span>@endif</li>
+                                                @endforeach
+                                            </ul>
+                                        @else
+                                            <p class="small text-muted mb-1">Pas de créneau publié pour l'instant.</p>
+                                        @endif
+                                        <p class="small mb-0">
+                                            <a href="{{ route('schedule') }}#groupe-{{ $groupe->slug }}">Horaires du groupe</a>
+                                            @if ($vacances->isNotEmpty()) · <a href="{{ route('schedule', ['periode' => 'vacances']) }}#groupe-{{ $groupe->slug }}">vacances scolaires ({{ $vacances->count() }} créneau{{ $vacances->count() > 1 ? 'x' : '' }})</a>@endif
+                                        </p>
+                                    </div>
+                                @empty
+                                    <p class="small text-muted mb-1">Aucun groupe pour l'instant. <a href="{{ route('schedule') }}">Voir tous les groupes et horaires</a>.</p>
+                                @endforelse
+                            </div>
+
+                            {{-- Fiche adhérent --}}
+                            @if ($adherent)
+                                <div class="col-lg-6">
+                                    @include('user.partials.member-file', ['member' => $adherent, 'season' => $season])
+                                </div>
+                            @endif
+                        </div>
                     </div>
-                @endforeach
-            </div>
+                </article>
+            @endforeach
+
+            {{-- Fiches adhérent du compte sans nageur rattaché (adulte, bénévole, encadrant…) --}}
+            @foreach ($otherMembers as $adherent)
+                <article class="card border-0 shadow-sm mb-3" aria-labelledby="adherent-{{ $adherent->id }}">
+                    <div class="card-body p-4">
+                        <h3 id="adherent-{{ $adherent->id }}" class="h5 fw-bold mb-3">{{ $adherent->full_name }}</h3>
+                        @include('user.partials.member-file', ['member' => $adherent, 'season' => $season])
+                    </div>
+                </article>
+            @endforeach
         </section>
     @endif
 

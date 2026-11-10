@@ -25,7 +25,15 @@
     .member-convoc-date { flex: 0 0 auto; width: 64px; text-align: center; border-radius: .75rem; background: #e0f2fe; color: #075985; padding: .35rem 0; line-height: 1.1; }
     .member-convoc-date strong { display: block; font-size: 1.4rem; }
     .member-convoc-main { display: flex; gap: 1rem; align-items: center; flex: 1 1 280px; min-width: 0; }
+    .member-dl { display: grid; grid-template-columns: max-content 1fr; gap: .3rem 1rem; margin: 0; font-size: .92rem; }
+    .member-dl dt { color: #62748e; font-weight: 500; }
+    .member-dl dd { margin: 0; min-width: 0; }
+    .member-file { background: #f8fafc; border: 1px solid #e6eaf1; border-radius: 12px; padding: 1rem 1.1rem; }
+    .member-slots li { font-size: .92rem; padding: .1rem 0; }
+    a.member-group:hover, a.member-group:focus-visible { filter: brightness(.92); outline-offset: 2px; }
     @media (max-width: 575.98px) {
+        .member-dl { grid-template-columns: 1fr; gap: 0 0; }
+        .member-dl dd { margin-bottom: .45rem; }
         .member-person { border-radius: 1rem; }
         .member-card { flex-direction: column; text-align: center; }
         .member-card dl { text-align: left; }

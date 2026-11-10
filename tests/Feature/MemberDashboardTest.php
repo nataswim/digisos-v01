@@ -90,4 +90,54 @@ class MemberDashboardTest extends TestCase
         $this->actingAs($this->family())->get(route('user.competitions.index'))->assertOk()
             ->assertSee('Camille FICTIF')->assertSee('CF');
     }
+
+    public function test_dashboard_shows_group_slots_and_member_file(): void
+    {
+        $user = $this->family();
+        $groupe = PlanningGroup::create(['name' => 'Groupe Avenir', 'slug' => 'groupe-avenir', 'section' => 'Jeunesse', 'is_active' => true]);
+        \App\Models\PlanningSlot::create(['planning_group_id' => $groupe->id, 'period' => 'scolaire', 'day_of_week' => 3, 'starts_at' => '17:30', 'ends_at' => '18:30', 'location' => 'Piscine fictive', 'is_active' => true]);
+        \App\Models\PlanningSlot::create(['planning_group_id' => $groupe->id, 'period' => 'vacances', 'day_of_week' => 2, 'starts_at' => '10:00', 'ends_at' => '11:00', 'is_active' => true]);
+        $nageur = PlanningSwimmer::create(['first_name' => 'Jade', 'last_name' => 'Fictif', 'birth_year' => 2014, 'gender' => 'F', 'user_id' => $user->id, 'is_active' => true]);
+        $nageur->groups()->attach($groupe);
+
+        $season = \App\Models\Membership::currentSeason();
+        $cat = \App\Models\MemberCategory::where('code', 'RELEVE')->first();
+        $fiche = \App\Models\Member::create(['last_name' => 'Fictif', 'first_name' => 'Jade', 'gender' => 'F', 'birth_date' => '2014-03-15', 'city' => 'Villefictive',
+            'phone1' => '0600000000', 'image_rights' => false, 'planning_swimmer_id' => $nageur->id,
+            'guardians' => [['name' => 'Parent Fictif', 'relation' => 'mère', 'phone' => '0611111111']]]);
+        $a = $fiche->memberships()->create(['season' => $season, 'member_category_id' => $cat->id, 'price_cents' => 19000, 'status' => 'en_cours', 'file_items' => ['fiche', 'photo']]);
+        \App\Models\MembershipPayment::create(['membership_id' => $a->id, 'method' => 'cheque', 'amount_cents' => 10000, 'cashed_on' => now()->toDateString()]);
+
+        // Fiche d'une autre famille, même prénom : ne doit jamais apparaître
+        \App\Models\Member::create(['last_name' => 'Etranger', 'first_name' => 'Jade', 'birth_date' => '2014-01-01', 'city' => 'Ailleurs-Test']);
+        // Fiche adulte rattachée au compte, sans nageur
+        \App\Models\Member::create(['last_name' => 'Fictif', 'first_name' => 'Camille', 'birth_date' => '1985-01-01', 'user_id' => $user->id]);
+
+        $this->actingAs($user)->get(route('user.dashboard'))->assertOk()
+            ->assertSee(route('schedule') . '#groupe-groupe-avenir', false)
+            ->assertSee('Mercredi')->assertSee('Piscine fictive')
+            ->assertSee('vacances scolaires (1 créneau)')
+            ->assertSee('Fiche adhérent · saison ' . $season)
+            ->assertSee($cat->label)->assertSee('Dossier en cours')
+            ->assertSee('Fiche sanitaire')            // pièce manquante
+            ->assertSee('reste 90,00')
+            ->assertSee('refusé')                     // droit à l'image
+            ->assertSee('Parent Fictif')
+            ->assertSee('FICTIF Camille')             // carte de la fiche adulte
+            ->assertDontSee('Ailleurs-Test')->assertDontSee('ETRANGER');
+    }
+
+    public function test_file_items_helpers_accept_both_formats(): void
+    {
+        $m = new \App\Models\Membership(['file_items' => ['fiche', 'photo']]);
+        $this->assertSame(['fiche', 'photo'], $m->providedFileItems());
+        $this->assertArrayHasKey('sanitaire', $m->missingFileItems());
+
+        $tout = new \App\Models\Membership(['file_items' => array_keys(\App\Models\Membership::FILE_ITEMS)]);
+        $tout->syncFileComplete();
+        $this->assertTrue($tout->file_complete);
+
+        $ancien = new \App\Models\Membership(['file_items' => ['fiche' => true, 'photo' => false]]);
+        $this->assertSame(['fiche'], $ancien->providedFileItems());
+    }
 }
