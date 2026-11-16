@@ -33,6 +33,7 @@
             'id'       => 'creneauxDropdown',
             'children' => [
                 ['label' => 'Groupes et horaires', 'icon' => 'fa-calendar-alt', 'route' => 'schedule', 'active' => ['schedule']],
+                ['label' => 'Le parcours du nageur', 'icon' => 'fa-route', 'route' => 'parcours', 'active' => ['parcours']],
                 ['label' => 'S\'inscrire au club', 'icon' => 'fa-user-plus',    'route' => 'pricing',  'active' => ['pricing']],
             ],
         ],

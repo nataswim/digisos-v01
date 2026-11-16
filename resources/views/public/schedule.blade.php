@@ -22,7 +22,7 @@
     <a href="#planning" class="btn btn-primary btn-lg schedule-btn">
         <i class="fas fa-arrow-down me-2" aria-hidden="true"></i>Voir le planning
     </a>
-    <a href="{{ url('/pages/nos-groupes/parcours-du-nageur') }}" class="btn btn-outline-light btn-lg">
+    <a href="{{ route('parcours') }}" class="btn btn-outline-light btn-lg">
         <i class="fas fa-route me-2" aria-hidden="true"></i>Le parcours du nageur
     </a>
 </x-public.hero>

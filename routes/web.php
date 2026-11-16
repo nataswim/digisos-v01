@@ -108,6 +108,7 @@ Route::get('/revue-de-presse',           [PublicController::class, 'press'])->na
 
 // ========== PLANNING (module Planning, géré dans l'administration) ==========
 Route::get('/groupes-et-horaires', PublicPlanningController::class)->name('schedule');
+Route::get('/parcours-du-nageur', \App\Http\Controllers\PublicParcoursController::class)->name('parcours');
 
 // ========== COMPÉTITIONS (module Compétitions) ==========
 Route::get('/records', [\App\Http\Controllers\PublicRecordController::class, 'index'])->name('records.index');

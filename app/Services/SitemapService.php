@@ -56,6 +56,7 @@ class SitemapService
         'competitions.index'         => [0.9, 'weekly'],
         'records.index'              => [0.7, 'monthly'],
         'schedule'                   => [0.9, 'monthly'],
+        'parcours'                   => [0.8, 'monthly'],
         'pricing'                    => [0.9, 'monthly'],
         'about'                      => [0.8, 'monthly'],
         'team.index'                 => [0.8, 'monthly'],
