@@ -110,6 +110,10 @@ Route::get('/revue-de-presse',           [PublicController::class, 'press'])->na
 Route::get('/groupes-et-horaires', PublicPlanningController::class)->name('schedule');
 Route::get('/parcours-du-nageur', \App\Http\Controllers\PublicParcoursController::class)->name('parcours');
 
+// ========== GRILLES DE QUALIFICATION (publiées par l'administrateur, sans aucun nom de nageur) ==========
+Route::get('/grilles-de-qualification', [\App\Http\Controllers\PublicQualificationController::class, 'index'])->name('qualifications.index');
+Route::get('/grilles-de-qualification/{slug}', [\App\Http\Controllers\PublicQualificationController::class, 'show'])->name('qualifications.show');
+
 // ========== COMPÉTITIONS (module Compétitions) ==========
 Route::get('/records', [\App\Http\Controllers\PublicRecordController::class, 'index'])->name('records.index');
 Route::get('/competitions',                                        [PublicCompetitionController::class, 'index'])->name('competitions.index');
@@ -423,6 +427,24 @@ Route::middleware(['auth', 'verified', 'can:access-admin'])->prefix('admin')->na
 
     // ========== COMPÉTITIONS (routes admin.competitions.*) ==========
     require __DIR__.'/competitions.php';
+
+    // ========== GRILLES DE QUALIFICATION (admin uniquement, routes admin.qualifications.*) ==========
+    Route::controller(\App\Http\Controllers\Admin\Qualifications\QualificationGridController::class)
+        ->prefix('grilles-qualification')
+        ->name('qualifications.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/creer', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{grid}', 'edit')->whereNumber('grid')->name('edit');
+            Route::put('/{grid}', 'update')->whereNumber('grid')->name('update');
+            Route::delete('/{grid}', 'destroy')->whereNumber('grid')->name('destroy');
+            Route::post('/{grid}/dupliquer', 'duplicate')->whereNumber('grid')->name('duplicate');
+            Route::get('/{grid}/temps', 'times')->whereNumber('grid')->name('times');
+            Route::put('/{grid}/temps', 'updateTimes')->whereNumber('grid')->name('times.update');
+            Route::get('/{grid}/importer', 'import')->whereNumber('grid')->name('import');
+            Route::post('/{grid}/importer', 'importStore')->whereNumber('grid')->name('import.store');
+        });
 
     // ========== PARTENAIRES (routes admin.partners.*) ==========
     require __DIR__.'/partners.php';

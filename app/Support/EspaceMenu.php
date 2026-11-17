@@ -162,6 +162,8 @@ class EspaceMenu
                     ['Calendrier', 'fa-list', 'admin.competitions.index', ['admin.competitions.index', 'admin.competitions.edit', 'admin.competitions.entries.*', 'admin.competitions.program.*']],
                     ['Nouvelle compétition', 'fa-plus', 'admin.competitions.create', ['admin.competitions.create']],
                     ['Épreuves', 'fa-swimmer', 'admin.competitions.events.index', ['admin.competitions.events.*']],
+                    ['Grilles de qualification', 'fa-table-cells', 'admin.qualifications.index', ['admin.qualifications.*']],
+                    ['Nageurs qualifiés', 'fa-medal', 'coach.qualifications.index', []],
                     ['Records', 'fa-medal', 'coach.records.index', []],
                     ['Performances des nageurs', 'fa-stopwatch', 'coach.performances.index', []],
                 ]],
@@ -322,6 +324,7 @@ class EspaceMenu
                     ['Épreuves', 'fa-swimmer', 'coach.competitions.events.index', ['coach.competitions.events.*']],
                     ['Records', 'fa-medal', 'coach.records.index', ['coach.records.index', 'coach.records.edit', 'coach.records.create']],
                     ['Importer des records FFN', 'fa-file-import', 'coach.records.import-form', ['coach.records.import*']],
+                    ['Nageurs qualifiés', 'fa-medal', 'coach.qualifications.index', ['coach.qualifications.*']],
                 ]],
                 ['label' => 'Suivi des nageurs', 'icon' => 'fa-clipboard-list', 'links' => [
                     ['Performances', 'fa-stopwatch', 'coach.performances.index', ['coach.performances.index', 'coach.performances.show', 'coach.performances.edit']],

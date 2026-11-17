@@ -55,6 +55,7 @@ class SitemapService
         'posts.public.index'         => [0.9, 'daily'],
         'competitions.index'         => [0.9, 'weekly'],
         'records.index'              => [0.7, 'monthly'],
+        'qualifications.index'       => [0.7, 'monthly'],
         'schedule'                   => [0.9, 'monthly'],
         'parcours'                   => [0.8, 'monthly'],
         'pricing'                    => [0.9, 'monthly'],

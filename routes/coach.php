@@ -35,6 +35,10 @@ Route::middleware(['auth', 'verified', 'can:access-coach'])->prefix('coach')->na
     // Compétitions et convocations (routes coach.competitions.*)
     require __DIR__.'/competitions.php';
 
+    // Grilles de qualification : liste des nageurs qualifiés (coachs et administrateurs)
+    Route::get('qualifies', [\App\Http\Controllers\Coach\QualificationController::class, 'index'])->name('qualifications.index');
+    Route::get('qualifies/{grid}', [\App\Http\Controllers\Coach\QualificationController::class, 'show'])->whereNumber('grid')->name('qualifications.show');
+
     // Documents réservés aux coachs
     Route::get('documents/{document}/telecharger', [CoachDocumentController::class, 'download'])->name('documents.download');
     Route::resource('documents', CoachDocumentController::class)->except(['show']);

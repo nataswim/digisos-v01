@@ -20,6 +20,11 @@
     <a href="{{ route('competitions.calendar') }}" class="btn btn-outline-light btn-lg">
         <i class="fas fa-calendar-plus me-2" aria-hidden="true"></i>S'abonner (agenda)
     </a>
+    @if (\App\Models\QualificationGrid::published()->exists())
+        <a href="{{ route('qualifications.index') }}" class="btn btn-outline-light btn-lg">
+            <i class="fas fa-stopwatch me-2" aria-hidden="true"></i>Grilles de qualification
+        </a>
+    @endif
 </x-public.hero>
 
 
