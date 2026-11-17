@@ -15,10 +15,8 @@
             'id'       => 'vieDuClubDropdown',
             'children' => [
                 ['label' => 'Actualités',       'icon' => 'fa-newspaper',   'route' => 'posts.public.index',  'active' => ['posts.public.*']],
-                ['label' => 'Records',          'icon' => 'fa-trophy',      'route' => 'records.index',       'active' => ['records.*']],
                 ['label' => 'Infos pratiques',  'icon' => 'fa-info-circle', 'route' => 'public.fiches.index', 'active' => ['public.fiches.*']],
                 ['label' => 'Ressources',       'icon' => 'fa-download',    'route' => 'ebook.index',         'active' => ['ebook.*']],
-                ['label' => 'Liens utiles',     'icon' => 'fa-link',        'route' => 'links.index',         'active' => ['links.*']],
                 ['divider' => true],
                 ['label' => 'Au fil de l\'eau', 'icon' => 'fa-play-circle', 'route' => 'public.videos.index', 'active' => ['public.videos.*']],
                 ['label' => 'Galeries photo',   'icon' => 'fa-images',      'route' => 'galleries.index',     'active' => ['galleries.*']],
@@ -26,7 +24,16 @@
             ],
         ],
 
-        ['label' => 'Calendrier', 'route' => 'competitions.index', 'active' => ['competitions.*']],
+        [
+            'label'    => 'Calendrier',
+            'id'       => 'calendrierDropdown',
+            'children' => [
+                ['label' => 'Calendrier des compétitions', 'icon' => 'fa-trophy',      'route' => 'competitions.index',   'active' => ['competitions.*']],
+                ['label' => 'Grilles de qualification',    'icon' => 'fa-stopwatch',   'route' => 'qualifications.index', 'active' => ['qualifications.*']],
+                ['label' => 'Records',                     'icon' => 'fa-medal',       'route' => 'records.index',        'active' => ['records.*']],
+                ['label' => 'Liens utiles',                'icon' => 'fa-link',        'route' => 'links.index',          'active' => ['links.*']],
+            ],
+        ],
 
         [
             'label'    => 'Créneaux',
