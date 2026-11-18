@@ -20,6 +20,7 @@
                 ['divider' => true],
                 ['label' => 'Au fil de l\'eau', 'icon' => 'fa-play-circle', 'route' => 'public.videos.index', 'active' => ['public.videos.*']],
                 ['label' => 'Galeries photo',   'icon' => 'fa-images',      'route' => 'galleries.index',     'active' => ['galleries.*']],
+                ['label' => 'Outils & calculateurs', 'icon' => 'fa-calculator', 'route' => 'tools.index',      'active' => ['tools.*']],
                 ['label' => 'Revue de presse',  'icon' => 'fa-newspaper',   'route' => 'press',               'active' => ['press']],
             ],
         ],

@@ -110,6 +110,19 @@ Route::get('/revue-de-presse',           [PublicController::class, 'press'])->na
 Route::get('/groupes-et-horaires', PublicPlanningController::class)->name('schedule');
 Route::get('/parcours-du-nageur', \App\Http\Controllers\PublicParcoursController::class)->name('parcours');
 
+// Outils & calculateurs (contenus Nataswim, Hassan EL HAOUAT)
+Route::prefix('outils')->name('tools.')->group(function () {
+    Route::view('/', 'public.tools.index')->name('index');
+    foreach ([
+        'imc', 'masse-grasse', 'calories', 'tdee', 'kcal-macros', 'hydratation',
+        'chronometre', 'chronometre-pro', 'vnc', 'predicteur', 'planificateur-natation', 'efficacite-technique',
+        'zones-cardiaques', 'coherence-cardiaque', 'planificateur-course', 'charge-maximale', 'condition-physique',
+        'carte-interactive', 'planificateur-triathlon',
+    ] as $tool) {
+        Route::view('/'.$tool, 'public.tools.'.$tool)->name($tool);
+    }
+});
+
 // ========== GRILLES DE QUALIFICATION (publiées par l'administrateur, sans aucun nom de nageur) ==========
 Route::get('/grilles-de-qualification', [\App\Http\Controllers\PublicQualificationController::class, 'index'])->name('qualifications.index');
 Route::get('/grilles-de-qualification/{slug}', [\App\Http\Controllers\PublicQualificationController::class, 'show'])->name('qualifications.show');
