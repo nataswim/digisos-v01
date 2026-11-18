@@ -78,6 +78,7 @@ class SitemapService
         'tools.condition-physique'   => [0.5, 'yearly'],
         'tools.carte-interactive'    => [0.5, 'yearly'],
         'tools.planificateur-triathlon' => [0.5, 'yearly'],
+        'tools.departs'              => [0.5, 'yearly'],
         'pricing'                    => [0.9, 'monthly'],
         'about'                      => [0.8, 'monthly'],
         'team.index'                 => [0.8, 'monthly'],

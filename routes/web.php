@@ -117,7 +117,7 @@ Route::prefix('outils')->name('tools.')->group(function () {
         'imc', 'masse-grasse', 'calories', 'tdee', 'kcal-macros', 'hydratation',
         'chronometre', 'chronometre-pro', 'vnc', 'predicteur', 'planificateur-natation', 'efficacite-technique',
         'zones-cardiaques', 'coherence-cardiaque', 'planificateur-course', 'charge-maximale', 'condition-physique',
-        'carte-interactive', 'planificateur-triathlon',
+        'carte-interactive', 'planificateur-triathlon', 'departs',
     ] as $tool) {
         Route::view('/'.$tool, 'public.tools.'.$tool)->name($tool);
     }

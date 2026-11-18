@@ -180,6 +180,28 @@
                     </a>
                 </div>
 
+                <!-- Départs avec bip -->
+                <div class="col-md-6 col-lg-4">
+                    <a href="{{ route('tools.departs') }}" class="text-decoration-none">
+                        <div class="card h-100 shadow-sm border-0 hover-lift">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="tool-icon rounded-3 p-2 me-3">
+                                        <i class="fas fa-bell text-danger" style="font-size: 1.3rem;"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h5 class="card-title text-dark mb-1">Départs avec bip</h5>
+                                        <span class="badge bg-success small">Essentiel</span>
+                                    </div>
+                                </div>
+                                <p class="card-text text-muted small mb-0">
+                                    Séries à intervalle fixe : bips 3-2-1, départ sonore et temps de chaque répétition
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
                 <!-- VNC -->
                 <div class="col-md-6 col-lg-4">
                     <a href="{{ route('tools.vnc') }}" class="text-decoration-none">

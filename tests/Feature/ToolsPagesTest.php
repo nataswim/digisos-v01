@@ -13,7 +13,7 @@ class ToolsPagesTest extends TestCase
         'imc', 'masse-grasse', 'calories', 'tdee', 'kcal-macros', 'hydratation',
         'chronometre', 'chronometre-pro', 'vnc', 'predicteur', 'planificateur-natation', 'efficacite-technique',
         'zones-cardiaques', 'coherence-cardiaque', 'planificateur-course', 'charge-maximale', 'condition-physique',
-        'carte-interactive', 'planificateur-triathlon',
+        'carte-interactive', 'planificateur-triathlon', 'departs',
     ];
 
     public function test_la_page_des_outils_liste_tous_les_outils(): void
@@ -50,5 +50,14 @@ class ToolsPagesTest extends TestCase
     public function test_le_menu_public_propose_les_outils(): void
     {
         $this->get(route('home'))->assertOk()->assertSee(route('tools.index'), false);
+    }
+
+    public function test_l_outil_departs_propose_le_reglage_de_la_serie(): void
+    {
+        $this->get(route('tools.departs'))->assertOk()
+            ->assertSee('Départ toutes les')
+            ->assertSee('Récupération entre séries')
+            ->assertSee('Décalage entre nageurs')
+            ->assertSee('Lancer la série');
     }
 }
