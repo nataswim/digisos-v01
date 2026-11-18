@@ -10,6 +10,147 @@
 <!-- Section Outils Individuels -->
 <section class="py-5">
     <div class="container">
+        <!-- Outils coach natation & triathlon -->
+        <div class="mb-5">
+            <div class="d-flex align-items-center mb-4 pb-3 border-bottom border-primary">
+                <i class="fas fa-user-clock text-primary me-3" style="font-size: 2rem;"></i>
+                <h3 class="mb-0 text-primary">Outils coach natation &amp; triathlon</h3>
+            </div>
+            <div class="row g-4">
+                <!-- Chrono Pro -->
+                <div class="col-md-6 col-lg-4">
+                    <a href="{{ route('tools.chronometre-pro') }}" class="text-decoration-none">
+                        <div class="card h-100 shadow-sm border-0 hover-lift">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="tool-icon rounded-3 p-2 me-3">
+                                        <i class="fas fa-stopwatch-20 text-danger" style="font-size: 1.3rem;"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h5 class="card-title text-dark mb-1">Chrono Multi Pro</h5>
+                                        <span class="badge bg-warning small">Pro</span>
+                                    </div>
+                                </div>
+                                <p class="card-text text-muted small mb-0">
+                                    Chronométrage multi-athlètes professionnel
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Chrono Sport -->
+                <div class="col-md-6 col-lg-4">
+                    <a href="{{ route('tools.chronometre') }}" class="text-decoration-none">
+                        <div class="card h-100 shadow-sm border-0 hover-lift">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="tool-icon rounded-3 p-2 me-3">
+                                        <i class="fas fa-stopwatch text-warning" style="font-size: 1.3rem;"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h5 class="card-title text-dark mb-1">Chrono Sport</h5>
+                                        <span class="badge bg-success small">Essentiel</span>
+                                    </div>
+                                </div>
+                                <p class="card-text text-muted small mb-0">
+                                    Chronomètre spécialisé pour natation et sports aquatiques
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Départs avec bip -->
+                <div class="col-md-6 col-lg-4">
+                    <a href="{{ route('tools.departs') }}" class="text-decoration-none">
+                        <div class="card h-100 shadow-sm border-0 hover-lift">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="tool-icon rounded-3 p-2 me-3">
+                                        <i class="fas fa-bell text-danger" style="font-size: 1.3rem;"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h5 class="card-title text-dark mb-1">Départs avec bip</h5>
+                                        <span class="badge bg-success small">Essentiel</span>
+                                    </div>
+                                </div>
+                                <p class="card-text text-muted small mb-0">
+                                    Séries à intervalle fixe : bips 3-2-1, départ sonore et temps de chaque répétition
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Prédicteur -->
+                <div class="col-md-6 col-lg-4">
+                    <a href="{{ route('tools.predicteur') }}" class="text-decoration-none">
+                        <div class="card h-100 shadow-sm border-0 hover-lift">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="tool-icon rounded-3 p-2 me-3">
+                                        <i class="fas fa-swimmer text-primary" style="font-size: 1.3rem;"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h5 class="card-title text-dark mb-1">Prédicteur performance</h5>
+                                        <span class="badge bg-warning small">Pro</span>
+                                    </div>
+                                </div>
+                                <p class="card-text text-muted small mb-0">
+                                    Prédiction scientifique des performances natation
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- VNC -->
+                <div class="col-md-6 col-lg-4">
+                    <a href="{{ route('tools.vnc') }}" class="text-decoration-none">
+                        <div class="card h-100 shadow-sm border-0 hover-lift">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="tool-icon rounded-3 p-2 me-3">
+                                        <i class="fas fa-tachometer-alt text-success" style="font-size: 1.3rem;"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h5 class="card-title text-dark mb-1">Vitesse Nage</h5>
+                                        <span class="badge bg-warning small">Pro</span>
+                                    </div>
+                                </div>
+                                <p class="card-text text-muted small mb-0">
+                                    Vitesse critique de nage et seuils métaboliques
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Efficacité -->
+                <div class="col-md-6 col-lg-4">
+                    <a href="{{ route('tools.efficacite-technique') }}" class="text-decoration-none">
+                        <div class="card h-100 shadow-sm border-0 hover-lift">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="tool-icon rounded-3 p-2 me-3">
+                                        <i class="fas fa-chart-area text-warning" style="font-size: 1.3rem;"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h5 class="card-title text-dark mb-1">Efficacité Technique</h5>
+                                        <span class="badge bg-success small">Essentiel</span>
+                                    </div>
+                                </div>
+                                <p class="card-text text-muted small mb-0">
+                                    Analyse DPS et SWOLF pour technique optimale
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
         <!-- Santé Hydratation & Nutrition -->
         <div class="mb-5">
             <div class="d-flex align-items-center mb-4 pb-3 border-bottom border-danger">
@@ -151,101 +292,13 @@
             </div>
         </div>
 
-        <!-- Natation Sportive -->
+        <!-- Planification natation & triathlon -->
         <div class="mb-5">
             <div class="d-flex align-items-center mb-4 pb-3 border-bottom border-info">
                 <i class="fas fa-swimmer text-info me-3" style="font-size: 2rem;"></i>
-                <h3 class="mb-0 text-info">Natation Sportive</h3>
+                <h3 class="mb-0 text-info">Planification natation &amp; triathlon</h3>
             </div>
             <div class="row g-4">
-                <!-- Chrono Sport -->
-                <div class="col-md-6 col-lg-4">
-                    <a href="{{ route('tools.chronometre') }}" class="text-decoration-none">
-                        <div class="card h-100 shadow-sm border-0 hover-lift">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start mb-3">
-                                    <div class="tool-icon rounded-3 p-2 me-3">
-                                        <i class="fas fa-stopwatch text-warning" style="font-size: 1.3rem;"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h5 class="card-title text-dark mb-1">Chrono Sport</h5>
-                                        <span class="badge bg-success small">Essentiel</span>
-                                    </div>
-                                </div>
-                                <p class="card-text text-muted small mb-0">
-                                    Chronomètre spécialisé pour natation et sports aquatiques
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Départs avec bip -->
-                <div class="col-md-6 col-lg-4">
-                    <a href="{{ route('tools.departs') }}" class="text-decoration-none">
-                        <div class="card h-100 shadow-sm border-0 hover-lift">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start mb-3">
-                                    <div class="tool-icon rounded-3 p-2 me-3">
-                                        <i class="fas fa-bell text-danger" style="font-size: 1.3rem;"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h5 class="card-title text-dark mb-1">Départs avec bip</h5>
-                                        <span class="badge bg-success small">Essentiel</span>
-                                    </div>
-                                </div>
-                                <p class="card-text text-muted small mb-0">
-                                    Séries à intervalle fixe : bips 3-2-1, départ sonore et temps de chaque répétition
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- VNC -->
-                <div class="col-md-6 col-lg-4">
-                    <a href="{{ route('tools.vnc') }}" class="text-decoration-none">
-                        <div class="card h-100 shadow-sm border-0 hover-lift">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start mb-3">
-                                    <div class="tool-icon rounded-3 p-2 me-3">
-                                        <i class="fas fa-tachometer-alt text-success" style="font-size: 1.3rem;"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h5 class="card-title text-dark mb-1">Vitesse Nage</h5>
-                                        <span class="badge bg-warning small">Pro</span>
-                                    </div>
-                                </div>
-                                <p class="card-text text-muted small mb-0">
-                                    Vitesse critique de nage et seuils métaboliques
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Prédicteur -->
-                <div class="col-md-6 col-lg-4">
-                    <a href="{{ route('tools.predicteur') }}" class="text-decoration-none">
-                        <div class="card h-100 shadow-sm border-0 hover-lift">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start mb-3">
-                                    <div class="tool-icon rounded-3 p-2 me-3">
-                                        <i class="fas fa-swimmer text-primary" style="font-size: 1.3rem;"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h5 class="card-title text-dark mb-1">Prédicteur performance</h5>
-                                        <span class="badge bg-warning small">Pro</span>
-                                    </div>
-                                </div>
-                                <p class="card-text text-muted small mb-0">
-                                    Prédiction scientifique des performances natation
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
                 <!-- Planification -->
                 <div class="col-md-6 col-lg-4">
                     <a href="{{ route('tools.planificateur-natation') }}" class="text-decoration-none">
@@ -268,27 +321,28 @@
                     </a>
                 </div>
 
-                <!-- Efficacité -->
+                <!-- Triathlon -->
                 <div class="col-md-6 col-lg-4">
-                    <a href="{{ route('tools.efficacite-technique') }}" class="text-decoration-none">
+                    <a href="{{ route('tools.planificateur-triathlon') }}" class="text-decoration-none">
                         <div class="card h-100 shadow-sm border-0 hover-lift">
                             <div class="card-body">
                                 <div class="d-flex align-items-start mb-3">
                                     <div class="tool-icon rounded-3 p-2 me-3">
-                                        <i class="fas fa-chart-area text-warning" style="font-size: 1.3rem;"></i>
+                                        <i class="fas fa-biking text-success" style="font-size: 1.3rem;"></i>
                                     </div>
                                     <div class="flex-grow-1">
-                                        <h5 class="card-title text-dark mb-1">Efficacité Technique</h5>
-                                        <span class="badge bg-success small">Essentiel</span>
+                                        <h5 class="card-title text-dark mb-1">Planification Triathlon</h5>
+                                        <span class="badge bg-warning small">Pro</span>
                                     </div>
                                 </div>
                                 <p class="card-text text-muted small mb-0">
-                                    Analyse DPS et SWOLF pour technique optimale
+                                    Entraînement multidisciplinaire natation-vélo-course
                                 </p>
                             </div>
                         </div>
                     </a>
                 </div>
+
             </div>
         </div>
 
@@ -418,28 +472,6 @@
                 <h3 class="mb-0 text-warning">Outils pratiques</h3>
             </div>
             <div class="row g-4">
-                <!-- Chrono Pro -->
-                <div class="col-md-6 col-lg-4">
-                    <a href="{{ route('tools.chronometre-pro') }}" class="text-decoration-none">
-                        <div class="card h-100 shadow-sm border-0 hover-lift">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start mb-3">
-                                    <div class="tool-icon rounded-3 p-2 me-3">
-                                        <i class="fas fa-stopwatch-20 text-danger" style="font-size: 1.3rem;"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h5 class="card-title text-dark mb-1">Chrono Multi Pro</h5>
-                                        <span class="badge bg-warning small">Pro</span>
-                                    </div>
-                                </div>
-                                <p class="card-text text-muted small mb-0">
-                                    Chronométrage multi-athlètes professionnel
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
                 <!-- Carte Interactive -->
                 <div class="col-md-6 col-lg-4">
                     <a href="{{ route('tools.carte-interactive') }}" class="text-decoration-none">
@@ -462,27 +494,6 @@
                     </a>
                 </div>
 
-                <!-- Triathlon -->
-                <div class="col-md-6 col-lg-4">
-                    <a href="{{ route('tools.planificateur-triathlon') }}" class="text-decoration-none">
-                        <div class="card h-100 shadow-sm border-0 hover-lift">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start mb-3">
-                                    <div class="tool-icon rounded-3 p-2 me-3">
-                                        <i class="fas fa-biking text-success" style="font-size: 1.3rem;"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h5 class="card-title text-dark mb-1">Planification Triathlon</h5>
-                                        <span class="badge bg-warning small">Pro</span>
-                                    </div>
-                                </div>
-                                <p class="card-text text-muted small mb-0">
-                                    Entraînement multidisciplinaire natation-vélo-course
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
             </div>
         </div>
     </div>
