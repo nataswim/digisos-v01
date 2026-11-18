@@ -60,4 +60,20 @@ class ToolsPagesTest extends TestCase
             ->assertSee('Décalage entre nageurs')
             ->assertSee('Lancer la série');
     }
+
+    public function test_les_outils_ont_l_image_et_les_liens_de_partage(): void
+    {
+        $image = asset('assets/images/team/outils-caoch-natation.jpg');
+
+        $this->get(route('tools.index'))->assertOk()
+            ->assertSee('<meta property="og:image" content="'.$image.'">', false)
+            ->assertSee('<meta name="twitter:image" content="'.$image.'">', false)
+            ->assertSee('data-network="facebook"', false)
+            ->assertSee('data-network="whatsapp"', false)
+            ->assertSee('js/social-share.js', false);
+
+        $this->get(route('tools.departs'))->assertOk()
+            ->assertSee('<meta property="og:image" content="'.$image.'">', false)
+            ->assertSee('<meta property="og:title" content="Départs avec bip - Séries chronométrées natation">', false);
+    }
 }

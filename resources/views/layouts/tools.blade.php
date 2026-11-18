@@ -10,7 +10,12 @@
     $siteName        = 'CNBB — Cercle des Nageurs du Bocage Bressuirais';
     $siteDescription = 'Site officiel du Cercle des Nageurs du Bocage Bressuirais (CNBB), club de natation de Bressuire affilié à la Fédération Française de Natation : actualités, infos pratiques, inscriptions.';
     $siteKeywords    = 'CNBB, club de natation, Bressuire, Deux-Sèvres, natation course, école de natation, Cœur d\'O, FFN';
-    $siteImage       = asset('assets/images/logo/cnbb-logo-800.png');
+    // Image de partage commune aux outils (Facebook, WhatsApp, LinkedIn, X…)
+    $siteImage       = asset('assets/images/team/outils-caoch-natation.jpg');
+    $shareAlt        = 'Outils coach natation & triathlon — CNBB';
+    // Titre et description de partage : ceux de la page par défaut
+    $pageTitle       = trim($__env->yieldContent('title', 'Outils & calculateurs'));
+    $pageDescription = trim($__env->yieldContent('meta_description', 'Chronomètres, départs avec bip, calculateurs et planificateurs pour les coachs de natation et de triathlon.'));
 
 
 @endphp
@@ -29,18 +34,18 @@
 
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:site_name" content="{{ $siteName }}">
-    <meta property="og:title" content="@yield('og_title', $siteName)">
-    <meta property="og:description" content="@yield('og_description', $siteDescription)">
+    <meta property="og:title" content="@yield('og_title', $pageTitle)">
+    <meta property="og:description" content="@yield('og_description', $pageDescription)">
     <meta property="og:url" content="@yield('og_url', url()->current())">
     <meta property="og:image" content="@yield('og_image', $siteImage)">
-    <meta property="og:image:alt" content="@yield('og_image_alt', 'Logo du Cercle des Nageurs du Bocage Bressuirais')">
+    <meta property="og:image:alt" content="@yield('og_image_alt', $shareAlt)">
     <meta property="og:locale" content="fr_FR">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="@yield('twitter_title', $siteName)">
-    <meta name="twitter:description" content="@yield('twitter_description', $siteDescription)">
+    <meta name="twitter:title" content="@yield('twitter_title', $pageTitle)">
+    <meta name="twitter:description" content="@yield('twitter_description', $pageDescription)">
     <meta name="twitter:image" content="@yield('twitter_image', $siteImage)">
-    <meta name="twitter:image:alt" content="@yield('twitter_image_alt', 'Logo du Cercle des Nageurs du Bocage Bressuirais')">
+    <meta name="twitter:image:alt" content="@yield('twitter_image_alt', $shareAlt)">
 
     <link rel="canonical" href="@yield('canonical', url()->current())">
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
@@ -75,7 +80,10 @@
         @yield('content')
     </main>
 
+    @include('layouts.partials.social-share')
+
     <script src="{{ mix('js/app.js') }}"></script>
+    <script src="{{ asset('js/social-share.js') }}"></script>
     @stack('scripts')
 </body>
 </html>
