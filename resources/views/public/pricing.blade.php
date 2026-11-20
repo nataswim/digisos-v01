@@ -1,43 +1,38 @@
 @extends('layouts.public')
 
-@section('title', 'Inscription saison 2026-2027')
-@section('meta_description', 'Inscription au CNBB pour la saison 2026-2027 : tarifs de l\'école de natation, des jeunes, des étudiants et des adultes, remises famille, pièces du dossier et modalités de règlement.')
+@section('title', 'Inscription au CNBB : tarifs, pièces du dossier et modalités de règlement')
+@section('meta_description', 'Inscription au CNBB pour la saison  : tarifs de l\'école de natation, des jeunes, des étudiants et des adultes, remises famille, pièces du dossier et modalités de règlement.')
 
 @section('content')
 
 @php
     $saison = '2026-2027';
 
-    // Tarifs de la saison
+    // Activités proposées : le montant de l'adhésion dépend de l'activité (détail dans les fiches)
     $tarifs = [
-        [
-            'icon'    => 'fa-child',
-            'couleur' => 'info',
-            'titre'   => 'École de natation',
-            'detail'  => 'Enfants 10 ans et moins',
-            'prix'    => 175,
-        ],
-        [
-            'icon'    => 'fa-swimmer',
-            'couleur' => 'primary',
-            'titre'   => 'Natation jeunes et étudiants',
-            'detail'  => 'Jeunes 11 ans et plus, étudiants de 18 à 25 ans (avec justificatif)',
-            'prix'    => 190,
-        ],
-        [
-            'icon'    => 'fa-user-graduate',
-            'couleur' => 'success',
-            'titre'   => 'Anciens nageurs étudiants',
-            'detail'  => 'Anciens nageurs jeunes, étudiants hors Bressuire, licenciés l\'année précédente',
-            'prix'    => 110,
-        ],
-        [
-            'icon'    => 'fa-users',
-            'couleur' => 'warning',
-            'titre'   => 'Adultes',
-            'detail'  => 'Plus de 18 ans',
-            'prix'    => 210,
-        ],
+        ['icon' => 'fa-child',         'couleur' => 'info',      'titre' => 'École de natation',            'detail' => 'Apprentissage et perfectionnement des nages'],
+        ['icon' => 'fa-swimmer',       'couleur' => 'primary',   'titre' => 'Jeunes',                       'detail' => '8 à 25 ans'],
+        ['icon' => 'fa-user-graduate', 'couleur' => 'success',   'titre' => 'Étudiants stagiaires',         'detail' => 'Sous conditions'],
+        ['icon' => 'fa-users',         'couleur' => 'warning',   'titre' => 'Maîtres',                      'detail' => '25 ans et plus'],
+        ['icon' => 'fa-trophy',        'couleur' => 'danger',    'titre' => 'Maîtres ligue Arc Atlantique', 'detail' => 'Maîtres engagés avec la ligue Arc Atlantique'],
+    ];
+
+    // Fiches « Inscription & adhésion »
+    $fiches = [
+        ['titre' => "Le dossier d'inscription : les pièces à fournir", 'texte' => "La liste complète des pièces à rassembler et l'endroit où déposer le dossier."],
+        ['titre' => 'Tarifs et réductions de la saison',              'texte' => 'Le montant de la cotisation selon le groupe, les réductions familles et la majoration de retard.'],
+        ['titre' => 'Certificat médical et attestation de santé',     'texte' => 'Quand fournir un certificat médical, et quand une simple attestation suffit.'],
+        ['titre' => 'Les moyens de paiement',                         'texte' => 'Espèces, chèques en plusieurs fois, virement, coupons sport et chèques-vacances ANCV.'],
+    ];
+
+    // Documents d'inscription à télécharger
+    $documents = [
+        'Charte du club (Charte du Nageur)',
+        "Fiche d'inscription",
+        'Fiche sanitaire de liaison',
+        "Modalités d'inscription",
+        'Questionnaire de santé',
+        'Règlement intérieur',
     ];
 
     // Pièces du dossier
@@ -67,9 +62,10 @@
 
 
 <x-public.hero
-    :title="'Inscription saison ' . $saison"
+    :title="'Inscription CNBB '"
+    :video="false"
     eyebrow="Le club"
-    title-class="display-4"
+    title-class="display-5"
     lead="Tarifs, conditions et pièces à fournir pour rejoindre le Cercle des Nageurs du Bocage Bressuirais.">
     <a href="#tarifs" class="btn btn-primary btn-lg">
         <i class="fas fa-euro-sign me-2" aria-hidden="true"></i>Voir les tarifs
@@ -92,9 +88,8 @@
             <div class="col-md-4">
                 <article class="card border-0 shadow-sm h-100 text-center">
                     <div class="card-body p-4">
-                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4"
-                             style="width: 80px; height: 80px;">
-                            <i class="fas fa-swimmer text-primary fa-2x"></i>
+                        <div class="tarif-icone rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="--tarif: var(--bs-primary); width: 80px; height: 80px;">
+                            <i class="fas fa-swimmer fa-2x" aria-hidden="true"></i>
                         </div>
                         <h3 class="h5 fw-bold mb-3">Savoir nager 25 mètres</h3>
                         <p class="text-muted mb-0">
@@ -107,9 +102,8 @@
             <div class="col-md-4">
                 <article class="card border-0 shadow-sm h-100 text-center">
                     <div class="card-body p-4">
-                        <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4"
-                             style="width: 80px; height: 80px;">
-                            <i class="fas fa-stopwatch text-success fa-2x"></i>
+                        <div class="tarif-icone rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="--tarif: var(--bs-success); width: 80px; height: 80px;">
+                            <i class="fas fa-stopwatch fa-2x" aria-hidden="true"></i>
                         </div>
                         <h3 class="h5 fw-bold mb-3">Une évaluation du niveau</h3>
                         <p class="text-muted mb-0">
@@ -124,9 +118,8 @@
             <div class="col-md-4">
                 <article class="card border-0 shadow-sm h-100 text-center">
                     <div class="card-body p-4">
-                        <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4"
-                             style="width: 80px; height: 80px;">
-                            <i class="fas fa-life-ring text-info fa-2x"></i>
+                        <div class="tarif-icone rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="--tarif: var(--bs-info); width: 80px; height: 80px;">
+                            <i class="fas fa-life-ring fa-2x" aria-hidden="true"></i>
                         </div>
                         <h3 class="h5 fw-bold mb-3">Pour apprendre à nager</h3>
                         <p class="text-muted mb-0">
@@ -144,22 +137,21 @@
 <section id="tarifs" class="anchor-section py-5 bg-light">
     <div class="container-lg">
         <header class="text-center mb-5">
-            <h2 class="display-6 fw-bold mb-3">Tarifs {{ $saison }}</h2>
-            <p class="lead text-muted">Adhésion pour la saison complète</p>
+            <h2 class="display-6 fw-bold mb-3">Tarifs</h2>
+            <p class="lead text-muted">Adhésion pour une saison</p>
         </header>
 
-        <div class="row g-4">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-5 g-4">
             @foreach ($tarifs as $tarif)
-                <div class="col-md-6 col-lg-3">
-                    <article class="card border-0 shadow-sm h-100 text-center">
+                <div class="col">
+                    <article class="card border-0 shadow-sm h-100 text-center tarif-card" style="--tarif: var(--bs-{{ $tarif['couleur'] }});">
                         <div class="card-body p-4 d-flex flex-column">
-                            <div class="bg-{{ $tarif['couleur'] }} bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3 mx-auto"
-                                 style="width: 70px; height: 70px;">
-                                <i class="fas {{ $tarif['icon'] }} text-{{ $tarif['couleur'] }} fa-2x"></i>
+                            <div class="tarif-icone rounded-circle d-inline-flex align-items-center justify-content-center mb-3 mx-auto">
+                                <i class="fas {{ $tarif['icon'] }} fa-2x" aria-hidden="true"></i>
                             </div>
                             <h3 class="h5 fw-bold mb-2">{{ $tarif['titre'] }}</h3>
                             <p class="text-muted small flex-grow-1">{{ $tarif['detail'] }}</p>
-                            <div class="display-5 fw-bold text-{{ $tarif['couleur'] }}">{{ $tarif['prix'] }} €</div>
+                            <p class="fw-semibold mb-0 tarif-prix">Adhésion selon l'activité</p>
                         </div>
                     </article>
                 </div>
@@ -167,39 +159,46 @@
         </div>
 
         <div class="row g-4 mt-1">
+            {{-- Fiches Inscription & adhésion --}}
             <div class="col-lg-6">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body p-4">
+                <div class="card border-0 shadow-sm h-100 border-top border-primary border-4">
+                    <div class="card-body p-4 d-flex flex-column">
                         <h3 class="h5 fw-bold mb-3">
-                            <i class="fas fa-tags text-success me-2"></i>Remises famille
+                            <i class="fas fa-book-open text-primary me-2" aria-hidden="true"></i>Inscription &amp; adhésion : les fiches
                         </h3>
-                        <ul class="list-unstyled mb-3">
-                            <li class="d-flex mb-2">
-                                <i class="fas fa-check-circle text-success me-3 mt-1"></i>
-                                <span><strong>2 adhésions :</strong> remise de 10 €</span>
-                            </li>
-                            <li class="d-flex">
-                                <i class="fas fa-check-circle text-success me-3 mt-1"></i>
-                                <span><strong>3 adhésions et plus :</strong> 10 % de remise sur l'ensemble des adhésions</span>
-                            </li>
+                        <ul class="list-unstyled mb-4 flex-grow-1">
+                            @foreach ($fiches as $fiche)
+                                <li class="d-flex mb-3">
+                                    <i class="fas fa-file-alt text-primary me-3 mt-1" aria-hidden="true"></i>
+                                    <span><strong>{{ $fiche['titre'] }}</strong><br><span class="text-muted small">{{ $fiche['texte'] }}</span></span>
+                                </li>
+                            @endforeach
                         </ul>
-                        <p class="text-muted small mb-0">
-                            Remises valables uniquement pour une adhésion en début de saison.
-                        </p>
+                        <a href="{{ url('/fiches/inscription-adhesion') }}" class="btn btn-primary align-self-start">
+                            <i class="fas fa-arrow-right me-2" aria-hidden="true"></i>Lire les fiches Inscription &amp; adhésion
+                        </a>
                     </div>
                 </div>
             </div>
 
+            {{-- Documents à télécharger --}}
             <div class="col-lg-6">
-                <div class="card border-0 shadow-sm h-100 border-start border-warning border-4">
-                    <div class="card-body p-4">
+                <div class="card border-0 shadow-sm h-100 border-top border-success border-4">
+                    <div class="card-body p-4 d-flex flex-column">
                         <h3 class="h5 fw-bold mb-3">
-                            <i class="fas fa-exclamation-triangle text-warning me-2"></i>Réinscription tardive
+                            <i class="fas fa-file-pdf text-danger me-2" aria-hidden="true"></i>Documents d'inscription (PDF)
                         </h3>
-                        <p class="mb-0">
-                            Une pénalité de <strong>10 €</strong> est appliquée pour les réinscriptions
-                            effectuées après le <strong>30 septembre 2026</strong>.
-                        </p>
+                        <ul class="list-unstyled mb-4 flex-grow-1">
+                            @foreach ($documents as $document)
+                                <li class="d-flex mb-2">
+                                    <i class="fas fa-file-pdf text-danger me-3 mt-1" aria-hidden="true"></i>
+                                    <span>{{ $document }} <span class="text-muted small">— saison {{ $saison }}</span></span>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <a href="{{ url('/ebook/documents-inscription') }}" class="btn btn-success align-self-start">
+                            <i class="fas fa-download me-2" aria-hidden="true"></i>Télécharger les documents
+                        </a>
                     </div>
                 </div>
             </div>
@@ -348,7 +347,7 @@
     <div class="container-lg">
         <div class="row justify-content-center">
             <div class="col-lg-9">
-                <div class="card border-0 shadow-sm bg-success bg-opacity-10">
+                <div class="card border-0 shadow-sm tarif-fond" style="--tarif: var(--bs-success);">
                     <div class="card-body p-4 p-lg-5 text-center">
                         <i class="fas fa-hands-helping text-success fa-3x mb-3"></i>
                         <h2 class="h3 fw-bold mb-3">Parents, ce message vous concerne</h2>
@@ -359,6 +358,80 @@
                         </p>
                         <a href="{{ route('contact') }}" class="btn btn-success">
                             <i class="fas fa-envelope me-2"></i>Je me renseigne
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Informations du club -->
+<section id="informations" class="anchor-section py-5 bg-white">
+    <div class="container-lg">
+        <header class="text-center mb-5">
+            <p class="text-uppercase fw-semibold text-primary small mb-2">Le Club</p>
+            <h2 class="display-6 fw-bold mb-3">Informations du club</h2>
+            <p class="lead text-muted mx-auto" style="max-width: 52rem;">
+                Retrouvez ici toutes les informations pratiques nécessaires au bon déroulement de votre saison au club.
+                Que vous soyez nouvel adhérent ou nageur confirmé, cette rubrique rassemble les éléments essentiels pour vous guider.
+            </p>
+        </header>
+
+        @if ($categories->isNotEmpty())
+            <h3 class="h5 fw-bold mb-3">Les informations, par thème</h3>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
+                @foreach ($categories as $categorie)
+                    <div class="col">
+                        <a href="{{ route('public.pages.category', $categorie) }}" class="card border-0 shadow-sm h-100 text-decoration-none info-theme">
+                            <div class="card-body p-4">
+                                <span class="badge rounded-pill bg-light text-primary border mb-2">
+                                    {{ $categorie->published_pages_count }} {{ $categorie->published_pages_count > 1 ? 'pages' : 'page' }}
+                                </span>
+                                <h4 class="h5 fw-bold text-dark mb-2">
+                                    {{ $categorie->name }}<i class="fas fa-arrow-right ms-2 small text-primary" aria-hidden="true"></i>
+                                </h4>
+                                @if ($categorie->description)
+                                    <p class="text-muted small mb-0">{{ $categorie->description }}</p>
+                                @endif
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+
+        <div class="text-center">
+            <a href="{{ route('public.pages.index') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-info-circle me-2" aria-hidden="true"></i>Toutes les informations du club
+            </a>
+        </div>
+    </div>
+</section>
+
+
+<!-- Boutique du club -->
+<section id="boutique" class="anchor-section py-5 bg-light">
+    <div class="container-lg">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4 p-lg-5">
+                <div class="row g-4 align-items-center">
+                    <div class="col-md-auto text-center">
+                        <div class="tarif-icone rounded-circle d-inline-flex align-items-center justify-content-center" style="--tarif: var(--bs-primary);">
+                            <i class="fas fa-shopping-bag fa-2x" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <h2 class="h3 fw-bold mb-2">La boutique du club</h2>
+                        <p class="text-muted mb-0">
+                            Textile, matériel et accessoires aux couleurs du CNBB. Les prix sont indicatifs :
+                            la commande se fait sur le site indiqué pour chaque produit.
+                        </p>
+                    </div>
+                    <div class="col-md-auto">
+                        <a href="{{ route('shop.index') }}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-store me-2" aria-hidden="true"></i>Voir la boutique
                         </a>
                     </div>
                 </div>
@@ -400,5 +473,18 @@
         font-size: 1.2rem;
         font-weight: 700;
     }
+
+    /* Pastilles des activités et de la boutique : fond clair teinté de la couleur de l'activité */
+    .tarif-icone {
+        width: 70px;
+        height: 70px;
+        color: var(--tarif);
+        background: color-mix(in srgb, var(--tarif) 12%, #fff);
+    }
+    .tarif-card { border-top: 4px solid var(--tarif) !important; }
+    .tarif-prix { color: var(--tarif); }
+    .info-theme { border-top: 4px solid var(--bs-primary) !important; transition: transform .2s, box-shadow .2s; }
+    .info-theme:hover, .info-theme:focus { transform: translateY(-3px); box-shadow: 0 .75rem 1.5rem rgba(0,0,0,.08) !important; }
+    .tarif-fond { background: color-mix(in srgb, var(--tarif) 10%, #fff) !important; }
 </style>
 @endpush

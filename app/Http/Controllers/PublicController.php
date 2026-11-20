@@ -102,7 +102,13 @@ public function press()
 
     public function pricing()
     {
-        return view('public.pricing');
+        // Thèmes de la rubrique « Informations du club » (/pages), avec leur nombre de pages publiées
+        $categories = \App\Models\PagesCategory::active()
+            ->ordered()
+            ->withCount(['pages as published_pages_count' => fn ($q) => $q->where('is_published', true)])
+            ->get();
+
+        return view('public.pricing', compact('categories'));
     }
 
     public function guide()

@@ -11,7 +11,7 @@
         eyebrow     Petit sur-titre affiché au-dessus du titre
         lead        Texte d'introduction
         icon        Classe Font Awesome affichée devant le titre (ex. "fa-swimmer")
-        video       Chemin de la vidéo dans /public
+        video       Chemin de la vidéo dans /public ; :video="false" pour un bandeau sans vidéo, plus court
         titleClass  Taille du titre (display-3 par défaut)
 
     Zones :
@@ -30,13 +30,15 @@
 ])
 
 <section {{ $attributes->class(['hero-video-section position-relative text-white overflow-hidden']) }}>
-    {{-- Vidéo décorative : muette, masquée aux lecteurs d'écran --}}
-    <video class="hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1">
-        <source src="{{ asset($video) }}" type="video/mp4">
-    </video>
+    @if ($video)
+        {{-- Vidéo décorative : muette, masquée aux lecteurs d'écran --}}
+        <video class="hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1">
+            <source src="{{ asset($video) }}" type="video/mp4">
+        </video>
+    @endif
 
-    <div class="container-lg py-5 position-relative hero-content">
-        <div class="row align-items-center min-vh-50">
+    <div class="container-lg {{ $video ? 'py-5' : 'py-4' }} position-relative hero-content">
+        <div class="row align-items-center {{ $video ? 'min-vh-50' : '' }}">
             <div class="{{ isset($aside) ? 'col-lg-8' : 'col-12' }}">
                 @if ($eyebrow)
                     <p class="hero-eyebrow text-uppercase fw-semibold mb-2 animate-slide-up">{{ $eyebrow }}</p>
