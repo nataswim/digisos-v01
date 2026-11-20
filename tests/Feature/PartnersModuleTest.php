@@ -251,4 +251,17 @@ class PartnersModuleTest extends TestCase
             $this->actingAs($member)->get('/editor/partenaires')->assertForbidden();
         }
     }
+
+    public function test_les_familles_de_partenaires_sont_proposees_et_affichees(): void
+    {
+        $this->actingAs($this->userWithRole('admin'))->get('/admin/partenaires/create')->assertOk()
+            ->assertSee('Collectivités et acteurs institutionnels')->assertSee('Club des supporters')->assertSee('Famille de partenaires');
+
+        $this->post('/admin/partenaires', ['name' => 'Journal Fictif', 'level' => 'medias', 'is_active' => '1'])->assertRedirect();
+        $this->assertDatabaseHas('partners', ['name' => 'Journal Fictif', 'level' => 'medias']);
+        $this->get('/admin/partenaires?niveau=medias')->assertOk()->assertSee('Journal Fictif');
+
+        $this->get('/partenaires')->assertOk()->assertSee('Médias et presse')
+            ->assertSee('relais médiatique et la visibilité des événements du club')->assertSee('Journal Fictif');
+    }
 }

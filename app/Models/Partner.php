@@ -14,12 +14,32 @@ use Illuminate\Support\Str;
  */
 class Partner extends Model
 {
-    /** Niveaux, du plus élevé au plus bas : libellé du bloc, libellé court, couleurs [fond, texte]. */
+    /** Niveaux, dans l'ordre d'affichage : libellé du bloc, libellé court, couleurs [fond, texte], icône, description facultative. */
     public const LEVELS = [
         'principal' => ['label' => 'Partenaire principal', 'short' => 'Principal', 'bg' => '#2f80b8', 'text' => '#ffffff', 'icon' => 'fa-star'],
         'or'        => ['label' => 'Partenaires Or',       'short' => 'Or',        'bg' => '#d4a017', 'text' => '#1c2111', 'icon' => 'fa-medal'],
         'argent'    => ['label' => 'Partenaires Argent',   'short' => 'Argent',    'bg' => '#a8adb3', 'text' => '#1c2111', 'icon' => 'fa-medal'],
         'bronze'    => ['label' => 'Partenaires Bronze',   'short' => 'Bronze',    'bg' => '#b0703c', 'text' => '#ffffff', 'icon' => 'fa-medal'],
+
+        // Familles de partenaires (clé de 20 caractères au plus) ; « description » est affichée sous le titre du bloc
+        'collectivites' => ['label' => 'Collectivités et acteurs institutionnels', 'short' => 'Collectivités', 'bg' => '#1d4e89', 'text' => '#ffffff', 'icon' => 'fa-landmark',
+            'description' => 'Communes, intercommunalités et instances sportives soutenant le développement des infrastructures et de la vie associative.'],
+        'technique'     => ['label' => 'Partenaires techniques ou de services', 'short' => 'Techniques / services', 'bg' => '#3d5a6c', 'text' => '#ffffff', 'icon' => 'fa-tools',
+            'description' => 'Prestataires accompagnant le club par leur savoir-faire, leurs prestations ou la mise à disposition de matériel et d\'équipements.'],
+        'commerces'     => ['label' => 'Commerçants et PME locales', 'short' => 'Commerces & PME', 'bg' => '#c0631b', 'text' => '#ffffff', 'icon' => 'fa-store',
+            'description' => 'Acteurs économiques de proximité engagés au quotidien aux côtés du club et de ses licenciés.'],
+        'sante'         => ['label' => 'Partenaires santé et bien-être', 'short' => 'Santé & bien-être', 'bg' => '#1f8a70', 'text' => '#ffffff', 'icon' => 'fa-heartbeat',
+            'description' => 'Professionnels de santé, préparateurs et centres spécialisés veillant à la prévention, au suivi et à la récupération des sportifs.'],
+        'formation'     => ['label' => 'Partenaires compétences et formations', 'short' => 'Compétences & formations', 'bg' => '#5b3f8c', 'text' => '#ffffff', 'icon' => 'fa-graduation-cap',
+            'description' => 'Organismes, écoles et experts contribuant à l\'accompagnement éducatif, à la formation des encadrants et à l\'insertion professionnelle.'],
+        'evenementiel'  => ['label' => 'Partenaires événementiels et réceptifs', 'short' => 'Événementiel', 'bg' => '#b3264a', 'text' => '#ffffff', 'icon' => 'fa-glass-cheers',
+            'description' => 'Acteurs de la restauration, de la location et de l\'animation assurant la réussite des tournois, réceptions et moments conviviaux.'],
+        'medias'        => ['label' => 'Médias et presse', 'short' => 'Médias & presse', 'bg' => '#2b2d42', 'text' => '#ffffff', 'icon' => 'fa-newspaper',
+            'description' => 'Supports d\'information locaux et régionaux assurant le relais médiatique et la visibilité des événements du club.'],
+        'solidaires'    => ['label' => 'Partenaires associatifs et solidaires', 'short' => 'Associatifs & solidaires', 'bg' => '#2a7f9e', 'text' => '#ffffff', 'icon' => 'fa-hands-helping',
+            'description' => 'Associations, fondations et structures engagées menant des actions citoyennes, caritatives ou inclusives aux côtés du club.'],
+        'supporters'    => ['label' => 'Club des supporters', 'short' => 'Supporters', 'bg' => '#efa525', 'text' => '#1c2111', 'icon' => 'fa-users',
+            'description' => 'Particuliers, bénévoles, anciens joueurs et sympathisants soutenant financièrement et humainement les projets du club.'],
     ];
 
     /** Nature du partenariat (facultatif). */

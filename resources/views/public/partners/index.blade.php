@@ -43,6 +43,9 @@
                     <i class="fas {{ $block['info']['icon'] }} me-2" aria-hidden="true"></i>{{ $block['info']['label'] }}
                 </span>
             </h2>
+            @if (! empty($block['info']['description']))
+                <p class="text-muted text-center mx-auto mb-4" style="max-width: 46rem;">{{ $block['info']['description'] }}</p>
+            @endif
 
             <div class="row g-4 justify-content-center">
                 @foreach ($block['partners'] as $partner)

@@ -99,9 +99,17 @@
                             <label for="level" class="form-label fw-semibold">Niveau</label>
                             <select id="level" name="level" class="form-select @error('level') is-invalid @enderror" required>
                                 @foreach (\App\Models\Partner::LEVELS as $cle => $info)
-                                    <option value="{{ $cle }}" @selected(old('level', $partner->level) === $cle)>{{ $info['label'] }}</option>
+                                    @if ($cle === 'principal')<optgroup label="Niveau de soutien">@elseif ($cle === 'collectivites')</optgroup><optgroup label="Famille de partenaires">@endif
+                                    <option value="{{ $cle }}" data-description="{{ $info['description'] ?? '' }}" @selected(old('level', $partner->level) === $cle)>{{ $info['label'] }}</option>
                                 @endforeach
+                                </optgroup>
                             </select>
+                            <div id="level-description" class="form-text">{{ \App\Models\Partner::LEVELS[old('level', $partner->level)]['description'] ?? '' }}</div>
+                            <script>
+                                document.getElementById('level').addEventListener('change', function () {
+                                    document.getElementById('level-description').textContent = this.selectedOptions[0].dataset.description || '';
+                                });
+                            </script>
                         </div>
 
                         <div class="mb-3">
