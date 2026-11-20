@@ -75,7 +75,7 @@ class SwimmersFromLicensesTest extends TestCase
         // Alice : nouvelle fiche, groupe, compte de la famille
         $aliceFiche = PlanningSwimmer::where('license_number', '9000001')->firstOrFail();
         $this->assertSame(['Alice', 'Durand', 2015, 'F'], [$aliceFiche->first_name, $aliceFiche->last_name, $aliceFiche->birth_year, $aliceFiche->gender]);
-        $this->assertSame($parent->id, $aliceFiche->user_id);
+        $this->assertSame([$parent->id], $aliceFiche->users->pluck('id')->all());
         $this->assertTrue($aliceFiche->groups->contains($groupe));
         $this->assertSame($aliceFiche->id, $alice->fresh()->planning_swimmer_id);
 

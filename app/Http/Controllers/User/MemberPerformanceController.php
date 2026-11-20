@@ -21,7 +21,7 @@ class MemberPerformanceController extends Controller
             return redirect()->route('visitor.dashboard');
         }
 
-        $swimmers = PlanningSwimmer::where('user_id', $user->id)->orderBy('first_name')->get();
+        $swimmers = PlanningSwimmer::linkedTo($user->id)->orderBy('first_name')->get();
         $swimmer = $swimmers->firstWhere('id', $request->integer('nageur')) ?? $swimmers->first();
 
         return view('user.performances.index', [

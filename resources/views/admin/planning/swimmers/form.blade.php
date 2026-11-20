@@ -81,15 +81,40 @@
                     </div>
 
                     <div class="col-12">
-                        <label for="user_id" class="form-label fw-semibold">Compte du site <span class="text-muted fw-normal">(facultatif : la famille pourra répondre aux convocations)</span></label>
-                        <select id="user_id" name="user_id" class="form-select @error('user_id') is-invalid @enderror">
-                            <option value="">— Aucun compte lié —</option>
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}" @selected((int) old('user_id', $swimmer->user_id) === $user->id)>
-                                    {{ $user->name }} ({{ $user->email }})
-                                </option>
-                            @endforeach
-                        </select>
+                        @php
+                            $lignes = old('accounts', $swimmer->exists
+                                ? $swimmer->users->map(fn ($u) => ['user_id' => $u->id, 'relation' => $u->pivot->relation])->all()
+                                : []);
+                            $lignes = array_values($lignes);
+                            $total = max(2, count($lignes) + 1); // au moins une ligne vide pour ajouter un compte
+                            while (count($lignes) < $total) { $lignes[] = ['user_id' => '', 'relation' => '']; }
+                        @endphp
+                        <span class="form-label fw-semibold d-block">Comptes du site
+                            <span class="text-muted fw-normal">(facultatif : chaque compte voit les séances, l'assiduité et les performances, répond aux convocations et reçoit les messages)</span>
+                        </span>
+                        @error('accounts.*')<div class="text-danger small">{{ $message }}</div>@enderror
+                        @foreach ($lignes as $i => $ligne)
+                            <div class="row g-2 mb-2">
+                                <div class="col-sm-8">
+                                    <label for="account-{{ $i }}" class="visually-hidden">Compte {{ $i + 1 }}</label>
+                                    <select id="account-{{ $i }}" name="accounts[{{ $i }}][user_id]" class="form-select">
+                                        <option value="">— Aucun compte —</option>
+                                        @foreach ($users as $user)
+                                            <option value="{{ $user->id }}" @selected((int) ($ligne['user_id'] ?? 0) === $user->id)>{{ $user->name }} ({{ $user->email }})</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="account-rel-{{ $i }}" class="visually-hidden">Lien du compte {{ $i + 1 }}</label>
+                                    <input type="text" id="account-rel-{{ $i }}" name="accounts[{{ $i }}][relation]" maxlength="50" list="liens-compte"
+                                           class="form-control" placeholder="Lien : Mère, Père, Nageur…" value="{{ $ligne['relation'] ?? '' }}">
+                                </div>
+                            </div>
+                        @endforeach
+                        <datalist id="liens-compte">
+                            @foreach (\App\Models\PlanningSwimmer::ACCOUNT_RELATIONS as $lien)<option value="{{ $lien }}">@endforeach
+                        </datalist>
+                        <span class="text-muted small">Une ligne vide est ajoutée à chaque enregistrement pour rattacher un compte de plus.</span>
                     </div>
 
                     <div class="col-12">

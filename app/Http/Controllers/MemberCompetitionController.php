@@ -20,9 +20,9 @@ class MemberCompetitionController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $swimmerIds = PlanningSwimmer::where('user_id', $user->id)->pluck('id');
+        $swimmerIds = PlanningSwimmer::linkedTo($user->id)->pluck('planning_swimmers.id');
 
-        $attendances = CompetitionAttendance::with(['competition', 'swimmer', 'entries.event'])
+        $attendances = CompetitionAttendance::with(['competition', 'swimmer', 'entries.event', 'responder'])
             ->whereIn('planning_swimmer_id', $swimmerIds)
             ->whereHas('competition', fn ($q) => $q->where('is_published', true))
             ->get();
@@ -46,7 +46,8 @@ class MemberCompetitionController extends Controller
     public function respond(Request $request, CompetitionAttendance $attendance): RedirectResponse
     {
         $attendance->load(['competition', 'swimmer']);
-        abort_unless((int) $attendance->swimmer->user_id === (int) $request->user()->id, 403);
+        // Tous les comptes rattachés au nageur peuvent répondre : la dernière réponse compte
+        abort_unless($attendance->swimmer->isFollowedBy($request->user()), 403);
 
         if (! $attendance->canBeAnsweredByFamily()) {
             return redirect()->route('user.competitions.index')

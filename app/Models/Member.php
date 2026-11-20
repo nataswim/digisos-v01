@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Models\Concerns\LogsMemberChanges;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
@@ -20,7 +22,7 @@ class Member extends Model
 
     protected $fillable = [
         'last_name', 'first_name', 'gender', 'birth_date', 'birth_place', 'address', 'postal_code', 'city',
-        'phone1', 'phone2', 'email', 'image_rights', 'guardians', 'planning_swimmer_id', 'user_id', 'ffn_iuf',
+        'phone1', 'phone2', 'email', 'image_rights', 'guardians', 'planning_swimmer_id', 'ffn_iuf',
     ];
 
     protected $casts = ['birth_date' => 'date', 'image_rights' => 'boolean', 'guardians' => 'array'];
@@ -35,9 +37,46 @@ class Member extends Model
         return $this->belongsTo(PlanningSwimmer::class, 'planning_swimmer_id');
     }
 
-    public function user(): BelongsTo
+    /** Comptes du site d'une fiche adhérent sans fiche nageur (adulte, bénévole…). */
+    public function users(): BelongsToMany
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class, 'member_user')
+            ->withPivot('relation')
+            ->withTimestamps()
+            ->orderBy('users.name');
+    }
+
+    /**
+     * Comptes rattachés à l'adhérent : ceux de sa fiche nageur s'il en a une
+     * (c'est elle qui ouvre l'accès aux séances, convocations et performances), sinon les siens.
+     */
+    public function accounts(): Collection
+    {
+        return $this->swimmer ? $this->swimmer->users : $this->users;
+    }
+
+    /** Rattacher un compte au bon endroit (fiche nageur si elle existe). Renvoie true s'il ne l'était pas encore. */
+    public function linkAccount(User $user, ?string $relation = null): bool
+    {
+        if ($this->swimmer) {
+            return $this->swimmer->linkAccount($user, $relation);
+        }
+        $relation = $relation !== null ? (trim($relation) ?: null) : null;
+        if ($this->users()->whereKey($user->id)->exists()) {
+            if ($relation !== null) {
+                $this->users()->updateExistingPivot($user->id, ['relation' => $relation]);
+            }
+
+            return false;
+        }
+        $this->users()->attach($user->id, ['relation' => $relation]);
+
+        return true;
+    }
+
+    public function unlinkAccount(User $user): void
+    {
+        $this->swimmer ? $this->swimmer->users()->detach($user->id) : $this->users()->detach($user->id);
     }
 
     public function logs(): HasMany

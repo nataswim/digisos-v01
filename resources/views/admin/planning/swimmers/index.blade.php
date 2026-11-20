@@ -47,7 +47,7 @@
                         <th scope="col" class="ps-3">Nageur</th>
                         <th scope="col">Naissance</th>
                         <th scope="col">Groupe(s)</th>
-                        <th scope="col">Compte du site</th>
+                        <th scope="col">Comptes du site</th>
                         <th scope="col">Statut</th>
                         <th scope="col" class="text-end pe-3">Actions</th>
                     </tr>
@@ -78,7 +78,13 @@
                                     <span class="text-muted small">Aucun</span>
                                 @endforelse
                             </td>
-                            <td class="small">{{ $swimmer->user?->email }}</td>
+                            <td class="small">
+                                @forelse ($swimmer->users as $compte)
+                                    <span class="d-block">{{ $compte->email }}@if ($compte->pivot->relation) <span class="text-muted">({{ $compte->pivot->relation }})</span>@endif</span>
+                                @empty
+                                    <span class="text-muted">—</span>
+                                @endforelse
+                            </td>
                             <td>
                                 @if ($swimmer->is_active)
                                     <span class="badge bg-success">Actif</span>

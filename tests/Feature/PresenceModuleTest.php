@@ -174,7 +174,7 @@ class PresenceModuleTest extends TestCase
     public function test_access_and_families(): void
     {
         $parent = $this->userWithRole('user');
-        $this->alice->update(['user_id' => $parent->id]);
+        $this->alice->users()->attach($parent->id);
         $s = PresenceSession::forSlot($this->creneau, Carbon::parse('2026-11-03'));
         PresenceRecord::create(['presence_session_id' => $s->id, 'planning_swimmer_id' => $this->alice->id, 'status' => 'present']);
         PresenceRecord::create(['presence_session_id' => $s->id, 'planning_swimmer_id' => $this->hugo->id, 'status' => 'absent']);

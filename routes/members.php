@@ -44,5 +44,7 @@ Route::prefix('adherents')->name('members.')->group(function () {
     Route::get('{member}/adhesions/{membership}/attestation', [MemberController::class, 'attestation'])->whereNumber('member')->name('attestation');
     Route::post('{member}/nageur', [MemberController::class, 'linkSwimmer'])->whereNumber('member')->name('link-swimmer');
     Route::post('{member}/compte', [MemberController::class, 'linkUser'])->whereNumber('member')->name('link-user');
+    Route::delete('{member}/compte/{user}', [MemberController::class, 'unlinkUser'])->whereNumber(['member', 'user'])->name('unlink-user');
+    Route::post('{member}/responsables', [MemberController::class, 'linkGuardians'])->whereNumber('member')->name('link-guardians');
     Route::post('{member}/depuis-licence', [MemberController::class, 'fillFromLicense'])->whereNumber('member')->name('fill-license');
 });

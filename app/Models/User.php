@@ -82,10 +82,16 @@ class User extends Authenticatable
     // Méthodes métier existantes — inchangées
     // -------------------------------------------------------------------------
 
-    /** Nageurs du planning rattachés à ce compte (famille). */
-    public function planningSwimmers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    /** Nageurs du planning suivis par ce compte (famille), avec le lien (Mère, Père, Nageur…). */
+    public function planningSwimmers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasMany(PlanningSwimmer::class, 'user_id');
+        return $this->belongsToMany(PlanningSwimmer::class, 'planning_swimmer_user')->withPivot('relation')->withTimestamps();
+    }
+
+    /** Fiches adhérent sans fiche nageur rattachées à ce compte. */
+    public function members(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Member::class, 'member_user')->withPivot('relation')->withTimestamps();
     }
 
     public function hasRole(string $roleSlug): bool

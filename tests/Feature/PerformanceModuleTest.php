@@ -135,7 +135,7 @@ class PerformanceModuleTest extends TestCase
     {
         $coach = $this->userWithRole('coach');
         $parent = $this->userWithRole('user');
-        $this->alice->update(['user_id' => $parent->id]);
+        $this->alice->users()->attach($parent->id);
 
         $this->perf($this->alice, '2026-09-20', '50 NL', 3500);
         $this->perf($this->alice, '2026-10-04', '50 NL', 3450);

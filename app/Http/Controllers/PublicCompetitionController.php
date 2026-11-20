@@ -67,7 +67,7 @@ class PublicCompetitionController extends Controller
 
         $userId = $request->user()?->id;
         $mesConvocations = $isMember
-            ? $competition->attendances()->with('swimmer')->whereHas('swimmer', fn ($q) => $q->where('user_id', $userId))->get()
+            ? $competition->attendances()->with('swimmer')->whereHas('swimmer', fn ($q) => $q->linkedTo($userId))->get()
             : collect();
 
         return view('public.competitions.show', [

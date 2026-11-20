@@ -24,7 +24,7 @@ class MemberPresenceController extends Controller
         }
 
         [$from, $to] = PresenceStats::range('saison');
-        $swimmers = PlanningSwimmer::where('user_id', $user->id)->with('groups')->orderBy('first_name')->get();
+        $swimmers = PlanningSwimmer::linkedTo($user->id)->with('groups')->orderBy('first_name')->get();
         $counts = $stats->bySwimmer($from, $to, $swimmers->pluck('id'));
 
         $history = PresenceRecord::with('session.group')

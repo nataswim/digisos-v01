@@ -52,9 +52,10 @@ class MessageService
 
         if ($groupes = array_filter(array_map('intval', (array) ($sel['groups'] ?? [])))) {
             $noms = PlanningGroup::whereIn('id', $groupes)->pluck('name');
-            $nageurs = PlanningSwimmer::where('is_active', true)->whereHas('groups', fn ($q) => $q->whereIn('planning_groups.id', $groupes))->get();
-            $ids = $ids->merge($nageurs->pluck('user_id')->filter());
-            foreach ($nageurs->whereNull('user_id') as $n) {
+            $nageurs = PlanningSwimmer::with('users:id')->where('is_active', true)->whereHas('groups', fn ($q) => $q->whereIn('planning_groups.id', $groupes))->get();
+            // Tous les comptes rattachés à chaque nageur (nageur, mère, père…)
+            $ids = $ids->merge($nageurs->flatMap(fn ($n) => $n->users->pluck('id')));
+            foreach ($nageurs->filter(fn ($n) => $n->users->isEmpty()) as $n) {
                 $missing[] = $n->full_name;
             }
             $targets[] = 'Groupe(s) : ' . $noms->implode(', ');
@@ -62,13 +63,13 @@ class MessageService
 
         if (! empty($sel['competition_id']) && ($competition = Competition::find($sel['competition_id']))) {
             $scope = $sel['competition_scope'] ?? 'tous';
-            $presences = CompetitionAttendance::with('swimmer')->where('competition_id', $competition->id)
+            $presences = CompetitionAttendance::with('swimmer.users:id')->where('competition_id', $competition->id)
                 ->when($scope === 'sans-reponse', fn ($q) => $q->where('status', 'convoque'))
                 ->when($scope === 'confirmes', fn ($q) => $q->where('status', 'confirme'))
                 ->get();
-            $ids = $ids->merge($presences->pluck('swimmer.user_id')->filter());
+            $ids = $ids->merge($presences->flatMap(fn ($p) => $p->swimmer ? $p->swimmer->users->pluck('id') : []));
             foreach ($presences as $p) {
-                if ($p->swimmer && ! $p->swimmer->user_id) {
+                if ($p->swimmer && $p->swimmer->users->isEmpty()) {
                     $missing[] = $p->swimmer->full_name;
                 }
             }

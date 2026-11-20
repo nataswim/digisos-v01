@@ -27,7 +27,7 @@ class CompetitionEntryController extends Controller
     public function index(Competition $competition)
     {
         $attendances = $competition->attendances()
-            ->with(['swimmer.groups', 'swimmer.user', 'entries.event', 'responder'])
+            ->with(['swimmer.groups', 'swimmer.users', 'entries.event', 'responder'])
             ->get()
             ->sortBy(fn ($a) => mb_strtolower($a->swimmer->last_name . ' ' . $a->swimmer->first_name))
             ->values();
@@ -56,8 +56,8 @@ class CompetitionEntryController extends Controller
             'competitionGroupIds' => $groupesCompetition,
             'ungrouped' => $sansGroupe,
             'stats' => $this->stats($attendances),
-            'unnotified' => $attendances->filter(fn ($a) => $a->status === 'convoque' && ! $a->notified_at && $a->swimmer->user)->count(),
-            'withoutAccount' => $attendances->filter(fn ($a) => $a->isExpected() && ! $a->swimmer->user)->count(),
+            'unnotified' => $attendances->filter(fn ($a) => $a->status === 'convoque' && ! $a->notified_at && $a->swimmer->users->isNotEmpty())->count(),
+            'withoutAccount' => $attendances->filter(fn ($a) => $a->isExpected() && $a->swimmer->users->isEmpty())->count(),
         ]);
     }
 
@@ -110,7 +110,7 @@ class CompetitionEntryController extends Controller
     public function edit(Competition $competition, CompetitionAttendance $attendance)
     {
         $this->ensureBelongs($competition, $attendance);
-        $attendance->load(['swimmer.groups', 'swimmer.user', 'entries', 'responder']);
+        $attendance->load(['swimmer.groups', 'swimmer.users', 'entries', 'responder']);
 
         // Épreuves proposées : celles du programme (pour le sexe du nageur s'il est connu),
         // sinon tout le référentiel individuel. Les épreuves déjà engagées restent toujours affichées.
@@ -198,8 +198,8 @@ class CompetitionEntryController extends Controller
     }
 
     /**
-     * Prévenir par e-mail les familles (comptes liés aux nageurs) des convocations en attente
-     * qui n'ont pas encore été envoyées. Un seul e-mail par compte, même pour plusieurs enfants.
+     * Prévenir par e-mail les familles (tous les comptes rattachés aux nageurs : nageur, mère, père…)
+     * des convocations en attente qui n'ont pas encore été envoyées. Un seul e-mail par compte, même pour plusieurs enfants.
      */
     public function notify(Request $request, Competition $competition): RedirectResponse
     {
@@ -207,11 +207,11 @@ class CompetitionEntryController extends Controller
         $relance = $request->input('scope') === 'pending';
 
         $attendances = $competition->attendances()
-            ->with('swimmer.user')
+            ->with('swimmer.users')
             ->where('status', 'convoque')
             ->when(! $relance, fn ($q) => $q->whereNull('notified_at'))
             ->get()
-            ->filter(fn ($a) => $a->swimmer->user);
+            ->filter(fn ($a) => $a->swimmer->users->isNotEmpty());
 
         if ($attendances->isEmpty()) {
             return redirect()->route($this->route('index'), $competition)
@@ -220,8 +220,17 @@ class CompetitionEntryController extends Controller
 
         $envoyes = 0;
         $echecs = 0;
-        foreach ($attendances->groupBy(fn ($a) => $a->swimmer->user->id) as $groupe) {
-            $user = $groupe->first()->swimmer->user;
+        // Regroupement par compte : chaque compte reçoit un e-mail pour tous les nageurs qu'il suit
+        $parCompte = [];
+        foreach ($attendances as $a) {
+            foreach ($a->swimmer->users as $compte) {
+                $parCompte[$compte->id]['user'] = $compte;
+                $parCompte[$compte->id]['attendances'][] = $a;
+            }
+        }
+
+        foreach ($parCompte as ['user' => $user, 'attendances' => $liste]) {
+            $groupe = collect($liste);
             try {
                 $user->notify(new CompetitionConvocationNotification($competition, $groupe->map(fn ($a) => $a->swimmer->first_name)->all(), $relance));
                 CompetitionAttendance::whereIn('id', $groupe->pluck('id'))->update(['notified_at' => now()]);

@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Nageur du module Planning (saisi par l'administration, compte du site facultatif).
+ * Nageur du module Planning (saisi par l'administration).
+ * Un ou plusieurs comptes du site peuvent le suivre (le nageur, sa mère, son père…) : voir users().
  * Les noms ne sont affichés sur le site qu'aux adhérents connectés (voir PublicPlanningController).
  */
 class PlanningSwimmer extends Model
@@ -18,8 +19,11 @@ class PlanningSwimmer extends Model
         'M' => 'Garçon / homme',
     ];
 
+    /** Liens proposés pour un compte rattaché (saisie libre possible). */
+    public const ACCOUNT_RELATIONS = ['Nageur', 'Mère', 'Père', 'Responsable légal', 'Grand-parent', 'Autre'];
+
     protected $fillable = [
-        'first_name', 'last_name', 'photo', 'birth_year', 'gender', 'license_number', 'user_id', 'notes', 'is_active',
+        'first_name', 'last_name', 'photo', 'birth_year', 'gender', 'license_number', 'notes', 'is_active',
     ];
 
     protected $casts = [
@@ -34,9 +38,38 @@ class PlanningSwimmer extends Model
             ->orderBy('sort_order');
     }
 
-    public function user(): BelongsTo
+    /**
+     * Comptes du site qui suivent ce nageur : ils voient ses séances, son assiduité et ses performances,
+     * répondent à ses convocations et reçoivent les messages qui le concernent.
+     */
+    public function users(): BelongsToMany
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class, 'planning_swimmer_user')
+            ->withPivot('relation')
+            ->withTimestamps()
+            ->orderBy('users.name');
+    }
+
+    /** Ce compte suit-il ce nageur ? */
+    public function isFollowedBy(?User $user): bool
+    {
+        return $user !== null && $this->users()->whereKey($user->id)->exists();
+    }
+
+    /** Rattacher un compte (sans toucher aux autres). Renvoie true s'il ne l'était pas encore. */
+    public function linkAccount(User $user, ?string $relation = null): bool
+    {
+        $relation = $relation !== null ? (trim($relation) ?: null) : null;
+        if ($this->users()->whereKey($user->id)->exists()) {
+            if ($relation !== null) {
+                $this->users()->updateExistingPivot($user->id, ['relation' => $relation]);
+            }
+
+            return false;
+        }
+        $this->users()->attach($user->id, ['relation' => $relation]);
+
+        return true;
     }
 
     /** Convocations aux compétitions (module Compétitions, V2). */
@@ -68,10 +101,22 @@ class PlanningSwimmer extends Model
         return $query->where('is_active', true);
     }
 
+    /** Nageurs suivis par un compte du site (actifs ou non). */
+    public function scopeLinkedTo($query, ?int $userId)
+    {
+        return $query->whereHas('users', fn ($q) => $q->where('users.id', $userId ?? 0));
+    }
+
+    /** Nageurs sans aucun compte du site rattaché. */
+    public function scopeWithoutAccount($query)
+    {
+        return $query->doesntHave('users');
+    }
+
     /** Nageurs rattachés à un compte du site (famille), actifs, avec groupes et licences. */
     public function scopeOfUser($query, ?int $userId)
     {
-        return $query->where('user_id', $userId)->where('is_active', true)
+        return $query->linkedTo($userId)->where('is_active', true)
             ->with(['groups', 'ffnLicenses'])->orderBy('first_name');
     }
 

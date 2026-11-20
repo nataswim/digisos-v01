@@ -111,18 +111,70 @@
                         @endif
                     </li>
                     <li class="list-group-item">
-                        <strong>Compte du site :</strong>
-                        @if ($member->user)
-                            {{ $member->user->email }}
-                            <form method="POST" action="{{ $r('link-user', $member) }}" class="d-inline">@csrf<input type="hidden" name="detach" value="1"><button class="btn btn-sm btn-link p-0 ms-1">détacher</button></form>
+                        @php
+                            $comptes = $member->accounts();
+                            $emailsComptes = $comptes->pluck('email')->map(fn ($e) => mb_strtolower($e));
+                            $nonRattaches = collect((array) $member->guardians)
+                                ->filter(fn ($g) => trim((string) ($g['email'] ?? '')) !== '' && ! $emailsComptes->contains(mb_strtolower(trim($g['email']))));
+                            $avecCompte = \App\Models\User::whereIn('email', $nonRattaches->pluck('email')->map(fn ($e) => trim($e)))->pluck('email')->map(fn ($e) => mb_strtolower($e));
+                            $responsables = $nonRattaches->filter(fn ($g) => $avecCompte->contains(mb_strtolower(trim($g['email']))));
+                            $sansCompte = $nonRattaches->reject(fn ($g) => $avecCompte->contains(mb_strtolower(trim($g['email']))));
+                        @endphp
+                        <strong>Comptes du site</strong>
+                        <span class="text-muted small d-block">Chaque compte rattaché voit les séances, l'assiduité et les performances du nageur, répond aux convocations et reçoit les messages.</span>
+
+                        @if ($comptes->isEmpty())
+                            <p class="text-muted small mb-2 mt-1">Aucun compte rattaché.</p>
                         @else
-                            <form method="POST" action="{{ $r('link-user', $member) }}" class="d-flex gap-1 mt-1">
+                            <ul class="list-unstyled mb-2 mt-1">
+                                @foreach ($comptes as $compte)
+                                    <li class="d-flex align-items-center gap-2 py-1 border-bottom">
+                                        <i class="fas fa-user-circle text-primary" aria-hidden="true"></i>
+                                        <div class="me-auto small">
+                                            <span class="fw-semibold">{{ $compte->name }}</span>
+                                            <span class="badge bg-light text-dark border">{{ $compte->pivot->relation ?: 'lien non précisé' }}</span>
+                                            <span class="d-block text-muted">{{ $compte->email }}</span>
+                                        </div>
+                                        <form method="POST" action="{{ $r('unlink-user', [$member, $compte]) }}" onsubmit="return confirm('Détacher le compte {{ $compte->email }} ?')">
+                                            @csrf @method('DELETE')
+                                            <button class="btn btn-sm btn-link text-danger p-0">détacher<span class="visually-hidden"> {{ $compte->email }}</span></button>
+                                        </form>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+
+                        <form method="POST" action="{{ $r('link-user', $member) }}" class="row g-1 align-items-end">
+                            @csrf
+                            <div class="col-12 col-sm-6">
+                                <label for="link-email" class="form-label small mb-0">E-mail du compte</label>
+                                <input type="email" id="link-email" name="email" required class="form-control form-control-sm" value="{{ old('email', $comptes->isEmpty() ? $member->email : '') }}" placeholder="e-mail du compte">
+                            </div>
+                            <div class="col-7 col-sm-3">
+                                <label for="link-relation" class="form-label small mb-0">Lien</label>
+                                <input type="text" id="link-relation" name="relation" maxlength="50" list="liens-compte" class="form-control form-control-sm" value="{{ old('relation') }}" placeholder="Mère, Père…">
+                            </div>
+                            <div class="col-5 col-sm-3"><button class="btn btn-sm btn-outline-primary w-100 text-nowrap">Rattacher</button></div>
+                        </form>
+                        <datalist id="liens-compte">
+                            @foreach (\App\Models\PlanningSwimmer::ACCOUNT_RELATIONS as $lien)<option value="{{ $lien }}">@endforeach
+                        </datalist>
+                        <span class="text-muted small d-block mt-1">Le compte doit déjà exister sur le site (la personne s'inscrit elle-même).</span>
+
+                        @if ($responsables->isNotEmpty())
+                            <form method="POST" action="{{ $r('link-guardians', $member) }}" class="mt-2">
                                 @csrf
-                                <label for="link-email" class="visually-hidden">E-mail du compte</label>
-                                <input type="email" id="link-email" name="email" class="form-control form-control-sm" value="{{ $member->email }}" placeholder="e-mail du compte">
-                                <button class="btn btn-sm btn-outline-primary text-nowrap">Rattacher</button>
+                                <button class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-users me-1" aria-hidden="true"></i>Rattacher les responsables légaux
+                                    ({{ $responsables->map(fn ($g) => trim(($g['relation'] ?? '') ?: ($g['name'] ?? '')))->filter()->implode(', ') ?: $responsables->count() }})
+                                </button>
                             </form>
-                            <span class="text-muted d-block mt-1">Le compte rattaché voit les séances, l'assiduité et les performances du nageur.</span>
+                        @endif
+                        @if ($sansCompte->isNotEmpty())
+                            <span class="text-muted small d-block mt-1">
+                                <i class="fas fa-user-slash me-1" aria-hidden="true"></i>Responsable(s) sans compte sur le site :
+                                {{ $sansCompte->map(fn ($g) => trim(($g['name'] ?? '') . (($g['relation'] ?? '') ? ' (' . $g['relation'] . ')' : '')))->implode(', ') }}
+                            </span>
                         @endif
                     </li>
                 </ul>

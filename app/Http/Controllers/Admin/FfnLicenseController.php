@@ -165,7 +165,7 @@ class FfnLicenseController extends Controller
                 'match_name' => collect($lignes)->where('match', 'name')->count(),
                 'ambiguous' => collect($lignes)->where('match', 'ambiguous')->count(),
                 'unmatched' => collect($lignes)->whereNull('match')->count(),
-                'accounts' => collect($lignes)->filter(fn ($l) => $l['account'] && $l['swimmer'] && ! $l['swimmer']->user_id)->count(),
+                'accounts' => collect($lignes)->filter(fn ($l) => $l['account'] && $l['swimmer'] && ! $l['swimmer']->users->contains('id', $l['account']->id))->count(),
             ],
         ]);
     }
@@ -232,8 +232,7 @@ class FfnLicenseController extends Controller
                 }
 
                 // Rattachement du compte du site dont l'e-mail correspond
-                if ($nageur && ! $nageur->user_id && $ligne['account'] && $request->boolean('link_accounts')) {
-                    $nageur->update(['user_id' => $ligne['account']->id]);
+                if ($nageur && $ligne['account'] && $request->boolean('link_accounts') && $nageur->linkAccount($ligne['account'])) {
                     $compteurs['accounts']++;
                 }
 
@@ -294,7 +293,7 @@ class FfnLicenseController extends Controller
         $iufs = array_column($rows, 'iuf');
         $existantes = FfnLicense::where('season', $season ?? (int) date('Y'))->whereIn('iuf', $iufs)->get()->keyBy('iuf');
 
-        $nageurs = PlanningSwimmer::all();
+        $nageurs = PlanningSwimmer::with('users:id')->get();
         $parLicence = $nageurs->filter(fn ($n) => filled($n->license_number))
             ->keyBy(fn ($n) => preg_replace('/\D/', '', $n->license_number));
         $parNom = $nageurs->groupBy(fn ($n) => FfnLicenseCsvParser::nameKey($n->last_name) . '|' . FfnLicenseCsvParser::nameKey($n->first_name));

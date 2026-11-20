@@ -52,7 +52,8 @@ class MessagingTest extends TestCase
     {
         $g = PlanningGroup::create(['name' => 'Groupe Test', 'slug' => 'groupe-test', 'section' => 'Jeunesse', 'is_active' => true]);
         foreach ($families as $i => $f) {
-            $s = PlanningSwimmer::create(['first_name' => "Enfant{$i}", 'last_name' => 'Fictif', 'birth_year' => 2014, 'gender' => 'F', 'user_id' => $f->id, 'is_active' => true]);
+            $s = PlanningSwimmer::create(['first_name' => "Enfant{$i}", 'last_name' => 'Fictif', 'birth_year' => 2014, 'gender' => 'F', 'is_active' => true]);
+            $s->users()->attach($f->id);
             $g->swimmers()->attach($s);
         }
         $g->swimmers()->attach(PlanningSwimmer::create(['first_name' => 'Sans', 'last_name' => 'Compte', 'birth_year' => 2014, 'gender' => 'M', 'is_active' => true]));
@@ -111,7 +112,8 @@ class MessagingTest extends TestCase
         $c = Competition::create(['title' => 'Meeting fictif', 'season' => '2026-2027', 'level' => 'departemental', 'kind' => 'individuel',
             'starts_on' => now()->addDays(10)->toDateString(), 'ends_on' => now()->addDays(10)->toDateString(), 'venue' => 'Piscine', 'city' => 'Villefictive', 'pool_length' => 25, 'is_published' => true]);
         foreach ([[$f1, 'convoque'], [$f2, 'confirme']] as [$f, $st]) {
-            $s = PlanningSwimmer::create(['first_name' => 'N', 'last_name' => 'Fictif', 'birth_year' => 2013, 'gender' => 'M', 'user_id' => $f->id, 'is_active' => true]);
+            $s = PlanningSwimmer::create(['first_name' => 'N', 'last_name' => 'Fictif', 'birth_year' => 2013, 'gender' => 'M', 'is_active' => true]);
+            $s->users()->attach($f->id);
             CompetitionAttendance::create(['competition_id' => $c->id, 'planning_swimmer_id' => $s->id, 'status' => $st]);
         }
 
@@ -243,7 +245,7 @@ class MessagingTest extends TestCase
     {
         $coach = $this->account('coach');
         $f = $this->account('user', 'Gaspard');
-        PlanningSwimmer::create(['first_name' => 'Ondine', 'last_name' => 'Fictif', 'birth_year' => 2015, 'gender' => 'F', 'user_id' => $f->id, 'is_active' => true]);
+        PlanningSwimmer::create(['first_name' => 'Ondine', 'last_name' => 'Fictif', 'birth_year' => 2015, 'gender' => 'F', 'is_active' => true])->users()->attach($f->id);
         $this->actingAs($coach)->getJson(route('coach.messages.search', ['q' => 'gasp']))->assertOk()->assertJsonPath('0.id', $f->id);
         $this->getJson(route('coach.messages.search', ['q' => 'ondine']))->assertJsonPath('0.swimmers', 'Ondine');
     }

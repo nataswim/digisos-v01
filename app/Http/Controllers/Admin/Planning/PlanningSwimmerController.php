@@ -15,7 +15,7 @@ class PlanningSwimmerController extends PlanningController
         $search = trim((string) $request->query('q', ''));
         $groupId = $request->integer('groupe') ?: null;
 
-        $swimmers = PlanningSwimmer::with('groups')
+        $swimmers = PlanningSwimmer::with(['groups', 'users'])
             ->when($search !== '', fn ($q) => $q->where(fn ($w) => $w
                 ->where('first_name', 'like', "%{$search}%")
                 ->orWhere('last_name', 'like', "%{$search}%")))
@@ -45,6 +45,7 @@ class PlanningSwimmerController extends PlanningController
     {
         $swimmer = PlanningSwimmer::create($this->validated($request));
         $swimmer->groups()->sync($request->input('groups', []));
+        $this->syncAccounts($swimmer, $request);
 
         $redirect = $request->boolean('add_another')
             ? redirect()->route($this->planningRoute('swimmers.create'), ['groupe' => $request->input('groups.0')])
@@ -67,6 +68,7 @@ class PlanningSwimmerController extends PlanningController
     {
         $swimmer->update($this->validated($request));
         $swimmer->groups()->sync($request->input('groups', []));
+        $this->syncAccounts($swimmer, $request);
 
         return redirect()->route($this->planningRoute('swimmers.index'))
             ->with('success', "Nageur « {$swimmer->full_name} » mis à jour.");
@@ -79,6 +81,19 @@ class PlanningSwimmerController extends PlanningController
 
         return redirect()->route($this->planningRoute('swimmers.index'))
             ->with('success', "Nageur « {$name} » supprimé.");
+    }
+
+    /** Comptes du site qui suivent le nageur (nageur, mère, père…) : les lignes vides sont ignorées. */
+    private function syncAccounts(PlanningSwimmer $swimmer, Request $request): void
+    {
+        $comptes = [];
+        foreach ((array) $request->input('accounts', []) as $ligne) {
+            $id = (int) ($ligne['user_id'] ?? 0);
+            if ($id > 0) {
+                $comptes[$id] = ['relation' => trim((string) ($ligne['relation'] ?? '')) ?: null];
+            }
+        }
+        $swimmer->users()->sync($comptes);
     }
 
     /** Comptes du site pouvant être liés à un nageur (hors visiteurs). */
@@ -98,7 +113,9 @@ class PlanningSwimmerController extends PlanningController
             'birth_year' => ['nullable', 'integer', 'min:1920', 'max:' . now()->year],
             'gender' => ['nullable', \Illuminate\Validation\Rule::in(array_keys(PlanningSwimmer::GENDERS))],
             'license_number' => ['nullable', 'string', 'max:20', 'regex:/^[0-9A-Za-z -]*$/'],
-            'user_id' => ['nullable', 'integer', 'exists:users,id'],
+            'accounts' => ['nullable', 'array', 'max:10'],
+            'accounts.*.user_id' => ['nullable', 'integer', 'exists:users,id'],
+            'accounts.*.relation' => ['nullable', 'string', 'max:50'],
             'notes' => ['nullable', 'string', 'max:2000'],
             'groups' => ['nullable', 'array'],
             'groups.*' => ['integer', 'exists:planning_groups,id'],
@@ -107,7 +124,7 @@ class PlanningSwimmerController extends PlanningController
             'photo.regex' => 'La photo doit être choisie dans la médiathèque.',
         ]);
 
-        unset($data['groups']);
+        unset($data['groups'], $data['accounts']);
         $data['is_active'] = $request->boolean('is_active');
 
         return $data;

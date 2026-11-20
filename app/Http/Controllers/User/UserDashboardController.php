@@ -40,13 +40,13 @@ class UserDashboardController extends Controller
         // Fiches adhérent du compte (adhésion de la saison en cours)
         $season = Membership::currentSeason();
         $members = Member::with(['memberships' => fn ($q) => $q->where('season', $season)->with(['category', 'payments'])])
-            ->where(fn ($q) => $q->where('user_id', $user->id)->orWhereIn('planning_swimmer_id', $swimmers->pluck('id')))
+            ->where(fn ($q) => $q->whereHas('users', fn ($u) => $u->where('users.id', $user->id))->orWhereIn('planning_swimmer_id', $swimmers->pluck('id')))
             ->get();
         $prenom = fn ($v) => Str::slug((string) $v);
         $memberFor = [];
         foreach ($swimmers as $n) {
             $m = $members->firstWhere('planning_swimmer_id', $n->id)
-                ?? $members->first(fn ($m) => ! $m->planning_swimmer_id && $m->user_id === $user->id && $prenom($m->first_name) === $prenom($n->first_name));
+                ?? $members->first(fn ($m) => ! $m->planning_swimmer_id && $prenom($m->first_name) === $prenom($n->first_name));
             if ($m) {
                 $memberFor[$n->id] = $m;
             }

@@ -48,7 +48,8 @@ class AdminUsersListTest extends TestCase
         $this->account('user', 'Dominique', 'Exemple');
 
         $g = PlanningGroup::create(['name' => 'Avenirs Test', 'slug' => 'avenirs-test', 'section' => 'Jeunesse', 'is_active' => true]);
-        $s = PlanningSwimmer::create(['first_name' => 'Ondine', 'last_name' => 'Fictif', 'birth_year' => 2015, 'gender' => 'F', 'user_id' => $famille->id, 'is_active' => true]);
+        $s = PlanningSwimmer::create(['first_name' => 'Ondine', 'last_name' => 'Fictif', 'birth_year' => 2015, 'gender' => 'F', 'is_active' => true]);
+        $s->users()->attach($famille->id);
         $s->groups()->attach($g);
 
         $this->actingAs($admin)->get(route('admin.users.index'))->assertOk()

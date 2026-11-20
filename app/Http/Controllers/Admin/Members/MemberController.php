@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Members;
 
 use App\Models\Member;
+use App\Models\MemberLog;
 use App\Models\MemberCategory;
 use App\Models\Membership;
 use App\Models\PlanningGroup;
@@ -75,7 +76,7 @@ class MemberController extends MembersArea
 
     public function show(Request $request, Member $member): View
     {
-        $member->load(['memberships.category', 'memberships.payments', 'swimmer.groups', 'user', 'logs.user']);
+        $member->load(['memberships.category', 'memberships.payments', 'swimmer.groups', 'swimmer.users', 'users', 'logs.user']);
         $season = $request->query('saison') ?: ($member->memberships->first()?->season ?? Membership::currentSeason());
 
         return $this->membersView('show', [
@@ -186,35 +187,97 @@ class MemberController extends MembersArea
             'birth_year' => $member->birth_year,
             'gender' => $member->gender,
             'license_number' => $member->ffn_iuf,
-            'user_id' => $member->user_id,
             'is_active' => true,
         ]);
         if (! empty($data['groups'])) {
             $swimmer->groups()->syncWithoutDetaching($data['groups']);
         }
+        // Les comptes déjà rattachés à l'adhérent suivent désormais sa fiche nageur
+        foreach ($member->users as $compte) {
+            $swimmer->linkAccount($compte, $compte->pivot->relation);
+        }
+        $member->users()->detach();
         $member->update(['planning_swimmer_id' => $swimmer->id]);
 
         return back()->with('success', "Fiche nageur « {$swimmer->full_name} » rattachée.");
     }
 
-    /** Rattacher le compte du site dont l'e-mail correspond (ou en retirer le lien). */
+    /**
+     * Rattacher un compte du site (par son e-mail) à l'adhérent, avec son lien : Mère, Père, Nageur…
+     * Plusieurs comptes peuvent suivre le même nageur. Le compte doit déjà exister sur le site.
+     */
     public function linkUser(Request $request, Member $member): RedirectResponse
     {
-        if ($request->boolean('detach')) {
-            $member->update(['user_id' => null]);
+        $data = $request->validate([
+            'email' => ['required', 'email', 'max:255'],
+            'relation' => ['nullable', 'string', 'max:50'],
+        ], ['email.required' => "Indiquez l'e-mail du compte à rattacher."]);
 
-            return back()->with('success', 'Compte du site détaché.');
-        }
-        $user = User::where('email', $request->input('email', $member->email))->first();
+        $user = User::where('email', $data['email'])->first();
         if (! $user) {
-            return back()->with('error', "Aucun compte du site avec l'e-mail « " . e($request->input('email', $member->email)) . ' ».');
-        }
-        $member->update(['user_id' => $user->id]);
-        if ($member->swimmer && ! $member->swimmer->user_id) {
-            $member->swimmer->update(['user_id' => $user->id]);
+            return back()->withInput()->with('error', "Aucun compte du site avec l'e-mail « " . e($data['email']) . " » : la personne doit d'abord créer son compte sur le site.");
         }
 
-        return back()->with('success', "Compte « {$user->email} » rattaché.");
+        $member->load('swimmer');
+        $nouveau = $member->linkAccount($user, $data['relation'] ?? null);
+        $libelle = $user->email . (! empty($data['relation']) ? ' (' . trim($data['relation']) . ')' : '');
+        $this->logAccount($member, $nouveau ? [null, $libelle] : ['lien', $libelle]);
+
+        return back()->with('success', $nouveau ? "Compte « {$libelle} » rattaché." : "Compte « {$user->email} » déjà rattaché : lien mis à jour.");
+    }
+
+    /** Détacher un des comptes rattachés. */
+    public function unlinkUser(Member $member, User $user): RedirectResponse
+    {
+        $member->load('swimmer');
+        $member->unlinkAccount($user);
+        $this->logAccount($member, [$user->email, null]);
+
+        return back()->with('success', "Compte « {$user->email} » détaché.");
+    }
+
+    /** Rattacher d'un coup les comptes des responsables légaux saisis sur la fiche (par leur e-mail). */
+    public function linkGuardians(Member $member): RedirectResponse
+    {
+        $member->load('swimmer');
+        $ajoutes = [];
+        $sansCompte = [];
+        foreach ((array) $member->guardians as $g) {
+            $email = trim((string) ($g['email'] ?? ''));
+            if ($email === '') {
+                continue;
+            }
+            $user = User::where('email', $email)->first();
+            if (! $user) {
+                $sansCompte[] = trim(($g['name'] ?? '') . ' ' . $email);
+                continue;
+            }
+            $relation = trim((string) ($g['relation'] ?? '')) ?: 'Responsable légal';
+            if ($member->linkAccount($user, $relation)) {
+                $ajoutes[] = $user->email . ' (' . $relation . ')';
+                $this->logAccount($member, [null, $user->email . ' (' . $relation . ')']);
+            }
+        }
+
+        $message = $ajoutes ? count($ajoutes) . ' compte(s) rattaché(s) : ' . implode(', ', $ajoutes) . '.' : 'Aucun nouveau compte à rattacher.';
+        if ($sansCompte) {
+            return back()->with($ajoutes ? 'success' : 'error', $message . ' Sans compte sur le site (à créer par la personne) : ' . implode(', ', $sansCompte) . '.');
+        }
+
+        return back()->with('success', $message);
+    }
+
+    /** Trace d'un rattachement ou détachement de compte dans le journal de la fiche. */
+    private function logAccount(Member $member, array $change): void
+    {
+        MemberLog::create([
+            'member_id' => $member->id,
+            'user_id' => auth()->id(),
+            'action' => 'updated',
+            'subject' => 'Comptes du site',
+            'changes' => ['compte' => $change],
+            'created_at' => now(),
+        ]);
     }
 
     /** Compléter les champs vides depuis la licence FFN. */

@@ -88,7 +88,7 @@ class TrainingSession extends Model
     /** Séances publiées visibles par les nageurs rattachés à un compte. */
     public function scopeVisibleToAccount(Builder $query, User $user): Builder
     {
-        return $query->published()->whereNotIn('type', self::INTERNAL_TYPES)->whereHas('swimmers', fn ($q) => $q->where('planning_swimmers.user_id', $user->id));
+        return $query->published()->whereNotIn('type', self::INTERNAL_TYPES)->whereHas('swimmers', fn ($q) => $q->linkedTo($user->id));
     }
 
     public function isPublished(): bool

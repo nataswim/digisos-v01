@@ -105,8 +105,8 @@ class TrainingModuleTest extends TestCase
         $coach = $this->userWithRole('coach');
         $parentAlice = $this->userWithRole('user', 'famille.durand@example.test');
         $parentHugo = $this->userWithRole('user', 'famille.roux@example.test');
-        $this->alice->update(['user_id' => $parentAlice->id]);
-        $this->hugo->update(['user_id' => $parentHugo->id]);
+        $this->alice->users()->attach($parentAlice->id);
+        $this->hugo->users()->attach($parentHugo->id);
 
         $this->actingAs($coach)->post('/coach/seances', $this->swimPayload());
         $session = TrainingSession::firstOrFail();
@@ -208,7 +208,7 @@ class TrainingModuleTest extends TestCase
     {
         $coach = $this->userWithRole('coach');
         $parent = $this->userWithRole('user', 'famille.durand@example.test');
-        $this->alice->update(['user_id' => $parent->id]);
+        $this->alice->users()->attach($parent->id);
 
         $this->actingAs($coach)->get('/coach/seances/create?type=ecole')->assertOk()
             ->assertSee('Consignes et observations')->assertSee('Frites')->assertSee('Organisation / consigne')

@@ -44,7 +44,8 @@ class MemberDashboardTest extends TestCase
         $user = $this->family();
         $groupe = PlanningGroup::create(['name' => 'Groupe Avenir', 'slug' => 'groupe-avenir', 'section' => 'Jeunesse', 'color' => '#16a34a', 'is_active' => true]);
         $nageur = PlanningSwimmer::create(['first_name' => 'Jade', 'last_name' => 'Fictif', 'birth_year' => 2014, 'gender' => 'F',
-            'license_number' => '9000001', 'photo' => 'storage/photos/jade-test.jpg', 'user_id' => $user->id, 'is_active' => true]);
+            'license_number' => '9000001', 'photo' => 'storage/photos/jade-test.jpg', 'is_active' => true]);
+        $nageur->users()->attach($user->id);
         $nageur->groups()->attach($groupe);
 
         $prochaine = $this->competition('Meeting de Noël fictif', 20);
@@ -80,7 +81,7 @@ class MemberDashboardTest extends TestCase
     public function test_member_pages_show_member_header_instead_of_video(): void
     {
         $user = $this->family();
-        PlanningSwimmer::create(['first_name' => 'Jade', 'last_name' => 'Fictif', 'birth_year' => 2014, 'gender' => 'F', 'user_id' => $user->id, 'is_active' => true]);
+        PlanningSwimmer::create(['first_name' => 'Jade', 'last_name' => 'Fictif', 'birth_year' => 2014, 'gender' => 'F', 'is_active' => true])->users()->attach($user->id);
 
         foreach (['user.competitions.index', 'user.training.index', 'user.presence.index', 'user.performances.index'] as $route) {
             $this->actingAs($user)->get(route($route))->assertOk()
@@ -102,7 +103,8 @@ class MemberDashboardTest extends TestCase
         $groupe = PlanningGroup::create(['name' => 'Groupe Avenir', 'slug' => 'groupe-avenir', 'section' => 'Jeunesse', 'is_active' => true]);
         \App\Models\PlanningSlot::create(['planning_group_id' => $groupe->id, 'period' => 'scolaire', 'day_of_week' => 3, 'starts_at' => '17:30', 'ends_at' => '18:30', 'location' => 'Piscine fictive', 'is_active' => true]);
         \App\Models\PlanningSlot::create(['planning_group_id' => $groupe->id, 'period' => 'vacances', 'day_of_week' => 2, 'starts_at' => '10:00', 'ends_at' => '11:00', 'is_active' => true]);
-        $nageur = PlanningSwimmer::create(['first_name' => 'Jade', 'last_name' => 'Fictif', 'birth_year' => 2014, 'gender' => 'F', 'user_id' => $user->id, 'is_active' => true]);
+        $nageur = PlanningSwimmer::create(['first_name' => 'Jade', 'last_name' => 'Fictif', 'birth_year' => 2014, 'gender' => 'F', 'is_active' => true]);
+        $nageur->users()->attach($user->id);
         $nageur->groups()->attach($groupe);
 
         $season = \App\Models\Membership::currentSeason();
@@ -116,7 +118,7 @@ class MemberDashboardTest extends TestCase
         // Fiche d'une autre famille, même prénom : ne doit jamais apparaître
         \App\Models\Member::create(['last_name' => 'Etranger', 'first_name' => 'Jade', 'birth_date' => '2014-01-01', 'city' => 'Ailleurs-Test']);
         // Fiche adulte rattachée au compte, sans nageur
-        \App\Models\Member::create(['last_name' => 'Fictif', 'first_name' => 'Camille', 'birth_date' => '1985-01-01', 'user_id' => $user->id]);
+        \App\Models\Member::create(['last_name' => 'Fictif', 'first_name' => 'Camille', 'birth_date' => '1985-01-01'])->users()->attach($user->id);
 
         $this->actingAs($user)->get(route('user.dashboard'))->assertOk()
             ->assertSee(route('schedule') . '#groupe-groupe-avenir', false)

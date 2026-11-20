@@ -82,7 +82,7 @@
                                 <h3 class="h6 fw-bold mb-0">{{ $convocation->swimmer->first_name }}</h3>
                                 <span class="badge {{ $convocation->status_badge }}"><i class="fas {{ $convocation->status_icon }} me-1" aria-hidden="true"></i>{{ $convocation->status_label }}</span>
                                 @if ($convocation->responded_at)
-                                    <small class="text-muted">réponse du {{ $convocation->responded_at->format('d/m/Y') }}</small>
+                                    <small class="text-muted">réponse du {{ $convocation->responded_at->format('d/m/Y') }}@if ($convocation->responder) par {{ $convocation->responder->id === auth()->id() ? 'vous' : $convocation->responder->name }}@endif</small>
                                 @endif
                             </div>
 

@@ -189,8 +189,10 @@
                             <td class="small">
                                 @if ($ligne['account'])
                                     <i class="fas fa-user-check text-success me-1" aria-hidden="true"></i>{{ $ligne['account']->name }}
-                                    @if ($ligne['swimmer'] && $ligne['swimmer']->user_id)
-                                        <span class="text-muted d-block">fiche déjà rattachée</span>
+                                    @if ($ligne['swimmer'] && $ligne['swimmer']->users->contains('id', $ligne['account']->id))
+                                        <span class="text-muted d-block">déjà rattaché à la fiche</span>
+                                    @elseif ($ligne['swimmer'] && $ligne['swimmer']->users->isNotEmpty())
+                                        <span class="text-muted d-block">s'ajoutera aux {{ $ligne['swimmer']->users->count() }} compte(s) déjà rattaché(s)</span>
                                     @endif
                                 @else
                                     <span class="text-muted">—</span>

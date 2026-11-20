@@ -111,8 +111,7 @@ class SwimmerFromLicenseController extends PlanningController
                 }
 
                 $compte = $license->email ? $comptes->get(mb_strtolower($license->email)) : null;
-                if ($compte && ! $nageur->user_id) {
-                    $nageur->update(['user_id' => $compte->id]);
+                if ($compte && $nageur->linkAccount($compte)) {
                     $compteurs['accounts']++;
                 }
 

@@ -28,10 +28,10 @@ class MemberTrainingController extends Controller
             $monday = today()->startOfWeek(Carbon::MONDAY);
         }
 
-        $swimmers = PlanningSwimmer::where('user_id', $user->id)->orderBy('first_name')->get();
+        $swimmers = PlanningSwimmer::linkedTo($user->id)->orderBy('first_name')->get();
 
         $sessions = TrainingSession::visibleToAccount($user)
-            ->with(['swimmers' => fn ($q) => $q->where('planning_swimmers.user_id', $user->id)])
+            ->with(['swimmers' => fn ($q) => $q->linkedTo($user->id)])
             ->whereBetween('session_date', [$monday->toDateString(), $monday->copy()->addDays(6)->toDateString() . ' 23:59:59'])
             ->orderBy('session_date')->orderBy('starts_at')
             ->get();
@@ -54,12 +54,12 @@ class MemberTrainingController extends Controller
     {
         abort_unless(
             $training->isPublished() && ! $training->isInternal()
-            && $training->swimmers()->where('planning_swimmers.user_id', $request->user()->id)->exists(),
+            && $training->swimmers()->linkedTo($request->user()->id)->exists(),
             404
         );
 
         return view('user.training.show', [
-            'session' => $training->load(['swimmers' => fn ($q) => $q->where('planning_swimmers.user_id', $request->user()->id)]),
+            'session' => $training->load(['swimmers' => fn ($q) => $q->linkedTo($request->user()->id)]),
             'exercises' => $training->exercises(),
         ]);
     }
