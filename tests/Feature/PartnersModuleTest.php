@@ -255,7 +255,8 @@ class PartnersModuleTest extends TestCase
     public function test_les_familles_de_partenaires_sont_proposees_et_affichees(): void
     {
         $this->actingAs($this->userWithRole('admin'))->get('/admin/partenaires/create')->assertOk()
-            ->assertSee('Collectivités et acteurs institutionnels')->assertSee('Club des supporters')->assertSee('Famille de partenaires');
+            ->assertSee('Collectivités et acteurs institutionnels')->assertSee('Club des supporters')->assertSee('Famille de partenaires')
+            ->assertSee('Partenaires fédéraux et d&#039;activités', false);
 
         $this->post('/admin/partenaires', ['name' => 'Journal Fictif', 'level' => 'medias', 'is_active' => '1'])->assertRedirect();
         $this->assertDatabaseHas('partners', ['name' => 'Journal Fictif', 'level' => 'medias']);

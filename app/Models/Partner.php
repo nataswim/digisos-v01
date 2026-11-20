@@ -24,6 +24,8 @@ class Partner extends Model
         // Familles de partenaires (clé de 20 caractères au plus) ; « description » est affichée sous le titre du bloc
         'collectivites' => ['label' => 'Collectivités et acteurs institutionnels', 'short' => 'Collectivités', 'bg' => '#1d4e89', 'text' => '#ffffff', 'icon' => 'fa-landmark',
             'description' => 'Communes, intercommunalités et instances sportives soutenant le développement des infrastructures et de la vie associative.'],
+        'federaux'      => ['label' => 'Partenaires fédéraux et d\'activités', 'short' => 'Fédéraux & activités', 'bg' => '#0b6e99', 'text' => '#ffffff', 'icon' => 'fa-flag',
+            'description' => 'Fédérations, ligues et comités sportifs accompagnant le club dans ses activités, ses compétitions et la formation de ses nageurs et encadrants.'],
         'technique'     => ['label' => 'Partenaires techniques ou de services', 'short' => 'Techniques / services', 'bg' => '#3d5a6c', 'text' => '#ffffff', 'icon' => 'fa-tools',
             'description' => 'Prestataires accompagnant le club par leur savoir-faire, leurs prestations ou la mise à disposition de matériel et d\'équipements.'],
         'commerces'     => ['label' => 'Commerçants et PME locales', 'short' => 'Commerces & PME', 'bg' => '#c0631b', 'text' => '#ffffff', 'icon' => 'fa-store',
